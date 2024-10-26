@@ -1,0 +1,10 @@
+﻿{
+    "profiles": {
+      "YourGT.WinClient (Package)": {
+        "commandName": "MsixPackage"
+      },
+      "YourGT.WinClient (Unpackaged)": {
+        "commandName": "Project"
+      }
+    }
+}
