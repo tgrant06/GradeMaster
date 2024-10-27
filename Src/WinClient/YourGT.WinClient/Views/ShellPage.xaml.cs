@@ -4,7 +4,7 @@ using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 
 using Windows.System;
-
+using Microsoft.UI.Input;
 using YourGT.WinClient.Contracts.Services;
 using YourGT.WinClient.Helpers;
 using YourGT.WinClient.ViewModels;
@@ -81,5 +81,23 @@ public sealed partial class ShellPage : Page
         var result = navigationService.GoBack();
 
         args.Handled = result;
+    }
+
+    private void GoBackButton_PointerPressed(object sender, PointerRoutedEventArgs e)
+    {
+        // Check if the pointer is a mouse
+        if (e.Pointer.PointerDeviceType == (PointerDeviceType)Windows.Devices.Input.PointerDeviceType.Mouse)
+        {
+            // Get the mouse button that was pressed
+            var pointerPoint = e.GetCurrentPoint((UIElement)sender);
+            if (pointerPoint.Properties.IsXButton1Pressed)
+            {
+                // Handle left mouse button press
+                var navigationService = App.GetService<INavigationService>();
+                var result = navigationService.GoBack();
+
+                e.Handled = result;
+            }
+        }
     }
 }

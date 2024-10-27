@@ -1,6 +1,8 @@
-﻿namespace DataAccess.EFCore;
+﻿using Microsoft.EntityFrameworkCore;
 
-public class YourGTDbContext
+namespace DataAccess.EFCore;
+
+public class YourGTDbContext : DbContext
 {
     
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Windows.UI.Notifications;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.UI.Xaml;
 
@@ -103,15 +104,52 @@ public partial class App : Application
 
     private void App_UnhandledException(object sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e)
     {
+
+        // Log the exception to a text file
+        LogExceptionToFile(e.Exception);
+
+        // Show a notification to the user
+        ShowNotification("An error occurred", e.Exception.Message);
+
+        // Mark the exception as handled
+        e.Handled = true;
+
         // TODO: Log and handle exceptions as appropriate.
         // https://docs.microsoft.com/windows/windows-app-sdk/api/winrt/microsoft.ui.xaml.application.unhandledexception.
     }
 
-    protected async override void OnLaunched(LaunchActivatedEventArgs args)
+    private void LogExceptionToFile(Exception ex)
+    {
+        string filePath = "exception_log.txt";
+        using (StreamWriter writer = new StreamWriter(filePath, true))
+        {
+            writer.WriteLine("Date: " + DateTime.Now.ToString());
+            writer.WriteLine("Exception: " + ex.ToString());
+            writer.WriteLine();
+        }
+    }
+
+    private void ShowNotification(string title, string message)
+    {
+        // Create the toast notification content
+        var toastXml = ToastNotificationManager.GetTemplateContent(ToastTemplateType.ToastText02);
+        var toastTextElements = toastXml.GetElementsByTagName("text");
+        toastTextElements[0].AppendChild(toastXml.CreateTextNode(title));
+        toastTextElements[1].AppendChild(toastXml.CreateTextNode(message));
+
+        // Create the toast notification
+        var toast = new ToastNotification(toastXml);
+
+        // Show the toast notification
+        ToastNotificationManager.CreateToastNotifier().Show(toast);
+    }
+
+
+protected async override void OnLaunched(LaunchActivatedEventArgs args)
     {
         base.OnLaunched(args);
 
-        App.GetService<IAppNotificationService>().Show(string.Format("AppNotificationSamplePayload".GetLocalized(), AppContext.BaseDirectory));
+        //App.GetService<IAppNotificationService>().Show(string.Format("AppNotificationSamplePayload".GetLocalized(), AppContext.BaseDirectory));
 
         await App.GetService<IActivationService>().ActivateAsync(args);
     }
