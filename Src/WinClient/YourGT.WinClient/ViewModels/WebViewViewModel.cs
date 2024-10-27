@@ -16,7 +16,8 @@ public partial class WebViewViewModel : ObservableRecipient, INavigationAware
 {
     // TODO: Set the default URL to display.
     [ObservableProperty]
-    private Uri source = new("https://docs.microsoft.com/windows/apps/");
+    //private Uri source = new("https://docs.microsoft.com/windows/apps/");
+    private Uri source = new("https://dotnet.microsoft.com/en-us/");
 
     [ObservableProperty]
     private bool isLoading = true;
