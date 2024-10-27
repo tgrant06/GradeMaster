@@ -23,7 +23,8 @@ To be continued...
 ## Installation and Setup
 To be determined...
 
-## Development State
+## Info
+### Development State
 YourGT is currently in a very early developmental state. <br>
 
 
