@@ -1,4 +1,6 @@
-﻿namespace Shared.Entities;
+﻿using YourGT.Shared.Entities;
+
+namespace YourGT.Shared.Entities;
 
 public class Grade
 {

@@ -1,4 +1,4 @@
-﻿namespace Shared.Entities;
+﻿namespace YourGT.Shared.Entities;
 
 public class Weight
 {

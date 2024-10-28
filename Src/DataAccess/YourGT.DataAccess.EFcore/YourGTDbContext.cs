@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace DataAccess.EFCore;
+namespace YourGT.DataAccess.EFCore;
 
 public class YourGTDbContext : DbContext
 {

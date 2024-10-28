@@ -11,15 +11,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0_dataAccess", "0_dataAcces
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1_shared", "1_shared", "{2896C508-8052-4C4C-BF47-A156D4B5A27C}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "5_applicationClient", "5_applicationClient", "{C3882303-8B1D-409A-A9BA-041B42C99AE7}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "5_applicationWinClient", "5_applicationWinClient", "{C3882303-8B1D-409A-A9BA-041B42C99AE7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "6_tests", "6_tests", "{2D746D82-F5C4-4C63-8AC5-9B695BE0143F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YourGT.WinClient.Tests.MSTest", "Test\YourGT.WinClient.Tests.MSTest\YourGT.WinClient.Tests.MSTest.csproj", "{43D2A642-5739-4DB4-A3D3-4033A45B9921}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared", "Shared\YourGT.Shared\Shared.csproj", "{01ECD38E-D889-4F52-BA3B-A1DFDF11687A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YourGT.Shared", "Shared\YourGT.Shared\YourGT.Shared.csproj", "{01ECD38E-D889-4F52-BA3B-A1DFDF11687A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccess.EFCore", "DataAccess\YourGT.DataAccess.EFcore\DataAccess.EFCore.csproj", "{8EEEB257-0D00-48A3-B8AD-0106CD698C32}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YourGT.DataAccess.EFCore", "DataAccess\YourGT.DataAccess.EFcore\YourGT.DataAccess.EFCore.csproj", "{8EEEB257-0D00-48A3-B8AD-0106CD698C32}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4_applicationConsoleClient", "4_applicationConsoleClient", "{77BC7E4E-EDB7-4DF0-AEB2-B744ACD29228}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
