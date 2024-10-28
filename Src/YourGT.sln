@@ -15,7 +15,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "5_applicationWinClient", "5
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "6_tests", "6_tests", "{2D746D82-F5C4-4C63-8AC5-9B695BE0143F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YourGT.WinClient.Tests.MSTest", "Test\YourGT.WinClient.Tests.MSTest\YourGT.WinClient.Tests.MSTest.csproj", "{43D2A642-5739-4DB4-A3D3-4033A45B9921}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YourGT.WinClient.Tests.MSTest", "Tests\YourGT.WinClient.Tests.MSTest\YourGT.WinClient.Tests.MSTest.csproj", "{43D2A642-5739-4DB4-A3D3-4033A45B9921}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YourGT.Shared", "Shared\YourGT.Shared\YourGT.Shared.csproj", "{01ECD38E-D889-4F52-BA3B-A1DFDF11687A}"
 EndProject
