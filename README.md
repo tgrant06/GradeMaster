@@ -8,17 +8,14 @@ YourGT (Your Grade Tracker) is a Desktop based Grade Tracker.
 ### WinClient
 - [WinUi 3](https://learn.microsoft.com/de-de/windows/apps/winui/winui3/) <br>
 To be continued...
-<!-- - [ASP.Net Core](https://dotnet.microsoft.com/en-us/apps/aspnet)
-- [Blazor](https://dotnet.microsoft.com/en-us/apps/aspnet/web-apps/blazor)
-- [Blazor Bootstrap](https://demos.blazorbootstrap.com/) (FluentUi) <br> -->
-
+<!--(FluentUi) <br> -->
 
 ### Backend & Database
 - [Entity Framework Core](https://learn.microsoft.com/de-de/ef/core/)
 - [Sqllite](https://sqlite.org/) <br>
 To be continued...
 
-### .NET Version: 8
+### .NET Version: 8.0
 
 ## Installation and Setup
 To be determined...
