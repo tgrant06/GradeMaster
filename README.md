@@ -24,6 +24,8 @@ To be determined...
 ### Development State
 YourGT is currently in a very early developmental state. <br>
 
+### Supported Platforms
+The Desktop GUI Client is currently limited to Windows only.
 
 <br>
 
