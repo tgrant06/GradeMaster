@@ -19,6 +19,6 @@ public class EducationConfiguration : IEntityTypeConfiguration<Education>
 
         builder.Property(e => e.Completed).HasColumnName("Completed").IsRequired();
 
-        builder.HasMany(e => e.Subjects).WithOne(s => s.Education).HasForeignKey(s => s.EducationId).IsRequired(false);
+        builder.HasMany(e => e.Subjects).WithOne(s => s.Education).HasForeignKey(s => s.EducationId).OnDelete(DeleteBehavior.Cascade).IsRequired();
     }
 }

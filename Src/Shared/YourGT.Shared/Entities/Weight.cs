@@ -12,4 +12,14 @@ public class Weight
     // Grades = 6 Value is 1 | 4 Value is 0.5
     #endregion
     public decimal Value { get; set; } // weight of the grade
+
+    public ICollection<Grade> Grades
+    {
+        get; set;
+    }
+
+    public Weight()
+    {
+        Grades = new List<Grade>();
+    }
 }

@@ -9,4 +9,13 @@ public class Subject
     public Education Education { get; set; }
     public int EducationId { get; set; }
 
+    public ICollection<Grade> Grades
+    {
+        get; set;
+    }
+
+    public Subject()
+    {
+        Grades = new List<Grade>();
+    }
 }

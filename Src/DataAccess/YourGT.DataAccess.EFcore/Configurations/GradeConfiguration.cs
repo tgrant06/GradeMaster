@@ -10,14 +10,17 @@ public class GradeConfiguration : IEntityTypeConfiguration<Grade>
     {
         builder.ToTable("Grades");
 
-        builder.HasKey(e => e.Id);
-        builder.Property(e => e.Id).HasColumnName("Id").ValueGeneratedOnAdd();
+        builder.HasKey(g => g.Id);
+        builder.Property(g => g.Id).HasColumnName("Id").ValueGeneratedOnAdd();
 
-        builder.Property(e => e.Value).HasColumnName("Value").IsRequired();
-        builder.Property(e => e.Description).HasColumnName("Description").IsUnicode().HasMaxLength(2500).IsRequired(false);
-        //builder.Property(e => e.Semesters).HasColumnName("Semesters").IsRequired();
+        builder.Property(g => g.Value).HasColumnName("Value").HasColumnType("decimal(3, 2)").IsRequired();
+        builder.Property(g => g.Description).HasColumnName("Description").IsUnicode().HasMaxLength(2500).IsRequired(false);
+        builder.Property(g => g.CreatedAt).HasColumnName("CreatedAt").IsRequired();
 
-        //builder.Property(e => e.Completed).HasColumnName("Completed").IsRequired();
+        builder.HasOne(g => g.Weight).WithMany(w => w.Grades).HasForeignKey(g => g.WeightId).OnDelete(DeleteBehavior.Cascade).IsRequired();
+
+        builder.HasOne(g => g.Subject).WithMany(s => s.Grades).HasForeignKey(g => g.SubjectId).OnDelete(DeleteBehavior.Cascade).IsRequired();
+
 
         //builder.HasMany(e => e.Subjects).WithOne(s => s.Education).HasForeignKey(s => s.EducationId).IsRequired(false);
     }
