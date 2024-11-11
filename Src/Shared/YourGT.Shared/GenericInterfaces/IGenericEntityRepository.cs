@@ -1,4 +1,4 @@
-﻿namespace YourGT.Shared.Interfaces;
+﻿namespace YourGT.Shared.GenericInterfaces;
 
 public interface IGenericEntityRepository<T>
 {

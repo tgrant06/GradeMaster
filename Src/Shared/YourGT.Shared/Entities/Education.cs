@@ -11,5 +11,6 @@ public class Education
     // length of Education
     public int Semesters { get; set; }
 
+    public bool Completed { get; set; }
     // maybe implement duration / length?
 }

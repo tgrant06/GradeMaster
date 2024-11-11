@@ -1,6 +1,9 @@
-﻿namespace YourGT.Shared.Interfaces;
+﻿using YourGT.Shared.Entities;
+using YourGT.Shared.GenericInterfaces;
 
-public interface ISubjectRepository
+namespace YourGT.Shared.Interfaces;
+
+public interface ISubjectRepository : IGenericEntityRepository<Subject>
 {
     
 }
