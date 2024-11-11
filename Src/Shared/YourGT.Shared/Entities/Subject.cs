@@ -6,7 +6,7 @@ public class Subject
 
     public string Name { get; set; }
 
-    public Training Training { get; set; }
-    public int TrainingId { get; set; }
+    public Education Education { get; set; }
+    public int EducationId { get; set; }
 
 }

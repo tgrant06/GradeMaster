@@ -1,6 +1,6 @@
 ﻿namespace YourGT.Shared.Entities;
 
-public class Training
+public class Education
 {
     public int Id { get; set; }
 
@@ -8,8 +8,7 @@ public class Training
 
     public string Description { get; set; }
 
-
-    // length of Training
+    // length of Education
     public int Semesters { get; set; }
 
     // maybe implement duration / length?

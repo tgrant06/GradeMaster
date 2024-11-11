@@ -23,7 +23,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YourGT.DataAccess.EFCore", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4_applicationConsoleClient", "4_applicationConsoleClient", "{77BC7E4E-EDB7-4DF0-AEB2-B744ACD29228}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YourGT.ConsoleClient", "ConsoleClient\YourGT.ConsoleClient\YourGT.ConsoleClient.csproj", "{5A82F088-CCFA-40FD-8FCC-DF71C0BB820B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YourGT.ConsoleClient", "ConsoleClient\YourGT.ConsoleClient\YourGT.ConsoleClient.csproj", "{5A82F088-CCFA-40FD-8FCC-DF71C0BB820B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3_applicationMAUIClient", "3_applicationMAUIClient", "{331F36AB-1180-438A-A167-193427B1191A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

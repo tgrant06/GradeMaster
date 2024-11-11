@@ -5,9 +5,8 @@ namespace YourGT.Shared.Entities;
 public class Grade
 {
     public int Id { get; set; }
-    public byte Value { get; set; }
 
-
+    public byte Value { get; set; } // 1 - 6
 
     public string Description { get; set; }
 
