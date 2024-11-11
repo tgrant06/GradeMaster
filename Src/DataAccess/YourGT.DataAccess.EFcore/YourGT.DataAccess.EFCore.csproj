@@ -24,4 +24,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\Shared\YourGT.Shared\YourGT.Shared.csproj" />
+  </ItemGroup>
+
 </Project>
