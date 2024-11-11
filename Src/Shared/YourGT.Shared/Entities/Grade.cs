@@ -6,7 +6,7 @@ public class Grade
 {
     public int Id { get; set; }
 
-    public byte Value { get; set; } // 1 - 6
+    public decimal Value { get; set; } // 1 - 6
 
     public string Description { get; set; }
 
