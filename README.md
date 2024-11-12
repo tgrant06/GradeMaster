@@ -25,7 +25,7 @@ To be continued...
 To be determined...
 
 ## Info
-### WinClient
+### Win Client
 The WinClient (based on WinUi 3) will be discontinued for now, in favor of the comming .Net MAUI Client.
 
 ### Development State
