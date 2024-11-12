@@ -1,6 +1,7 @@
 ﻿using System.Reflection.Metadata;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using YourGT.DataAccess.EFCore.Configurations;
 using YourGT.Shared.Entities;
 
 namespace YourGT.DataAccess.EFCore;
@@ -40,8 +41,10 @@ public class YourGTDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        //modelBuilder.ApplyConfiguration(new BlogConfiguration());
-        //modelBuilder.ApplyConfiguration(new CategoryConfiguration());
+        modelBuilder.ApplyConfiguration(new EducationConfiguration());
+        modelBuilder.ApplyConfiguration(new GradeConfiguration());
+        modelBuilder.ApplyConfiguration(new SubjectConfiguration());
+        modelBuilder.ApplyConfiguration(new WeightConfiguration());
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder options)
