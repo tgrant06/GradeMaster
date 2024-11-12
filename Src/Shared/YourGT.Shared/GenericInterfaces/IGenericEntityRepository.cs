@@ -2,11 +2,11 @@
 
 public interface IGenericEntityRepository<T>
 {
-    T GetById(int id);
+    T? GetById(int id);
 
     List<T> GetAll();
 
-    void Add(T t);
+    T Add(T t);
 
     void Update(int id, T t);
 
