@@ -17,28 +17,41 @@ internal class Program
 
         var context = new YourGTDbContext(config);
 
-        var education = new Education();
-        education.Name = "testEeducation1";
-        education.Description = "testDescription";
-        education.Completed = false;
-        education.Semesters = 4;
+        //Test.Education(context);
+
+        //var education = new Education();
+        //education.Name = "TestEducation1";
+        //education.Description = "TestDescription1";
+        //education.Completed = false;
+        //education.Semesters = 4;
 
         var educationRepository = new EducationRepository(context);
 
-        educationRepository.Add(education);
+        educationRepository.DeleteById(1);
 
-        var educations = educationRepository.GetAll();
+        //var education = educationRepository.GetById(1);
 
-        foreach (var e in educations)
-        {
-            Console.WriteLine($"Education: {e.Id}");
-            Console.WriteLine($"Name: {e.Name}");
-            Console.WriteLine($"Description: {e.Description}");
-            Console.WriteLine($"Semesters: {e.Semesters}");
-            Console.WriteLine($"Completed: {e.Completed}");
-            
-        }
+        //education.Name = "TestEducation01";
+        //education.Description = "TestDescription01";
+        //education.Completed = true;
+        //education.Semesters = 6;
 
+        //educationRepository.Update(1, education);
+
+        //educationRepository.Add(education);
+
+        //var educations = educationRepository.GetAll();
+
+        //foreach (var e in educations)
+        //{
+        //    Console.WriteLine($"Education: {e.Id}");
+        //    Console.WriteLine($"Name: {e.Name}");
+        //    Console.WriteLine($"Description: {e.Description}");
+        //    Console.WriteLine($"Semesters: {e.Semesters}");
+        //    Console.WriteLine($"Completed: {e.Completed}");
+
+        //}
+        Console.WriteLine();
         Console.WriteLine("Hello, World!");
 
         //var connectionString = config["ConnectionStrings:Default"];

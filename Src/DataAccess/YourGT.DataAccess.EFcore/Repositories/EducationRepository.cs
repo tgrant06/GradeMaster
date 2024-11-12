@@ -36,6 +36,7 @@ public class EducationRepository : IEducationRepository
 
     public void Update(int id, Education education)
     {
+        // handle if education doesnt exist in db
         _context.Subjects.AttachRange(education.Subjects);
 
         _context.Educations.Update(education);
