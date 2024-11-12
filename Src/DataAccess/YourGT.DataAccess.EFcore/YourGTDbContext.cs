@@ -8,7 +8,10 @@ namespace YourGT.DataAccess.EFCore;
 
 public class YourGTDbContext : DbContext
 {
+    // commented out for now
     private readonly IConfiguration _configuration;
+
+    //private readonly string _connectionString;
 
     #region DbSets
 
@@ -34,8 +37,10 @@ public class YourGTDbContext : DbContext
 
     #endregion
 
-    public YourGTDbContext(IConfiguration configuration)
+    public YourGTDbContext(IConfiguration configuration /*string connectionString*/)
     {
+        //_connectionString = connectionString;
+        // commented out for now
         _configuration = configuration;
     }
 
@@ -49,6 +54,7 @@ public class YourGTDbContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder options)
     {
+        //var connectionString = _configuration.GetConnectionString("Default");
         options.UseSqlite(_configuration.GetConnectionString("Default"))
             .EnableDetailedErrors();
     }
