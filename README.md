@@ -9,7 +9,7 @@ YourGT (Your Grade Tracker) is a Desktop based Grade Tracker.
 - [.Net MAUI](https://dotnet.microsoft.com/en-us/apps/maui) <br>
 To be continued...
 
-### WinClient (discontinued for now)
+### Win Client (discontinued for now)
 - [WinUi 3](https://learn.microsoft.com/de-de/windows/apps/winui/winui3/) <br>
 To be continued...
 <!--(FluentUi) <br> -->
