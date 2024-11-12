@@ -35,6 +35,10 @@ YourGT is currently in a very early developmental state. <br>
 The Desktop GUI Client is currently limited to Windows only. <br>
 Support for other platforms will follow.
 
+### Console Client
+The Console Client is currently only for testing purposes.
+
+
 <br>
 
 
