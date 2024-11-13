@@ -5,5 +5,5 @@ namespace YourGT.Shared.Interfaces;
 
 public interface IWeightRepository : IGenericEntityRepository<Weight>
 {
-    
+    // Todo GetByIds
 }
