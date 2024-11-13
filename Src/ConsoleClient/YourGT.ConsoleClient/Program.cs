@@ -9,15 +9,11 @@ internal class Program
 {
     static void Main(string[] args)
     {
-        var builder = new ConfigurationBuilder()
-            .SetBasePath(Directory.GetCurrentDirectory())
-            .AddJsonFile("appsettings.json", optional: false);
+        var context = DbConnector.Connect();
 
-        IConfiguration config = builder.Build();
+        //put in a different file (above)
 
-        var context = new YourGTDbContext(config);
-
-        //Test.Education(context);
+        Test.Education(context);
 
         //var education = new Education();
         //education.Name = "TestEducation1";
@@ -25,9 +21,9 @@ internal class Program
         //education.Completed = false;
         //education.Semesters = 4;
 
-        var educationRepository = new EducationRepository(context);
+        //var educationRepository = new EducationRepository(context);
 
-        educationRepository.DeleteById(1);
+        //educationRepository.DeleteById(1);
 
         //var education = educationRepository.GetById(1);
 
@@ -53,6 +49,7 @@ internal class Program
         //}
         Console.WriteLine();
         Console.WriteLine("Hello, World!");
+        Console.ReadLine();
 
         //var connectionString = config["ConnectionStrings:Default"];
 

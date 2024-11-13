@@ -18,12 +18,12 @@ public static class Test
         //education.Completed = false;
         //education.Semesters = 4;
 
-        var subject = new Subject();
-        subject.Name = "TestSubject2";
-        subject.Description = "testDescription2";
-        subject.Education = educationRepository.GetById(1);
+        //var subject = new Subject();
+        //subject.Name = "TestSubject2";
+        //subject.Description = "testDescription2";
+        //subject.Education = educationRepository.GetById(2);
 
-        subjectRepository.Add(subject);
+        //subjectRepository.Add(subject);
 
         //educationRepository.Update(1, education);
 
