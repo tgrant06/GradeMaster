@@ -15,11 +15,11 @@ To be continued...
 <!--(FluentUi) <br> -->
 
 ### Backend & Database
-- [Entity Framework Core](https://learn.microsoft.com/de-de/ef/core/)
+- [Entity Framework Core](https://learn.microsoft.com/de-de/ef/core/) 9
 - [Sqllite](https://sqlite.org/) <br>
 To be continued...
 
-### .NET Version: 8.0
+### .NET Version: 8.0 & 9.0
 
 ## Installation and Setup
 To be determined...
