@@ -21,7 +21,7 @@ public static class Test
         var subject = new Subject();
         subject.Name = "TestSubject2";
         subject.Description = "testDescription2";
-        subject.Education = educationRepository.GetById(1);
+        subject.Education = educationRepository.GetById(2);
 
         subjectRepository.Add(subject);
 
