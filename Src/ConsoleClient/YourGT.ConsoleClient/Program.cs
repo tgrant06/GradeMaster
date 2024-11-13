@@ -9,13 +9,9 @@ internal class Program
 {
     static void Main(string[] args)
     {
-        var builder = new ConfigurationBuilder()
-            .SetBasePath(Directory.GetCurrentDirectory())
-            .AddJsonFile("appsettings.json", optional: false);
+        var context = DbConnector.Connect();
 
-        IConfiguration config = builder.Build();
-
-        var context = new YourGTDbContext(config);
+        //put in a different file (above)
 
         Test.Education(context);
 
@@ -53,6 +49,7 @@ internal class Program
         //}
         Console.WriteLine();
         Console.WriteLine("Hello, World!");
+        Console.ReadLine();
 
         //var connectionString = config["ConnectionStrings:Default"];
 
