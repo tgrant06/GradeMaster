@@ -29,7 +29,7 @@ To be determined...
 The WinClient (based on WinUi 3) will be discontinued for now, in favor of the comming .Net MAUI Client.
 
 ### Development State
-YourGT is currently in a very early developmental state. <br>
+GradeMaster is currently in a very early developmental state. <br>
 
 ### Supported Platforms
 The Desktop GUI Client is currently limited to Windows only. <br>
