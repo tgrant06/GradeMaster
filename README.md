@@ -1,8 +1,8 @@
-# YourGT
+# GradeMaster
 ###
 
 ## About
-YourGT (Your Grade Tracker) is a Desktop based Grade Tracker.
+GradeMaster (formerly known as YourGT) is a Desktop based Grade Tracker.
 
 ## Technologies Used
 ### Desktop Client
