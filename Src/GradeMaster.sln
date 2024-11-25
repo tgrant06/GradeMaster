@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35327.3
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YourGT.WinClient", "WinClient\YourGT.WinClient\YourGT.WinClient.csproj", "{E99FC5AC-0B87-48B1-A610-F340332FEF9D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GradeMaster.WinClient", "WinClient\GradeMaster.WinClient\GradeMaster.WinClient.csproj", "{E99FC5AC-0B87-48B1-A610-F340332FEF9D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YourGT.WinClient.Core", "WinClient\YourGT.WinClient.Core\YourGT.WinClient.Core.csproj", "{C68B2410-B08A-4CB9-A380-47E73CAF1B58}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GradeMaster.WinClient.Core", "WinClient\GradeMaster.WinClient.Core\GradeMaster.WinClient.Core.csproj", "{C68B2410-B08A-4CB9-A380-47E73CAF1B58}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0_dataAccess", "0_dataAccess", "{BDCCEBB3-1726-4857-B2CE-419A93CA7966}"
 EndProject
@@ -15,17 +15,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "5_applicationWinClient", "5
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "6_tests", "6_tests", "{2D746D82-F5C4-4C63-8AC5-9B695BE0143F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YourGT.WinClient.Tests.MSTest", "Tests\YourGT.WinClient.Tests.MSTest\YourGT.WinClient.Tests.MSTest.csproj", "{43D2A642-5739-4DB4-A3D3-4033A45B9921}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GradeMaster.WinClient.Tests.MSTest", "Tests\GradeMaster.WinClient.Tests.MSTest\GradeMaster.WinClient.Tests.MSTest.csproj", "{43D2A642-5739-4DB4-A3D3-4033A45B9921}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YourGT.Shared", "Shared\YourGT.Shared\YourGT.Shared.csproj", "{01ECD38E-D889-4F52-BA3B-A1DFDF11687A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GradeMaster.Shared.Core", "Shared\GradeMaster.Shared.Core\GradeMaster.Shared.Core.csproj", "{01ECD38E-D889-4F52-BA3B-A1DFDF11687A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YourGT.DataAccess.EFCore", "DataAccess\YourGT.DataAccess.EFcore\YourGT.DataAccess.EFCore.csproj", "{8EEEB257-0D00-48A3-B8AD-0106CD698C32}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GradeMaster.DataAccess.Core", "DataAccess\GradeMaster.DataAccess.Core\GradeMaster.DataAccess.Core.csproj", "{8EEEB257-0D00-48A3-B8AD-0106CD698C32}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4_applicationConsoleClient", "4_applicationConsoleClient", "{77BC7E4E-EDB7-4DF0-AEB2-B744ACD29228}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YourGT.ConsoleClient", "ConsoleClient\YourGT.ConsoleClient\YourGT.ConsoleClient.csproj", "{5A82F088-CCFA-40FD-8FCC-DF71C0BB820B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GradeMaster.ConsoleClient", "ConsoleClient\GradeMaster.ConsoleClient\GradeMaster.ConsoleClient.csproj", "{5A82F088-CCFA-40FD-8FCC-DF71C0BB820B}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3_applicationMAUIClient", "3_applicationMAUIClient", "{331F36AB-1180-438A-A167-193427B1191A}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3_applicationDesktopClient", "3_applicationDesktopClient", "{331F36AB-1180-438A-A167-193427B1191A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
