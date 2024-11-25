@@ -16,7 +16,7 @@ To be continued...
 
 ### Backend & Database
 - [Entity Framework Core](https://learn.microsoft.com/de-de/ef/core/) (Version: 9)
-- [Sqllite](https://sqlite.org/) <br>
+- [SQLite](https://sqlite.org/) <br>
 To be continued...
 
 ### .NET Version: 8.0 & 9.0
