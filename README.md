@@ -9,15 +9,15 @@ GradeMaster (formerly known as YourGT) is a Desktop based Grade Tracker.
 - [.Net MAUI](https://dotnet.microsoft.com/en-us/apps/maui) <br>
 To be continued...
 
-### Win Client (discontinued for now)
-- [WinUi 3](https://learn.microsoft.com/de-de/windows/apps/winui/winui3/) <br>
-To be continued...
-<!--(FluentUi) <br> -->
-
 ### Backend & Database
 - [Entity Framework Core](https://learn.microsoft.com/de-de/ef/core/) (Version: 9)
 - [SQLite](https://sqlite.org/) <br>
 To be continued...
+
+### Win Client (discontinued for now)
+- [WinUi 3](https://learn.microsoft.com/de-de/windows/apps/winui/winui3/) <br>
+To be continued...
+<!--(FluentUi) <br> -->
 
 ### .NET Version: 8.0 & 9.0
 
@@ -25,9 +25,6 @@ To be continued...
 To be determined...
 
 ## Info
-### Win Client
-The WinClient (based on WinUi 3) will be discontinued for now, in favor of the comming .Net MAUI Client.
-
 ### Development State
 GradeMaster is currently in a very early developmental state. <br>
 
@@ -37,6 +34,9 @@ Support for other platforms will follow.
 
 ### Console Client
 The Console Client is currently only for testing purposes.
+
+### Win Client
+The WinClient (based on WinUi 3) will be discontinued for now, in favor of the comming .Net MAUI Client.
 
 
 <br>
