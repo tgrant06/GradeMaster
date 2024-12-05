@@ -1,39 +1,39 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="533" height="526"
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="664" height="646"
     xml:space="preserve" overflow="hidden">
     <defs>
-        <linearGradient x1="1765" y1="835.259" x2="1765" y2="1246.79" gradientUnits="userSpaceOnUse"
+        <linearGradient x1="1868.5" y1="849.281" x2="1868.5" y2="1392.79" gradientUnits="userSpaceOnUse"
             spreadMethod="reflect" id="stroke0">
             <stop offset="0" stop-color="#5296DA" />
             <stop offset="0.36" stop-color="#2F76B7" />
             <stop offset="0.7" stop-color="#2F76B7" />
             <stop offset="1" stop-color="#215D93" />
         </linearGradient>
-        <linearGradient x1="1765" y1="838.5" x2="1765" y2="1244.5" gradientUnits="userSpaceOnUse" spreadMethod="reflect"
-            id="fill1">
-            <stop offset="0" stop-color="#4E95D9" stop-opacity="0.360784" />
-            <stop offset="0.34" stop-color="#3381C7" stop-opacity="0.501961" />
-            <stop offset="0.51" stop-color="#2874BA" stop-opacity="0.6" />
-            <stop offset="0.91" stop-color="#215D93" />
+        <linearGradient x1="1868.5" y1="852.5" x2="1868.5" y2="1390.5" gradientUnits="userSpaceOnUse"
+            spreadMethod="reflect" id="fill1">
+            <stop offset="0" stop-color="#5296DA" />
+            <stop offset="0.36" stop-color="#2F76B7" />
+            <stop offset="0.7" stop-color="#2F76B7" />
             <stop offset="1" stop-color="#215D93" />
         </linearGradient>
     </defs>
-    <g transform="translate(-1351 -827)">
+    <g transform="translate(-1349 -832)">
+        <path
+            d="M1730.5 988.664 1868.5 852.5 2006.5 988.664 1934.13 988.664 1934.13 1390.5 1802.87 1390.5 1802.87 988.664Z"
+            stroke="url(#stroke0)" stroke-width="4.58333" stroke-miterlimit="8" fill="url(#fill1)"
+            fill-rule="evenodd" />
         <g>
             <g>
                 <g>
                     <path
-                        d="M1460.58 1097.12 1460.58 1161.23C1460.58 1191.36 1529.07 1221.5 1614 1221.5 1698.93 1221.5 1767.42 1191.36 1767.42 1161.23L1767.42 1097.12 1614 1151.37 1460.58 1097.12Z"
-                        fill="#163E64" />
+                        d="M134.375 331.234 134.375 409.844C134.375 446.797 218.359 483.75 322.5 483.75 426.641 483.75 510.625 446.797 510.625 409.844L510.625 331.234 322.5 397.75 134.375 331.234Z"
+                        fill="#163E64" transform="matrix(1 0 0 1.00155 1349 832)" />
                     <path
-                        d="M1614 1127.81 1852.89 1043.97 1614 958.5 1375.11 1043.97 1405.79 1054.93 1405.79 1155.75C1405.79 1161.78 1410.72 1166.71 1416.75 1166.71 1422.78 1166.71 1427.71 1161.78 1427.71 1155.75L1427.71 1062.6 1614 1127.81Z"
-                        fill="#163E64" />
+                        d="M322.5 368.86 615.438 266.063 322.5 161.25 29.5625 266.063 67.1875 279.5 67.1875 403.125C67.1875 410.516 73.2344 416.563 80.625 416.563 88.0157 416.563 94.0625 410.516 94.0625 403.125L94.0625 288.906 322.5 368.86Z"
+                        fill="#163E64" transform="matrix(1 0 0 1.00155 1349 832)" />
                 </g>
             </g>
         </g>
-        <path d="M1652.5 951 1765 838.5 1877.5 951 1818.51 951 1818.51 1244.5 1711.49 1244.5 1711.49 951Z"
-            stroke="url(#stroke0)" stroke-width="4.58333" stroke-miterlimit="8" fill="url(#fill1)"
-            fill-rule="evenodd" />
     </g>
 </svg>
