@@ -27,7 +27,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GradeMaster.ConsoleClient",
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3_applicationDesktopClient", "3_applicationDesktopClient", "{331F36AB-1180-438A-A167-193427B1191A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GradeMaster.DesktopClient", "GradeMaster.DesktopClient\GradeMaster.DesktopClient.csproj", "{1531EA49-A0DF-4246-8CCF-12A71A4EAD37}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GradeMaster.DesktopClient", "DesktopClient\GradeMaster.DesktopClient\GradeMaster.DesktopClient.csproj", "{1531EA49-A0DF-4246-8CCF-12A71A4EAD37}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
