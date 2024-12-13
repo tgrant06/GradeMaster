@@ -1,6 +1,8 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="">GradeMaster</a>
+﻿<div class="top-row navbar navbar-dark" style="padding-left: 0 !important">
+    <div class="container-fluid" style="display: block; padding-left: 0.5rem">
+        <a class="navbar-brand" href="" style="margin-left: 0">
+            <Icon Name="IconName.Mortarboard" Size="IconSize.x4" Style="margin-left: 10px; margin-right: 10px"></Icon> GradeMaster
+        </a>
     </div>
 </div>
 
@@ -10,10 +12,25 @@
     <nav class="flex-column">
         <div class="nav-item px-2">
             <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Home
+                <Icon Name="IconName.HouseDoor" Size="IconSize.x4" Style="margin-left: 10px; margin-right: 10px" /> Home
             </NavLink>
         </div>
         <div class="nav-item px-2">
+            <NavLink class="nav-link" href="educations">
+                <Icon Name="IconName.Journals" Size="IconSize.x4" Style="margin-left: 10px; margin-right: 10px" /> Educations
+            </NavLink>
+        </div>
+        <div class="nav-item px-2">
+            <NavLink class="nav-link" href="subjects">
+                <Icon Name="IconName.Collection" Size="IconSize.x4" Style="margin-left: 10px; margin-right: 10px" /> Subjects
+            </NavLink>
+        </div>
+        <div class="nav-item px-2">
+            <NavLink class="nav-link" href="grades">
+                <Icon Name="IconName.Bookmarks" Size="IconSize.x4" Style="margin-left: 10px; margin-right: 10px" /> Grades
+            </NavLink>
+        </div>
+        @* <div class="nav-item px-2">
             <NavLink class="nav-link" href="counter">
                 <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Counter
             </NavLink>
@@ -22,11 +39,11 @@
             <NavLink class="nav-link" href="weather">
                 <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Weather
             </NavLink>
-        </div>
+        </div> *@
         <div class="last">
             <div class="nav-item  px-2">
                 <NavLink class="nav-link" href="settings">
-                    <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Settings
+                    <Icon Name="IconName.Gear" Size="IconSize.x5" Style="margin-left: 10px; margin-right: 10px" /> Settings
                 </NavLink>
             </div>
         </div>
