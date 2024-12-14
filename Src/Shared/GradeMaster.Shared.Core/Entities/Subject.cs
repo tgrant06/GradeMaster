@@ -8,6 +8,8 @@ public class Subject
 
     public string Description { get; set; }
 
+    public int Semester { get; set; }
+
     public Education Education { get; set; }
     public int EducationId { get; set; }
 

@@ -29,6 +29,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3_applicationDesktopClient"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GradeMaster.DesktopClient", "DesktopClient\GradeMaster.DesktopClient\GradeMaster.DesktopClient.csproj", "{1531EA49-A0DF-4246-8CCF-12A71A4EAD37}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2_logic", "2_logic", "{8308C4A7-8740-41E3-A571-E09AF7936D7C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

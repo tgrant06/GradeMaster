@@ -21,7 +21,7 @@ namespace GradeMaster.DataAccess.Core.Factories
             var optionsBuilder = new DbContextOptionsBuilder<GradeMasterDbContext>();
             optionsBuilder.UseSqlite(connectionString);
 
-            // Return a new instance of YourGTDbContext with the configured options
+            // Return a new instance of GradeMasterTDbContext with the configured options
             return new GradeMasterDbContext(configuration);
         }
     }
