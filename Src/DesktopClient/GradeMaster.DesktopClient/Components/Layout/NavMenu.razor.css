@@ -8,6 +8,7 @@
     top: 0.5rem;
     right: 1rem;
     border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
     background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.55%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") no-repeat center/1.75rem rgba(255, 255, 255, 0.1);
 }
 
@@ -44,13 +45,6 @@
 
 .bi-list-nested-nav-menu {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='white' class='bi bi-list-nested' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M4.5 11.5A.5.5 0 0 1 5 11h10a.5.5 0 0 1 0 1H5a.5.5 0 0 1-.5-.5zm-2-4A.5.5 0 0 1 3 7h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm-2-4A.5.5 0 0 1 1 3h10a.5.5 0 0 1 0 1H1a.5.5 0 0 1-.5-.5z'/%3E%3C/svg%3E");
-}
-
-.last {
-    position: absolute; /* Position it relative to the nav container */
-    bottom: 0; /* Align it to the bottom */
-    width: 100%; /* Make it span the width of the nav */
-    padding-bottom: 0;
 }
 
 .nav-item {
@@ -105,9 +99,9 @@
 
 .nav-scrollable {
     display: none;
-    position: relative; /* Ensure the .nav-scrollable is the parent context */
-    height: calc(100vh - 3.5rem); /* Adjust height to fit */
-    overflow-y: auto; /* Allow scrolling if needed */
+    /*position: relative;*/ /* Ensure the .nav-scrollable is the parent context */
+    /*height: calc(100vh - 3.5rem);*/ /* Adjust height to fit */
+    /*overflow-y: auto;*/ /* Allow scrolling if needed */
 }
 
 .navbar-toggler:checked ~ .nav-scrollable {
@@ -122,8 +116,15 @@
     .nav-scrollable {
         /* Never collapse the sidebar for wide screens */
         display: block;
-        /* Allow sidebar to scroll for tall menus */
-        height: calc(100vh - 3.5rem);
+        position: relative; /* Ensure the .nav-scrollable is the parent context */
+        height: calc(100vh - 3.5rem); /* Allow sidebar to scroll for tall menus */
         overflow-y: auto;
+    }
+
+    .last {
+        position: absolute; /* Position it relative to the nav container */
+        bottom: 0; /* Align it to the bottom */
+        width: 100%; /* Make it span the width of the nav */
+        padding-bottom: 0;
     }
 }
