@@ -4,7 +4,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace GradeMaster.DataAccess.Core.Factories
 {
-    public class YourGTDbContextFactory : IDesignTimeDbContextFactory<GradeMasterDbContext>
+    public class GradeMasterDbContextFactory : IDesignTimeDbContextFactory<GradeMasterDbContext>
     {
         public GradeMasterDbContext CreateDbContext(string[] args)
         {
