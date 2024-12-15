@@ -16,7 +16,6 @@ To be continued...
 
 ### Win Client (discontinued for now)
 - [WinUi 3](https://learn.microsoft.com/de-de/windows/apps/winui/winui3/) <br>
-To be continued...
 <!--(FluentUi) <br> -->
 
 ### .NET Version: 8.0 & 9.0
