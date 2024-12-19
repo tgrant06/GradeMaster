@@ -8,6 +8,8 @@
 html, body {
     /*font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;*/
     font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
+    touch-action: none;
+    -ms-content-zooming: none;
 }
 
 a, .btn-link {

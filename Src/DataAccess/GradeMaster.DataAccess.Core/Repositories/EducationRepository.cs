@@ -1,6 +1,7 @@
 ﻿using SQLitePCL;
 using GradeMaster.Shared.Core.Entities;
 using GradeMaster.Shared.Core.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace GradeMaster.DataAccess.Core.Repositories;
 
@@ -13,48 +14,48 @@ public class EducationRepository : IEducationRepository
         _context = context;
     }
 
-    public Education? GetById(int id)
+    public async Task<Education?> GetByIdAsync(int id)
     {
-        return _context.Educations.Find(id);
+        return await _context.Educations.FindAsync(id);
     }
 
-    public List<Education> GetAll()
+    public async Task<List<Education>> GetAllAsync()
     { 
-        return _context.Educations.ToList();
+        return await _context.Educations.ToListAsync();
     } 
 
-    public Education Add(Education education)
+    public async Task<Education> AddAsync(Education education)
     { 
         _context.Subjects.AttachRange(education.Subjects);
 
-        _context.Educations.Add(education);
+        await _context.Educations.AddAsync(education);
 
-        _context.SaveChanges();
+        await _context.SaveChangesAsync();
 
         return education;
     }
 
-    public void Update(int id, Education education)
+    public void UpdateAsync(int id, Education education)
     {
         // handle if education doesnt exist in db
         _context.Subjects.AttachRange(education.Subjects);
 
         _context.Educations.Update(education);
 
-        _context.SaveChanges();
+        _context.SaveChangesAsync();
     }
 
-    public void DeleteById(int id)
+    public void DeleteByIdAsync(int id)
     {
-        var existingBlog = GetById(id);
+        var existingBlog = GetByIdAsync(id);
 
         if (existingBlog != null)
         {
-            _context.Remove(existingBlog);
-            _context.SaveChanges();
+            _context.Educations.Remove(existingBlog.Result);
+            _context.SaveChangesAsync();
         }
     }
 
     // Lambda expression
-    //public void DeleteById(int id) => throw new NotImplementedException();
+    //public void DeleteByIdAsync(int id) => throw new NotImplementedException();
 }

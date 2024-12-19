@@ -1,5 +1,6 @@
 ﻿using GradeMaster.Shared.Core.Entities;
 using GradeMaster.Shared.Core.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace GradeMaster.DataAccess.Core.Repositories;
 
@@ -12,43 +13,43 @@ public class WeightRepository : IWeightRepository
         _context = context;
     }
 
-    public Weight? GetById(int id)
+    public async Task<Weight?> GetByIdAsync(int id)
     {
-        return _context.Weights.Find(id);
+        return await _context.Weights.FindAsync(id);
     }
 
-    public List<Weight> GetAll()
+    public async Task<List<Weight>> GetAllAsync()
     {
-        return _context.Weights.ToList();
+        return await _context.Weights.ToListAsync();
     }
 
-    public Weight Add(Weight weight)
+    public async Task<Weight> AddAsync(Weight weight)
     {
         _context.Grades.AttachRange(weight.Grades);
 
-        _context.Weights.Add(weight);
+        await _context.Weights.AddAsync(weight);
 
-        _context.SaveChanges();
+        await _context.SaveChangesAsync();
 
         return weight;
     }
 
-    public void Update(int id, Weight weight)
+    public void UpdateAsync(int id, Weight weight)
     {
         _context.Grades.AttachRange(weight.Grades);
 
         _context.Weights.Update(weight);
 
-        _context.SaveChanges();
+        _context.SaveChangesAsync();
     }
 
-    public void DeleteById(int id)
+    public void DeleteByIdAsync(int id)
     {
-        var existingWeight = GetById(id);
+        var existingWeight = GetByIdAsync(id);
 
         if (existingWeight != null)
         {
-            _context.Weights.Remove(existingWeight);
+            _context.Weights.Remove(existingWeight.Result);
             _context.SaveChanges();
         }
     }

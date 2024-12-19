@@ -1,5 +1,6 @@
 ﻿using GradeMaster.Shared.Core.Entities;
 using GradeMaster.Shared.Core.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace GradeMaster.DataAccess.Core.Repositories;
 
@@ -13,47 +14,47 @@ public class SubjectRepository : ISubjectRepository
     }
 
 
-    public Subject? GetById(int id)
+    public async Task<Subject?> GetByIdAsync(int id)
     {
-        return _context.Subjects.Find(id);
+        return await _context.Subjects.FindAsync(id);
     }
 
-    public List<Subject> GetAll()
+    public async Task<List<Subject>> GetAllAsync()
     {
-        return _context.Subjects.ToList();
+        return await _context.Subjects.ToListAsync();
     }
 
-    public Subject Add(Subject subject)
+    public async Task<Subject> AddAsync(Subject subject)
     {
         // maybe include if statement
         _context.Educations.Attach(subject.Education);
         _context.Grades.AttachRange(subject.Grades);
 
-        _context.Subjects.Add(subject);
+        await _context.Subjects.AddAsync(subject);
 
-        _context.SaveChanges();
+        await _context.SaveChangesAsync();
 
         return subject;
     }
 
-    public void Update(int id, Subject subject)
+    public void UpdateAsync(int id, Subject subject)
     {
         _context.Educations.Attach(subject.Education);
         _context.Grades.AttachRange(subject.Grades);
 
         _context.Subjects.Update(subject);
 
-        _context.SaveChanges();
+        _context.SaveChangesAsync();
     }
 
-    public void DeleteById(int id)
+    public void DeleteByIdAsync(int id)
     {
-        var existingSubject = GetById(id);
+        var existingSubject = GetByIdAsync(id);
 
         if (existingSubject != null)
         {
             // the deletion of the related entities is handled by the database
-            _context.Subjects.Remove(existingSubject);
+            _context.Subjects.Remove(existingSubject.Result);
             _context.SaveChanges();
         }
     }

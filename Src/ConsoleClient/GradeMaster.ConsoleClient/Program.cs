@@ -23,20 +23,20 @@ internal class Program
 
         //var educationRepository = new EducationRepository(context);
 
-        //educationRepository.DeleteById(1);
+        //educationRepository.DeleteByIdAsync(1);
 
-        //var education = educationRepository.GetById(1);
+        //var education = educationRepository.GetByIdAsync(1);
 
         //education.Name = "TestEducation01";
         //education.Description = "TestDescription01";
         //education.Completed = true;
         //education.Semesters = 6;
 
-        //educationRepository.Update(1, education);
+        //educationRepository.UpdateAsync(1, education);
 
-        //educationRepository.Add(education);
+        //educationRepository.AddAsync(education);
 
-        //var educations = educationRepository.GetAll();
+        //var educations = educationRepository.GetAllAsync();
 
         //foreach (var e in educations)
         //{

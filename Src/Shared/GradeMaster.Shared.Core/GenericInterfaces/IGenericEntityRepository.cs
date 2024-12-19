@@ -2,13 +2,13 @@
 
 public interface IGenericEntityRepository<T>
 {
-    T? GetById(int id);
+    Task<T?> GetByIdAsync(int id);
 
-    List<T> GetAll();
+    Task<List<T>> GetAllAsync();
 
-    T Add(T t);
+    Task<T> AddAsync(T t);
 
-    void Update(int id, T t);
+    void UpdateAsync(int id, T t);
 
-    void DeleteById(int id);
+    void DeleteByIdAsync(int id);
 }

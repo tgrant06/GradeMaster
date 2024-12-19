@@ -13,45 +13,45 @@ public class GradeRepository : IGradeRepository
         _context = context;
     }
 
-    public Grade? GetById(int id)
+    public async Task<Grade?> GetByIdAsync(int id)
     {
-        return _context.Grades.Find(id);
+        return await _context.Grades.FindAsync(id);
     }
 
-    public List<Grade> GetAll()
+    public async Task<List<Grade>> GetAllAsync()
     {
-        return _context.Grades.ToList(); // add as no tracking maybe
+        return await _context.Grades.ToListAsync(); // add as no tracking maybe
     }
 
-    public Grade Add(Grade grade)
+    public async Task<Grade> AddAsync(Grade grade)
     {
         _context.Subjects.Attach(grade.Subject);
         _context.Weights.Attach(grade.Weight);
 
-        _context.Grades.Add(grade);
+        await _context.Grades.AddAsync(grade);
 
-        _context.SaveChanges();
+        await _context.SaveChangesAsync();
 
         return grade;
     }
 
-    public void Update(int id, Grade grade)
+    public void UpdateAsync(int id, Grade grade)
     {
         _context.Subjects.Attach(grade.Subject);
         _context.Weights.Attach(grade.Weight);
 
         _context.Grades.Update(grade);
 
-        _context.SaveChanges();
+        _context.SaveChangesAsync();
     }
 
-    public void DeleteById(int id)
+    public void DeleteByIdAsync(int id)
     {
-        var existingGrade = GetById(id);
+        var existingGrade = GetByIdAsync(id);
 
         if (existingGrade != null)
         {
-            _context.Grades.Remove(existingGrade);
+            _context.Grades.Remove(existingGrade.Result);
             _context.SaveChanges();
         }
     }

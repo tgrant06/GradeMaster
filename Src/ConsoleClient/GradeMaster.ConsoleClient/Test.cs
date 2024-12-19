@@ -21,16 +21,16 @@ public static class Test
         //var subject = new Subject();
         //subject.Name = "TestSubject2";
         //subject.Description = "testDescription2";
-        //subject.Education = educationRepository.GetById(2);
+        //subject.Education = educationRepository.GetByIdAsync(2);
 
-        //subjectRepository.Add(subject);
+        //subjectRepository.AddAsync(subject);
 
-        //educationRepository.Update(1, education);
+        //educationRepository.UpdateAsync(1, education);
 
-        //var educations = educationRepository.GetAll();
+        //var educations = educationRepository.GetAllAsync();
 
-        var subjects = subjectRepository.GetAll();
-        foreach (var s in subjects)
+        var subjects = subjectRepository.GetAllAsync();
+        foreach (var s in subjects.Result)
         {
             Console.WriteLine($"Subject: {s.Id}");
             Console.WriteLine($"Name: {s.Name}");
