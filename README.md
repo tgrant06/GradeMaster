@@ -6,7 +6,9 @@ GradeMaster (formerly known as YourGT) is a Desktop based Grade Tracker.
 
 ## Technologies Used
 ### Desktop Client
-- [.Net MAUI](https://dotnet.microsoft.com/en-us/apps/maui) <br>
+- [.Net MAUI](https://dotnet.microsoft.com/en-us/apps/maui)
+- [Blazor](https://dotnet.microsoft.com/en-us/apps/aspnet/web-apps/blazor)
+- [Blazor Bootstrap](https://demos.blazorbootstrap.com/) <br>
 To be continued...
 
 ### Backend & Database
