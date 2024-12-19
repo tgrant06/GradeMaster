@@ -3,13 +3,14 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using GradeMaster.DataAccess.Core.Configurations;
 using GradeMaster.Shared.Core.Entities;
+using Microsoft.VisualBasic.FileIO;
 
 namespace GradeMaster.DataAccess.Core;
 
 public class GradeMasterDbContext : DbContext
 {
     // commented out for now
-    private readonly IConfiguration _configuration;
+    //private readonly IConfiguration _configuration;
 
     //private readonly string _connectionString;
 
@@ -37,11 +38,12 @@ public class GradeMasterDbContext : DbContext
 
     #endregion
 
-    public GradeMasterDbContext(IConfiguration configuration /*string connectionString*/)
+    public GradeMasterDbContext(DbContextOptions<GradeMasterDbContext> options)
+    : base(options)
     {
         //_connectionString = connectionString;
         // commented out for now
-        _configuration = configuration;
+        //_configuration = configuration;
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -52,10 +54,26 @@ public class GradeMasterDbContext : DbContext
         modelBuilder.ApplyConfiguration(new WeightConfiguration());
     }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder options)
-    {
-        //var connectionString = _configuration.GetConnectionString("Default");
-        options.UseSqlite(_configuration.GetConnectionString("Default"))
-            .EnableDetailedErrors();
-    }
+    #region OnConfiguring
+    //protected override void OnConfiguring(DbContextOptionsBuilder options)
+    //{
+    //    var appName = "GradeMaster";
+    //    var appDataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), appName);
+
+    //    if (!Directory.Exists(appDataPath))
+    //    {
+    //        Directory.CreateDirectory(appDataPath);
+    //    }
+
+    //    var connectionString = _configuration.GetConnectionString("Default");
+    //    options.UseSqlite($"Data Source={Path.Combine(appDataPath, connectionString)}")
+    //                  .EnableDetailedErrors();
+
+    //    Database.Migrate();
+
+    //    //var connectionString = _configuration.GetConnectionString("Default");
+    //    //options.UseSqlite(_configuration.GetConnectionString("Default"))
+    //    //    .EnableDetailedErrors();
+    //}
+    #endregion
 }

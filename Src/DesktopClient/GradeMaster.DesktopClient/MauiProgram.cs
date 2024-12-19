@@ -1,4 +1,9 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using GradeMaster.DataAccess.Core;
+using GradeMaster.DataAccess.Core.Repositories;
+using GradeMaster.Shared.Core.Interfaces;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 
 namespace GradeMaster.DesktopClient;
 public static class MauiProgram
@@ -14,13 +19,51 @@ public static class MauiProgram
             });
 
         builder.Services.AddMauiBlazorWebView();
-
         builder.Services.AddBlazorBootstrap();
 
 #if DEBUG
-		builder.Services.AddBlazorWebViewDeveloperTools();
+        builder.Services.AddBlazorWebViewDeveloperTools();
 		builder.Logging.AddDebug();
 #endif
+
+        builder.Configuration
+            .SetBasePath(Directory.GetCurrentDirectory())  // Ensure it's set to the current directory
+            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+
+        // Register DbContext with connection string from appsettings.json
+        builder.Services.AddDbContext<GradeMasterDbContext>(options =>
+        {
+            var appName = "GradeMaster";
+            var appDataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), appName);
+
+            if (!Directory.Exists(appDataPath))
+            {
+                Directory.CreateDirectory(appDataPath);
+            }
+
+            // Retrieve the connection string from configuration
+            var connectionString = builder.Configuration.GetConnectionString("Default");
+            if (string.IsNullOrEmpty(connectionString))
+            {
+                throw new Exception("Connection string 'Default' is not found in appsettings.json.");
+            }
+
+            var fullConnectionString = Path.Combine(appDataPath, connectionString);
+
+            options.UseSqlite($"Data Source={fullConnectionString}")
+                .EnableDetailedErrors();
+        });
+
+        using (var scope = builder.Services.BuildServiceProvider().CreateScope())
+        {
+            var dbContext = scope.ServiceProvider.GetRequiredService<GradeMasterDbContext>();
+            dbContext.Database.Migrate();  // Apply migrations here
+        }
+
+        builder.Services.AddScoped<IEducationRepository, EducationRepository>();
+        builder.Services.AddScoped<ISubjectRepository, SubjectRepository>();
+        builder.Services.AddScoped<IGradeRepository, GradeRepository>();
+        builder.Services.AddScoped<IWeightRepository, WeightRepository>();
 
         return builder.Build();
     }

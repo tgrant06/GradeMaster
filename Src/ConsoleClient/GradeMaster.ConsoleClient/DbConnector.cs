@@ -13,8 +13,8 @@ public static class DbConnector
 
         IConfiguration config = builder.Build();
 
-        var context = new GradeMasterDbContext(config);
+        //var context = new GradeMasterDbContext(config);
 
-        return context;
+        return null;
     }
 }
