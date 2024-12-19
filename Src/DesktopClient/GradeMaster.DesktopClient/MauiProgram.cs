@@ -25,6 +25,8 @@ public static class MauiProgram
         builder.Services.AddBlazorWebViewDeveloperTools();
 		builder.Logging.AddDebug();
 #endif
+        
+        #region DbContext
 
         builder.Configuration
             .SetBasePath(Directory.GetCurrentDirectory())  // Ensure it's set to the current directory
@@ -60,10 +62,16 @@ public static class MauiProgram
             dbContext.Database.Migrate();  // Apply migrations here
         }
 
+        #endregion
+
+        #region Repositories
+
         builder.Services.AddScoped<IEducationRepository, EducationRepository>();
         builder.Services.AddScoped<ISubjectRepository, SubjectRepository>();
         builder.Services.AddScoped<IGradeRepository, GradeRepository>();
         builder.Services.AddScoped<IWeightRepository, WeightRepository>();
+
+        #endregion
 
         return builder.Build();
     }
