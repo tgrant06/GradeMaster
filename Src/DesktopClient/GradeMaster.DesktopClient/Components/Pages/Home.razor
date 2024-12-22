@@ -1,12 +1,11 @@
 ﻿@page "/"
-@using GradeMaster.Shared.Core.Interfaces
 
 <h1>Home</h1>
 
 <div class="row bd-navbar sticky-top py-3 mx-0">
     <div class="col-4 px-0">
         <select class="form-select" style="width: 300px" aria-label="Default select example" name="selectFieldEducation" id="selectFieldEducation"
-                onchange="changeCategory()" onselect="">
+                onchange="changeCategory()" onselect="test()">
             <option value="">Select Education</option>
             @foreach (var education in _educations)
             {
@@ -32,7 +31,7 @@ Welcome to your new app.
         _educations = await EducationRepository.GetAllAsync();
     }
 
-    private void changeCategory(ChangeEventArgs e)
+    private void ChangeCategory(ChangeEventArgs e)
     {
         // Handle the change event
     }
