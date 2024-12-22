@@ -86,4 +86,10 @@
       <ProjectReference Include="..\..\Shared\GradeMaster.Shared.Core\GradeMaster.Shared.Core.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Components\Pages\Education\" />
+      <Folder Include="Components\Pages\Subject\" />
+      <Folder Include="Components\Pages\Grade\" />
+    </ItemGroup>
+
 </Project>
