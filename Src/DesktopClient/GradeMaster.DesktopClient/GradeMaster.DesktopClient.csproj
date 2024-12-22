@@ -87,9 +87,9 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Components\Pages\Education\" />
-      <Folder Include="Components\Pages\Subject\" />
-      <Folder Include="Components\Pages\Grade\" />
+      <Folder Include="Components\Pages\EducationPages\" />
+      <Folder Include="Components\Pages\SubjectPages\" />
+      <Folder Include="Components\Pages\GradePages\" />
     </ItemGroup>
 
 </Project>

@@ -1,8 +1,39 @@
 ﻿@page "/"
+@using GradeMaster.Shared.Core.Interfaces
 
-<h1>Hello, world!</h1>
+<h1>Home</h1>
+
+<div class="row bd-navbar sticky-top py-3 mx-0">
+    <div class="col-4 px-0">
+        <select class="form-select" style="width: 300px" aria-label="Default select example" name="selectFieldEducation" id="selectFieldEducation"
+                onchange="changeCategory()" onselect="">
+            <option value="">Select Education</option>
+            @foreach (var education in _educations)
+            {
+                <option value="@education.Id">@education.Name</option>
+            }
+        </select>
+    </div>
+</div>
 
 Welcome to your new app.
 
 <Button Color="ButtonColor.Primary"> Primary </Button>
 <button class="btn btn-secondary">Test</button>
+
+@code
+{
+    private List<Education> _educations = new();
+
+    [Inject] private IEducationRepository EducationRepository { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        _educations = await EducationRepository.GetAllAsync();
+    }
+
+    private void changeCategory(ChangeEventArgs e)
+    {
+        // Handle the change event
+    }
+}
