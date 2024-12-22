@@ -1,0 +1,11 @@
+.name-column {
+    width: 200px;
+}
+
+.average-grade-column {
+    width: 100px;
+}
+
+.grades-column {
+    width: auto;
+}

@@ -7,7 +7,8 @@
 
     <main>
         <div class="top-row px-4">
-            <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">Options</a>
+            @* <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">Options</a> *@
+            <Button Color="ButtonColor.Link" Style="padding-right: 3px; padding-left: 3px" @onclick="OnShowOffcanvasClick">Options</Button>
         </div>
 
         <article class="content px-4">
@@ -15,3 +16,16 @@
         </article>
     </main>
 </div>
+
+<Offcanvas @ref="offcanvas"
+           title="Options">
+
+</Offcanvas>
+
+@code {
+     private Offcanvas offcanvas = default!;
+
+     private async Task OnShowOffcanvasClick() => await offcanvas.ShowAsync();
+
+     private async Task OnHideOffcanvasClick() => await offcanvas.HideAsync();
+}

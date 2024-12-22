@@ -58,4 +58,9 @@ public class SubjectRepository : ISubjectRepository
             _context.SaveChanges();
         }
     }
+
+    public async Task<List<Subject>> GetByEducationIdAsync(int id)
+    {
+        return await _context.Subjects.Where(s => s.EducationId == id).Include(s => s.Grades).ToListAsync();
+    }
 }
