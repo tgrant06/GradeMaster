@@ -8,26 +8,26 @@
 
 <input type="checkbox" title="Navigation menu" class="navbar-toggler"/>
 
-<div class="nav-scrollable" onclick="document.querySelector('.navbar-toggler').click()">
+<div class="nav-scrollable" onclick="toggleNav()">
     <nav class="flex-column">
         <div class="nav-item px-2">
             <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <Icon Name="IconName.HouseDoor" Size="IconSize.x5" Style="margin-left: 10px; margin-right: 10px" /> Home
+                <Icon Name="IconName.HouseDoor" Size="IconSize.x5" Style="margin-left: 10px; margin-right: 10px"/> Home
             </NavLink>
         </div>
         <div class="nav-item px-2">
             <NavLink class="nav-link" href="educations">
-                <Icon Name="IconName.Journals" Size="IconSize.x5" Style="margin-left: 10px; margin-right: 10px" /> Educations
+                <Icon Name="IconName.Journals" Size="IconSize.x5" Style="margin-left: 10px; margin-right: 10px"/> Educations
             </NavLink>
         </div>
         <div class="nav-item px-2">
             <NavLink class="nav-link" href="subjects">
-                <Icon Name="IconName.Collection" Size="IconSize.x5" Style="margin-left: 10px; margin-right: 10px" /> Subjects
+                <Icon Name="IconName.Collection" Size="IconSize.x5" Style="margin-left: 10px; margin-right: 10px"/> Subjects
             </NavLink>
         </div>
         <div class="nav-item px-2">
             <NavLink class="nav-link" href="grades">
-                <Icon Name="IconName.Bookmarks" Size="IconSize.x5" Style="margin-left: 10px; margin-right: 10px" /> Grades
+                <Icon Name="IconName.Bookmarks" Size="IconSize.x5" Style="margin-left: 10px; margin-right: 10px"/> Grades
             </NavLink>
         </div>
         @* <div class="nav-item px-2">
@@ -43,9 +43,17 @@
         <div class="last">
             <div class="nav-item  px-2">
                 <NavLink class="nav-link" href="settings">
-                    <Icon Name="IconName.Gear" Size="IconSize.x5" Style="margin-left: 10px; margin-right: 10px" /> Settings
+                    <Icon Name="IconName.Gear" Size="IconSize.x5" Style="margin-left: 10px; margin-right: 10px"/> Settings
                 </NavLink>
             </div>
         </div>
     </nav>
 </div>
+
+<script>
+    function toggleNav() {
+        if (window.innerWidth < 641) {
+            document.querySelector('.navbar-toggler').click();
+        }
+    }
+</script>
