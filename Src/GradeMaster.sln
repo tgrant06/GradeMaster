@@ -25,8 +25,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2_logic", "2_logic", "{8308
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GradeMaster.Client.Shared", "DesktopClient\GradeMaster.Client.Shared\GradeMaster.Client.Shared.csproj", "{E01BBA5E-384D-4CEC-988D-091D18FB1187}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NewFolder1", "NewFolder1", "{BE3F9CAF-C5AA-48A6-801E-2B29DEF268BE}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
