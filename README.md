@@ -16,7 +16,7 @@ To be continued...
 - [SQLite](https://sqlite.org/) <br>
 To be continued...
 
-### Win Client (discontinued for now)
+### Win Client (discontinued and removed)
 - [WinUi 3](https://learn.microsoft.com/de-de/windows/apps/winui/winui3/) <br>
 <!--(FluentUi) <br> -->
 
@@ -37,7 +37,7 @@ Support for other platforms will follow.
 The Console Client is currently only for testing purposes.
 
 ### Win Client
-The WinClient (based on WinUi 3) will be discontinued for now, in favor of the comming .Net MAUI Client.
+The WinClient (based on WinUi 3) is discontinued and removed from main branch, in favor of the .Net MAUI Blazor hybrid DesktopClient.
 
 
 <br>
