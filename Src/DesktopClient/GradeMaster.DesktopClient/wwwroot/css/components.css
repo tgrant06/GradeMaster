@@ -9,5 +9,6 @@
         top: 6px;
         position: sticky;
         z-index: 10;
+        max-width: 250px;
     }
 }
