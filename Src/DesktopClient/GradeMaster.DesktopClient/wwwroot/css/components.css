@@ -1,0 +1,13 @@
+/* Global CSS-Document for razor components */
+
+.topPageHeader {
+}
+
+@media (min-width: 641px) {
+    .topPageHeader {
+        font-size: 2.25rem;
+        top: 6px;
+        position: sticky;
+        z-index: 10;
+    }
+}
