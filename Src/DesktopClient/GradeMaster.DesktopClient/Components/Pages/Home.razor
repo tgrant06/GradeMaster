@@ -9,7 +9,7 @@
     <div class="col-10 col-md-10 px-0 mb-3" style="max-width: 400px">
         <b>Education: </b>
         <select class="form-select" style="min-width: 200px; max-width: 400px" aria-label="Default select example" name="selectFieldEducation" id="selectFieldEducation"
-        @onchange="ChangeEducation">
+                @onchange="ChangeEducation">
             <option value="">Select Education</option>
             @foreach (var education in _educations)
             {
@@ -19,10 +19,12 @@
     </div>
     <!--Add edit and detail button later-->
     <div class="col-2 col-md-1 mb-3 mt-4">
-        <NavLink href="/education/create" class="btn btn-secondary px-2" style="height: 38px; padding-top: 3px;">
-            @* <i class="bi bi-plus-circle" style="font-size: 20px"></i> *@
-            <Icon Name="IconName.PlusCircle" Size="IconSize.x5"/>
-        </NavLink>
+        <Tooltip Title="Create New Education" Color="TooltipColor.Dark" Style="padding-top: 5px">
+            <NavLink href="/education/create" class="btn btn-secondary px-2" style="height: 38px; padding-top: 3px;">
+                @* <i class="bi bi-plus-circle" style="font-size: 20px"></i> *@
+                <Icon Name="IconName.PlusCircle" Size="IconSize.x5"/>
+            </NavLink>
+        </Tooltip>
     </div>
     <div class="col-12 col-lg-5 text-end ms-auto mb-3 mt-4">
         <h3 class="nowrap">Education Average: @(_educationAverage == 0 ? "N/A" : _educationAverage)</h3>
@@ -31,11 +33,11 @@
 
 <div class="row py-5">
     <Grid TItem="Subject"
-    Class="table table-hover"
-    Data="@_subjects"
-    EmptyText="No records to display"
-    HeaderRowCssClass="border-bottom-0"
-    Responsive="true">
+          Class="table table-hover"
+          Data="@_subjects"
+          EmptyText="No records to display"
+          HeaderRowCssClass="border-bottom-0"
+          Responsive="true">
 
         <GridColumns>
             <GridColumn TItem="Subject" HeaderText="Subject" PropertyName="Name" Class="name-column">
@@ -131,6 +133,7 @@
         {
             return grades.Average(g => g.Value).ToString("F2");
         }
+
         return "N/A";
     }
 }
