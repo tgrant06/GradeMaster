@@ -109,6 +109,11 @@
             _selectedEducationId = educationId;
             await LoadEducationData(educationId);
         }
+        else
+        {
+            // Navigate to the URL with the default query parameter
+            Navigation.NavigateTo($"?", false);
+        }
     }
 
     private int? SelectedEducationId
