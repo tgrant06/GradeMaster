@@ -1,7 +1,30 @@
 ﻿@page "/educations"
 
-<h1>Educations</h1>
+<TopPageHeader>Educations</TopPageHeader>
+
+<div class="row py-3 mx-0">
+    <!--had classes: bd-navbar sticky-top-->
+    <div class="col-10 col-md-10 px-0 mb-3" style="max-width: 400px">
+        <b>Search:</b>
+        <InputText class="form-control" placeholder="Search for Education" @bind-Value="_searchValue"/>
+    </div>
+    <!--Add edit and detail button later-->
+    <div class="col-2 col-md-1 mb-3 mt-4">
+        <Button Color="ButtonColor.Primary" class="px-2" style="height: 38px; padding-top: 3px;">
+            @* <i class="bi bi-plus-circle" style="font-size: 20px"></i> *@
+            <Icon Name="IconName.Search" Size="IconSize.x5"/>
+        </Button>
+    </div>
+    <div class="col-12 col-lg-5 text-end ms-auto mb-3 mt-4">
+
+    </div>
+</div>
+
+<div class="row py-5">
+</div>
 
 @code {
+    private string _searchValue = String.Empty;
 
+    private List<Education> _educations = new List<Education>();
 }
