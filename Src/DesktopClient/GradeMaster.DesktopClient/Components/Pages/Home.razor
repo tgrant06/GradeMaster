@@ -1,5 +1,7 @@
 ﻿@page "/"
 
+@using Microsoft.AspNetCore.WebUtilities
+
 <TopPageHeader>Home</TopPageHeader>
 
 @* <h1>Home</h1> *@
@@ -101,15 +103,19 @@
     protected override async Task OnInitializedAsync()
     {
         _educations = await EducationRepository.GetAllAsync();
+        var uri = Navigation.ToAbsoluteUri(Navigation.Uri);
+        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("educationId", out var educationIdString) && int.TryParse(educationIdString, out var educationId))
+        {
+            await LoadEducationData(educationId);
+        }
     }
 
     private async Task ChangeEducation(ChangeEventArgs e)
     {
         if (int.TryParse(e.Value.ToString(), out int educationId))
         {
-            _currentEducationId = educationId;
-            _subjects = await SubjectRepository.GetByEducationIdAsync(educationId);
-            _educationAverage = CalculateEducationAverage(_subjects);
+            await LoadEducationData(educationId);
+            Navigation.NavigateTo($"?educationId={educationId}", false);
         }
         else
         {
@@ -117,6 +123,13 @@
             _subjects = new List<Subject>();
             _educationAverage = 0;
         }
+    }
+
+    private async Task LoadEducationData(int educationId)
+    {
+        _currentEducationId = educationId;
+        _subjects = await SubjectRepository.GetByEducationIdAsync(educationId);
+        _educationAverage = CalculateEducationAverage(_subjects);
     }
 
     private decimal CalculateEducationAverage(List<Subject> subjects)
