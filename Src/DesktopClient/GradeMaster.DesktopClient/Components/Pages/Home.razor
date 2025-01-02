@@ -19,8 +19,8 @@
     </div>
     <!--Add edit and detail button later-->
     <div class="col-2 col-md-1 mb-3 mt-4">
-        <Tooltip Title="Create New Education" Color="TooltipColor.Dark" Style="padding-top: 5px">
-            <NavLink href="/education/create" class="btn btn-secondary px-2" style="height: 38px; padding-top: 3px;">
+        <Tooltip Title="New Education" Color="TooltipColor.Dark" Style="padding-top: 5px">
+            <NavLink href="/education/create" class="btn btn-primary px-2" style="height: 38px; padding-top: 3px;">
                 @* <i class="bi bi-plus-circle" style="font-size: 20px"></i> *@
                 <Icon Name="IconName.PlusCircle" Size="IconSize.x5"/>
             </NavLink>
@@ -45,9 +45,11 @@
             </GridColumn>
             <GridColumn TItem="Subject" HeaderText="Grades" SortKeySelector="item => item.Grades != null ? item.Grades.Count : 0" Class="grades-column">
                 @string.Join(" | ", @context.Grades != null ? @context.Grades.Select(g => g.Value) : Enumerable.Empty<decimal>())
-                <NavLink href="/grade/create" class="btn btn-secondary px-1" style="height: 28px; width: 28px; padding-top: 1px;">
-                    <Icon Name="IconName.PlusCircle" Size="IconSize.x6"/>
-                </NavLink>
+                <Tooltip Title="New Grade" Color="TooltipColor.Dark">
+                    <NavLink href="/grade/create" class="btn btn-secondary px-1" style="height: 28px; width: 28px; padding-top: 1px;">
+                        <Icon Name="IconName.PlusCircle" Size="IconSize.x6"/>
+                    </NavLink>
+                </Tooltip>
                 <!--Later add detail navigation to every grade-->
             </GridColumn>
             <GridColumn TItem="Subject" HeaderText="Average" SortKeySelector="item => item.Grades != null ? item.Grades.Average(g => g.Value) : 0" HeaderTextAlignment="Alignment.End" TextAlignment="Alignment.Center" Class="average-grade-column">
@@ -56,6 +58,12 @@
         </GridColumns>
     </Grid>
     <!--Later add detail of every row-->
+    @if (_currentEducationId != 0)
+    {
+        <NavLink href="/subject/create" class="btn btn-success px-1" style="margin-left: 12px; width: 125px">
+            New Subject
+        </NavLink>
+    }
 </div>
 
 <style>
@@ -78,6 +86,7 @@
 
 @code
 {
+    private int _currentEducationId;
     private List<Education> _educations = new();
     private List<Subject> _subjects = new();
 
@@ -98,11 +107,13 @@
     {
         if (int.TryParse(e.Value.ToString(), out int educationId))
         {
+            _currentEducationId = educationId;
             _subjects = await SubjectRepository.GetByEducationIdAsync(educationId);
             _educationAverage = CalculateEducationAverage(_subjects);
         }
         else
         {
+            _currentEducationId = 0;
             _subjects = new List<Subject>();
             _educationAverage = 0;
         }
