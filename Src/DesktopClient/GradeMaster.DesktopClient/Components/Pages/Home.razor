@@ -11,7 +11,7 @@
     <div class="col-10 col-md-10 px-0 mb-3" style="max-width: 400px">
         <b>Education: </b>
         <select class="form-select" style="min-width: 200px; max-width: 400px" aria-label="Default select example" name="selectFieldEducation" id="selectFieldEducation"
-                @onchange="ChangeEducation">
+                @bind="SelectedEducationId" @bind:event="onchange">
             <option value="">Select Education</option>
             @foreach (var education in _educations)
             {
@@ -93,12 +93,12 @@
     private List<Subject> _subjects = new();
 
     private decimal _educationAverage = new();
+    private int? _selectedEducationId;
 
     [Inject] private IEducationRepository EducationRepository { get; set; }
     [Inject] private ISubjectRepository SubjectRepository { get; set; }
 
     [Inject] private NavigationManager Navigation { get; set; }
-
 
     protected override async Task OnInitializedAsync()
     {
@@ -106,15 +106,29 @@
         var uri = Navigation.ToAbsoluteUri(Navigation.Uri);
         if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("educationId", out var educationIdString) && int.TryParse(educationIdString, out var educationId))
         {
+            _selectedEducationId = educationId;
             await LoadEducationData(educationId);
         }
     }
 
-    private async Task ChangeEducation(ChangeEventArgs e)
+    private int? SelectedEducationId
     {
-        if (int.TryParse(e.Value.ToString(), out int educationId))
+        get => _selectedEducationId;
+        set
         {
-            await LoadEducationData(educationId);
+            if (_selectedEducationId != value)
+            {
+                _selectedEducationId = value;
+                ChangeEducation(value);
+            }
+        }
+    }
+
+    private async void ChangeEducation(int? educationId)
+    {
+        if (educationId.HasValue)
+        {
+            await LoadEducationData(educationId.Value);
             Navigation.NavigateTo($"?educationId={educationId}", false);
         }
         else
