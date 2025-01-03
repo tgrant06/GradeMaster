@@ -43,7 +43,7 @@
 
         <GridColumns>
             <GridColumn TItem="Subject" HeaderText="Subject" PropertyName="Name" Class="name-column">
-                @context.Name
+                @TruncateString(context.Name, 25)
             </GridColumn>
             <GridColumn TItem="Subject" HeaderText="Grades" SortKeySelector="item => item.Grades != null ? item.Grades.Count : 0" Class="grades-column">
                 @string.Join(" | ", @context.Grades != null ? @context.Grades.Select(g => g.Value) : Enumerable.Empty<decimal>())
@@ -70,7 +70,7 @@
 
 <style>
     .name-column {
-    width: 200px;
+    width: 225px;
     }
 
     .average-grade-column {
@@ -178,5 +178,15 @@
         }
 
         return "N/A";
+    }
+
+    private string TruncateString(string name, int maxLength)
+    {
+        if (string.IsNullOrEmpty(name) || name.Length <= maxLength)
+        {
+            return name;
+        }
+
+        return name.Substring(0, maxLength) + "...";
     }
 }
