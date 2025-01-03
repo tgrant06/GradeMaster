@@ -1,11 +1,13 @@
-<Card Class="px-0 mx-3" Style="user-select: text; max-width: 250px" >
+<Card Class="px-0 mx-3 my-3" Style="user-select: text; max-width: 450px" >
     @* <CardHeader>
         <b>@Education.Name</b>
     </CardHeader> *@
-    <CardBody>
+    <CardHeader>
         <CardTitle>@Education.Name</CardTitle>
-        <CardSubTitle>@Education.StartDate.ToShortDateString() - @Education.EndDate.ToShortDateString()</CardSubTitle>
-        <CardText><br/> @Education.Description</CardText>
+        <CardSubTitle Class="mb-2 text-muted">@Education.StartDate.Year - @Education.EndDate.Year</CardSubTitle>
+    </CardHeader>
+    <CardBody>
+        <CardText> Description: <br/> @Education.Description</CardText>
     </CardBody>
     @* <CardBody>
         <CardText><b>Total Semesters:</b> @Education.Semesters</CardText>
@@ -13,7 +15,8 @@
         <CardText><b>Subject Amount:</b> @Education.Subjects.Count()</CardText>
     </CardBody> *@
     <ul class="list-group list-group-flush">
-        <li class="list-group-item">Total Semesters Total: @Education.Semesters</li>
+        <li class="list-group-item border-top-0">Education Average: @(_educationAverage == 0 ? "N/A" : _educationAverage)</li>
+        <li class="list-group-item">Total Semesters: @Education.Semesters</li>
         <li class="list-group-item">Completion State: @GetEducationState()</li>
         <li class="list-group-item">Subject Amount: @Education.Subjects.Count()</li>
     </ul>
@@ -29,13 +32,46 @@
 
 @code {
     [Parameter]
-    public Education Education
+    public Education Education { get; set; }
+
+    [Inject] private IGradeRepository _gradeRepository { get; set; }
+
+    private decimal _educationAverage;
+
+    protected override async Task OnInitializedAsync()
     {
-        get; set;
+        await CalculateEducationAverage();
     }
 
     private string GetEducationState()
     {
         return Education.Completed == true ? "Completed" : "In Progress";
+    }
+
+    
+
+    private async Task CalculateEducationAverage()
+    {
+        var grades = await _gradeRepository.GetBySubjectIdsAsync(Education.Subjects.Select(s => s.Id).ToList());
+        _educationAverage = CalculateEducationAverage(Education.Subjects);
+    }
+
+    private decimal CalculateEducationAverage(List<Subject> subjects)
+    {
+        if (subjects == null || !subjects.Any())
+        {
+            return 0;
+        }
+
+        var subjectAverages = subjects
+            .Where(s => s.Grades != null && s.Grades.Any())
+            .Select(s => s.Grades.Average(g => g.Value));
+
+        if (!subjectAverages.Any())
+        {
+            return 0;
+        }
+
+        return subjectAverages.Average();
     }
 }

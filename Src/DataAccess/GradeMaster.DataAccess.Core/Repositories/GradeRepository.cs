@@ -55,4 +55,9 @@ public class GradeRepository : IGradeRepository
             _context.SaveChanges();
         }
     }
+
+    public async Task<List<Grade>> GetBySubjectIdsAsync(List<int> id)
+    {
+        return await _context.Grades.Where(g => id.Contains(g.Subject.Id)).ToListAsync();
+    }
 }
