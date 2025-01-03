@@ -27,7 +27,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GradeMaster.Client.Shared",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GradeMaster.Logic.Core", "Logic\GradeMaster.Logic.Core\GradeMaster.Logic.Core.csproj", "{C441B102-4937-4E75-8F41-B03295CCAF17}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NewFolder1", "NewFolder1", "{1FA540EC-2FE2-430D-9380-70994EBBF1AB}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0_interfaces", "0_interfaces", "{1FA540EC-2FE2-430D-9380-70994EBBF1AB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

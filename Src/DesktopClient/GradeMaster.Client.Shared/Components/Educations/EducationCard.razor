@@ -3,28 +3,29 @@
         <b>@Education.Name</b>
     </CardHeader> *@
     <CardHeader>
-        <CardTitle>@Education.Name</CardTitle>
+        <CardTitle Style="padding-top: 6px">@Education.Name</CardTitle>
         <CardSubTitle Class="mb-2 text-muted">@Education.StartDate.Year - @Education.EndDate.Year</CardSubTitle>
     </CardHeader>
     <CardBody>
-        <CardText> Description: <br/> @Education.Description</CardText>
+        <CardText><b>Description:</b> <br /> @Education.Description</CardText>
     </CardBody>
-    @* <CardBody>
-        <CardText><b>Total Semesters:</b> @Education.Semesters</CardText>
-        <CardText><b>Completion State:</b> @GetEducationState()</CardText>
+    <CardBody Class="border-top">
+        <CardText Class="border-bottom" Style="padding-bottom: 6px;"><b>Education Average:</b> @(_educationAverage == 0 ? "N/A" : _educationAverage)</CardText>
+        <CardText Class="border-bottom" Style="padding-bottom: 6px;"><b>Total Semesters:</b> @Education.Semesters</CardText>
+        <CardText Class="border-bottom" Style="padding-bottom: 6px;"><b>Completion State:</b> @GetEducationState()</CardText>
         <CardText><b>Subject Amount:</b> @Education.Subjects.Count()</CardText>
-    </CardBody> *@
-    <ul class="list-group list-group-flush">
-        <li class="list-group-item border-top-0">Education Average: @(_educationAverage == 0 ? "N/A" : _educationAverage)</li>
-        <li class="list-group-item">Total Semesters: @Education.Semesters</li>
-        <li class="list-group-item">Completion State: @GetEducationState()</li>
-        <li class="list-group-item">Subject Amount: @Education.Subjects.Count()</li>
-    </ul>
-    <CardFooter>
+    </CardBody>
+    @* <ul class="list-group list-group-flush">
+        <li class="list-group-item border-top-0"><b>Education Average:</b> @(_educationAverage == 0 ? "N/A" : _educationAverage)</li>
+        <li class="list-group-item"><b>Total Semesters:</b> @Education.Semesters</li>
+        <li class="list-group-item"><b>Completion State:</b> @GetEducationState()</li>
+        <li class="list-group-item"><b>Subject Amount:</b> @Education.Subjects.Count()</li>
+    </ul> *@
+    <CardFooter Style="text-align: end">
         <Button Size="ButtonSize.Small" Color="ButtonColor.Primary">
             Detail <Icon Name="IconName.ArrowRight" Size="IconSize.x6" />
         </Button>
-        <Button Size="ButtonSize.Small" Color="ButtonColor.Danger">
+        <Button Size="ButtonSize.Small" Color="ButtonColor.Danger" Style="margin-left: 6px">
             <Icon Name="IconName.Trash" Size="IconSize.x6" />
         </Button>
     </CardFooter>
@@ -48,11 +49,10 @@
         return Education.Completed == true ? "Completed" : "In Progress";
     }
 
-    
-
     private async Task CalculateEducationAverage()
     {
-        var grades = await _gradeRepository.GetBySubjectIdsAsync(Education.Subjects.Select(s => s.Id).ToList());
+        // var grades
+        await _gradeRepository.GetBySubjectIdsAsync(Education.Subjects.Select(s => s.Id).ToList());
         _educationAverage = CalculateEducationAverage(Education.Subjects);
     }
 

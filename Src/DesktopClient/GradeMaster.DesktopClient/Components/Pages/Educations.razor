@@ -19,12 +19,13 @@
 
     </div>
 </div>
-
-<div class="row py-5">
-    @foreach (Education education in _educations)
-    {
-        <EducationCard Education="@education"/>
-    }
+<div class="container align-content-center">
+    <div class="row py-4">
+        @foreach (Education education in _educations)
+        {
+            <EducationCard Education="@education"/>
+        }
+    </div>
 </div>
 
 @code {
@@ -43,4 +44,5 @@
     {
         _educations = await _educationRepository.GetAllAsync();
     }
+
 }
