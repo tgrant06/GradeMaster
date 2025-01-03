@@ -21,10 +21,26 @@
 </div>
 
 <div class="row py-5">
+    @foreach (Education education in _educations)
+    {
+        <EducationCard Education="@education"/>
+    }
 </div>
 
 @code {
+    [Inject] private IEducationRepository _educationRepository { get; set; }
+
     private string _searchValue = String.Empty;
 
-    private List<Education> _educations = new List<Education>();
+    private List<Education> _educations = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadEducations();
+    }
+
+    private async Task LoadEducations()
+    {
+        _educations = await _educationRepository.GetAllAsync();
+    }
 }

@@ -1,20 +1,27 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
+	<RazorLangVersion>7.0</RazorLangVersion>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
-	<Folder Include="Components\" />
     <Folder Include="Components\Educations\" />
     <Folder Include="Components\Grades\" />
     <Folder Include="Components\Subjects\" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Blazor.Bootstrap" Version="3.2.0" />
+	  <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="9.0.0" />
+	  <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="9.0.0" />
+	  <PackageReference Include="Blazor.Bootstrap" Version="3.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\DataAccess\GradeMaster.DataAccess.Core\GradeMaster.DataAccess.Core.csproj" />
+    <ProjectReference Include="..\..\Shared\GradeMaster.Shared.Core\GradeMaster.Shared.Core.csproj" />
   </ItemGroup>
 
 </Project>

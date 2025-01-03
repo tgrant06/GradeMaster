@@ -55,7 +55,7 @@
                 <!--Later add detail navigation to every grade-->
             </GridColumn>
             <GridColumn TItem="Subject" HeaderText="Average" SortKeySelector="item => item.Grades != null ? item.Grades.Average(g => g.Value) : 0" HeaderTextAlignment="Alignment.End" TextAlignment="Alignment.Center" Class="average-grade-column">
-                @GetAverageGrade(context.Grades)
+                <b>@GetAverageGrade(context.Grades)</b>
             </GridColumn>
         </GridColumns>
     </Grid>

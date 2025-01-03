@@ -6,9 +6,11 @@ public class Subject
 
     public string Name { get; set; }
 
-    public string Description { get; set; }
+    public string? Description { get; set; }
 
     public int Semester { get; set; }
+
+    // teacher? add Entity people, persons , teachers, students... users?
 
     public Education Education { get; set; }
     public int EducationId { get; set; }

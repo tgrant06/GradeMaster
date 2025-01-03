@@ -85,6 +85,7 @@
     <ItemGroup>
       <ProjectReference Include="..\..\DataAccess\GradeMaster.DataAccess.Core\GradeMaster.DataAccess.Core.csproj" />
       <ProjectReference Include="..\..\Shared\GradeMaster.Shared.Core\GradeMaster.Shared.Core.csproj" />
+      <ProjectReference Include="..\GradeMaster.Client.Shared\GradeMaster.Client.Shared.csproj" />
     </ItemGroup>
 
     <ItemGroup>

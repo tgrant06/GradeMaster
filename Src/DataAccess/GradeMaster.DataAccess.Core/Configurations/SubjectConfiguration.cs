@@ -13,7 +13,7 @@ public class SubjectConfiguration : IEntityTypeConfiguration<Subject>
         builder.HasKey(s => s.Id);
         builder.Property(s => s.Id).HasColumnName("Id").ValueGeneratedOnAdd();
 
-        builder.Property(s => s.Name).HasColumnName("Name").IsUnicode().HasMaxLength(250).IsRequired();
+        builder.Property(s => s.Name).HasColumnName("Name").IsUnicode().HasMaxLength(255).IsRequired();
         builder.Property(s => s.Description).HasColumnName("Description").IsUnicode().HasMaxLength(2500).IsRequired(false);
         builder.Property(s => s.Semester).HasColumnName("Semester").IsRequired();
 

@@ -1,0 +1,41 @@
+<Card Class="px-0 mx-3" Style="user-select: text; max-width: 250px" >
+    @* <CardHeader>
+        <b>@Education.Name</b>
+    </CardHeader> *@
+    <CardBody>
+        <CardTitle>@Education.Name</CardTitle>
+        <CardSubTitle>@Education.StartDate.ToShortDateString() - @Education.EndDate.ToShortDateString()</CardSubTitle>
+        <CardText><br/> @Education.Description</CardText>
+    </CardBody>
+    @* <CardBody>
+        <CardText><b>Total Semesters:</b> @Education.Semesters</CardText>
+        <CardText><b>Completion State:</b> @GetEducationState()</CardText>
+        <CardText><b>Subject Amount:</b> @Education.Subjects.Count()</CardText>
+    </CardBody> *@
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item">Total Semesters Total: @Education.Semesters</li>
+        <li class="list-group-item">Completion State: @GetEducationState()</li>
+        <li class="list-group-item">Subject Amount: @Education.Subjects.Count()</li>
+    </ul>
+    <CardFooter>
+        <Button Size="ButtonSize.Small" Color="ButtonColor.Primary">
+            Detail <Icon Name="IconName.ArrowRight" Size="IconSize.x6" />
+        </Button>
+        <Button Size="ButtonSize.Small" Color="ButtonColor.Danger">
+            <Icon Name="IconName.Trash" Size="IconSize.x6" />
+        </Button>
+    </CardFooter>
+</Card>
+
+@code {
+    [Parameter]
+    public Education Education
+    {
+        get; set;
+    }
+
+    private string GetEducationState()
+    {
+        return Education.Completed == true ? "Completed" : "In Progress";
+    }
+}

@@ -6,7 +6,7 @@ public class Grade
 
     public decimal Value { get; set; } // 1 - 6
 
-    public string Description { get; set; }
+    public string? Description { get; set; }
 
     public DateTime CreatedAt { get; set;}
 

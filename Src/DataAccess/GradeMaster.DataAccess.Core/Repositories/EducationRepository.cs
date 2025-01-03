@@ -21,7 +21,7 @@ public class EducationRepository : IEducationRepository
 
     public async Task<List<Education>> GetAllAsync()
     { 
-        return await _context.Educations.ToListAsync();
+        return await _context.Educations.Include(e => e.Subjects).ToListAsync();
     } 
 
     public async Task<Education> AddAsync(Education education)
