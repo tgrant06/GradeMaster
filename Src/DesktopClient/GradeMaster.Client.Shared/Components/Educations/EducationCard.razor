@@ -10,9 +10,9 @@
         <CardText><b>Description:</b> <br /> @Education.Description</CardText>
     </CardBody>
     <CardBody Class="border-top">
-        <CardText Class="border-bottom" Style="padding-bottom: 6px;"><b>Education Average:</b> @(_educationAverage == 0 ? "N/A" : _educationAverage)</CardText>
-        <CardText Class="border-bottom" Style="padding-bottom: 6px;"><b>Total Semesters:</b> @Education.Semesters</CardText>
-        <CardText Class="border-bottom" Style="padding-bottom: 6px;"><b>Completion State:</b> @GetEducationState()</CardText>
+        <CardText Class="border-bottom" Style="padding-bottom: 11px; margin-bottom: 11px;"><b>Education Average:</b> @(_educationAverage == 0 ? "N/A" : _educationAverage)</CardText>
+        <CardText Class="border-bottom" Style="padding-bottom: 11px; margin-bottom: 11px;"><b>Total Semesters:</b> @Education.Semesters</CardText>
+        <CardText Class="border-bottom" Style="padding-bottom: 11px; margin-bottom: 11px;"><b>Completion State:</b> @GetEducationState()</CardText>
         <CardText><b>Subject Amount:</b> @Education.Subjects.Count()</CardText>
     </CardBody>
     @* <ul class="list-group list-group-flush">
