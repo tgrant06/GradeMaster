@@ -15,12 +15,12 @@
             <Icon Name="IconName.Search" Size="IconSize.x5"/>
         </Button>
     </div>
-    <div class="col-12 col-lg-5 text-end ms-auto mb-3 mt-4">
+    @* <div class="col-12 col-lg-5 text-end ms-auto mb-3 mt-4">
 
-    </div>
+    </div> *@
 </div>
 <div class="container align-content-center">
-    <div class="row py-4">
+    <div class="education-grid py-4">
         @foreach (Education education in _educations)
         {
             <EducationCard Education="@education"/>
