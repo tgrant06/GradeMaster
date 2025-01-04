@@ -8,7 +8,7 @@
 
 <div class="row py-3 mx-0">
     <!--had classes: bd-navbar sticky-top-->
-    <div class="col-10 col-md-10 px-0 mb-3" style="max-width: 400px">
+    <div class="col-8 col-md-8 px-0 mb-3" style="max-width: 400px">
         <b>Education: </b>
         <select class="form-select" style="min-width: 200px; max-width: 400px" aria-label="Default select example" name="selectFieldEducation" id="selectFieldEducation"
                 @bind="SelectedEducationId" @bind:event="onchange">
@@ -20,13 +20,18 @@
         </select>
     </div>
     <!--Add edit and detail button later-->
-    <div class="col-2 col-md-1 mb-3 mt-4">
-        <Tooltip Title="New Education" Color="TooltipColor.Dark" Style="padding-top: 5px">
+    <div class="col-1 col-md-1 mb-3 mt-4" style="width: 38px; margin-right: 10px;">
+        <Tooltip Title="New Education" Color="TooltipColor.Dark" Style="padding-top: 5px;">
             <NavLink href="/education/create" class="btn btn-primary px-2" style="height: 38px; padding-top: 3px;">
                 @* <i class="bi bi-plus-circle" style="font-size: 20px"></i> *@
                 <Icon Name="IconName.PlusCircle" Size="IconSize.x5"/>
             </NavLink>
         </Tooltip>
+    </div>
+    <div class="col-1 col-md-1 mb-3 mt-4" style="width: 38px">
+        <Button Color="ButtonColor.Secondary" class="px-2" style="height: 38px; padding-top: 3px;" @onclick="ReloadData">
+            <Icon Name="IconName.ArrowRepeat" Size="IconSize.x5"/>
+        </Button>
     </div>
     <div class="col-12 col-lg-5 text-end ms-auto mb-3 mt-4">
         <h3 class="nowrap">Education Average: @(_educationAverage == 0 ? "N/A" : _educationAverage)</h3>
@@ -69,21 +74,13 @@
 </div>
 
 <style>
-    .name-column {
-    width: 225px;
-    }
+    .name-column { width: 225px; }
 
-    .average-grade-column {
-    width: 100px;
-    }
+    .average-grade-column { width: 100px; }
 
-    .grades-column {
-    width: auto;
-    }
+    .grades-column { width: auto; }
 
-    .nowrap {
-        white-space: nowrap;
-    }
+    .nowrap { white-space: nowrap; }
 </style>
 
 @code
@@ -188,5 +185,13 @@
         }
 
         return name.Substring(0, maxLength) + "...";
+    }
+
+    private async Task ReloadData()
+    {
+        if (_selectedEducationId.HasValue)
+        {
+            await LoadEducationData(_selectedEducationId.Value);
+        }
     }
 }

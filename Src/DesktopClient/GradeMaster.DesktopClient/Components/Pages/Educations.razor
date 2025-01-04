@@ -4,18 +4,23 @@
 
 <div class="row py-3 mx-0">
     <!--had classes: bd-navbar sticky-top-->
-    <div class="col-10 col-md-10 px-0 mb-3" style="max-width: 400px">
+    <div class="col-8 col-md-8 px-0 mb-3" style="max-width: 400px">
         <b>Search:</b>
         <EditForm Model="_searchValue" OnValidSubmit="FilterEducations">
-            <InputText class="form-control" placeholder="Search for Education" @bind-Value="_searchValue" />
+            <InputText class="form-control" placeholder="Search for Education" @bind-Value="_searchValue"/>
         </EditForm>
     </div>
     <!--Add edit and detail button later-->
-    <div class="col-2 col-md-1 mb-3 mt-4">
+    <div class="col-1 col-md-1 mb-3 mt-4" style="width: 38px; margin-right: 10px">
         <Button Color="ButtonColor.Primary" class="px-2" style="height: 38px; padding-top: 3px;" @onclick="FilterEducations">
             @* <i class="bi bi-plus-circle" style="font-size: 20px"></i> *@
             <Icon Name="IconName.Search" Size="IconSize.x5"/>
         </Button>
+    </div>
+    <div class="col-1 col-md-1 mb-3 mt-4" style="width: 38px">
+            <Button Color="ButtonColor.Secondary" class="px-2" style="height: 38px; padding-top: 3px;" @onclick="LoadAllEducations">
+                <Icon Name="IconName.ArrowRepeat" Size="IconSize.x5"/>
+            </Button>
     </div>
     @* <div class="col-12 col-lg-5 text-end ms-auto mb-3 mt-4">
 
@@ -49,6 +54,12 @@
         _filteredEducations = _educations;
     }
 
+    private async Task LoadAllEducations()
+    {
+        _searchValue = String.Empty;
+        await LoadEducations();
+    }
+
     private void FilterEducations()
     {
         if (string.IsNullOrWhiteSpace(_searchValue))
@@ -58,11 +69,12 @@
         else
         {
             _filteredEducations = _educations
-                .Where(education => 
+                .Where(education =>
                     education.Name.Contains(_searchValue, StringComparison.OrdinalIgnoreCase) ||
                     (education.Description != null && education.Description.Contains(_searchValue, StringComparison.OrdinalIgnoreCase)) ||
                     education.Semesters.ToString().Contains(_searchValue, StringComparison.OrdinalIgnoreCase))
                 .ToList();
         }
     }
+
 }
