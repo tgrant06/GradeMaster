@@ -9,6 +9,6 @@ public partial class App : Application
 
     protected override Window CreateWindow(IActivationState? activationState)
     {
-        return new Window(new MainPage()) { Title = "GradeMaster", MinimumHeight = 600, MinimumWidth = 500 };
+        return new Window(new MainPage()) { Title = "GradeMaster", MinimumHeight = 640, MinimumWidth = 500 };
     }
 }
