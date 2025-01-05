@@ -4,10 +4,11 @@
     </CardHeader> *@
     <CardHeader>
         <CardTitle Style="padding-top: 6px"><b>@Education.Name</b></CardTitle>
-        <CardSubTitle Class="mb-2 text-muted">@Education.StartDate.Year - @Education.EndDate.Year</CardSubTitle>
+        <CardSubTitle Class="mb-2 text-muted">@Education.StartDate.Year - @Education.EndDate.Year @TruncateString(String.IsNullOrEmpty(Education.Institution) ? " " : "| " + Education.Institution.Split(",")[0], 10)</CardSubTitle>
     </CardHeader>
     <CardBody>
-        <CardText><b>Description:</b> <br /> @Education.Description</CardText>
+        <CardText><b>Description:</b> <br /> @TruncateString(String.IsNullOrEmpty(Education.Description) ? "-" : Education.Description, 200)
+        </CardText>
     </CardBody>
     <CardBody Class="border-top">
         <CardText Class="border-bottom" Style="padding-bottom: 11px; margin-bottom: 11px;"><b>Education Average:</b> @(_educationAverage == 0 ? "N/A" : _educationAverage)</CardText>
@@ -15,18 +16,12 @@
         <CardText Class="border-bottom" Style="padding-bottom: 11px; margin-bottom: 11px;"><b>Completion State:</b> @GetEducationState()</CardText>
         <CardText><b>Subject Amount:</b> @Education.Subjects.Count()</CardText>
     </CardBody>
-    @* <ul class="list-group list-group-flush">
-        <li class="list-group-item border-top-0"><b>Education Average:</b> @(_educationAverage == 0 ? "N/A" : _educationAverage)</li>
-        <li class="list-group-item"><b>Total Semesters:</b> @Education.Semesters</li>
-        <li class="list-group-item"><b>Completion State:</b> @GetEducationState()</li>
-        <li class="list-group-item"><b>Subject Amount:</b> @Education.Subjects.Count()</li>
-    </ul> *@
     <CardFooter Style="text-align: end">
         <Button Size="ButtonSize.Small" Color="ButtonColor.Primary" @onclick="EducationDetail">
             Detail <Icon Name="IconName.ArrowRight" Size="IconSize.x6" />
         </Button>
         <Button Size="ButtonSize.Small" Color="ButtonColor.Danger" Style="margin-left: 6px" TooltipTitle="Delete Education" @onclick="DeleteEducationAsync">
-            <Icon Name="IconName.Trash" Size="IconSize.x6" />
+            <Icon Name="IconName.Trash" Size="IconSize.x6"/>
         </Button>
     </CardFooter>
 </Card>
@@ -52,6 +47,16 @@
     private string GetEducationState()
     {
         return Education.Completed == true ? "Completed" : "In Progress";
+    }
+
+    private string TruncateString(string name, int maxLength)
+    {
+        if (string.IsNullOrEmpty(name) || name.Length <= maxLength)
+        {
+            return name;
+        }
+
+        return name.Substring(0, maxLength) + "...";
     }
 
     private async Task CalculateEducationAverage()
@@ -87,7 +92,6 @@
     }
 
     #region Delete Education
-
 
     private ConfirmDialog _dialog = default!;
 
