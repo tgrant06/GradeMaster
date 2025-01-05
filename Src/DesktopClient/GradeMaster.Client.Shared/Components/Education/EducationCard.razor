@@ -1,7 +1,4 @@
 <Card Class="px-0 mx-3 my-3" Style="user-select: text; max-width: 100%;" >
-    @* <CardHeader>
-        <b>@Education.Name</b>
-    </CardHeader> *@
     <CardHeader>
         <CardTitle Style="padding-top: 6px"><b>@Education.Name</b></CardTitle>
         <CardSubTitle Class="mb-2 text-muted">@Education.StartDate.Year - @Education.EndDate.Year @TruncateString(String.IsNullOrEmpty(Education.Institution) ? " " : "| " + Education.Institution.Split(",")[0], 10)</CardSubTitle>
