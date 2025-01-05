@@ -4,4 +4,14 @@
 
 @code {
     [Parameter] public int Id { get; set; }
+
+    [Inject] private IEducationRepository _educationRepository { get; set; }
+
+    public Education Education { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        // will never be null
+        Education = await _educationRepository.GetByIdAsync(Id);
+    }
 }

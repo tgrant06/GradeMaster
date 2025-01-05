@@ -34,11 +34,17 @@
         }
     </div>
 </div>
-
+<div style="position: fixed; bottom: 16px; right: 16px; z-index: 1000">
+    <Button Color="ButtonColor.Success" @onclick="CreateEducation" class="px-2" style="height: 40px; width: 40px; padding-top: 3px;" TooltipPlacement="TooltipPlacement.Left" TooltipTitle="New Education">
+        <Icon Name="IconName.PlusCircle" Size="IconSize.x5" />
+    </Button>
+</div>
 <Toasts class="p-3" Placement="ToastsPlacement.TopRight" StackLength="1" AutoHide="true" />
 
 @code {
     [Inject] private IEducationRepository _educationRepository { get; set; }
+
+    [Inject] private NavigationManager Navigation { get; set; }
 
     private string _searchValue = String.Empty;
 
@@ -74,7 +80,8 @@
                 .Where(education =>
                     education.Name.Contains(_searchValue, StringComparison.OrdinalIgnoreCase) ||
                     (education.Description != null && education.Description.Contains(_searchValue, StringComparison.OrdinalIgnoreCase)) ||
-                    education.Semesters.ToString().Contains(_searchValue, StringComparison.OrdinalIgnoreCase))
+                    education.Semesters.ToString().Contains(_searchValue, StringComparison.OrdinalIgnoreCase) ||
+                    (education.Institution != null && education.Institution.Contains(_searchValue, StringComparison.OrdinalIgnoreCase)))
                 .ToList();
         }
     }
@@ -86,5 +93,10 @@
         {
             _filteredEducations.Remove(education);
         }
+    }
+
+    private void CreateEducation()
+    {
+        Navigation.NavigateTo("/education/create");
     }
 }
