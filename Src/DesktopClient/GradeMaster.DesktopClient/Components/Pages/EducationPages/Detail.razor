@@ -1,11 +1,32 @@
 ﻿@page "/education/{Id:int}"
 
-<TopPageHeader>Detail Education</TopPageHeader>
+<TopPageHeader Style="font-size: 28px; top: 10px">Detail Education</TopPageHeader>
+
+<div class="py-3 px-1">
+    <h2><b>@Education.Name</b></h2>
+    <CardSubTitle Style="font-size: 17px">@Education.StartDate.ToShortDateString() - @Education.EndDate.ToShortDateString()</CardSubTitle>
+    <CardSubTitle Style="margin-top: 6px;">@Education.Institution</CardSubTitle>
+</div>
+<div class="py-1 px-1">
+    <Card Style="max-width: 800px">
+        <CardBody>
+            <CardText>
+                <b>Description:</b> <br/> @DescriptionString()
+            </CardText>
+        </CardBody>
+    </Card>
+</div>
+<div>
+
+</div>
+
 
 @code {
     [Parameter] public int Id { get; set; }
 
     [Inject] private IEducationRepository _educationRepository { get; set; }
+
+    [Inject] private NavigationManager Navigation { get; set; }
 
     public Education Education { get; set; }
 
@@ -14,4 +35,13 @@
         // will never be null
         Education = await _educationRepository.GetByIdAsync(Id);
     }
+
+    private string DescriptionString() => String.IsNullOrEmpty(Education.Description) ? "-" : Education.Description;
+
+
+    private void EditEducation()
+    {
+        Navigation.NavigateTo($"/education/edit/{Education.Id}");
+    }
+
 }

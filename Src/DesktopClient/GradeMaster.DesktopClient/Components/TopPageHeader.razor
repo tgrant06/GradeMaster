@@ -1,6 +1,9 @@
-﻿<h1 class="topPageHeader">@ChildContent</h1>
+﻿<h1 class="topPageHeader" style="@Style">@ChildContent</h1>
 
 @code {
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public string? Style { get; set; }
 }
