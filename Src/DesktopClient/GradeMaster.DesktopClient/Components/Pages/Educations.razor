@@ -30,10 +30,12 @@
     <div class="education-grid py-4">
         @foreach (Education education in _filteredEducations)
         {
-            <EducationCard Education="@education"/>
+            <EducationCard Education="@education" OnEducationDeleted="HandleEducationDeleted" />
         }
     </div>
 </div>
+
+<Toasts class="p-3" Placement="ToastsPlacement.TopRight" StackLength="1" AutoHide="true" />
 
 @code {
     [Inject] private IEducationRepository _educationRepository { get; set; }
@@ -77,4 +79,12 @@
         }
     }
 
+    private void HandleEducationDeleted(int educationId)
+    {
+        var education = _filteredEducations.FirstOrDefault(e => e.Id == educationId);
+        if (education != null)
+        {
+            _filteredEducations.Remove(education);
+        }
+    }
 }

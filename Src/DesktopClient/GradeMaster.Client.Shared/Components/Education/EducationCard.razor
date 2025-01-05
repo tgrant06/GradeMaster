@@ -22,20 +22,25 @@
         <li class="list-group-item"><b>Subject Amount:</b> @Education.Subjects.Count()</li>
     </ul> *@
     <CardFooter Style="text-align: end">
-        <Button Size="ButtonSize.Small" Color="ButtonColor.Primary">
+        <Button Size="ButtonSize.Small" Color="ButtonColor.Primary" @onclick="EducationDetail">
             Detail <Icon Name="IconName.ArrowRight" Size="IconSize.x6" />
         </Button>
-        <Button Size="ButtonSize.Small" Color="ButtonColor.Danger" Style="margin-left: 6px" TooltipTitle="Delete Education">
+        <Button Size="ButtonSize.Small" Color="ButtonColor.Danger" Style="margin-left: 6px" TooltipTitle="Delete Education" @onclick="DeleteEducationAsync">
             <Icon Name="IconName.Trash" Size="IconSize.x6" />
         </Button>
     </CardFooter>
 </Card>
 
+<ConfirmDialog @ref="_dialog" />
+
 @code {
-    [Parameter]
-    public Education Education { get; set; }
+    [Parameter] public Education Education { get; set; }
+    [Parameter] public EventCallback<int> OnEducationDeleted { get; set; }
 
     [Inject] private IGradeRepository _gradeRepository { get; set; }
+    [Inject] private IEducationRepository _educationRepository { get; set; }
+
+    [Inject] private NavigationManager Navigation { get; set; }
 
     private decimal _educationAverage;
 
@@ -74,4 +79,45 @@
 
         return subjectAverages.Average();
     }
-}
+
+    private Task EducationDetail()
+    {
+        Navigation.NavigateTo($"/education/{Education.Id}");
+        return Task.CompletedTask;
+    }
+
+    #region Delete Education
+
+
+    private ConfirmDialog _dialog = default!;
+
+    [Inject] ToastService ToastService { get; set; } = default!;
+
+    private async Task DeleteEducationAsync()
+    {
+        var confirmation = await _dialog.ShowAsync(
+            title: "Are you sure you want to delete this Education?",
+            message1: $"Education: {Education.Name}",
+            message2: "Do you want to proceed?");
+
+        if (confirmation)
+        {
+            try
+            {
+                _educationRepository.DeleteByIdAsync(Education.Id);
+                await OnEducationDeleted.InvokeAsync(Education.Id);
+                ToastService.Notify(new ToastMessage(ToastType.Success, $"Education deleted successfully."));
+            }
+            catch (Exception e)
+            {
+                ToastService.Notify(new ToastMessage(ToastType.Danger, $"Error deleting education: {e.Message}"));
+            }
+        }
+        else
+        {
+            ToastService.Notify(new ToastMessage(ToastType.Secondary, $"Delete action canceled."));
+        }
+    }
+
+    #endregion
+}   
