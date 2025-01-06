@@ -16,12 +16,12 @@
             @if (_educationAverage < 4 && _educationAverage != 0)
             {
                 <Badge Color="BadgeColor.Danger" IndicatorType="BadgeIndicatorType.RoundedPill">
-                    @(_educationAverage == 0 ? "N/A" : _educationAverage)
+                    @(_educationAverage == 0 ? "N/A" : _educationAverage.ToString("0.##"))
                 </Badge>
             }
             else
             {
-                @(_educationAverage == 0 ? "N/A" : _educationAverage)
+                @(_educationAverage == 0 ? "N/A" : _educationAverage.ToString("0.##"))
             }
         </CardText>
         <CardText Class="border-bottom" Style="padding-bottom: 11px; margin-bottom: 11px;">

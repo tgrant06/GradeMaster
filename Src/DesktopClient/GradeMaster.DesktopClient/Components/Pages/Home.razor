@@ -34,7 +34,7 @@
         </Button>
     </div>
     <div class="col-12 col-lg-5 text-end ms-auto mb-3 mt-4">
-        <h3 class="nowrap">Education Average: @(_educationAverage == 0 ? "N/A" : _educationAverage)</h3>
+        <h3 class="nowrap">Education Average: @(_educationAverage == 0 ? "N/A" : _educationAverage.ToString("0.##"))</h3>
     </div>
 </div>
 
@@ -171,7 +171,7 @@
     {
         if (grades != null && grades.Any())
         {
-            return grades.Average(g => g.Value).ToString("F2");
+            return grades.Average(g => g.Value).ToString("0.##");
         }
 
         return "N/A";
