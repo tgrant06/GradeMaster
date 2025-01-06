@@ -88,6 +88,25 @@
         _educationAverage = CalculateEducationAverage(Education.Subjects);
     }
 
+    #region Averages
+
+    private decimal CalculateWeightedAverage(ICollection<Grade> grades)
+    {
+        if (grades == null || !grades.Any())
+        {
+            return 0;
+        }
+
+        decimal totalWeight = grades.Sum(g => g.Weight?.Value ?? 1); // Default weight to 1 if null
+        if (totalWeight == 0)
+        {
+            return 0;
+        }
+
+        decimal weightedSum = grades.Sum(g => g.Value * (g.Weight?.Value ?? 1)); // Default weight to 1 if null
+        return weightedSum / totalWeight;
+    }
+
     private decimal CalculateEducationAverage(List<Subject> subjects)
     {
         if (subjects == null || !subjects.Any())
@@ -97,7 +116,7 @@
 
         var subjectAverages = subjects
             .Where(s => s.Grades != null && s.Grades.Any())
-            .Select(s => s.Grades.Average(g => g.Value));
+            .Select(s => CalculateWeightedAverage(s.Grades));
 
         if (!subjectAverages.Any())
         {
@@ -107,6 +126,8 @@
         return subjectAverages.Average();
     }
 
+    #endregion
+    
     private Task EducationDetail()
     {
         Navigation.NavigateTo($"/educations/{Education.Id}");
