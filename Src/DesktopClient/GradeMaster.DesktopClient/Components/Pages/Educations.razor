@@ -26,7 +26,7 @@
 
     </div> *@
 </div>
-<div class="container align-content-center">
+<div class="container align-content-center" style="margin-bottom: 25px;">
     <div class="education-grid py-4">
         @foreach (Education education in _filteredEducations)
         {
@@ -35,8 +35,8 @@
     </div>
 </div>
 <div style="position: fixed; bottom: 16px; right: 16px; z-index: 1000">
-    <Button Color="ButtonColor.Success" @onclick="CreateEducation" class="px-2" style="height: 40px; width: 40px; padding-top: 3px;" TooltipPlacement="TooltipPlacement.Left" TooltipTitle="New Education">
-        <Icon Name="IconName.PlusCircle" Size="IconSize.x5" />
+    <Button Color="ButtonColor.Success" @onclick="CreateEducation" Size="ButtonSize.Medium" TooltipPlacement="TooltipPlacement.Left" TooltipTitle="New Education">
+        <Icon Name="IconName.PlusCircle" Size="IconSize.x4"/>
     </Button>
 </div>
 <Toasts class="p-3" Placement="ToastsPlacement.TopRight" StackLength="1" AutoHide="true" />

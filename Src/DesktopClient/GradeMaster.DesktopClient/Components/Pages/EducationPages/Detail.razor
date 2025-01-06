@@ -2,22 +2,76 @@
 
 <TopPageHeader Style="font-size: 28px; top: 10px">Detail Education</TopPageHeader>
 
-<div class="py-3 px-1">
-    <h2><b>@Education.Name</b></h2>
-    <CardSubTitle Style="font-size: 17px">@Education.StartDate.ToShortDateString() - @Education.EndDate.ToShortDateString()</CardSubTitle>
-    <CardSubTitle Style="margin-top: 6px;">@Education.Institution</CardSubTitle>
-</div>
-<div class="py-1 px-1">
+
+    <div class="col-12 col-md-12 py-3 px-2">
+        <h2>
+            <b>@Education.Name</b>
+        </h2>
+        <CardSubTitle Style="font-size: 17px">@Education.StartDate.ToShortDateString() - @Education.EndDate.ToShortDateString()</CardSubTitle>
+        <CardSubTitle Style="margin-top: 6px;">@Education.Institution</CardSubTitle>
+    </div>
+
+<div class="py-2 px-2">
     <Card Style="max-width: 800px">
         <CardBody>
             <CardText>
-                <b>Description:</b> <br/> @DescriptionString()
+                <b>Description:</b> <br /> @DescriptionString()
             </CardText>
         </CardBody>
     </Card>
 </div>
-<div>
-
+<div class="py-3 px-2" style="margin-bottom: 50px">
+    <Card Style="max-width: 800px">
+        <CardBody>
+            <div class="row row-cols-1 row-cols-sm-1 row-cols-md-1 row-cols-lg-2">
+                <!-- First Column -->
+                <div class="col mb-3">
+                    <CardText Class="border-bottom" Style="padding-bottom: 20px; margin-bottom: 6px;">
+                        <strong>Education Average: </strong> 
+                        @if (_educationAverage < 4 && _educationAverage != 0)
+                        {
+                            <Badge Color="BadgeColor.Danger" IndicatorType="BadgeIndicatorType.RoundedPill">
+                                @(_educationAverage == 0 ? "N/A" : _educationAverage.ToString("0.##"))
+                            </Badge>
+                        }
+                        else
+                        {
+                            @(_educationAverage == 0 ? "N/A" : _educationAverage.ToString("0.##"))
+                        }
+                    </CardText>
+                </div>
+                <!-- Second Column -->
+                <div class="col mb-3">
+                    <CardText Class="border-bottom" Style="padding-bottom: 20px; margin-bottom: 6px;">
+                        <b>Total Semesters:</b> @Education.Semesters
+                    </CardText>
+                </div>
+                <div class="col mb-3">
+                    <CardText Class="border-bottom" Style="padding-bottom: 20px; margin-bottom: 6px;">
+                        <b>Completion State:</b>
+                        <Badge Color="@(Education.Completed ? BadgeColor.Success : BadgeColor.Warning)" IndicatorType="BadgeIndicatorType.RoundedPill">
+                            @(Education.Completed ? "Completed" : "In Progress")
+                        </Badge>
+                    </CardText>
+                </div>
+                <div class="col mb-3">
+                    <CardText Class="border-bottom" Style="padding-bottom: 20px;">
+                        <b>Subject Amount:</b> @Education.Subjects.Count()
+                    </CardText>
+                </div>
+            </div>
+        </CardBody>
+    </Card>
+</div>
+<div style="position: fixed; bottom: 16px; left: calc(250px + 16px); z-index: 1000">
+    <Button Color="ButtonColor.Primary" @onclick="GoBack" Size="ButtonSize.Medium">
+        <Icon Name="IconName.ArrowLeft"/> Back
+    </Button>
+</div>
+<div style="position: fixed; bottom: 16px; right: 16px; z-index: 1000">
+    <Button Color="ButtonColor.Success" @onclick="EditEducation" Size="ButtonSize.Medium">
+        Edit <Icon Name="IconName.PencilSquare"/>
+    </Button>
 </div>
 
 
@@ -25,23 +79,81 @@
     [Parameter] public int Id { get; set; }
 
     [Inject] private IEducationRepository _educationRepository { get; set; }
+    [Inject] private IGradeRepository _gradeRepository { get; set; }
+    [Inject] private ISubjectRepository _subjectRepository { get; set; }
 
     [Inject] private NavigationManager Navigation { get; set; }
+    [Inject] private IJSRuntime JSRuntime { get; set; }
 
     public Education Education { get; set; }
+    private decimal _educationAverage;
 
     protected override async Task OnInitializedAsync()
     {
-        // will never be null
+        // Load the education details
         Education = await _educationRepository.GetByIdAsync(Id);
+
+        // Calculate the average only after loading the education data
+        await CalculateEducationAverage();
     }
 
-    private string DescriptionString() => String.IsNullOrEmpty(Education.Description) ? "-" : Education.Description;
+    private string DescriptionString() => string.IsNullOrEmpty(Education.Description) ? "-" : Education.Description;
 
+    private async Task GoBack()
+    {
+        await JSRuntime.InvokeVoidAsync("window.history.back");
+    }
 
     private void EditEducation()
     {
-        Navigation.NavigateTo($"/education/edit/{Education.Id}");
+        Navigation.NavigateTo($"/educations/{Education.Id}/edit");
     }
 
+    #region Averages
+
+    private async Task CalculateEducationAverage()
+    {
+        // var grades
+        //await _gradeRepository.GetBySubjectIdsAsync(Education.Subjects.Select(s => s.Id).ToList());
+        await _subjectRepository.GetByEducationIdAsync(Education.Id);
+        _educationAverage = CalculateEducationAverage(Education.Subjects);
+    }
+
+    private decimal CalculateWeightedAverage(ICollection<Grade> grades)
+    {
+        if (grades == null || !grades.Any())
+        {
+            return 0;
+        }
+
+        decimal totalWeight = grades.Sum(g => g.Weight?.Value ?? 1); // Default weight to 1 if null
+        if (totalWeight == 0)
+        {
+            return 0;
+        }
+
+        decimal weightedSum = grades.Sum(g => g.Value * (g.Weight?.Value ?? 1)); // Default weight to 1 if null
+        return weightedSum / totalWeight;
+    }
+
+    private decimal CalculateEducationAverage(List<Subject> subjects)
+    {
+        if (subjects == null || !subjects.Any())
+        {
+            return 0;
+        }
+
+        var subjectAverages = subjects
+            .Where(s => s.Grades != null && s.Grades.Any())
+            .Select(s => CalculateWeightedAverage(s.Grades));
+
+        if (!subjectAverages.Any())
+        {
+            return 0;
+        }
+
+        return subjectAverages.Average();
+    }
+
+    #endregion
 }

@@ -81,14 +81,14 @@
         return name.Substring(0, maxLength) + "...";
     }
 
+    #region Averages
+
     private async Task CalculateEducationAverage()
     {
         // var grades
         await _gradeRepository.GetBySubjectIdsAsync(Education.Subjects.Select(s => s.Id).ToList());
         _educationAverage = CalculateEducationAverage(Education.Subjects);
     }
-
-    #region Averages
 
     private decimal CalculateWeightedAverage(ICollection<Grade> grades)
     {

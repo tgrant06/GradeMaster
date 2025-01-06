@@ -58,6 +58,6 @@ public class GradeRepository : IGradeRepository
 
     public async Task<List<Grade>> GetBySubjectIdsAsync(List<int> id)
     {
-        return await _context.Grades.Where(g => id.Contains(g.Subject.Id)).ToListAsync();
+        return await _context.Grades.Where(g => id.Contains(g.Subject.Id)).Include(g => g.Weight).ToListAsync();
     }
 }
