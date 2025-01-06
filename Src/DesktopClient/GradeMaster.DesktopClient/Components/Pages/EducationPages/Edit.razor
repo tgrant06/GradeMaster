@@ -1,7 +1,35 @@
 ﻿@page "/educations/{Id:int}/edit"
 
-<h3>Edit Education</h3>
+<TopPageHeader>Edit Education</TopPageHeader>
+
+<EducationForm Education="_education" OnSave="HandleSave" />
+
+<Toasts class="p-3" Placement="ToastsPlacement.TopRight" StackLength="1" AutoHide="true" />
 
 @code {
     [Parameter] public int Id { get; set; }
+
+    [Inject] private IEducationRepository _educationRepository { get; set; }
+    [Inject] ToastService ToastService { get; set; } = default!;
+
+    private Education _education = new Education();
+
+    protected override async Task OnInitializedAsync()
+    {
+        _education = await _educationRepository.GetByIdAsync(Id);
+    }
+
+    private async Task HandleSave(Education education)
+    {
+        try
+        {
+            _educationRepository.UpdateAsync(education.Id, education);
+            ToastService.Notify(new ToastMessage(ToastType.Success, $"Education saved successfully."));
+        }
+        catch (Exception e)
+        {
+            ToastService.Notify(new ToastMessage(ToastType.Danger, $"Education could not be saved."));
+        }
+        
+    }
 }

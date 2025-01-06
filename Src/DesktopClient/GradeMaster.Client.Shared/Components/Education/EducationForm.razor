@@ -1,0 +1,115 @@
+﻿<h3>@FormTitle</h3>
+
+<EditForm Model="Education" OnValidSubmit="HandleValidSubmit">
+    <Card>
+        <CardBody>
+            <!-- Name Field -->
+            <div class="mb-3">
+                <Label for="educationName">Education Name</Label>
+                <InputText @bind-Value="Education.Name" Id="educationName" class="form-control" Placeholder="Enter the education name" />
+                <ValidationMessage For="@(() => Education.Name)" />
+            </div>
+
+            <!-- Institution Field -->
+            <div class="mb-3">
+                <Label for="institutionName">Institution</Label>
+                <InputText @bind-Value="Education.Institution" Id="institutionName" class="form-control" Placeholder="Enter the institution name" />
+                <ValidationMessage For="@(() => Education.Institution)" />
+            </div>
+
+            <!-- Start Date Field -->
+            <div class="mb-3">
+                <Label for="startDate">Start Date</Label>
+                <InputDate @bind-Value="Education.StartDate" Id="startDate" class="form-control" />
+                <ValidationMessage For="@(() => Education.StartDate)" />
+            </div>
+
+            <!-- End Date Field -->
+            <div class="mb-3">
+                <Label for="endDate">End Date</Label>
+                <InputDate @bind-Value="Education.EndDate" Id="endDate" class="form-control" />
+                <ValidationMessage For="@(() => Education.EndDate)" />
+            </div>
+
+            <!-- Total Semesters Field -->
+            <div class="mb-3">
+                <Label for="totalSemesters">Total Semesters</Label>
+                <InputNumber @bind-Value="Education.Semesters" Id="totalSemesters" class="form-control" Placeholder="Enter the total semesters" />
+                <ValidationMessage For="@(() => Education.Semesters)" />
+            </div>
+
+            <!-- Completion State Field -->
+            <div class="mb-3">
+                <Label for="completionState">Completion State</Label>
+                <div class="form-check">
+                    <InputCheckbox @bind-Value="Education.Completed" Id="completionState" class="form-check-input" />
+                    <Label class="form-check-label" for="completionState">
+                        @(Education.Completed ? "Completed" : "In Progress")
+                    </Label>
+                </div>
+                <ValidationMessage For="@(() => Education.Completed)" />
+            </div>
+
+            <!-- Description Field -->
+            <div class="mb-3">
+                <Label for="description">Description</Label>
+                <InputTextArea @bind-Value="Education.Description" Id="description" class="form-control" Rows="3" Placeholder="Enter a description" />
+                <ValidationMessage For="@(() => Education.Description)" />
+            </div>
+        </CardBody>
+
+        <CardFooter>
+            <Button Type="ButtonType.Submit" Color="ButtonColor.Primary">Save</Button>
+            <Button Type="ButtonType.Button" Color="ButtonColor.Secondary" OnClick="Cancel">Cancel</Button>
+        </CardFooter>
+    </Card>
+</EditForm>
+
+@code {
+    [Parameter] public Education? Education { get; set; }
+    [Parameter] public EventCallback<Education> OnSave { get; set; }
+
+    [Inject] private IJSRuntime JSRuntime { get; set; }
+    [Inject] private NavigationManager Navigation { get; set; }
+
+    private string FormTitle { get; set; } = "Education Form";
+
+    protected override void OnInitialized()
+    {
+        if (Education == null)
+        {
+            // Initialize Education for creation
+            Education = new Education
+            {
+                StartDate = DateTime.Today,
+                EndDate = DateTime.Today.AddYears(1),
+                Semesters = 2,
+                Completed = false
+            };
+
+            FormTitle = "Create New Education";
+        }
+        else
+        {
+            FormTitle = "Edit Education";
+        }
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        if (OnSave.HasDelegate)
+        {
+            await OnSave.InvokeAsync(Education);
+        }
+        else
+        {
+            // Optional fallback logic
+            await JSRuntime.InvokeVoidAsync("window.history.back");
+        }
+    }
+
+    private async Task Cancel()
+    {
+        await JSRuntime.InvokeVoidAsync("window.history.back");
+    }
+}

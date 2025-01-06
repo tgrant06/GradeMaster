@@ -8,7 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Components\Education\" />
     <Folder Include="Components\Grade\" />
     <Folder Include="Components\Subject\" />
   </ItemGroup>
