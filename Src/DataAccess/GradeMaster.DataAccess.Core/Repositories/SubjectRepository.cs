@@ -61,6 +61,6 @@ public class SubjectRepository : ISubjectRepository
 
     public async Task<List<Subject>> GetByEducationIdAsync(int id)
     {
-        return await _context.Subjects.Where(s => s.EducationId == id).Include(s => s.Grades).ToListAsync();
+        return await _context.Subjects.Where(s => s.EducationId == id).Include(s => s.Grades).ThenInclude(g => g.Weight).ToListAsync();
     }
 }
