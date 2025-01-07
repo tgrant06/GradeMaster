@@ -4,15 +4,17 @@
 
 <EducationForm Education="_education" OnSave="HandleSave" />
 
-<Toasts class="p-3" Placement="ToastsPlacement.TopRight" StackLength="1" AutoHide="true" />
 
 @code {
     [Parameter] public int Id { get; set; }
 
     [Inject] private IEducationRepository _educationRepository { get; set; }
-    [Inject] ToastService ToastService { get; set; } = default!;
 
-    private Education _education = new Education();
+    [Inject] protected ToastService ToastService { get; set; } = default!;
+    // [Inject] private NavigationManager Navigation { get; set; }
+    [Inject] private IJSRuntime JSRuntime { get; set; }
+
+    private Education _education = new();
 
     protected override async Task OnInitializedAsync()
     {
@@ -25,6 +27,7 @@
         {
             _educationRepository.UpdateAsync(education.Id, education);
             ToastService.Notify(new ToastMessage(ToastType.Success, $"Education saved successfully."));
+            await JSRuntime.InvokeVoidAsync("window.history.back");
         }
         catch (Exception e)
         {

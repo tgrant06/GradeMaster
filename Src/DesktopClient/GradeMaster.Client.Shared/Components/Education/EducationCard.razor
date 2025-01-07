@@ -138,7 +138,7 @@
 
     private ConfirmDialog _dialog = default!;
 
-    [Inject] ToastService ToastService { get; set; } = default!;
+    [Inject] protected ToastService ToastService { get; set; } = default!;
 
     private async Task DeleteEducationAsync()
     {

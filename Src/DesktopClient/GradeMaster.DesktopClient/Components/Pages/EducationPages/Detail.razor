@@ -63,17 +63,18 @@
         </CardBody>
     </Card>
 </div>
-<div style="position: fixed; bottom: 16px; left: calc(250px + 16px); z-index: 1000">
-    <Button Color="ButtonColor.Primary" @onclick="GoBack" Size="ButtonSize.Medium">
+<div style="position: fixed; bottom: 16px; z-index: 1000">
+    <Button Color="ButtonColor.Primary" @onclick="GoBack" Size="ButtonSize.Large">
         <Icon Name="IconName.ArrowLeft"/> Back
     </Button>
 </div>
-<div style="position: fixed; bottom: 16px; right: 16px; z-index: 1000">
-    <Button Color="ButtonColor.Success" @onclick="EditEducation" Size="ButtonSize.Medium">
+<div style="position: fixed; bottom: 16px; right: 28px; z-index: 1000">
+    <Button Color="ButtonColor.Success" @onclick="EditEducation" Size="ButtonSize.Large" >
         Edit <Icon Name="IconName.PencilSquare"/>
     </Button>
 </div>
 
+<Toasts class="p-3" Placement="ToastsPlacement.TopRight" StackLength="2" AutoHide="true" />
 
 @code {
     [Parameter] public int Id { get; set; }
@@ -82,6 +83,7 @@
     [Inject] private IGradeRepository _gradeRepository { get; set; }
     [Inject] private ISubjectRepository _subjectRepository { get; set; }
 
+    [Inject] protected ToastService ToastService { get; set; } = default!;
     [Inject] private NavigationManager Navigation { get; set; }
     [Inject] private IJSRuntime JSRuntime { get; set; }
 

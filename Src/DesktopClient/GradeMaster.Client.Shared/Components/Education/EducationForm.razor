@@ -53,7 +53,7 @@
             <!-- Description Field -->
             <div class="mb-3">
                 <Label for="description">Description</Label>
-                <InputTextArea @bind-Value="Education.Description" Id="description" class="form-control" Rows="3" Placeholder="Enter a description" />
+                <InputTextArea @bind-Value="Education.Description" Id="description" class="form-control" Rows="4" Placeholder="Enter a description" />
                 <ValidationMessage For="@(() => Education.Description)" />
             </div>
         </CardBody>
@@ -104,6 +104,7 @@
         else
         {
             // Optional fallback logic
+            // show error
             await JSRuntime.InvokeVoidAsync("window.history.back");
         }
     }
