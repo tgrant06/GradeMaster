@@ -64,12 +64,12 @@
     </Card>
 </div>
 <div style="position: fixed; bottom: 16px; z-index: 1000">
-    <Button Color="ButtonColor.Primary" @onclick="GoBack" Size="ButtonSize.Large">
+    <Button Color="ButtonColor.Primary" @onclick="GoBack" Size="ButtonSize.Large" Style="padding-top: 3px; padding-bottom: 4px; padding-left: 11px; padding-right: 11px;">
         <Icon Name="IconName.ArrowLeft"/> Back
     </Button>
 </div>
 <div style="position: fixed; bottom: 16px; right: 28px; z-index: 1000">
-    <Button Color="ButtonColor.Success" @onclick="EditEducation" Size="ButtonSize.Large" >
+    <Button Color="ButtonColor.Success" @onclick="EditEducation" Size="ButtonSize.Large" Style="padding-top: 3px; padding-bottom: 4px; padding-left: 11px; padding-right: 11px;">
         Edit <Icon Name="IconName.PencilSquare"/>
     </Button>
 </div>
@@ -157,4 +157,5 @@
     }
 
     #endregion
+
 }
