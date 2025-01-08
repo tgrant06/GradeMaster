@@ -16,6 +16,7 @@ public class SubjectConfiguration : IEntityTypeConfiguration<Subject>
         builder.Property(s => s.Name).HasColumnName("Name").IsUnicode().HasMaxLength(255).IsRequired();
         builder.Property(s => s.Description).HasColumnName("Description").IsUnicode().HasMaxLength(2500).IsRequired(false);
         builder.Property(s => s.Semester).HasColumnName("Semester").IsRequired();
+        builder.Property(s => s.Completed).HasColumnName("Completed").IsRequired();
 
         builder.HasOne(s => s.Education).WithMany(e => e.Subjects).HasForeignKey(s => s.EducationId).OnDelete(DeleteBehavior.Cascade).IsRequired();
 

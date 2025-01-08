@@ -14,6 +14,8 @@ public class Subject
     [Required]
     public int Semester { get; set; }
 
+    [Required]
+    public bool Completed { get; set; }
     // teacher? add Entity people, persons , teachers, students... users?
 
     [Required]

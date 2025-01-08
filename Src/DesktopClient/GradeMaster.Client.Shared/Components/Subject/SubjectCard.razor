@@ -27,12 +27,12 @@
         <CardText Class="border-bottom" Style="padding-bottom: 11px; margin-bottom: 11px;">
             <b>Semester: </b> @Subject.Semester of @Subject.Education.Semesters
         </CardText>
-@*         <CardText Class="border-bottom" Style="padding-bottom: 11px; margin-bottom: 11px;">
+        <CardText Class="border-bottom" Style="padding-bottom: 11px; margin-bottom: 11px;">
             <b>Completion State:</b>
-            <Badge Color="@(Education.Completed ? BadgeColor.Success : BadgeColor.Warning)" IndicatorType="BadgeIndicatorType.RoundedPill">
-                @(Education.Completed ? "Completed" : "In Progress")
+            <Badge Color="@(Subject.Completed ? BadgeColor.Success : BadgeColor.Warning)" IndicatorType="BadgeIndicatorType.RoundedPill">
+                @(Subject.Completed ? "Completed" : "In Progress")
             </Badge>
-        </CardText> *@
+        </CardText>
         <CardText>
             <b>Grade Amount:</b> @Subject.Grades.Count()
         </CardText>
