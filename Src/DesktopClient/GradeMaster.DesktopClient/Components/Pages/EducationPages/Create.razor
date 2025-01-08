@@ -23,7 +23,7 @@
         try
         {
             await _educationRepository.AddAsync(education);
-            ToastService.Notify(new ToastMessage(ToastType.Success, $"Education saved successfully."));
+            ToastService.Notify(new ToastMessage(ToastType.Success, $"Education created and saved successfully."));
             await JSRuntime.InvokeVoidAsync("window.history.back");
         }
         catch (Exception e)
