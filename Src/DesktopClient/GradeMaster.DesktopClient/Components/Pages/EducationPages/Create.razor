@@ -1,7 +1,35 @@
 ﻿@page "/educations/create"
 
-<h3>Create Education</h3>
+<TopPageHeader>New Education</TopPageHeader>
+
+<EducationForm OnSave="HandleSave" FormType="FormType.Create" />
 
 @code {
+    [Inject] private IEducationRepository _educationRepository { get; set; }
 
+    [Inject] protected ToastService ToastService { get; set; } = default!;
+    // [Inject] private NavigationManager Navigation { get; set; }
+    [Inject] private IJSRuntime JSRuntime { get; set; }
+
+    //private Education _education = new();
+
+    // protected override async Task OnInitializedAsync()
+    // {
+    //     _education = await _educationRepository.GetByIdAsync(Id);
+    // }
+
+    private async Task HandleSave(Education education)
+    {
+        try
+        {
+            await _educationRepository.AddAsync(education);
+            ToastService.Notify(new ToastMessage(ToastType.Success, $"Education saved successfully."));
+            await JSRuntime.InvokeVoidAsync("window.history.back");
+        }
+        catch (Exception e)
+        {
+            ToastService.Notify(new ToastMessage(ToastType.Danger, $"Education could not be saved."));
+        }
+
+    }
 }

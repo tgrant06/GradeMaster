@@ -1,7 +1,12 @@
 ﻿<div class="border-top" style="width: 100%; max-width: 1000px; margin-top: 15px"></div>
-
-<h4 style="margin-bottom: 25px; margin-top: 10px;">@FormTitle: @Education.Name</h4>
-
+@if (FormType == FormType.Edit)
+{
+    <h4 style="margin-bottom: 25px; margin-top: 10px;">@FormTitle: @Education.Name</h4>
+}
+else
+{
+    <div style="margin-top: 25px;"></div>
+}
 <EditForm OnValidSubmit="HandleValidSubmit" OnInvalidSubmit="HandleInvalidSubmit" EditContext="_editContext">
     <DataAnnotationsValidator/>
     <Card Style="max-width: 1000px; border: none;">
@@ -20,9 +25,9 @@
         <!-- Institution Field -->
         <div class="form-group row mb-3">
             <label class="col-md-2 col-form-label nowrap" for="institutionName">Institution:</label>
-        <div class="col-md-10">
-            <InputText @bind-Value="NewEducation.Institution" Id="institutionName" class="form-control" Placeholder="Enter the institution name"/>
-            @* <ValidationMessage For="@(() => NewEducation.Institution)"/> *@
+            <div class="col-md-10">
+                <InputText @bind-Value="NewEducation.Institution" Id="institutionName" class="form-control" Placeholder="Enter the institution name"/>
+                @* <ValidationMessage For="@(() => NewEducation.Institution)"/> *@
             </div>
         </div>
 
@@ -30,7 +35,7 @@
         <div class="mb-3 d-flex align-items-center" style="gap: 4px;">
             <!-- Start Date -->
             <label class="col-md-2 col-form-label nowrap"></label>
-            
+
             <div style="display: flex; flex-direction: column; align-items: start;">
                 <label for="startDate">
                     <strong>Start Date: <span class="text-danger">*</span></strong>
@@ -65,34 +70,34 @@
                 <label class="col-form-label nowrap" for="totalSemesters">
                     <strong>Total Semesters: <span class="text-danger">*</span></strong>
                 </label>
-            <NumberInput TValue="int"  @bind-Value="NewEducation.Semesters" EnableMinMax="true" Max="256" Min="1" Id="totalSemesters" class="form-control" Placeholder="Enter total semesters" style="width: 155px;"/>
-            <ValidationMessage For="@(() => NewEducation.Semesters)"/>
+                <NumberInput TValue="int" @bind-Value="NewEducation.Semesters" EnableMinMax="true" Max="256" Min="1" Id="totalSemesters" class="form-control" Placeholder="Enter total semesters" style="width: 155px;"/>
+                <ValidationMessage For="@(() => NewEducation.Semesters)"/>
             </div>
         </div>
 
         <!-- Completion State Field -->
         <div class="form-group row mb-3">
             <label class="col-md-2 col-form-label nowrap"></label>
-        <div class="col-md-10">
-            <label class="col-form-label nowrap" for="completionState">
-                <strong>Completion State: <span class="text-danger">*</span></strong>
-            </label>
-            <div class="form-check">
-                <InputCheckbox @bind-Value="NewEducation.Completed" Id="completionState" class="form-check-input"/>
-                <Label class="form-check-label" for="completionState">
-                    @(NewEducation.Completed ? "Completed" : "In Progress")
-                </Label>
+            <div class="col-md-10">
+                <label class="col-form-label nowrap" for="completionState">
+                    <strong>Completion State: <span class="text-danger">*</span></strong>
+                </label>
+                <div class="form-check">
+                    <InputCheckbox @bind-Value="NewEducation.Completed" Id="completionState" class="form-check-input"/>
+                    <Label class="form-check-label" for="completionState">
+                        @(NewEducation.Completed ? "Completed" : "In Progress")
+                    </Label>
+                </div>
+                <ValidationMessage For="@(() => NewEducation.Completed)"/>
             </div>
-            <ValidationMessage For="@(() => NewEducation.Completed)"/>
-        </div>
         </div>
 
         <!-- Description Field -->
         <div class="form-group row mb-3">
             <label class="col-md-2 col-form-label nowrap" for="description">Description:</label>
-        <div class="col-md-10">
-            <InputTextArea @bind-Value="NewEducation.Description" Id="description" class="form-control" Rows="4" Placeholder="Enter a description" style="max-height: 256px"/>
-            @* <ValidationMessage For="@(() => NewEducation.Description)"/> *@
+            <div class="col-md-10">
+                <InputTextArea @bind-Value="NewEducation.Description" Id="description" class="form-control" Rows="4" Placeholder="Enter a description" style="max-height: 256px"/>
+                @* <ValidationMessage For="@(() => NewEducation.Description)"/> *@
             </div>
         </div>
 
@@ -101,24 +106,23 @@
             <Button Type="ButtonType.Submit" Color="ButtonColor.Primary" Style="">Save</Button>
             <Button Type="ButtonType.Button" Color="ButtonColor.Secondary" @onclick="Cancel">Cancel</Button>
         </div> *@
-        
+
         <div class="border-top" style="width: 100%; margin-top: 15px"></div>
 
         <!-- Buttons -->
         <div class="d-flex justify-content-between my-3">
-            <Button Type="ButtonType.Button" Color="ButtonColor.Primary" @onclick="Cancel"><Icon Name="IconName.ArrowLeft" /> Cancel</Button>
-            <Button Type="ButtonType.Submit" Color="ButtonColor.Success">Save <Icon Name="IconName.Floppy" /></Button>
+            <Button Type="ButtonType.Button" Color="ButtonColor.Primary" @onclick="Cancel"><Icon Name="IconName.ArrowLeft"/> Cancel</Button>
+            <Button Type="ButtonType.Submit" Color="ButtonColor.Success">Save <Icon Name="IconName.Floppy"/></Button>
         </div>
     </Card>
 </EditForm>
 
 <style>
-    .nowrap {
-        white-space: nowrap;
-    }
+    .nowrap { white-space: nowrap; }
 </style>
 
 @code {
+    [Parameter] public FormType FormType { get; set; }
     [Parameter] public Education? Education { get; set; }
     [Parameter] public EventCallback<Education> OnSave { get; set; }
 
