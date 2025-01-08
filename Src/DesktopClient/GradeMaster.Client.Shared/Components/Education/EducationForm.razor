@@ -56,13 +56,6 @@ else
             </div>
         </div>
 
-        @* <!-- End Date Field -->
-            <div class="mb-3" style="width: 200px">
-                <Label for="endDate"><strong>End Date</strong></Label>
-                <InputDate @bind-Value="NewEducation.EndDate" Id="endDate" class="form-control" />
-                <ValidationMessage For="@(() => NewEducation.EndDate)" />
-            </div> *@
-
         <!-- Total Semesters Field -->
         <div class="form-group row mb-3">
             <label class="col-md-2 col-form-label nowrap"></label>
@@ -100,12 +93,6 @@ else
                 @* <ValidationMessage For="@(() => NewEducation.Description)"/> *@
             </div>
         </div>
-
-
-        @* <div>
-            <Button Type="ButtonType.Submit" Color="ButtonColor.Primary" Style="">Save</Button>
-            <Button Type="ButtonType.Button" Color="ButtonColor.Secondary" @onclick="Cancel">Cancel</Button>
-        </div> *@
 
         <div class="border-top" style="width: 100%; margin-top: 15px"></div>
 

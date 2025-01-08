@@ -12,7 +12,7 @@
     </CardBody>
     <CardBody Class="border-top">
         <CardText Class="border-bottom" Style="padding-bottom: 11px; margin-bottom: 11px;">
-            <b>Education Average: </b> 
+            <b>Education Average: </b>
             @if (_educationAverage < 4 && _educationAverage != 0)
             {
                 <Badge Color="BadgeColor.Danger" IndicatorType="BadgeIndicatorType.RoundedPill">
@@ -33,7 +33,6 @@
                 @(Education.Completed ? "Completed" : "In Progress")
             </Badge>
         </CardText>
-        @* <CardText Class="border-bottom" Style="padding-bottom: 11px; margin-bottom: 11px;"><b>Completion State:</b> @GetEducationState()</CardText> *@
         <CardText>
             <b>Subject Amount:</b> @Education.Subjects.Count()
         </CardText>
@@ -65,11 +64,6 @@
     {
         await CalculateEducationAverage();
     }
-
-    // private string GetEducationState()
-    // {
-    //     return Education.Completed == true ? "Completed" : "In Progress";
-    // }
 
     private string TruncateString(string name, int maxLength)
     {
@@ -127,7 +121,7 @@
     }
 
     #endregion
-    
+
     private Task EducationDetail()
     {
         Navigation.NavigateTo($"/educations/{Education.Id}");

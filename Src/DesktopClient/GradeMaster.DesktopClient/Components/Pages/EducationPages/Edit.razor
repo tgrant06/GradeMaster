@@ -11,6 +11,7 @@
     [Inject] private IEducationRepository _educationRepository { get; set; }
 
     [Inject] protected ToastService ToastService { get; set; } = default!;
+
     // [Inject] private NavigationManager Navigation { get; set; }
     [Inject] private IJSRuntime JSRuntime { get; set; }
 
@@ -33,6 +34,6 @@
         {
             ToastService.Notify(new ToastMessage(ToastType.Danger, $"Education could not be saved."));
         }
-        
     }
+
 }

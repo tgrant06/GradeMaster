@@ -18,16 +18,13 @@
         </Button>
     </div>
     <div class="col-1 col-md-1 mb-3 mt-4" style="width: 38px">
-            <Button Color="ButtonColor.Secondary" class="px-2" style="height: 38px; padding-top: 3px;" @onclick="LoadAllEducations">
-                <Icon Name="IconName.ArrowRepeat" Size="IconSize.x5"/>
-            </Button>
+        <Button Color="ButtonColor.Secondary" class="px-2" style="height: 38px; padding-top: 3px;" @onclick="LoadAllEducations">
+            <Icon Name="IconName.ArrowRepeat" Size="IconSize.x5"/>
+        </Button>
     </div>
-    @* <div class="col-12 col-lg-5 text-end ms-auto mb-3 mt-4">
-        <h3>Educations: @_filteredEducations.Count()</h3>
-    </div> *@
     <div class="col-4 col-md-4 text-end ms-auto mb-3 mt-4" style="width: 150px;">
         <Button Color="ButtonColor.Success" @onclick="CreateEducation" Size="ButtonSize.Medium" Style="height: 38px;">
-            New <Icon Name="IconName.PlusCircle" />
+            New <Icon Name="IconName.PlusCircle"/>
         </Button>
     </div>
 </div>
@@ -35,22 +32,10 @@
     <div class="education-grid py-4">
         @foreach (Education education in _filteredEducations)
         {
-            <EducationCard Education="@education" OnEducationDeleted="HandleEducationDeleted" />
+            <EducationCard Education="@education" OnEducationDeleted="HandleEducationDeleted"/>
         }
     </div>
 </div>
-@* <div style="position: fixed; bottom: 16px; right: 16px; z-index: 1000">
-    <Button Color="ButtonColor.Success" @onclick="CreateEducation" Size="ButtonSize.Medium" TooltipPlacement="TooltipPlacement.Left" TooltipTitle="New Education">
-        <Icon Name="IconName.PlusCircle" Size="IconSize.x4"/>
-    </Button>
-</div> *@
-
-@* <div style="position: fixed; bottom: 16px; right: 16px; z-index: 1000">
-    <Button Color="ButtonColor.Success" @onclick="CreateEducation" Size="ButtonSize.Large" TooltipPlacement="TooltipPlacement.Left" TooltipTitle="New Education">
-        <Icon Name="IconName.PlusCircle" Size="IconSize.x4" />
-    </Button>
-</div> *@
-
 
 @code {
     [Inject] private IEducationRepository _educationRepository { get; set; }
@@ -110,4 +95,5 @@
     {
         Navigation.NavigateTo("/educations/create");
     }
+
 }
