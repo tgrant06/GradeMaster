@@ -1,7 +1,98 @@
 ﻿@page "/subjects"
 
-<h1>Subjects</h1>
+<TopPageHeader>Subjects</TopPageHeader>
+
+<div class="row py-3 mx-0">
+    <!--had classes: bd-navbar sticky-top-->
+    <div class="col-8 col-md-8 px-0 mb-3" style="max-width: 400px">
+        <b>Search:</b>
+        <EditForm Model="_searchValue" OnValidSubmit="FilterSubjects">
+            <InputText class="form-control" placeholder="Search for Subject" @bind-Value="_searchValue" />
+        </EditForm>
+    </div>
+    <!--Add edit and detail button later-->
+    <div class="col-1 col-md-1 mb-3 mt-4" style="width: 38px; margin-right: 10px">
+        <Button Color="ButtonColor.Primary" class="px-2" style="height: 38px; padding-top: 3px;" @onclick="FilterSubjects">
+            @* <i class="bi bi-plus-circle" style="font-size: 20px"></i> *@
+            <Icon Name="IconName.Search" Size="IconSize.x5" />
+        </Button>
+    </div>
+    <div class="col-1 col-md-1 mb-3 mt-4" style="width: 38px">
+        <Button Color="ButtonColor.Secondary" class="px-2" style="height: 38px; padding-top: 3px;" @onclick="LoadAllSubjects">
+            <Icon Name="IconName.ArrowRepeat" Size="IconSize.x5" />
+        </Button>
+    </div>
+    <div class="col-4 col-md-4 text-end ms-auto mb-3 mt-4" style="width: 150px;">
+        <Button Color="ButtonColor.Success" @onclick="CreateSubject" Size="ButtonSize.Medium" Style="height: 38px;">
+            New <Icon Name="IconName.PlusCircle" />
+        </Button>
+    </div>
+</div>
+<div class="container align-content-center" style="margin-bottom: 25px;">
+    <div class="component-card-grid py-4">
+        @foreach (Subject subject in _filteredSubjects)
+        {
+            <SubjectCard Subject="@subject" OnSubjectDeleted="HandleSubjectDeleted" />
+        }
+    </div>
+</div>
 
 @code {
+    [Inject] private ISubjectRepository _subjectRepository { get; set; }
 
+    [Inject] private NavigationManager Navigation { get; set; }
+
+    private string _searchValue = String.Empty;
+
+    private List<Subject> _subjects = new();
+    private List<Subject> _filteredSubjects = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadSubjects();
+    }
+
+    private async Task LoadSubjects()
+    {
+        _subjects = await _subjectRepository.GetAllAsync();
+        _filteredSubjects = _subjects;
+    }
+
+    private async Task LoadAllSubjects()
+    {
+        _searchValue = String.Empty;
+        await LoadSubjects();
+    }
+
+    private void FilterSubjects()
+    {
+        if (string.IsNullOrWhiteSpace(_searchValue))
+        {
+            _filteredSubjects = _subjects;
+        }
+        else
+        {
+            _filteredSubjects = _subjects
+                .Where(subject =>
+                    subject.Name.Contains(_searchValue, StringComparison.OrdinalIgnoreCase) ||
+                    (subject.Description != null && subject.Description.Contains(_searchValue, StringComparison.OrdinalIgnoreCase)) ||
+                    subject.Semester.ToString().Contains(_searchValue, StringComparison.OrdinalIgnoreCase) ||
+                    subject.Education.Name.Contains(_searchValue, StringComparison.OrdinalIgnoreCase))
+                .ToList();
+        }
+    }
+
+    private void HandleSubjectDeleted(int subjectId)
+    {
+        var subject = _filteredSubjects.FirstOrDefault(s => s.Id == subjectId);
+        if (subject != null)
+        {
+            _filteredSubjects.Remove(subject);
+        }
+    }
+
+    private void CreateSubject()
+    {
+        Navigation.NavigateTo("/subjects/create");
+    }
 }

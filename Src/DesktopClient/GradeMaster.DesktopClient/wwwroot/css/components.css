@@ -1,5 +1,11 @@
 /* Global CSS-Document for razor components */
 
+.component-card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 1rem;
+}
+
 .topPageHeader {
 }
 

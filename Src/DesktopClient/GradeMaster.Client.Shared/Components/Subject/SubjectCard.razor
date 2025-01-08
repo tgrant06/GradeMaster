@@ -1,0 +1,144 @@
+﻿<Card Class="px-0 mx-3 my-3" Style="user-select: text; max-width: 100%;">
+    <CardHeader>
+        <CardTitle Style="padding-top: 6px">
+            <b>@Subject.Name</b>
+        </CardTitle>
+        <CardSubTitle Class="mb-2 text-muted">@TruncateString(Subject.Education.Name, 30)</CardSubTitle>
+    </CardHeader>
+    <CardBody>
+        <CardText>
+            <b>Description:</b> <br /> @TruncateString(String.IsNullOrEmpty(Subject.Description) ? "-" : Subject.Description, 200)
+        </CardText>
+    </CardBody>
+    <CardBody Class="border-top">
+        <CardText Class="border-bottom" Style="padding-bottom: 11px; margin-bottom: 11px;">
+            <b>Subject Average: </b>
+            @if (_subjectAverage < 4 && _subjectAverage != 0)
+            {
+                <Badge Color="BadgeColor.Danger" IndicatorType="BadgeIndicatorType.RoundedPill">
+                    @(_subjectAverage == 0 ? "N/A" : _subjectAverage.ToString("0.##"))
+                </Badge>
+            }
+            else
+            {
+                @(_subjectAverage == 0 ? "N/A" : _subjectAverage.ToString("0.##"))
+            }
+        </CardText>
+        <CardText Class="border-bottom" Style="padding-bottom: 11px; margin-bottom: 11px;">
+            <b>Semester: </b> @Subject.Semester of @Subject.Education.Semesters
+        </CardText>
+@*         <CardText Class="border-bottom" Style="padding-bottom: 11px; margin-bottom: 11px;">
+            <b>Completion State:</b>
+            <Badge Color="@(Education.Completed ? BadgeColor.Success : BadgeColor.Warning)" IndicatorType="BadgeIndicatorType.RoundedPill">
+                @(Education.Completed ? "Completed" : "In Progress")
+            </Badge>
+        </CardText> *@
+        <CardText>
+            <b>Grade Amount:</b> @Subject.Grades.Count()
+        </CardText>
+    </CardBody>
+    <CardFooter Style="text-align: end">
+        <Button Size="ButtonSize.Small" Color="ButtonColor.Primary" @onclick="SubjectDetail">
+            Detail <Icon Name="IconName.ArrowRight" Size="IconSize.x6" />
+        </Button>
+        <Button Size="ButtonSize.Small" Color="ButtonColor.Danger" Style="margin-left: 6px" TooltipTitle="Delete Subject" @onclick="DeleteSubjectAsync">
+            <Icon Name="IconName.Trash" Size="IconSize.x6" />
+        </Button>
+    </CardFooter>
+</Card>
+
+<ConfirmDialog @ref="_dialog" />
+
+@code {
+    [Parameter] public Subject Subject { get; set; }
+    [Parameter] public EventCallback<int> OnSubjectDeleted { get; set; }
+
+    [Inject] private IGradeRepository _gradeRepository { get; set; }
+    [Inject] private ISubjectRepository _subjectRepository { get; set; }
+    [Inject] private NavigationManager Navigation { get; set; }
+
+    private decimal _subjectAverage;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await CalculateSubjectAverage();
+    }
+
+    private string TruncateString(string name, int maxLength)
+    {
+        if (string.IsNullOrEmpty(name) || name.Length <= maxLength)
+        {
+            return name;
+        }
+
+        return name.Substring(0, maxLength) + "...";
+    }
+
+    #region Averages
+
+    private async Task CalculateSubjectAverage()
+    {
+        var grades = await _gradeRepository.GetBySubjectIdAsync(Subject.Id);
+        _subjectAverage = CalculateWeightedAverage(grades);
+    }
+
+    private decimal CalculateWeightedAverage(ICollection<Grade> grades)
+    {
+        if (grades == null || !grades.Any())
+        {
+            return 0;
+        }
+
+        decimal totalWeight = grades.Sum(g => g.Weight?.Value ?? 1); // Default weight to 1 if null
+        if (totalWeight == 0)
+        {
+            return 0;
+        }
+
+        decimal weightedSum = grades.Sum(g => g.Value * (g.Weight?.Value ?? 1)); // Default weight to 1 if null
+        return weightedSum / totalWeight;
+    }
+
+    #endregion
+
+    private void SubjectDetail()
+    {
+        Navigation.NavigateTo($"/subjects/{Subject.Id}");
+    }
+
+    #region Delete Subject
+
+    private ConfirmDialog _dialog = default!;
+
+    [Inject] protected ToastService ToastService { get; set; } = default!;
+
+    private async Task DeleteSubjectAsync()
+    {
+        var options = new ConfirmDialogOptions
+            {
+                YesButtonColor = ButtonColor.Danger,
+            };
+
+        var confirmation = await _dialog.ShowAsync(
+            title: "Are you sure you want to delete this Subject?",
+            message1: $"{Subject.Name} and all related objects will be deleted.",
+            message2: "Do you want to proceed?",
+            confirmDialogOptions: options);
+
+        if (confirmation)
+        {
+            try
+            {
+                _subjectRepository.DeleteByIdAsync(Subject.Id);
+                await OnSubjectDeleted.InvokeAsync(Subject.Id);
+                ToastService.Notify(new ToastMessage(ToastType.Success, $"Subject deleted successfully."));
+            }
+            catch (Exception e)
+            {
+                ToastService.Notify(new ToastMessage(ToastType.Danger, $"Error deleting subject: {e.Message}"));
+            }
+        }
+    }
+
+    #endregion
+}
