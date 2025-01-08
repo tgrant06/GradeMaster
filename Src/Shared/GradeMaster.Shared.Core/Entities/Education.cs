@@ -13,6 +13,7 @@ public class Education
 
     // length of Education in Semesters
     [Required]
+    [Range(1, int.MaxValue, ErrorMessage = "Semesters must be at least 1.")]
     public int Semesters { get; set; }
 
     [Required]

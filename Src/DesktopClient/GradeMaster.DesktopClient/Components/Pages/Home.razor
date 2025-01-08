@@ -11,10 +11,10 @@
         <b>Education: </b>
         <select class="form-select" style="min-width: 200px; max-width: 400px" aria-label="Default select example" name="selectFieldEducation" id="selectFieldEducation"
                 @bind="SelectedEducationId" @bind:event="onchange">
-            <option value="">Select Education</option>
+            <option value="" style="background-color: #eeeeee; border: solid 1px">Select Education</option>
             @foreach (var education in _educations)
             {
-                <option value="@education.Id">@education.Name</option>
+                <option value="@education.Id" style="background-color: #eeeeee">@education.Name</option>
             }
         </select>
     </div>
