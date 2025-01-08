@@ -12,7 +12,7 @@
     </div>
 
 <div class="py-2 px-2">
-    <Card Style="max-width: 800px">
+    <Card Style="max-width: 1000px">
         <CardBody>
             <CardText>
                 <b>Description:</b> <br /> @DescriptionString()
@@ -21,7 +21,7 @@
     </Card>
 </div>
 <div class="py-3 px-2" style="margin-bottom: 50px">
-    <Card Style="max-width: 800px">
+    <Card Style="max-width: 1000px">
         <CardBody>
             <div class="row row-cols-1 row-cols-sm-1 row-cols-md-1 row-cols-lg-2">
                 <!-- First Column -->
@@ -63,7 +63,7 @@
         </CardBody>
     </Card>
 </div>
-<div style="position: fixed; bottom: 16px; z-index: 1000">
+@* <div style="position: fixed; bottom: 16px; z-index: 1000">
     <Button Color="ButtonColor.Primary" @onclick="GoBack" Size="ButtonSize.Large" Style="padding-top: 3px; padding-bottom: 4px; padding-left: 11px; padding-right: 11px;">
         <Icon Name="IconName.ArrowLeft"/> Back
     </Button>
@@ -72,8 +72,19 @@
     <Button Color="ButtonColor.Success" @onclick="EditEducation" Size="ButtonSize.Large" Style="padding-top: 3px; padding-bottom: 4px; padding-left: 11px; padding-right: 11px;">
         Edit <Icon Name="IconName.PencilSquare"/>
     </Button>
-</div>
+</div> *@
 
+<div class="border-top" style="width: 100%; max-width: 1000px; margin-top: 15px"></div>
+
+<!-- Buttons -->
+<div class="d-flex justify-content-between my-3" style="width: 1000px">
+    <Button Color="ButtonColor.Primary" @onclick="GoBack" Size="ButtonSize.Large" Style="padding-top: 3px; padding-bottom: 4px; padding-left: 11px; padding-right: 11px;">
+        <Icon Name="IconName.ArrowLeft" /> Back
+    </Button>
+    <Button Color="ButtonColor.Success" @onclick="EditEducation" Size="ButtonSize.Large" Style="padding-top: 3px; padding-bottom: 4px; padding-left: 11px; padding-right: 11px;">
+        Edit <Icon Name="IconName.PencilSquare" />
+    </Button>
+</div>
 
 @code {
     [Parameter] public int Id { get; set; }

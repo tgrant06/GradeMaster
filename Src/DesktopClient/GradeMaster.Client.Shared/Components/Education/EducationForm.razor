@@ -1,4 +1,4 @@
-﻿<div class="border-top" style="width: 100%; margin-top: 15px"></div>
+﻿<div class="border-top" style="width: 100%; max-width: 1000px; margin-top: 15px"></div>
 
 <h4 style="margin-bottom: 25px; margin-top: 10px;">@FormTitle: @Education.Name</h4>
 
@@ -101,10 +101,13 @@
             <Button Type="ButtonType.Submit" Color="ButtonColor.Primary" Style="">Save</Button>
             <Button Type="ButtonType.Button" Color="ButtonColor.Secondary" @onclick="Cancel">Cancel</Button>
         </div> *@
+        
+        <div class="border-top" style="width: 100%; margin-top: 15px"></div>
+
         <!-- Buttons -->
         <div class="d-flex justify-content-between my-3">
-            <Button Type="ButtonType.Button" Color="ButtonColor.Secondary" @onclick="Cancel">Cancel</Button>
-            <Button Type="ButtonType.Submit" Color="ButtonColor.Primary">Save</Button>
+            <Button Type="ButtonType.Button" Color="ButtonColor.Primary" @onclick="Cancel"><Icon Name="IconName.ArrowLeft" /> Cancel</Button>
+            <Button Type="ButtonType.Submit" Color="ButtonColor.Success">Save <Icon Name="IconName.Floppy" /></Button>
         </div>
     </Card>
 </EditForm>
@@ -173,7 +176,7 @@
 
     private async Task Cancel()
     {
-        ToastService.Notify(new ToastMessage(ToastType.Info, $"Edit Action canceled."));
+        //ToastService.Notify(new ToastMessage(ToastType.Info, $"Edit Action canceled."));
         await JSRuntime.InvokeVoidAsync("window.history.back");
     }
 
