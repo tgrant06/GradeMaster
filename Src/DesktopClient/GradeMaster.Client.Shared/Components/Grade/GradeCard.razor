@@ -1,0 +1,108 @@
+﻿<Card Class="px-0 mx-3 my-3" Style="user-select: text; max-width: 100%;">
+    <CardHeader>
+        <CardTitle Style="padding-top: 6px">
+            @if (Grade.Value < 4)
+            {
+                <Badge Color="BadgeColor.Danger" IndicatorType="BadgeIndicatorType.RoundedPill">
+                    <b>@Grade.Value.ToString("0.##")</b>
+                </Badge>
+            }
+            else
+            {
+                <b>@Grade.Value.ToString("0.##")</b>
+            }
+        </CardTitle>
+        <CardSubTitle Class="mb-2 text-muted">Weight: @Grade.Weight.Name / @Grade.Weight.Value.ToString("0.00")</CardSubTitle>
+    </CardHeader>
+    <CardBody>
+        <CardText>
+            <b>Description:</b> <br /> @TruncateString(String.IsNullOrEmpty(Grade.Description) ? "-" : Grade.Description, 200)
+        </CardText>
+    </CardBody>
+    <CardBody Class="border-top">
+        <CardText Class="border-bottom" Style="padding-bottom: 11px; margin-bottom: 11px;">
+            <b>Education: </b> @Grade.Subject.Education.Name
+        </CardText>
+        <CardText Class="border-bottom" Style="padding-bottom: 11px; margin-bottom: 11px;">
+            <b>Subject: </b> @Grade.Subject.Name
+        </CardText>
+        <CardText Class="border-bottom" Style="padding-bottom: 11px; margin-bottom: 11px;">
+            <b>Created At: </b> @Grade.CreatedAt.ToShortDateString()
+        </CardText>
+    </CardBody>
+    <CardFooter Style="text-align: end">
+        <Button Size="ButtonSize.Small" Color="ButtonColor.Primary" @onclick="GradeDetail">
+            Detail <Icon Name="IconName.ArrowRight" Size="IconSize.x6" />
+        </Button>
+        <Button Size="ButtonSize.Small" Color="ButtonColor.Danger" Style="margin-left: 6px" TooltipTitle="Delete Subject" @onclick="DeleteGradeAsync">
+            <Icon Name="IconName.Trash" Size="IconSize.x6" />
+        </Button>
+    </CardFooter>
+</Card>
+
+<ConfirmDialog @ref="_dialog" />
+@code {
+    [Parameter] public Grade Grade { get; set; }
+    [Parameter] public EventCallback<int> OnGradeDeleted { get; set; }
+
+    [Inject] private IGradeRepository _gradeRepository { get; set; }
+    [Inject] private NavigationManager Navigation { get; set; }
+
+
+    protected override Task OnInitializedAsync()
+    {
+        return base.OnInitializedAsync();
+    }
+
+    private string TruncateString(string name, int maxLength)
+    {
+        if (string.IsNullOrEmpty(name) || name.Length <= maxLength)
+        {
+            return name;
+        }
+
+        return name.Substring(0, maxLength) + "...";
+    }
+
+
+    private void GradeDetail()
+    {
+        Navigation.NavigateTo($"/grades/{Grade.Id}");
+    }
+
+    #region Delete Grade
+
+    private ConfirmDialog _dialog = default!;
+
+    [Inject] protected ToastService ToastService { get; set; } = default!;
+
+    private async Task DeleteGradeAsync()
+    {
+        var options = new ConfirmDialogOptions
+            {
+                YesButtonColor = ButtonColor.Danger,
+            };
+
+        var confirmation = await _dialog.ShowAsync(
+            title: "Are you sure you want to delete this Grade?",
+            message1: $"Grade from: {Grade.Subject.Name} with value: {Grade.Value} and description: {Grade.Description} will be deleted.",
+            message2: "Do you want to proceed?",
+            confirmDialogOptions: options);
+
+        if (confirmation)
+        {
+            try
+            {
+                _gradeRepository.DeleteByIdAsync(Grade.Id);
+                await OnGradeDeleted.InvokeAsync(Grade.Id);
+                ToastService.Notify(new ToastMessage(ToastType.Success, $"Grade deleted successfully."));
+            }
+            catch (Exception e)
+            {
+                ToastService.Notify(new ToastMessage(ToastType.Danger, $"Error deleting grade: {e.Message}"));
+            }
+        }
+    }
+
+    #endregion
+}

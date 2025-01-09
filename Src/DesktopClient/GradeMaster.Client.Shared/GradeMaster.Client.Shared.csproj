@@ -8,10 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Components\Grade\" />
-  </ItemGroup>
-
-  <ItemGroup>
 	  <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="9.0.0" />
 	  <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="9.0.0" />
 	  <PackageReference Include="Blazor.Bootstrap" Version="3.2.0" />

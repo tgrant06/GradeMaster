@@ -1,7 +1,103 @@
 ﻿@page "/grades"
 
-<h1>Grades</h1>
+<TopPageHeader>Grades</TopPageHeader>
+
+<div class="row py-3 mx-0">
+    <!--had classes: bd-navbar sticky-top-->
+    <div class="col-8 col-md-8 px-0 mb-3" style="max-width: 400px">
+        <b>Search:</b>
+        <EditForm Model="_searchValue" OnValidSubmit="FilterGrades">
+            <InputText class="form-control" placeholder="Search for Subject" @bind-Value="_searchValue" />
+        </EditForm>
+    </div>
+    <!--Add edit and detail button later-->
+    <div class="col-1 col-md-1 mb-3 mt-4" style="width: 38px; margin-right: 10px">
+        <Button Color="ButtonColor.Primary" class="px-2" style="height: 38px; padding-top: 3px;" @onclick="FilterGrades">
+            @* <i class="bi bi-plus-circle" style="font-size: 20px"></i> *@
+            <Icon Name="IconName.Search" Size="IconSize.x5" />
+        </Button>
+    </div>
+    <div class="col-1 col-md-1 mb-3 mt-4" style="width: 38px">
+        <Button Color="ButtonColor.Secondary" class="px-2" style="height: 38px; padding-top: 3px;" @onclick="LoadAllGrades">
+            <Icon Name="IconName.ArrowRepeat" Size="IconSize.x5" />
+        </Button>
+    </div>
+    <div class="col-4 col-md-4 text-end ms-auto mb-3 mt-4" style="width: 150px;">
+        <Button Color="ButtonColor.Success" @onclick="CreateGrade" Size="ButtonSize.Medium" Style="height: 38px;">
+            New <Icon Name="IconName.PlusCircle" />
+        </Button>
+    </div>
+</div>
+<div class="container align-content-center" style="margin-bottom: 25px;">
+    <div class="component-card-grid py-4">
+        @foreach (Grade grade in _filteredGrades)
+        {
+            <GradeCard Grade="@grade" OnGradeDeleted="HandleGradeDeleted" />
+        }
+    </div>
+</div>
 
 @code {
+    [Inject] private IGradeRepository _gradeRepository { get; set; }
+    [Inject] private IEducationRepository _educationRepository { get; set; }
+    [Inject] private IWeightRepository _weightRepository { get; set; }
 
+    [Inject] private NavigationManager Navigation { get; set; }
+
+    private string _searchValue = String.Empty;
+
+    private List<Grade> _grades = new();
+    private List<Grade> _filteredGrades = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await _educationRepository.GetAllAsync();
+        await _weightRepository.GetAllAsync();
+        await LoadGrades();
+    }
+
+    private async Task LoadGrades()
+    {
+        _grades = await _gradeRepository.GetAllAsync();
+        _filteredGrades = _grades;
+    }
+
+    private async Task LoadAllGrades()
+    {
+        _searchValue = String.Empty;
+        await LoadGrades();
+    }
+
+    private void FilterGrades()
+    {
+        if (string.IsNullOrWhiteSpace(_searchValue))
+        {
+            _filteredGrades = _grades;
+        }
+        else
+        {
+            _filteredGrades = _grades
+                .Where(grade =>
+                    grade.Subject.Name.Contains(_searchValue, StringComparison.OrdinalIgnoreCase) ||
+                    (grade.Description != null && grade.Description.Contains(_searchValue, StringComparison.OrdinalIgnoreCase)) ||
+                    grade.Value.ToString().Contains(_searchValue, StringComparison.OrdinalIgnoreCase) ||
+                    grade.Subject.Education.Name.Contains(_searchValue, StringComparison.OrdinalIgnoreCase) ||
+                    grade.CreatedAt.ToString("yy-MM-dd").Contains(_searchValue, StringComparison.OrdinalIgnoreCase))
+                .ToList();
+        }
+    }
+
+    private void HandleGradeDeleted(int gradeId)
+    {
+        var grade = _filteredGrades.FirstOrDefault(g => g.Id == gradeId);
+        if (grade != null)
+        {
+            _filteredGrades.Remove(grade);
+        }
+    }
+
+    private void CreateGrade()
+    {
+        Navigation.NavigateTo("/grades/create");
+    }
 }
