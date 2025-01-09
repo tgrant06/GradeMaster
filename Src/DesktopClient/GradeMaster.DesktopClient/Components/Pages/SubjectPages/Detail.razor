@@ -1,7 +1,140 @@
 ﻿@page "/subjects/{Id:int}"
 
-<h3>Detail Subject</h3>
+<TopPageHeader Style="font-size: 28px; top: 10px">Detail Subject</TopPageHeader>
 
+<div class="border-top" style="width: 100%; max-width: 1000px; margin-top: 15px"></div>
+
+<div class="col-12 col-md-12 py-3 px-2">
+    <h2>
+        <b>@Subject.Name</b>
+    </h2>
+    <CardSubTitle Style="margin-top: 6px;">@Subject.Education.Name | @Subject.Education.StartDate.Year - @Subject.Education.EndDate.Year @(String.IsNullOrEmpty(Subject.Education.Institution) ? "" : "| " + Subject.Education.Institution.Split(",")[0])</CardSubTitle>
+</div>
+
+<div class="py-2 px-2">
+    <Card Style="max-width: 1000px">
+        <CardBody>
+            <CardText>
+                <b>Description:</b> <br /> @DescriptionString()
+            </CardText>
+        </CardBody>
+    </Card>
+</div>
+<div class="py-3 px-2" style="margin-bottom: 50px">
+    <Card Style="max-width: 1000px">
+        <CardBody>
+            <div class="row row-cols-1 row-cols-sm-1 row-cols-md-1 row-cols-lg-2">
+                <!-- First Column -->
+                <div class="col mb-3">
+                    <CardText Class="border-bottom" Style="padding-bottom: 20px; margin-bottom: 6px;">
+                        <strong>Subject Average: </strong>
+                        @if (_subjectAverage < 4 && _subjectAverage != 0)
+                        {
+                            <Badge Color="BadgeColor.Danger" IndicatorType="BadgeIndicatorType.RoundedPill">
+                                @(_subjectAverage == 0 ? "N/A" : _subjectAverage.ToString("0.##"))
+                            </Badge>
+                        }
+                        else
+                        {
+                            @(_subjectAverage == 0 ? "N/A" : _subjectAverage.ToString("0.##"))
+                        }
+                    </CardText>
+                </div>
+                <!-- Second Column -->
+                <div class="col mb-3">
+                    <CardText Class="border-bottom" Style="padding-bottom: 20px; margin-bottom: 6px;">
+                        <b>Semester:</b> @Subject.Semester
+                    </CardText>
+                </div>
+                <div class="col mb-3">
+                    <CardText Class="border-bottom" Style="padding-bottom: 20px; margin-bottom: 6px;">
+                        <b>Completion State:</b>
+                        <Badge Color="@(Subject.Completed ? BadgeColor.Success : BadgeColor.Warning)" IndicatorType="BadgeIndicatorType.RoundedPill">
+                            @(Subject.Completed ? "Completed" : "In Progress")
+                        </Badge>
+                    </CardText>
+                </div>
+                <div class="col mb-3">
+                    <CardText Class="border-bottom" Style="padding-bottom: 20px;">
+                        <b>Grade Amount:</b> @Subject.Grades.Count()
+                    </CardText>
+                </div>
+            </div>
+        </CardBody>
+    </Card>
+</div>
+
+<div class="border-top" style="width: 100%; max-width: 1000px; margin-top: 15px"></div>
+
+<!-- Buttons -->
+<div class="d-flex justify-content-between my-3" style="max-width: 1000px">
+    <Button Color="ButtonColor.Primary" @onclick="GoBack" Size="ButtonSize.Medium">
+        <Icon Name="IconName.ArrowLeft" /> Back
+    </Button>
+    <Button Color="ButtonColor.Success" @onclick="EditSubject" Size="ButtonSize.Medium">
+        Edit <Icon Name="IconName.PencilSquare" />
+    </Button>
+</div>
 @code {
     [Parameter] public int Id { get; set; }
+
+    [Inject] private IEducationRepository _educationRepository { get; set; }
+    [Inject] private IGradeRepository _gradeRepository { get; set; }
+    [Inject] private ISubjectRepository _subjectRepository { get; set; }
+
+    [Inject] protected ToastService ToastService { get; set; } = default!;
+    [Inject] private NavigationManager Navigation { get; set; }
+    [Inject] private IJSRuntime JSRuntime { get; set; }
+
+    public Subject Subject { get; set; }
+    private decimal _subjectAverage;
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Load the education details
+        Subject = await _subjectRepository.GetByIdAsync(Id);
+
+        // Calculate the average only after loading the education data
+        await CalculateSubjectAverage();
+    }
+
+    private string DescriptionString() => string.IsNullOrEmpty(Subject.Description) ? "-" : Subject.Description;
+
+    private async Task GoBack()
+    {
+        await JSRuntime.InvokeVoidAsync("window.history.back");
+    }
+
+    private void EditSubject()
+    {
+        Navigation.NavigateTo($"/subjects/{Subject.Id}/edit");
+    }
+
+    #region Averages
+
+    private async Task CalculateSubjectAverage()
+    {
+        var grades = await _gradeRepository.GetBySubjectIdAsync(Subject.Id);
+        _subjectAverage = CalculateWeightedAverage(grades);
+    }
+
+    private decimal CalculateWeightedAverage(ICollection<Grade> grades)
+    {
+        if (grades == null || !grades.Any())
+        {
+            return 0;
+        }
+
+        decimal totalWeight = grades.Sum(g => g.Weight?.Value ?? 1); // Default weight to 1 if null
+        if (totalWeight == 0)
+        {
+            return 0;
+        }
+
+        decimal weightedSum = grades.Sum(g => g.Value * (g.Weight?.Value ?? 1)); // Default weight to 1 if null
+        return weightedSum / totalWeight;
+    }
+
+    #endregion
+
 }

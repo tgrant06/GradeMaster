@@ -27,7 +27,7 @@ else
             <label class="col-md-2 col-form-label nowrap"><strong>Education: <span class="text-danger">*</span></strong></label>
             <div class="col-md-10">
                 <select class="form-select" style="max-width: 500px" aria-label="Default select example" name="selectFieldEducation" id="selectFieldEducation"
-                        @bind="SelectedEducationId">
+                @bind="SelectedEducationId">
                     <option value="0" style="background-color: #eeeeee; border: solid 1px">Select Education</option>
                     @foreach (var education in Educations)
                     {
@@ -37,18 +37,18 @@ else
                 <ValidationMessage For="@(() => NewSubject.Education)"/>
             </div>
         </div>
-        
+
         <!-- Total Semesters Field -->
         <div class="form-group row mb-3">
             <label class="col-md-2 col-form-label nowrap" for="semester">
                 <strong>Semester: <span class="text-danger">*</span></strong>
             </label>
             <div class="col-md-10">
-                <NumberInput TValue="int" @bind-Value="NewSubject.Semester" EnableMinMax="true" Max="256" Min="1" Id="semester" class="form-control" Placeholder="Enter total semesters" style="width: 155px;" />
+                <NumberInput TValue="int" @bind-Value="NewSubject.Semester" EnableMinMax="true" Max="@(GetMaxSemesterNumber())" Min="1" Id="semester" class="form-control" Placeholder="Enter total semesters" style="width: 155px;" />
                 <ValidationMessage For="@(() => NewSubject.Semester)" />
             </div>
         </div>
-        
+
         <!-- Completion State Field -->
         <div class="form-group row mb-3">
             <label class="col-md-2 col-form-label nowrap"></label>
@@ -116,6 +116,18 @@ else
                 NewSubject.Education = Educations.FirstOrDefault(e => e.Id == value);
             }
         }
+    }
+
+    private int GetMaxSemesterNumber()
+    {
+        var education = Educations.FirstOrDefault(e => e.Id == SelectedEducationId);
+
+        if (education == null)
+        {
+            return 256;
+        }
+        
+            return education.Semesters;
     }
 
     protected override async Task OnInitializedAsync()
