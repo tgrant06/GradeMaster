@@ -1,7 +1,30 @@
 ﻿@page "/subjects/create"
 
-<h3>Create Subject</h3>
+<TopPageHeader>New Education</TopPageHeader>
+
+<SubjectForm OnSave="HandleSave" FormType="FormType.Create" />
 
 @code {
+    [Inject] private ISubjectRepository _subjectRepository { get; set; }
+
+    [Inject] protected ToastService ToastService { get; set; } = default!;
+
+    // [Inject] private NavigationManager Navigation { get; set; }
+    [Inject] private IJSRuntime JSRuntime { get; set; }
+
+
+    private async Task HandleSave(Subject subject)
+    {
+        try
+        {
+            await _subjectRepository.AddAsync(subject);
+            ToastService.Notify(new ToastMessage(ToastType.Success, $"Subject created and saved successfully."));
+            await JSRuntime.InvokeVoidAsync("window.history.back");
+        }
+        catch (Exception e)
+        {
+            ToastService.Notify(new ToastMessage(ToastType.Danger, $"Subject could not be saved."));
+        }
+    }
 
 }

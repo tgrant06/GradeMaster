@@ -13,7 +13,7 @@ else
 
         <!-- Name Field -->
         <div class="form-group row mb-3">
-            <label class="col-md-2 col-form-label nowrap" for="educationName">
+            <label class="col-md-2 col-form-label nowrap" for="subjectName">
                 <strong>Name: <span class="text-danger">*</span></strong>
             </label>
             <div class="col-md-10">
@@ -22,65 +22,33 @@ else
             </div>
         </div>
 
-        @* <!-- Institution Field -->
-        <div class="form-group row mb-3">
-            <label class="col-md-2 col-form-label nowrap" for="institutionName">Institution:</label>
-            <div class="col-md-10">
-                <InputText @bind-Value="NewEducation.Institution" Id="institutionName" class="form-control" Placeholder="Enter the institution name"/>
-                @* <ValidationMessage For="@(() => NewEducation.Institution)"/> 
-            </div>
-        </div>
-
-        <!-- Start to End Date Fields -->
-        <div class="mb-3 d-flex align-items-center" style="gap: 4px;">
-            <!-- Start Date -->
-            <label class="col-md-2 col-form-label nowrap"></label>
-
-            <div style="display: flex; flex-direction: column; align-items: start;">
-                <label for="startDate">
-                    <strong>Start Date: <span class="text-danger">*</span></strong>
-                </label>
-                <InputDate @bind-Value="NewEducation.StartDate" Id="startDate" class="form-control" style="width: auto; max-width: 200px;"/>
-                @* <ValidationMessage For="@(() => NewEducation.StartDate)" /> 
-            </div>
-
-            <p style="margin-top: 35px; margin-right: 9px; margin-left: 9px; font-weight: bold;">-</p>
-
-            <!-- End Date -->
-            <div style="display: flex; flex-direction: column; align-items: start;">
-                <label for="endDate">
-                    <strong>End Date: <span class="text-danger">*</span></strong>
-                </label>
-                <InputDate @bind-Value="NewEducation.EndDate" Id="endDate" class="form-control" style="width: auto; max-width: 200px"/>
-                @* <ValidationMessage For="@(() => NewEducation.EndDate)" /> 
-            </div>
-        </div> *@
         <!-- Education Field -->
         <div class="form-group row mb-3">
-            <label class="col-form-label nowrap"><strong>Education: <span class="text-danger">*</span></strong></label>
-            <select class="form-select" style="min-width: 200px; max-width: 400px" aria-label="Default select example" name="selectFieldEducation" id="selectFieldEducation"
-                    @bind="SelectedEducationId">
-                <option value="" style="background-color: #eeeeee; border: solid 1px">Select Education</option>
-                @foreach (var education in Educations)
-                {
-                    <option value="@education.Id" style="background-color: #eeeeee">@education.Name</option>
-                }
-            </select>
-            <ValidationMessage For="@(() => NewSubject.Education)" />
-        </div>
-        <!-- Total Semesters Field -->
-        <div class="form-group row mb-3">
-            <label class="col-md-2 col-form-label nowrap"></label>
+            <label class="col-md-2 col-form-label nowrap"><strong>Education: <span class="text-danger">*</span></strong></label>
             <div class="col-md-10">
-                <label class="col-form-label nowrap" for="semester">
-                    <strong>Semester: <span class="text-danger">*</span></strong>
-                </label>
-                <NumberInput TValue="int" @bind-Value="NewSubject.Semester" EnableMinMax="true" Max="@NewSubject.Education.Semesters" Min="1" Id="semester" class="form-control" Placeholder="Enter total semesters" style="width: 155px;"/>
-                <ValidationMessage For="@(() => NewSubject.Semester)"/>
-                <!--Show message that -->
+                <select class="form-select" style="max-width: 500px" aria-label="Default select example" name="selectFieldEducation" id="selectFieldEducation"
+                        @bind="SelectedEducationId">
+                    <option value="0" style="background-color: #eeeeee; border: solid 1px">Select Education</option>
+                    @foreach (var education in Educations)
+                    {
+                        <option value="@education.Id" style="background-color: #eeeeee">@education.Name</option>
+                    }
+                </select>
+                <ValidationMessage For="@(() => NewSubject.Education)"/>
             </div>
         </div>
-
+        
+        <!-- Total Semesters Field -->
+        <div class="form-group row mb-3">
+            <label class="col-md-2 col-form-label nowrap" for="semester">
+                <strong>Semester: <span class="text-danger">*</span></strong>
+            </label>
+            <div class="col-md-10">
+                <NumberInput TValue="int" @bind-Value="NewSubject.Semester" EnableMinMax="true" Max="256" Min="1" Id="semester" class="form-control" Placeholder="Enter total semesters" style="width: 155px;" />
+                <ValidationMessage For="@(() => NewSubject.Semester)" />
+            </div>
+        </div>
+        
         <!-- Completion State Field -->
         <div class="form-group row mb-3">
             <label class="col-md-2 col-form-label nowrap"></label>
@@ -103,7 +71,6 @@ else
             <label class="col-md-2 col-form-label nowrap" for="description">Description:</label>
             <div class="col-md-10">
                 <InputTextArea @bind-Value="NewSubject.Description" Id="description" class="form-control" Rows="4" Placeholder="Enter a description" style="max-height: 256px"/>
-                @* <ValidationMessage For="@(() => NewEducation.Description)"/> *@
             </div>
         </div>
 
@@ -144,39 +111,64 @@ else
         get => NewSubject.Education?.Id ?? 0;
         set
         {
-            NewSubject.Education = Educations.FirstOrDefault(e => e.Id == value);
+            if (Educations != null)
+            {
+                NewSubject.Education = Educations.FirstOrDefault(e => e.Id == value);
+            }
         }
     }
 
     protected override async Task OnInitializedAsync()
     {
-        Educations = await _educationRepository.GetAllAsync();
-
-        if (Subject == null)
+        try
         {
-            // Initialize Education for creation
-            Subject = new Subject
+            Educations = await _educationRepository.GetAllAsync();
+
+            if (Educations == null || !Educations.Any())
+            {
+                throw new InvalidOperationException("No educations found.");
+            }
+
+            if (Subject == null)
+            {
+                // Initialize Education for creation
+                Subject = new Subject
                 {
-                    Semester = 1
+                    Completed = false,
+                    Semester = 1,
+                    Education = new Education()
                 };
 
-            FormTitle = "Create New Subject";
+                FormTitle = "Create New Subject";
+            }
+            else
+            {
+                FormTitle = "Edit Subject";
+            }
+
+            PassSubjectAttributes(NewSubject, Subject);
+
+            _editContext = new EditContext(NewSubject);
         }
-        else
+        catch (Exception ex)
         {
-            FormTitle = "Edit Subject";
+            Console.WriteLine($"Error during initialization: {ex.Message}");
+            throw;
         }
-
-        PassSubjectAttributes(NewSubject, Subject);
-
-        _editContext = new EditContext(NewSubject);
     }
 
     private async Task HandleValidSubmit()
     {
+        if (NewSubject.Education == null || NewSubject.Education.Id == 0)
+        {
+            ToastService.Notify(new ToastMessage(ToastType.Warning, "Please select a valid education."));
+            return;
+        }
+
         if (OnSave.HasDelegate)
         {
-            await OnSave.InvokeAsync(NewSubject);
+            PassSubjectAttributes(Subject, NewSubject);
+            await OnSave.InvokeAsync(Subject);
         }
         else
         {
@@ -202,7 +194,8 @@ else
         toSubject.Name = fromSubject.Name;
         toSubject.Description = fromSubject.Description;
         toSubject.Semester = fromSubject.Semester;
-        toSubject.Education = fromSubject.Education;
+        toSubject.Completed = fromSubject.Completed;
+        toSubject.Education = fromSubject.Education ?? new Education();
     }
 
     #endregion
