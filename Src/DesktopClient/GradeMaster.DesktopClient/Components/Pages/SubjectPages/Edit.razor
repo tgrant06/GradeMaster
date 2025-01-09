@@ -1,7 +1,39 @@
 ﻿@page "/subjects/{Id:int}/edit"
 
-<h3>Edit Subject</h3>
+<TopPageHeader>Edit Subject</TopPageHeader>
+
+<SubjectForm Subject="_subject" OnSave="HandleSave" FormType="FormType.Edit" />
+
 
 @code {
     [Parameter] public int Id { get; set; }
+
+    [Inject] private ISubjectRepository _subjectRepository { get; set; }
+
+    [Inject] protected ToastService ToastService { get; set; } = default!;
+
+    // [Inject] private NavigationManager Navigation { get; set; }
+    [Inject] private IJSRuntime JSRuntime { get; set; }
+
+    private Subject _subject = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        _subject = await _subjectRepository.GetByIdAsync(Id);
+    }
+
+    private async Task HandleSave(Subject subject)
+    {
+        try
+        {
+            _subjectRepository.UpdateAsync(subject.Id, subject);
+            ToastService.Notify(new ToastMessage(ToastType.Success, $"Subject updated and saved successfully."));
+            await JSRuntime.InvokeVoidAsync("window.history.back");
+        }
+        catch (Exception e)
+        {
+            ToastService.Notify(new ToastMessage(ToastType.Danger, $"Subject could not be saved."));
+        }
+    }
+
 }
