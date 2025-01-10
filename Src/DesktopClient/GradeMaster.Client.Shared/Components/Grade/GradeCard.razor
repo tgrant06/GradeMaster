@@ -34,7 +34,7 @@
         <Button Size="ButtonSize.Small" Color="ButtonColor.Primary" @onclick="GradeDetail">
             Detail <Icon Name="IconName.ArrowRight" Size="IconSize.x6" />
         </Button>
-        <Button Size="ButtonSize.Small" Color="ButtonColor.Danger" Style="margin-left: 6px" TooltipTitle="Delete Subject" @onclick="DeleteGradeAsync">
+        <Button Size="ButtonSize.Small" Color="ButtonColor.Danger" Style="margin-left: 6px" TooltipTitle="Delete Grade" @onclick="DeleteGradeAsync">
             <Icon Name="IconName.Trash" Size="IconSize.x6" />
         </Button>
     </CardFooter>
@@ -85,7 +85,7 @@
 
         var confirmation = await _dialog.ShowAsync(
             title: "Are you sure you want to delete this Grade?",
-            message1: $"Grade from: {Grade.Subject.Name} with value: {Grade.Value} and description: {Grade.Description} will be deleted.",
+            message1: $"Grade from: {Grade.Subject.Name} with value: {Grade.Value} and description: {TruncateString(Grade.Description ?? "-", 30)} will be deleted.",
             message2: "Do you want to proceed?",
             confirmDialogOptions: options);
 
