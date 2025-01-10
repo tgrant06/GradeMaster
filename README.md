@@ -19,14 +19,14 @@ To be continued...
 ### Win Client (discontinued and removed)
 - [WinUi 3](https://learn.microsoft.com/de-de/windows/apps/winui/winui3/) <br>
 
-### .NET Version: 8.0 & 9.0
+### .NET Version: 9.0
 
 ## Installation and Setup
 To be determined...
 
 ## Info
 ### Development State
-GradeMaster is currently in a very early developmental state. <br>
+GradeMaster is currently in a developmental state. <br>
 
 ### Supported Platforms
 The Desktop GUI Client is currently limited to Windows only. <br>
