@@ -1,7 +1,40 @@
 ﻿@page "/grades/{id:int}/edit"
 
-<h3>Edit Grade</h3>
+<TopPageHeader>Edit Subject</TopPageHeader>
+
+<GradeForm Grade="_grade" OnSave="HandleSave" FormType="FormType.Edit" />
+
+
 
 @code {
+    [Parameter] public int Id { get; set; }
+
+    [Inject] private IGradeRepository _gradeRepository { get; set; }
+
+    [Inject] protected ToastService ToastService { get; set; } = default!;
+
+    // [Inject] private NavigationManager Navigation { get; set; }
+    [Inject] private IJSRuntime JSRuntime { get; set; }
+
+    private Grade _grade = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        _grade = await _gradeRepository.GetByIdAsync(Id);
+    }
+
+    private async Task HandleSave(Grade grade)
+    {
+        try
+        {
+            _gradeRepository.UpdateAsync(grade.Id, grade);
+            ToastService.Notify(new ToastMessage(ToastType.Success, $"Grade updated and saved successfully."));
+            await JSRuntime.InvokeVoidAsync("window.history.back");
+        }
+        catch (Exception e)
+        {
+            ToastService.Notify(new ToastMessage(ToastType.Danger, $"Grade could not be saved."));
+        }
+    }
 
 }

@@ -14,7 +14,7 @@
             <option value="" style="background-color: #eeeeee; border: solid 1px">Select Education</option>
             @foreach (var education in _educations)
             {
-                <option value="@education.Id" style="background-color: #eeeeee">@education.Name</option>
+                <option value="@education.Id" style="background-color: #eeeeee">@TruncateString(education.Name, 50)</option>
             }
         </select>
     </div>
@@ -36,17 +36,18 @@
     </div>
 </div>
 
+<!--Enable paging for large data-->
 <div class="row py-4">
     <Grid TItem="Subject"
           Class="table table-hover"
-          Data="@_subjects"
+          Data="@_subjects.OrderBy(s => s.Name)"
           EmptyText="No records to display"
           HeaderRowCssClass="border-bottom-0"
           Responsive="true">
 
         <GridColumns>
             <GridColumn TItem="Subject" HeaderText="Subject" PropertyName="Name" Class="name-column">
-                @TruncateString(context.Name, 24)
+                @TruncateString(context.Name, 24) - @context.Semester
             </GridColumn>
             <GridColumn TItem="Subject" HeaderText="Grades" SortKeySelector="item => item.Grades != null ? item.Grades.Count : 0" Class="grades-column">
                 @if (context.Grades != null && context.Grades.Any())
@@ -66,7 +67,16 @@
                 <!--Later add detail navigation to every grade-->
             </GridColumn>
             <GridColumn TItem="Subject" HeaderText="Average" SortKeySelector="item => item.Grades != null ? item.Grades.Average(g => g.Value) : 0" HeaderTextAlignment="Alignment.End" TextAlignment="Alignment.Center" Class="average-grade-column">
-                <b>@GetAverageGrade(context.Grades)</b>
+                @if (CalculateWeightedAverage(context.Grades) < 4 && CalculateWeightedAverage(context.Grades) != 0)
+                {
+                    <Badge Color="BadgeColor.Danger" IndicatorType="BadgeIndicatorType.RoundedPill">
+                        <b>@GetAverageGrade(context.Grades)</b>
+                    </Badge>
+                }
+                else
+                {
+                    <b>@GetAverageGrade(context.Grades)</b>
+                }
             </GridColumn>
         </GridColumns>
     </Grid>

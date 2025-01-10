@@ -1,7 +1,7 @@
 ﻿<div class="border-top" style="width: 100%; max-width: 1000px; margin-top: 15px"></div>
 @if (FormType == FormType.Edit)
 {
-    <h4 style="margin-bottom: 25px; margin-top: 10px;">@FormTitle: @Subject.Name</h4>
+    <h4 style="margin-bottom: 25px; margin-top: 10px;">@FormTitle: @Subject.Name - @Subject.Semester</h4>
 }
 else
 {
@@ -28,10 +28,10 @@ else
             <div class="col-md-10">
                 <select class="form-select" style="max-width: 500px" aria-label="Default select example" name="selectFieldEducation" id="selectFieldEducation"
                 @bind="SelectedEducationId">
-                    <option value="0" style="background-color: #eeeeee; border: solid 1px">Select Education</option>
+                    <option value="0" class="truncate" style="background-color: #eeeeee; border: solid 1px">Select Education</option>
                     @foreach (var education in Educations)
                     {
-                        <option value="@education.Id" style="background-color: #eeeeee">@education.Name</option>
+                        <option value="@education.Id" class="truncate" style="background-color: #eeeeee;">@TruncateString(education.Name, 60)</option>
                     }
                 </select>
                 <ValidationMessage For="@(() => NewSubject.Education)"/>
@@ -86,6 +86,13 @@ else
 
 <style>
     .nowrap { white-space: nowrap; }
+
+    .truncate {
+        max-width: 500px; /* Adjust the width as needed */
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
 </style>
 @code {
     [Parameter] public FormType FormType { get; set; }
@@ -211,4 +218,14 @@ else
     }
 
     #endregion
+
+    private string TruncateString(string name, int maxLength)
+    {
+        if (string.IsNullOrEmpty(name) || name.Length <= maxLength)
+        {
+            return name;
+        }
+
+        return name.Substring(0, maxLength) + "...";
+    }
 }

@@ -30,7 +30,7 @@
 </div>
 <div class="container align-content-center" style="margin-bottom: 25px;">
     <div class="component-card-grid py-4">
-        @foreach (Education education in _filteredEducations)
+        @foreach (Education education in _filteredEducations.OrderByDescending(e => e.Id))
         {
             <EducationCard Education="@education" OnEducationDeleted="HandleEducationDeleted"/>
         }

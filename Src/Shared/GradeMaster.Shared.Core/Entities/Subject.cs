@@ -12,6 +12,7 @@ public class Subject
     public string? Description { get; set; }
 
     [Required]
+    [Range(1, int.MaxValue, ErrorMessage = "Semester must be at least 1.")]
     public int Semester { get; set; }
 
     [Required]
