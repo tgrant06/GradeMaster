@@ -3,7 +3,7 @@
         <CardTitle Style="padding-top: 6px">
             @if (Grade.Value < 4)
             {
-                <Badge Color="BadgeColor.Danger" IndicatorType="BadgeIndicatorType.RoundedPill">
+                <Badge Color="BadgeColor.Danger" IndicatorType="BadgeIndicatorType.RoundedPill" Style="font-size: initial">
                     <b>@Grade.Value.ToString("0.##")</b>
                 </Badge>
             }
@@ -27,7 +27,7 @@
             <b>Subject: </b> @Grade.Subject.Name - @Grade.Subject.Semester
         </CardText>
         <CardText>
-            <b>Created At: </b> @Grade.Date.ToShortDateString()
+            <b>Date: </b> @Grade.Date.ToShortDateString()
         </CardText>
     </CardBody>
     <CardFooter Style="text-align: end">

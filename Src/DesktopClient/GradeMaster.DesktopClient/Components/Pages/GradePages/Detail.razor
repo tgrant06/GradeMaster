@@ -9,7 +9,7 @@
         @if (Grade.Value < 4)
         {
            
-            <Badge Color="BadgeColor.Danger" IndicatorType="BadgeIndicatorType.RoundedPill" Style="font-weight: normal;">
+            <Badge Color="BadgeColor.Danger" Style="font-weight: normal;">
                 <b>@Grade.Value.ToString("0.##")</b>
             </Badge>
         }
@@ -64,7 +64,7 @@
                 </div>
                 <div class="col mb-3">
                     <CardText Class="border-bottom" Style="padding-bottom: 20px; margin-bottom: 6px;">
-                        <b>Created At:</b> @Grade.Date.ToShortDateString()
+                        <b>Date:</b> @Grade.Date.ToShortDateString()
                     </CardText>
                 </div>
                 <div class="col mb-3">
