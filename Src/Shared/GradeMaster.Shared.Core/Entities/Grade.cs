@@ -13,7 +13,7 @@ public class Grade
     public string? Description { get; set; }
 
     [Required]
-    public DateTime CreatedAt { get; set;}
+    public DateTime Date { get; set;}
     // change name to Date
 
     #region Relations

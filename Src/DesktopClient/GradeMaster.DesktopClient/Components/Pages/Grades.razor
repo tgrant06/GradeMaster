@@ -82,7 +82,7 @@
                     (grade.Description != null && grade.Description.Contains(_searchValue, StringComparison.OrdinalIgnoreCase)) ||
                     grade.Value.ToString().Contains(_searchValue, StringComparison.OrdinalIgnoreCase) ||
                     grade.Subject.Education.Name.Contains(_searchValue, StringComparison.OrdinalIgnoreCase) ||
-                    grade.CreatedAt.ToString("yy-MM-dd").Contains(_searchValue, StringComparison.OrdinalIgnoreCase))
+                    grade.Date.ToString("yy-MM-dd").Contains(_searchValue, StringComparison.OrdinalIgnoreCase))
                 .ToList();
         }
     }

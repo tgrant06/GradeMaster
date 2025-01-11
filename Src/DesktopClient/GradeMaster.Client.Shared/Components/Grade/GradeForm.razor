@@ -56,12 +56,12 @@ else
 
         <!-- Total Created At Field -->
         <div class="form-group row mb-3">
-            <label class="col-md-2 col-form-label nowrap" for="createdAt">
+            <label class="col-md-2 col-form-label nowrap" for="date">
                 <strong>Created At: <span class="text-danger">*</span></strong>
             </label>
             <div class="col-md-10">
-                <InputDate @bind-Value="NewGrade.CreatedAt" Id="createdAt" class="form-control" style="width: auto; max-width: 200px;" />
-                <ValidationMessage For="@(() => NewGrade.CreatedAt)" />
+                <InputDate @bind-Value="NewGrade.Date" Id="date" class="form-control" style="width: auto; max-width: 200px;" />
+                <ValidationMessage For="@(() => NewGrade.Date)" />
             </div>
         </div>
 
@@ -185,7 +185,7 @@ else
                 // Initialize Education for creation
                 Grade = new Grade
                     {
-                        CreatedAt = DateTime.Today,
+                        Date = DateTime.Today,
                         Weight = new Weight(),
                         Subject = new Subject()
                     };
@@ -260,7 +260,7 @@ else
     {
         toGrade.Value = fromGrade.Value;
         toGrade.Description = fromGrade.Description;
-        toGrade.CreatedAt = fromGrade.CreatedAt;
+        toGrade.Date = fromGrade.Date;
         toGrade.Weight = fromGrade.Weight ?? new Weight();
         toGrade.Subject = fromGrade.Subject ?? new Subject();
     }

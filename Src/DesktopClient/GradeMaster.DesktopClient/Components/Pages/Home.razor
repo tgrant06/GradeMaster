@@ -69,7 +69,7 @@
             <GridColumn TItem="Subject" HeaderText="Average" SortKeySelector="item => item.Grades != null ? item.Grades.Average(g => g.Value) : 0" HeaderTextAlignment="Alignment.End" TextAlignment="Alignment.Center" Class="average-grade-column">
                 @if (CalculateWeightedAverage(context.Grades) < 4 && CalculateWeightedAverage(context.Grades) != 0)
                 {
-                    <Badge Color="BadgeColor.Danger" IndicatorType="BadgeIndicatorType.RoundedPill">
+                    <Badge Color="BadgeColor.Danger" IndicatorType="BadgeIndicatorType.RoundedPill" Style="font-size: initial">
                         <b>@GetAverageGrade(context.Grades)</b>
                     </Badge>
                 }
