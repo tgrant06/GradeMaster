@@ -8,7 +8,8 @@ GradeMaster is a Desktop based grade management tool. It allows you to manage yo
 ### Desktop Client
 - [.Net MAUI](https://dotnet.microsoft.com/en-us/apps/maui)
 - [Blazor](https://dotnet.microsoft.com/en-us/apps/aspnet/web-apps/blazor)
-- [Blazor Bootstrap](https://demos.blazorbootstrap.com/) <br>
+- [Blazor Bootstrap](https://demos.blazorbootstrap.com/) 
+- [Bootstrap](https://getbootstrap.com/) <br>
 To be continued...
 
 ### Backend & Database
