@@ -10,12 +10,11 @@ GradeMaster is a Desktop based grade management tool. It allows you to manage yo
 - [Blazor](https://dotnet.microsoft.com/en-us/apps/aspnet/web-apps/blazor)
 - [Blazor Bootstrap](https://demos.blazorbootstrap.com/) 
 - [Bootstrap](https://getbootstrap.com/) <br>
-To be continued...
+
 
 ### Backend & Database
 - [Entity Framework Core](https://learn.microsoft.com/de-de/ef/core/) (Version: 9)
 - [SQLite](https://sqlite.org/) <br>
-To be continued...
 
 ### Win Client (discontinued and removed)
 - [WinUi 3](https://learn.microsoft.com/de-de/windows/apps/winui/winui3/) <br>
