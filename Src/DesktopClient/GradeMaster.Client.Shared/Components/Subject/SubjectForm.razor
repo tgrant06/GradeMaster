@@ -31,7 +31,7 @@ else
                     <option value="0" class="truncate" style="background-color: #eeeeee; border: solid 1px">Select Education</option>
                     @foreach (var education in Educations)
                     {
-                        <option value="@education.Id" class="truncate" style="background-color: #eeeeee;">@TruncateString(education.Name, 60)</option>
+                        <option value="@education.Id" class="truncate" style="background-color: #eeeeee;">@TruncateString(education.Name, 65)</option>
                     }
                 </select>
                 <ValidationMessage For="@(() => NewSubject.Education)"/>

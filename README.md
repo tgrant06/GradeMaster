@@ -1,8 +1,8 @@
 # GradeMaster
-###
+![GradeMaster Logo](Images/logo.png)
 
 ## About
-GradeMaster (formerly known as YourGT) is a Desktop based Grade Tracker.
+GradeMaster is a Desktop based grade management tool. It allows you to manage your educations, subjects and grades.
 
 ## Technologies Used
 ### Desktop Client
