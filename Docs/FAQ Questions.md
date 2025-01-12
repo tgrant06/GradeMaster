@@ -20,4 +20,7 @@
 - Where can I get info to GradeMaster?
     - You can go to the this repository: <a href="https://github.com/DevT06/GradeMaster" target="_blank">https://github.com/DevT06/GradeMaster</a>
 
+- Is there a dark mode for the App?
+    - There is no dark mode for GradeMaster as of this moment.
+    
 ## 
