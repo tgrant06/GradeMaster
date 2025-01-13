@@ -9,5 +9,5 @@ public interface IGradeRepository : IGenericEntityRepository<Grade>
 
     Task<List<Grade>> GetBySubjectIdAsync(int id);
 
-    Task<Grade> GetByIdDetailAsync(int id);
+    Task<Grade?> GetByIdDetailAsync(int id);
 }
