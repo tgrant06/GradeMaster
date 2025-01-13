@@ -56,6 +56,16 @@ public class EducationRepository : IEducationRepository
         }
     }
 
+    public Task<List<Education>> GetBySubjectIdsAsync(List<int> ids)
+    {
+        return null;
+    }
+
+    public async Task<Education?> GetBySubjectIdAsync(int subjectId)
+    {
+        return await _context.Educations.Where(e => e.Subjects.Any(s => s.Id == subjectId)) // Filter by Subject ID
+            .FirstOrDefaultAsync(); // Get the first matching Education, or null if none found;
+    }
     // Lambda expression
     //public void DeleteByIdAsync(int id) => throw new NotImplementedException();
 }
