@@ -28,10 +28,10 @@ else
             <div class="col-md-10">
                 <select class="form-select" style="max-width: 155px" aria-label="Default select example" name="selectFieldWeight" id="selectFieldWeight"
                         @bind="SelectedWeightId">
-                    <option value="0" style="background-color: #eeeeee; border: solid 1px">Select Weight</option>
+                    <option value="0" style="background-color: #eeeeee; color: black; border: solid 1px">Select Weight</option>
                     @foreach (var weight in Weights)
                     {
-                        <option value="@weight.Id" style="background-color: #eeeeee">@weight.Name / @weight.Value</option>
+                        <option value="@weight.Id" style="background-color: #eeeeee; color: black;">@weight.Name / @weight.Value</option>
                     }
                 </select>
                 <ValidationMessage For="@(() => NewGrade.Subject)"/>
@@ -44,10 +44,10 @@ else
             <div class="col-md-10">
                 <select class="form-select" style="max-width: 600px" aria-label="Default select example" name="selectFieldSubject" id="selectFieldSubject"
                 @bind="SelectedSubjectId">
-                    <option value="0" style="background-color: #eeeeee; border: solid 1px">Select Subject</option>
+                    <option value="0" style="background-color: #eeeeee; color: black; border: solid 1px">Select Subject</option>
                     @foreach (var subject in Subjects)
                     {
-                        <option value="@subject.Id" style="background-color: #eeeeee">@TruncateString(@subject.Name, 60) - @subject.Semester | @TruncateString(subject.Education.Name, 50)</option>
+                        <option value="@subject.Id" style="background-color: #eeeeee; color: black;">@TruncateString(@subject.Name, 60) - @subject.Semester | @TruncateString(subject.Education.Name, 50)</option>
                     }
                 </select>
                 <ValidationMessage For="@(() => NewGrade.Subject)"/>

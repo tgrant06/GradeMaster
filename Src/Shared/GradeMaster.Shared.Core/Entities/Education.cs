@@ -27,6 +27,7 @@ public class Education
     // public string Duration { get; set; } //start date and end date? optional
 
     // maybe implement duration / length?
+    // implement variable properties like average
 
     public string? Institution { get; set; } // optional
 

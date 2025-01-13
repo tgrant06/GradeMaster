@@ -96,3 +96,15 @@ h1:focus {
         padding-left: env(safe-area-inset-left);
     }
 }
+
+.btn-translucient {
+    background-color: rgba(0, 0, 0, 0.00)
+}
+
+    .btn-translucient:hover {
+        background-color: rgba(0, 0, 0, 0.20); 
+    }
+
+    .btn-translucient:hover:active {
+        background-color: rgba(0, 0, 0, 0.30)
+    }
