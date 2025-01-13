@@ -80,6 +80,7 @@
     private async Task CalculateEducationAverage()
     {
         // var grades
+        // get all grades outside of card to save queries? too many queries!?
         await _gradeRepository.GetBySubjectIdsAsync(Education.Subjects.Select(s => s.Id).ToList());
         _educationAverage = CalculateEducationAverage(Education.Subjects);
     }

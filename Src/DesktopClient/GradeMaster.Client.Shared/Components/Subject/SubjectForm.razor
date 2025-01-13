@@ -28,10 +28,10 @@ else
             <div class="col-md-10">
                 <select class="form-select" style="max-width: 500px" aria-label="Default select example" name="selectFieldEducation" id="selectFieldEducation"
                 @bind="SelectedEducationId">
-                    <option value="0" class="truncate" style="background-color: #eeeeee; border: solid 1px">Select Education</option>
+                    <option value="0" class="truncate" style="background-color: #eeeeee; color: black; border: solid 1px">Select Education</option>
                     @foreach (var education in Educations)
                     {
-                        <option value="@education.Id" class="truncate" style="background-color: #eeeeee;">@TruncateString(education.Name, 65)</option>
+                        <option value="@education.Id" class="truncate" style="background-color: #eeeeee; color: black;">@TruncateString(education.Name, 65)</option>
                     }
                 </select>
                 <ValidationMessage For="@(() => NewSubject.Education)"/>

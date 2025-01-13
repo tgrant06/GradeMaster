@@ -78,6 +78,7 @@
 
     private async Task CalculateSubjectAverage()
     {
+        // get all grades outside of card to save queries? too many queries!?
         var grades = await _gradeRepository.GetBySubjectIdAsync(Subject.Id);
         _subjectAverage = CalculateWeightedAverage(grades);
     }

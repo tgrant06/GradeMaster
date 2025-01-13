@@ -11,16 +11,16 @@
         <b>Education: </b>
         <select class="form-select" style="min-width: 200px; max-width: 400px" aria-label="Default select example" name="selectFieldEducation" id="selectFieldEducation"
                 @bind="SelectedEducationId" @bind:event="onchange">
-            <option value="" style="background-color: #eeeeee; border: solid 1px">Select Education</option>
+            <option value="" style="background-color: #eeeeee; color: black; border: solid 1px">Select Education</option>
             @foreach (var education in _educations)
             {
-                <option value="@education.Id" style="background-color: #eeeeee">@TruncateString(education.Name, 50)</option>
+                <option value="@education.Id" style="background-color: #eeeeee; color: black;">@TruncateString(education.Name, 50)</option>
             }
         </select>
     </div>
     <!--Add edit and detail button later-->
     <div class="col-1 col-md-1 mb-3 mt-4" style="width: 38px; margin-right: 10px;">
-        <Tooltip Title="New Education" Color="TooltipColor.Dark" Style="padding-top: 5px;">
+        <Tooltip Title="New Education" Style="padding-top: 5px;">
             <NavLink href="/educations/create" class="btn btn-primary px-2" style="height: 38px; padding-top: 3px;">
                 <Icon Name="IconName.PlusCircle" Size="IconSize.x5"/>
             </NavLink>
@@ -59,7 +59,7 @@
                 {
                     <span>No Grades </span>
                 }
-                <Tooltip Title="New Grade" Color="TooltipColor.Dark">
+                <Tooltip Title="New Grade">
                     <NavLink href="/grades/create" class="btn btn-secondary px-1" style="height: 28px; width: 28px; padding-top: 1px;">
                         <Icon Name="IconName.PlusCircle" Size="IconSize.x6"/>
                     </NavLink>
@@ -88,9 +88,6 @@
         </NavLink>
     }
 </div>
-
-<!--for loading initially-->
-<ThemeSwitcher Style="visibility: hidden;"/>
 
 <style>
     .name-column { width: 225px; }
