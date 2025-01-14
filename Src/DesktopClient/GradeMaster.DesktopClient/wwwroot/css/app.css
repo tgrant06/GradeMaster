@@ -10,6 +10,7 @@ html, body {
     font-family: 'Segoe UI', sans-serif;
     touch-action: none;
     -ms-content-zooming: none;
+    /*background-color: light-dark(#ffffff, #212529);*/
 }
 
 a, .btn-link {

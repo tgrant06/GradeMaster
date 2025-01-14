@@ -31,7 +31,7 @@ else
                     <option value="0" style="background-color: #eeeeee; color: black; border: solid 1px">Select Weight</option>
                     @foreach (var weight in Weights)
                     {
-                        <option value="@weight.Id" style="background-color: #eeeeee; color: black;">@weight.Name / @weight.Value.ToString("0.00#")</option>
+                        <option value="@weight.Id" style="background-color: #eeeeee; color: black;">@weight.Name / @weight.Value.ToString("0.0##")</option>
                     }
                 </select>
                 <ValidationMessage For="@(() => NewGrade.Subject)"/>
