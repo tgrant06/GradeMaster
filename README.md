@@ -35,6 +35,9 @@ Support for other platforms will follow.
 ### Supported Languages
 - English
 
+### Supported Grading Systems
+- Swiss
+
 ### Console Client
 The Console Client is currently only for testing purposes.
 
