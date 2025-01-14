@@ -1,7 +1,7 @@
-﻿<div class="border-top" style="width: 100%; max-width: 1000px; margin-top: 15px"></div>
+﻿<div class="border-top" style="width: 100%; max-width: 1008px; margin-top: 15px"></div>
 @if (FormType == FormType.Edit)
 {
-    <h4 style="margin-bottom: 25px; margin-top: 10px;">@FormTitle: @Subject.Name - @Subject.Semester</h4>
+    <h4 style="margin-bottom: 25px; margin-top: 10px;  max-width: 1100px;">@FormTitle: @Subject.Name - @Subject.Semester</h4>
 }
 else
 {
@@ -9,7 +9,7 @@ else
 }
 <EditForm OnValidSubmit="HandleValidSubmit" OnInvalidSubmit="HandleInvalidSubmit" EditContext="_editContext">
     <DataAnnotationsValidator/>
-    <Card Style="max-width: 1000px; border: none;">
+    <Card Style="max-width: 1008px; border: none;">
 
         <!-- Name Field -->
         <div class="form-group row mb-3">

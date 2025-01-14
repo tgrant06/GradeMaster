@@ -15,7 +15,7 @@
             <b>Education Average: </b>
             @if (_educationAverage < 4 && _educationAverage != 0)
             {
-                <Badge Color="BadgeColor.Danger" IndicatorType="BadgeIndicatorType.RoundedPill">
+                <Badge Color="BadgeColor.Danger" IndicatorType="BadgeIndicatorType.RoundedPill" Style="font-size: 14px;">
                     @(_educationAverage == 0 ? "N/A" : _educationAverage.ToString("0.##"))
                 </Badge>
             }

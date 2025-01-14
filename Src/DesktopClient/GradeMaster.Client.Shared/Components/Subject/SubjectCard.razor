@@ -15,7 +15,7 @@
             <b>Subject Average: </b>
             @if (_subjectAverage < 4 && _subjectAverage != 0)
             {
-                <Badge Color="BadgeColor.Danger" IndicatorType="BadgeIndicatorType.RoundedPill">
+                <Badge Color="BadgeColor.Danger" IndicatorType="BadgeIndicatorType.RoundedPill" Style="font-size: 14px;">
                     @(_subjectAverage == 0 ? "N/A" : _subjectAverage.ToString("0.##"))
                 </Badge>
             }

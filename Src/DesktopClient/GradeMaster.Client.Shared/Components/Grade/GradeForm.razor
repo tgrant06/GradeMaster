@@ -1,7 +1,7 @@
-﻿<div class="border-top" style="width: 100%; max-width: 1000px; margin-top: 15px"></div>
+﻿<div class="border-top" style="width: 100%; max-width: 1008px; margin-top: 15px"></div>
 @if (FormType == FormType.Edit)
 {
-    <h4 style="margin-bottom: 25px; margin-top: 10px;">@FormTitle: @Grade.Value | Weight: @Grade.Weight.Name / @Grade.Weight.Value.ToString("0.00")</h4>
+    <h4 style="margin-bottom: 25px; margin-top: 10px; max-width: 1100px;">@FormTitle: @Grade.Value | Weight: @Grade.Weight.Name / @Grade.Weight.Value.ToString("0.00")</h4>
 }
 else
 {
@@ -9,7 +9,7 @@ else
 }
 <EditForm OnValidSubmit="HandleValidSubmit" OnInvalidSubmit="HandleInvalidSubmit" EditContext="_editContext">
     <DataAnnotationsValidator/>
-    <Card Style="max-width: 1000px; border: none;">
+    <Card Style="max-width: 1008px; border: none;">
 
         <!-- Value Field -->
         <div class="form-group row mb-3">
@@ -31,7 +31,7 @@ else
                     <option value="0" style="background-color: #eeeeee; color: black; border: solid 1px">Select Weight</option>
                     @foreach (var weight in Weights)
                     {
-                        <option value="@weight.Id" style="background-color: #eeeeee; color: black;">@weight.Name / @weight.Value</option>
+                        <option value="@weight.Id" style="background-color: #eeeeee; color: black;">@weight.Name / @weight.Value.ToString("0.00#")</option>
                     }
                 </select>
                 <ValidationMessage For="@(() => NewGrade.Subject)"/>

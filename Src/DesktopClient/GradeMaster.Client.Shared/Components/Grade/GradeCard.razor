@@ -3,7 +3,7 @@
         <CardTitle Style="padding-top: 6px">
             @if (Grade.Value < 4)
             {
-                <Badge Color="BadgeColor.Danger" IndicatorType="BadgeIndicatorType.RoundedPill" Style="font-size: initial">
+                <Badge Color="BadgeColor.Danger" IndicatorType="BadgeIndicatorType.RoundedPill" Style="font-size: 17px; font-weight: initial;">
                     <b>@Grade.Value.ToString("0.##")</b>
                 </Badge>
             }
@@ -12,7 +12,7 @@
                 <b>@Grade.Value.ToString("0.##")</b>
             }
         </CardTitle>
-        <CardSubTitle Class="mb-2 text-muted">Weight: @Grade.Weight.Name / @Grade.Weight.Value.ToString("0.00")</CardSubTitle>
+        <CardSubTitle Class="mb-2 text-muted">Weight: @Grade.Weight.Name / @Grade.Weight.Value.ToString("0.00#")</CardSubTitle>
     </CardHeader>
     <CardBody>
         <CardText>
