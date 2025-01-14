@@ -39,6 +39,7 @@
 
 @code {
     [Inject] private IEducationRepository _educationRepository { get; set; }
+    [Inject] private IGradeRepository _gradeRepository { get; set; }
 
     [Inject] private NavigationManager Navigation { get; set; }
 
@@ -50,6 +51,7 @@
     protected override async Task OnInitializedAsync()
     {
         await LoadEducations();
+        await _gradeRepository.GetAllWithWeightAsync();
     }
 
     private async Task LoadEducations()

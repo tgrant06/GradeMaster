@@ -21,7 +21,7 @@ public class SubjectRepository : ISubjectRepository
 
     public async Task<List<Subject>> GetAllAsync()
     {
-        return await _context.Subjects.ToListAsync();
+        return await _context.Subjects.Include(s => s.Education).ToListAsync();
     }
 
     public async Task<Subject> AddAsync(Subject subject)
@@ -61,6 +61,16 @@ public class SubjectRepository : ISubjectRepository
 
     public async Task<List<Subject>> GetByEducationIdAsync(int id)
     {
-        return await _context.Subjects.Where(s => s.EducationId == id).Include(s => s.Grades).ThenInclude(g => g.Weight).ToListAsync();
+        return await _context.Subjects.Where(s => s.Education.Id == id).Include(s => s.Grades).ThenInclude(g => g.Weight).ToListAsync();
+    }
+
+    public async Task<List<Subject>> GetAllWithGradeAsync()
+    {
+        return await _context.Subjects.Where(s => s.Grades.Any()).Include(s => s.Education).ToListAsync();
+    }
+
+    public async Task<Subject?> GetByIdDetailAsync(int id)
+    {
+        return await _context.Subjects.Include(s => s.Education).FirstOrDefaultAsync(s => s.Id == id);
     }
 }

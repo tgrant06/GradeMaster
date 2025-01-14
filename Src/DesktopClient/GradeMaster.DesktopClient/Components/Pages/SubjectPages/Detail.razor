@@ -92,8 +92,8 @@
     protected override async Task OnInitializedAsync()
     {
         // Load the education details
-        Subject = await _subjectRepository.GetByIdAsync(Id);
-        await _educationRepository.GetBySubjectIdAsync(Subject.Id);
+        Subject = await _subjectRepository.GetByIdDetailAsync(Id);
+        // await _educationRepository.GetBySubjectIdAsync(Subject.Id);
         // Calculate the average only after loading the education data
         await CalculateSubjectAverage();
     }

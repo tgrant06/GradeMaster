@@ -3,7 +3,7 @@
         <CardTitle Style="padding-top: 6px">
             <b>@Education.Name</b>
         </CardTitle>
-        <CardSubTitle Class="mb-2 text-muted">@Education.StartDate.Year - @Education.EndDate.Year @TruncateString(String.IsNullOrEmpty(Education.Institution) ? " " : "| " + Education.Institution.Split(",")[0], 10)</CardSubTitle>
+        <CardSubTitle Class="mb-2 text-muted">@Education.StartDate.Year - @Education.EndDate.Year @TruncateString(String.IsNullOrEmpty(Education.Institution) ? " " : "| " + Education.Institution.Split(",")[0], 15)</CardSubTitle>
     </CardHeader>
     <CardBody>
         <CardText>
@@ -53,7 +53,7 @@
     [Parameter] public Education Education { get; set; }
     [Parameter] public EventCallback<int> OnEducationDeleted { get; set; }
 
-    [Inject] private IGradeRepository _gradeRepository { get; set; }
+    //[Inject] private IGradeRepository _gradeRepository { get; set; }
     [Inject] private IEducationRepository _educationRepository { get; set; }
 
     [Inject] private NavigationManager Navigation { get; set; }
@@ -81,7 +81,7 @@
     {
         // var grades
         // get all grades outside of card to save queries? too many queries!?
-        await _gradeRepository.GetBySubjectIdsAsync(Education.Subjects.Select(s => s.Id).ToList());
+        //await _gradeRepository.GetBySubjectIdsAsync(Education.Subjects.Select(s => s.Id).ToList());
         _educationAverage = CalculateEducationAverage(Education.Subjects);
     }
 
