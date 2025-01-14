@@ -32,6 +32,9 @@ GradeMaster is currently in a developmental state. <br>
 The Desktop GUI Client is currently limited to Windows only. <br>
 Support for other platforms will follow.
 
+### Supported Languages
+- English
+
 ### Console Client
 The Console Client is currently only for testing purposes.
 
