@@ -31,7 +31,7 @@ public class WeightConfiguration : IEntityTypeConfiguration<Weight>
             new Weight {Id = 8, Name = "60%", Value = 0.6m},
             new Weight {Id = 9, Name = "50%", Value = 0.5m},
             new Weight {Id = 10, Name = "40%", Value = 0.4m},
-            new Weight {Id = 11, Name = "33.3%", Value = 0.33334m},
+            new Weight {Id = 11, Name = "33.3%", Value = 0.33333m},
             new Weight {Id = 12, Name = "30%", Value = 0.3m},
             new Weight {Id = 13, Name = "25%", Value = 0.25m},
             new Weight {Id = 14, Name = "20%", Value = 0.2m},
