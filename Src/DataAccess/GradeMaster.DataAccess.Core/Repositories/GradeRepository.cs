@@ -74,4 +74,9 @@ public class GradeRepository : IGradeRepository
             .ThenInclude(s => s.Education)
             .FirstOrDefaultAsync(g => g.Id == id);
     }
+
+    public async Task<List<Grade>> GetAllWithWeightAsync()
+    {
+        return await _context.Grades.Include(g => g.Weight).ToListAsync();
+    }
 }

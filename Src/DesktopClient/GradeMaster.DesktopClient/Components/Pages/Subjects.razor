@@ -40,6 +40,7 @@
 @code {
     [Inject] private ISubjectRepository _subjectRepository { get; set; }
     [Inject] private IEducationRepository _educationRepository { get; set; }
+    [Inject] private IGradeRepository _gradeRepository { get; set; }
 
     [Inject] private NavigationManager Navigation { get; set; }
 
@@ -51,12 +52,13 @@
     protected override async Task OnInitializedAsync()
     {
         await LoadSubjects();
+        await _gradeRepository.GetAllWithWeightAsync();
     }
 
     private async Task LoadSubjects()
     {
         _subjects = await _subjectRepository.GetAllAsync();
-        await _educationRepository.GetAllAsync();
+        //await _educationRepository.GetAllAsync();
         _filteredSubjects = _subjects;
     }
 

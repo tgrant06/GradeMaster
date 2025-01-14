@@ -3,7 +3,7 @@
         <CardTitle Style="padding-top: 6px">
             <b>@Subject.Name - @Subject.Semester</b>
         </CardTitle>
-        <CardSubTitle Class="mb-2 text-muted">@TruncateString(Subject.Education.Name, 30)</CardSubTitle>
+        <CardSubTitle Class="mb-2 text-muted">@TruncateString(Subject.Education.Name, 62)</CardSubTitle>
     </CardHeader>
     <CardBody>
         <CardText>
@@ -15,7 +15,7 @@
             <b>Subject Average: </b>
             @if (_subjectAverage < 4 && _subjectAverage != 0)
             {
-                <Badge Color="BadgeColor.Danger" IndicatorType="BadgeIndicatorType.RoundedPill">
+                <Badge Color="BadgeColor.Danger" IndicatorType="BadgeIndicatorType.RoundedPill" Style="font-size: 14px;">
                     @(_subjectAverage == 0 ? "N/A" : _subjectAverage.ToString("0.##"))
                 </Badge>
             }
@@ -79,8 +79,8 @@
     private async Task CalculateSubjectAverage()
     {
         // get all grades outside of card to save queries? too many queries!?
-        var grades = await _gradeRepository.GetBySubjectIdAsync(Subject.Id);
-        _subjectAverage = CalculateWeightedAverage(grades);
+        //var grades = await _gradeRepository.GetBySubjectIdAsync(Subject.Id);
+        _subjectAverage = CalculateWeightedAverage(Subject.Grades);
     }
 
     private decimal CalculateWeightedAverage(ICollection<Grade> grades)

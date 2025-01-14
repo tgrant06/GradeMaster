@@ -2,9 +2,9 @@
 
 <TopPageHeader Style="font-size: 28px; top: 10px">Detail Subject</TopPageHeader>
 
-<div class="border-top" style="width: 100%; max-width: 1000px; margin-top: 15px"></div>
+<div class="border-top" style="width: 100%; max-width: 1008px; margin-top: 15px"></div>
 
-<div class="col-12 col-md-12 py-3 px-2">
+<div class="col-12 col-md-12 py-3 px-2" style="max-width: 1100px;">
     <h2>
         <b>@Subject.Name - @Subject.Semester</b>
     </h2>
@@ -30,7 +30,7 @@
                         <strong>Subject Average: </strong>
                         @if (_subjectAverage < 4 && _subjectAverage != 0)
                         {
-                            <Badge Color="BadgeColor.Danger" IndicatorType="BadgeIndicatorType.RoundedPill">
+                            <Badge Color="BadgeColor.Danger" IndicatorType="BadgeIndicatorType.RoundedPill" Style="font-size: 14px;">
                                 @(_subjectAverage == 0 ? "N/A" : _subjectAverage.ToString("0.##"))
                             </Badge>
                         }
@@ -64,10 +64,10 @@
     </Card>
 </div>
 
-<div class="border-top" style="width: 100%; max-width: 1000px; margin-top: 15px"></div>
+<div class="border-top" style="width: 100%; max-width: 1008px; margin-top: 15px"></div>
 
 <!-- Buttons -->
-<div class="d-flex justify-content-between my-3" style="max-width: 1000px">
+<div class="d-flex justify-content-between my-3" style="max-width: 1008px">
     <Button Color="ButtonColor.Primary" @onclick="GoBack" Size="ButtonSize.Medium">
         <Icon Name="IconName.ArrowLeft" /> Back
     </Button>
@@ -92,8 +92,8 @@
     protected override async Task OnInitializedAsync()
     {
         // Load the education details
-        Subject = await _subjectRepository.GetByIdAsync(Id);
-        await _educationRepository.GetBySubjectIdAsync(Subject.Id);
+        Subject = await _subjectRepository.GetByIdDetailAsync(Id);
+        // await _educationRepository.GetBySubjectIdAsync(Subject.Id);
         // Calculate the average only after loading the education data
         await CalculateSubjectAverage();
     }
