@@ -24,7 +24,7 @@ public class WeightConfiguration : IEntityTypeConfiguration<Weight>
             new Weight {Id = 1, Name = "100%", Value = 1},
             new Weight {Id = 2, Name = "90%", Value = 0.9m},
             new Weight {Id = 3, Name = "87.5%", Value = 0.875m},
-            new Weight {Id = 4, Name = "85%", Value = 0.85m},
+            //new Weight {Id = 4, Name = "85%", Value = 0.85m}, only add if 15% or 5% is added and needed
             new Weight {Id = 5, Name = "80%", Value = 0.8m},
             new Weight {Id = 6, Name = "75%", Value = 0.75m},
             new Weight {Id = 7, Name = "70%", Value = 0.7m},
