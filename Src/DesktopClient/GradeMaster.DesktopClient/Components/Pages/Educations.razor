@@ -1,5 +1,13 @@
 ﻿@page "/educations"
 
+<HeadContent>
+    <style>
+        html, body {
+            overflow-y: scroll
+        }
+    </style>
+</HeadContent>
+
 <TopPageHeader>Educations</TopPageHeader>
 
 <div class="row py-3 mx-0">
@@ -30,12 +38,34 @@
 </div>
 <div class="container align-content-center" style="margin-bottom: 25px;">
     <div class="component-card-grid py-4">
-        @foreach (Education education in _filteredEducations.OrderByDescending(e => e.Id))
-        {
-            <EducationCard Education="@education" OnEducationDeleted="HandleEducationDeleted"/>
-        }
+        <Virtualize TItem="Education" Items="@(_filteredEducations.OrderByDescending(e => e.Id).ToList())" Context="education" OverscanCount="12">
+            <ItemContent>
+                <EducationCard @key="@education.Id" Education="@education" OnEducationDeleted="HandleEducationDeleted"/>
+            </ItemContent>
+            <EmptyContent>
+                <div></div>
+                <div class="text-center py-4" style="grid-column: 1/-1;">
+                    <p>No educations found. Try adjusting your search or add a new education.</p>
+                </div>
+                <div></div>
+            </EmptyContent>
+        </Virtualize>
     </div>
 </div>
+@*was <div class="component-card-grid py-4">
+@foreach (Education education in _filteredEducations.OrderByDescending(e => e.Id))
+{
+            <EducationCard Education="@education" OnEducationDeleted="HandleEducationDeleted"/>
+}
+    </div>*@
+<style>
+    .component-card-grid > div:first-child,
+    .component-card-grid > div:last-child {
+        grid-column: 1 / -1; /* Span the entire grid without creating empty spaces */
+        /* visibility: hidden; */ /* Keep them invisible but functional */
+        height: auto; /* Retain the height set by Virtualize */
+    }
+</style>
 
 @code {
     [Inject] private IEducationRepository _educationRepository { get; set; }
