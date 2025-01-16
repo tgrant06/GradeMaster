@@ -6,6 +6,10 @@
     gap: 1rem;
 }
 
+/*.component-card-grid > * {
+    transition: all 0.2s ease-in-out;
+}*/
+
 .offcanvas-button-link {
     width: 100%;
     margin-bottom: 10px;
