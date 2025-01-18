@@ -68,4 +68,9 @@ public class EducationRepository : IEducationRepository
     }
     // Lambda expression
     //public void DeleteByIdAsync(int id) => throw new NotImplementedException();
+
+    public Task<List<Education>> GetByCompletedAsync(bool completed)
+    {
+        return _context.Educations.Where(e => e.Completed == completed).ToListAsync();
+    }
 }

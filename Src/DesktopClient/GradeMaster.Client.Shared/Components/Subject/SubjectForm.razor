@@ -88,10 +88,10 @@ else
     .nowrap { white-space: nowrap; }
 
     .truncate {
-        max-width: 500px; /* Adjust the width as needed */
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
+    max-width: 500px; /* Adjust the width as needed */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
     }
 </style>
 @code {
@@ -112,7 +112,7 @@ else
 
     public Subject NewSubject { get; set; } = new();
 
-    public List<Education> Educations { get; set; }
+    public List<Education> Educations { get; set; } = new();
     private int SelectedEducationId
     {
         get => NewSubject.Education?.Id ?? 0;
@@ -133,15 +133,26 @@ else
         {
             return 256;
         }
-        
-            return education.Semesters;
+
+        return education.Semesters;
     }
 
     protected override async Task OnInitializedAsync()
     {
         try
         {
-            Educations = await _educationRepository.GetAllAsync();
+            Educations = await _educationRepository.GetByCompletedAsync(false);
+            Educations = Educations.OrderByDescending(e => e.Id).ToList();
+            if (FormType == FormType.Edit && Subject != null)
+            {
+                // can never be null
+                var education = await _educationRepository.GetBySubjectIdAsync(Subject.Id);
+
+                if (!Educations.Exists(e => e.Id == education.Id))
+                {
+                    Educations.Insert(0, education);
+                }
+            }
 
             if (Educations == null || !Educations.Any())
             {

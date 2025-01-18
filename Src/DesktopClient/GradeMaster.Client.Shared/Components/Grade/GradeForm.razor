@@ -137,7 +137,7 @@ else
         }
     }
 
-    public List<Subject> Subjects { get; set; }
+    public List<Subject> Subjects { get; set; } = new();
     private int SelectedSubjectId
     {
         get => NewGrade.Subject?.Id ?? 0;
@@ -173,7 +173,18 @@ else
                 throw new InvalidOperationException("No weights found.");
             }
 
-            Subjects = await _subjectRepository.GetAllAsync();
+            Subjects = await _subjectRepository.GetByCompletedAsync(false);
+            Subjects = Subjects.OrderByDescending(e => e.Id).ToList();
+            if (FormType == FormType.Edit && Grade != null)
+            {
+                // can never be null
+                var subject = await _subjectRepository.GetByGradeIdAsync(Grade.Id);
+
+                if (!Subjects.Exists(e => e.Id == subject.Id))
+                {
+                    Subjects.Insert(0, subject);
+                }
+            }
 
             if (Subjects == null || !Subjects.Any())
             {

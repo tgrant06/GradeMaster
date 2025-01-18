@@ -9,4 +9,6 @@ public interface IEducationRepository : IGenericEntityRepository<Education>
 
     Task<List<Education>> GetBySubjectIdsAsync(List<int> ids);
     // implement custom methods here, like searching by name, etc.
+
+    Task<List<Education>> GetByCompletedAsync(bool completed);
 }
