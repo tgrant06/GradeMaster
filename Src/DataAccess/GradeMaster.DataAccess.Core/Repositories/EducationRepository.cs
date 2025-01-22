@@ -2,6 +2,7 @@
 using GradeMaster.Shared.Core.Entities;
 using GradeMaster.Shared.Core.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System.Buffers;
 
 namespace GradeMaster.DataAccess.Core.Repositories;
 
@@ -72,5 +73,53 @@ public class EducationRepository : IEducationRepository
     public Task<List<Education>> GetByCompletedAsync(bool completed)
     {
         return _context.Educations.Where(e => e.Completed == completed).ToListAsync();
+    }
+
+
+    // later add order type enum
+    public async Task<List<Education>> GetBySearchWithLimitAsync(string searchValue, int startIndex, int amount)
+    {
+        if (!string.IsNullOrWhiteSpace(searchValue))
+        {
+            return await _context.Educations
+                //.Where(education =>
+                //    education.Name.Contains(searchValue, StringComparison.OrdinalIgnoreCase) ||
+                //    (education.Description != null && education.Description.Contains(searchValue, StringComparison.OrdinalIgnoreCase)) ||
+                //    education.Semesters.ToString().Contains(searchValue, StringComparison.OrdinalIgnoreCase) ||
+                //    (education.Institution != null && education.Institution.Contains(searchValue, StringComparison.OrdinalIgnoreCase)))
+                .Where(education =>
+                    EF.Functions.Like(education.Name.ToLower(), $"%{searchValue}%") ||
+                    (education.Description != null && EF.Functions.Like(education.Description.ToLower(), $"%{searchValue}%")) ||
+                    EF.Functions.Like(education.Semesters.ToString().ToLower(), $"%{searchValue}%") ||
+                    (education.Institution != null && EF.Functions.Like(education.Institution.ToLower(), $"%{searchValue}%")))
+                .Include(e => e.Subjects).ThenInclude(s => s.Grades)
+                .OrderByDescending(e => e.Id)
+                .Skip(startIndex)
+                .Take(amount)
+                .ToListAsync();
+        }
+
+        return await _context.Educations
+            .Include(e => e.Subjects).ThenInclude(s => s.Grades)
+            .OrderByDescending(e => e.Id)
+            .Skip(startIndex)
+            .Take(amount)
+            .ToListAsync();
+    }
+
+    public async Task<int> GetTotalCountAsync(string searchValue)
+    {
+        if (!string.IsNullOrWhiteSpace(searchValue))
+        {
+            return await _context.Educations
+                .Where(education =>
+                    EF.Functions.Like(education.Name.ToLower(), $"%{searchValue}%") ||
+                    (education.Description != null && EF.Functions.Like(education.Description.ToLower(), $"%{searchValue}%")) ||
+                    EF.Functions.Like(education.Semesters.ToString().ToLower(), $"%{searchValue}%") ||
+                    (education.Institution != null && EF.Functions.Like(education.Institution.ToLower(), $"%{searchValue}%")))
+                .CountAsync();
+        }
+
+        return await _context.Educations.CountAsync();
     }
 }

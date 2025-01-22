@@ -38,7 +38,8 @@
 </div>
 <div class="container align-content-center" style="margin-bottom: 25px;"> <!--set overflow to hidden maybe-->
     <div class="component-card-grid py-4"> <!--set overflow to hidden maybe-->
-        <Virtualize TItem="Education" Items="@(_filteredEducations.OrderByDescending(e => e.Id).ToList())" Context="education" OverscanCount="12">
+        @* <Virtualize TItem="Education" Items="@(_filteredEducations.OrderByDescending(e => e.Id).ToList())" Context="education" OverscanCount="12"> *@
+        <Virtualize TItem="Education" ItemsProvider="GetEducationsProvider" Context="education" OverscanCount="12" @ref="VirtualizeComponent">
             <ItemContent>
                 <EducationCard @key="@education.Id" Education="@education" OnEducationDeleted="HandleEducationDeleted"/>
             </ItemContent>
@@ -49,6 +50,9 @@
                 </div>
                 <div></div>
             </EmptyContent>
+            <Placeholder>
+                <Spinner Type="SpinnerType.Dots" Class="me-3" Color="SpinnerColor.Secondary" />
+            </Placeholder>
         </Virtualize>
     </div>
 </div>
@@ -75,8 +79,25 @@
 
     private string _searchValue = String.Empty;
 
+    private Virtualize<Education> VirtualizeComponent;
+
     private List<Education> _educations = new();
     private List<Education> _filteredEducations = new();
+
+    private async ValueTask<ItemsProviderResult<Education>> GetEducationsProvider(ItemsProviderRequest request)
+    {
+        int startIndex = request.StartIndex;
+        int count = request.Count;
+
+        // Fetch only the required slice of data
+        var fetchedEducations = await _educationRepository.GetBySearchWithLimitAsync(_searchValue, startIndex, count);
+
+        // Calculate the total number of items (if known or needed)
+        int totalItemCount = await _educationRepository.GetTotalCountAsync(_searchValue);
+
+        // Return the result to the Virtualize component
+        return new ItemsProviderResult<Education>(fetchedEducations, totalItemCount);
+    }
 
     protected override async Task OnInitializedAsync()
     {
@@ -93,34 +114,40 @@
     private async Task LoadAllEducations()
     {
         _searchValue = String.Empty;
+        await VirtualizeComponent.RefreshDataAsync();
         await LoadEducations();
     }
 
-    private void FilterEducations()
+    private async void FilterEducations()
     {
-        if (string.IsNullOrWhiteSpace(_searchValue))
-        {
-            _filteredEducations = _educations;
-        }
-        else
-        {
-            _filteredEducations = _educations
-                .Where(education =>
-                    education.Name.Contains(_searchValue, StringComparison.OrdinalIgnoreCase) ||
-                    (education.Description != null && education.Description.Contains(_searchValue, StringComparison.OrdinalIgnoreCase)) ||
-                    education.Semesters.ToString().Contains(_searchValue, StringComparison.OrdinalIgnoreCase) ||
-                    (education.Institution != null && education.Institution.Contains(_searchValue, StringComparison.OrdinalIgnoreCase)))
-                .ToList();
-        }
+        await VirtualizeComponent.RefreshDataAsync();
+
+        // if (string.IsNullOrWhiteSpace(_searchValue))
+        // {
+        //     _filteredEducations = _educations;
+        // }
+        // else
+        // {
+        //     _filteredEducations = _educations
+        //         .Where(education =>
+        //             education.Name.Contains(_searchValue, StringComparison.OrdinalIgnoreCase) ||
+        //             (education.Description != null && education.Description.Contains(_searchValue, StringComparison.OrdinalIgnoreCase)) ||
+        //             education.Semesters.ToString().Contains(_searchValue, StringComparison.OrdinalIgnoreCase) ||
+        //             (education.Institution != null && education.Institution.Contains(_searchValue, StringComparison.OrdinalIgnoreCase)))
+        //         .ToList();
+        // }
     }
 
-    private void HandleEducationDeleted(int educationId)
+    private async void HandleEducationDeleted(int educationId)
     {
         var education = _filteredEducations.FirstOrDefault(e => e.Id == educationId);
         if (education != null)
         {
             _filteredEducations.Remove(education);
         }
+
+        // Trigger a refresh of the Virtualize component
+        await VirtualizeComponent.RefreshDataAsync();
     }
 
     private void CreateEducation()

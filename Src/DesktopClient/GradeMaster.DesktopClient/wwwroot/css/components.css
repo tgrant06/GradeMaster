@@ -6,6 +6,18 @@
     gap: 1rem;
 }
 
+/*.component-card-grid > *:not([style*="position"]) {
+    grid-column: span 1;*/ /* Ensure actual content cards span 1 column */
+/*}
+
+.component-card-grid > *:not([style*="position"]):only-child {
+    grid-column: span 3;*/ /* Single card spans all columns */
+/*}
+
+.component-card-grid > *:not([style*="position"]):nth-child(2):last-child {
+    grid-column: span 2;*/ /* If only 2 cards, last card spans 2 columns */
+/*}*/
+
 /*.component-card-grid > * {
     transition: all 0.2s ease-in-out;
 }*/
