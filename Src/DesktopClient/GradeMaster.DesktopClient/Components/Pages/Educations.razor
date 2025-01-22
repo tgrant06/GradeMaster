@@ -102,7 +102,7 @@
     protected override async Task OnInitializedAsync()
     {
         await LoadEducations();
-        await _gradeRepository.GetAllWithWeightAsync();
+        await _gradeRepository.GetAllWithWeightAsync(); // replace with only getting all Weights straight from the _weightRepository
     }
 
     private async Task LoadEducations()

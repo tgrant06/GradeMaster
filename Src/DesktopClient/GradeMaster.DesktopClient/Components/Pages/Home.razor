@@ -40,7 +40,7 @@
 <div class="row py-4">
     <Grid TItem="Subject"
           Class="table table-hover"
-          Data="@_subjects.OrderBy(s => s.Name)"
+          Data="@_subjects.OrderBy(s => s.Name).ThenBy(s => s.Semester)"
           EmptyText="No records to display"
           HeaderRowCssClass="border-bottom-0"
           Responsive="true">
