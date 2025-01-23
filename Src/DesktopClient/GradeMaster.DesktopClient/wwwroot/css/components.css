@@ -27,7 +27,7 @@
 }
 
 .component-card-grid > *:enter {
-    animation: fadeIn 0.3s ease;
+    animation: fadeIn 0.15s ease;
 }
 
 /*.component-card-grid > *:leave {

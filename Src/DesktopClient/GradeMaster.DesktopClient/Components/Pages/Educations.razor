@@ -142,8 +142,12 @@
         // }
     }
 
-    private void HandleEducationDeleted(int educationId)
+    private async Task HandleEducationDeleted(int educationId)
     {
+        // was void HandleEducationDeleted(int educationId)
+        // _virtualizeComponent?.RefreshDataAsync(); causes some sort of error in the dev console in bootstrap js file 
+        // error does not affect the application, but it is annoying
+
         // var education = _filteredEducations.FirstOrDefault(e => e.Id == educationId);
         // if (education != null)
         // {
@@ -151,7 +155,7 @@
         // }
 
         // Trigger a refresh of the Virtualize component
-        _virtualizeComponent?.RefreshDataAsync();
+        await _virtualizeComponent?.RefreshDataAsync();
     }
 
     private void CreateEducation()
