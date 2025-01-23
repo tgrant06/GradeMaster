@@ -5,17 +5,19 @@
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     gap: 1rem;
     position: relative;
+    transition: all 0.3s ease; /* Smooth transition for grid reflow */
 }
 
-.component-card-grid > * {
-    transition: transform 0.3s ease, opacity 0.3s ease; /* Smooth transition for position and opacity changes */
-}
+    .component-card-grid > * {
+        transition: transform 0.3s ease, opacity 0.3s ease; /* Smooth transition for position and opacity changes */
+        will-change: transform, opacity; /* Hint the browser for better animation performance */
+    }
 
 /* Keyframe animation for a smooth "appear" effect */
 @keyframes fadeIn {
     from {
         opacity: 0;
-        transform: scale(0.9);
+        transform: scale(0.95); /*was 0.9*/
     }
 
     to {
@@ -33,11 +35,13 @@
 }*/
 
 .animated-card {
-    animation: fadeIn 0.3s ease;
+    animation: fadeIn 0.15s ease;
     transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
-
+/*.grid-reflow > * {
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}*/
 
 /*.component-card-grid > *:not([style*="position"]) {
     grid-column: span 1;*/ /* Ensure actual content cards span 1 column */

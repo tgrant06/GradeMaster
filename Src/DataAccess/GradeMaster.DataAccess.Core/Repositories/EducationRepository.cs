@@ -125,6 +125,6 @@ public class EducationRepository : IEducationRepository
 
     public async Task<List<Education>> GetAllSimpleAsync()
     {
-        return await _context.Educations.ToListAsync();
+        return await _context.Educations.ToListAsync(); // maybe change ordering
     }
 }

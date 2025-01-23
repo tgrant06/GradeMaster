@@ -15,7 +15,7 @@
     <div class="col-8 col-md-8 px-0 mb-3" style="max-width: 400px">
         <b>Search:</b>
         <EditForm Model="_searchValue" OnValidSubmit="FilterEducations">
-            <InputText class="form-control" placeholder="Search for Education" @bind-Value="_searchValue"/>
+            <InputText id="searchFieldEducation" class="form-control" placeholder="Search for Education" @bind-Value="_searchValue"/>
         </EditForm>
     </div>
     <!--Add edit and detail button later-->
@@ -39,7 +39,7 @@
 <div class="container align-content-center" style="margin-bottom: 25px;"> <!--set overflow to hidden maybe-->
     <div class="component-card-grid py-4"> <!--set overflow to hidden maybe-->
         @* <Virtualize TItem="Education" Items="@(_filteredEducations.OrderByDescending(e => e.Id).ToList())" Context="education" OverscanCount="12"> *@
-        <Virtualize TItem="Education" ItemsProvider="GetEducationsProvider" Context="education" OverscanCount="12" @ref="VirtualizeComponent">
+        <Virtualize TItem="Education" ItemsProvider="GetEducationsProvider" Context="education" OverscanCount="12" @ref="_virtualizeComponent">
             <ItemContent>
                 <EducationCard @key="@education.Id" Education="@education" OnEducationDeleted="HandleEducationDeleted"/>
             </ItemContent>
@@ -62,6 +62,7 @@
             <EducationCard Education="@education" OnEducationDeleted="HandleEducationDeleted"/>
 }
     </div>*@
+<!--Later move style block to components.css file-->
 <style>
     .component-card-grid > div:first-child,
     .component-card-grid > div:last-child {
@@ -80,7 +81,7 @@
 
     private string _searchValue = string.Empty;
 
-    private Virtualize<Education> VirtualizeComponent;
+    private Virtualize<Education>? _virtualizeComponent;
 
     //private List<Education> _educations = new();
     //private List<Education> _filteredEducations = new();
@@ -117,13 +118,13 @@
     private async Task LoadAllEducations()
     {
         _searchValue = string.Empty;
-        await VirtualizeComponent.RefreshDataAsync();
+        await _virtualizeComponent?.RefreshDataAsync();
         //await LoadEducations();
     }
 
     private async Task FilterEducations()
     {
-        await VirtualizeComponent.RefreshDataAsync();
+        await _virtualizeComponent?.RefreshDataAsync();
 
         // if (string.IsNullOrWhiteSpace(_searchValue))
         // {
@@ -141,7 +142,7 @@
         // }
     }
 
-    private async Task HandleEducationDeleted(int educationId)
+    private void HandleEducationDeleted(int educationId)
     {
         // var education = _filteredEducations.FirstOrDefault(e => e.Id == educationId);
         // if (education != null)
@@ -150,7 +151,7 @@
         // }
 
         // Trigger a refresh of the Virtualize component
-        await VirtualizeComponent.RefreshDataAsync();
+        _virtualizeComponent?.RefreshDataAsync();
     }
 
     private void CreateEducation()
