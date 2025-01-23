@@ -1,4 +1,5 @@
 ﻿<Card Class="px-0 mx-3 my-3" Style="user-select: text; max-width: 100%;">
+    <!--Later set id of card (also Education and Subject) => Id="@Grade.Id.ToString()" for navigation right scrollposition for Example: /Grades#g1-->
     <CardHeader>
         <CardTitle Style="padding-top: 6px">
             @if (Grade.Value < 4)
@@ -85,7 +86,7 @@
 
         var confirmation = await _dialog.ShowAsync(
             title: "Are you sure you want to delete this Grade?",
-            message1: $"Grade from Subject: {Grade.Subject.Name} - {Grade.Subject.Semester} with value: {Grade.Value}, weight: {Grade.Weight.Name} and description: {TruncateString(Grade.Description ?? "-", 30)} will be deleted.",
+            message1: $"Grade from Subject: {Grade.Subject.Name} - {Grade.Subject.Semester} with value: {Grade.Value}, date: {Grade.Date.ToShortDateString()}, weight: {Grade.Weight.Name} and description: {TruncateString(Grade.Description ?? "-", 30)} will be deleted.",
             message2: "Do you want to proceed?",
             confirmDialogOptions: options);
 

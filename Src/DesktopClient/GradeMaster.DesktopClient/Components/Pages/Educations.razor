@@ -3,7 +3,7 @@
 <HeadContent>
     <style>
         html, body {
-            overflow-y: scroll
+        overflow-y: scroll
         }
     </style>
 </HeadContent>
@@ -65,35 +65,36 @@
 <style>
     .component-card-grid > div:first-child,
     .component-card-grid > div:last-child {
-        grid-column: 1 / -1; /* Span the entire grid without creating empty spaces */
-        /* visibility: hidden; */ /* Keep them invisible but functional */
-        height: auto; /* Retain the height set by Virtualize */
+    grid-column: 1 / -1; /* Span the entire grid without creating empty spaces */
+    /* visibility: hidden; */ /* Keep them invisible but functional */
+    height: auto; /* Retain the height set by Virtualize */
     }
 </style>
 
 @code {
     [Inject] private IEducationRepository _educationRepository { get; set; }
-    [Inject] private IGradeRepository _gradeRepository { get; set; }
+    //[Inject] private IGradeRepository _gradeRepository { get; set; }
+    [Inject] private IWeightRepository _weightRepository { get; set; }
 
     [Inject] private NavigationManager Navigation { get; set; }
 
-    private string _searchValue = String.Empty;
+    private string _searchValue = string.Empty;
 
     private Virtualize<Education> VirtualizeComponent;
 
-    private List<Education> _educations = new();
-    private List<Education> _filteredEducations = new();
+    //private List<Education> _educations = new();
+    //private List<Education> _filteredEducations = new();
 
     private async ValueTask<ItemsProviderResult<Education>> GetEducationsProvider(ItemsProviderRequest request)
     {
-        int startIndex = request.StartIndex;
-        int count = request.Count;
+        var startIndex = request.StartIndex;
+        var count = request.Count;
 
         // Fetch only the required slice of data
         var fetchedEducations = await _educationRepository.GetBySearchWithLimitAsync(_searchValue, startIndex, count);
 
         // Calculate the total number of items (if known or needed)
-        int totalItemCount = await _educationRepository.GetTotalCountAsync(_searchValue);
+        var totalItemCount = await _educationRepository.GetTotalCountAsync(_searchValue);
 
         // Return the result to the Virtualize component
         return new ItemsProviderResult<Education>(fetchedEducations, totalItemCount);
@@ -101,24 +102,26 @@
 
     protected override async Task OnInitializedAsync()
     {
-        await LoadEducations();
-        await _gradeRepository.GetAllWithWeightAsync(); // replace with only getting all Weights straight from the _weightRepository
+        await _weightRepository.GetAllAsync();
+
+        //await LoadEducations();
+        //await _gradeRepository.GetAllWithWeightAsync(); // replace with only getting all Weights straight from the _weightRepository
     }
 
-    private async Task LoadEducations()
-    {
-        _educations = await _educationRepository.GetAllAsync();
-        _filteredEducations = _educations;
-    }
+    // private async Task LoadEducations()
+    // {
+    //     _educations = await _educationRepository.GetAllAsync();
+    //     _filteredEducations = _educations;
+    // }
 
     private async Task LoadAllEducations()
     {
-        _searchValue = String.Empty;
+        _searchValue = string.Empty;
         await VirtualizeComponent.RefreshDataAsync();
-        await LoadEducations();
+        //await LoadEducations();
     }
 
-    private async void FilterEducations()
+    private async Task FilterEducations()
     {
         await VirtualizeComponent.RefreshDataAsync();
 
@@ -138,13 +141,13 @@
         // }
     }
 
-    private async void HandleEducationDeleted(int educationId)
+    private async Task HandleEducationDeleted(int educationId)
     {
-        var education = _filteredEducations.FirstOrDefault(e => e.Id == educationId);
-        if (education != null)
-        {
-            _filteredEducations.Remove(education);
-        }
+        // var education = _filteredEducations.FirstOrDefault(e => e.Id == educationId);
+        // if (education != null)
+        // {
+        //     _filteredEducations.Remove(education);
+        // }
 
         // Trigger a refresh of the Virtualize component
         await VirtualizeComponent.RefreshDataAsync();

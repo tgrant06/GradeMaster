@@ -109,14 +109,14 @@
     private int? _selectedEducationId;
 
     // rename to _repository
-    [Inject] private IEducationRepository EducationRepository { get; set; } 
-    [Inject] private ISubjectRepository SubjectRepository { get; set; }
+    [Inject] private IEducationRepository _educationRepository { get; set; } 
+    [Inject] private ISubjectRepository _subjectRepository { get; set; }
 
     [Inject] private NavigationManager Navigation { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        _educations = await EducationRepository.GetAllAsync(); //make without subjects
+        _educations = await _educationRepository.GetAllSimpleAsync(); //make without subjects
         var uri = Navigation.ToAbsoluteUri(Navigation.Uri);
         if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("educationId", out var educationIdString) && int.TryParse(educationIdString, out var educationId))
         {
@@ -161,7 +161,7 @@
     private async Task LoadEducationData(int educationId)
     {
         _currentEducationId = educationId;
-        _subjects = await SubjectRepository.GetByEducationIdAsync(educationId); // get weight separately
+        _subjects = await _subjectRepository.GetByEducationIdAsync(educationId); // get weight separately
         _educationAverage = CalculateEducationAverage(_subjects);
     }
 

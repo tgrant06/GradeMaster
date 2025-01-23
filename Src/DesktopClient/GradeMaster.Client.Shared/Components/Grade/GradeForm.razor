@@ -60,7 +60,7 @@ else
                 <strong>Date: <span class="text-danger">*</span></strong>
             </label>
             <div class="col-md-10">
-                <InputDate @bind-Value="NewGrade.Date" Id="date" class="form-control" style="width: auto; max-width: 200px;" />
+                <InputDate TValue="DateOnly" @bind-Value="NewGrade.Date" Id="date" class="form-control" style="width: auto; max-width: 200px;" />
                 <ValidationMessage For="@(() => NewGrade.Date)" />
             </div>
         </div>
@@ -87,6 +87,7 @@ else
             <label class="col-md-2 col-form-label nowrap" for="description">Description:</label>
             <div class="col-md-10">
                 <InputTextArea @bind-Value="NewGrade.Description" Id="description" class="form-control" Rows="4" Placeholder="Enter a description" style="max-height: 256px"/>
+                <ValidationMessage For="@(() => NewGrade.Description)"/>
             </div>
         </div>
 
@@ -196,7 +197,7 @@ else
                 // Initialize Education for creation
                 Grade = new Grade
                     {
-                        Date = DateTime.Today,
+                        Date = DateOnly.FromDateTime(DateTime.Today),
                         Weight = new Weight(),
                         Subject = new Subject()
                     };

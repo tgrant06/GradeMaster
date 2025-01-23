@@ -15,4 +15,8 @@ public interface IEducationRepository : IGenericEntityRepository<Education>
     Task<List<Education>> GetBySearchWithLimitAsync(string searchValue, int startIndex, int amount);
 
     Task<int> GetTotalCountAsync(string searchValue);
+
+    Task<List<Education>> GetAllSimpleAsync();
+
+    //Task<List<Education>> GetBySemestersAsync(int semesters); later
 }

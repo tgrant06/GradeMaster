@@ -71,6 +71,7 @@ else
             <label class="col-md-2 col-form-label nowrap" for="description">Description:</label>
             <div class="col-md-10">
                 <InputTextArea @bind-Value="NewSubject.Description" Id="description" class="form-control" Rows="4" Placeholder="Enter a description" style="max-height: 256px"/>
+                <ValidationMessage For="@(() => NewSubject.Description)" />
             </div>
         </div>
 

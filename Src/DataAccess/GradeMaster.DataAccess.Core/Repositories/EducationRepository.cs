@@ -122,4 +122,9 @@ public class EducationRepository : IEducationRepository
 
         return await _context.Educations.CountAsync();
     }
+
+    public async Task<List<Education>> GetAllSimpleAsync()
+    {
+        return await _context.Educations.ToListAsync();
+    }
 }
