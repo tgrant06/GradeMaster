@@ -4,7 +4,40 @@
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     gap: 1rem;
+    position: relative;
 }
+
+.component-card-grid > * {
+    transition: transform 0.3s ease, opacity 0.3s ease; /* Smooth transition for position and opacity changes */
+}
+
+/* Keyframe animation for a smooth "appear" effect */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.component-card-grid > *:enter {
+    animation: fadeIn 0.3s ease;
+}
+
+/*.component-card-grid > *:leave {
+    animation: fadeOut 0.3s ease;
+}*/
+
+.animated-card {
+    animation: fadeIn 0.3s ease;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+
 
 /*.component-card-grid > *:not([style*="position"]) {
     grid-column: span 1;*/ /* Ensure actual content cards span 1 column */
