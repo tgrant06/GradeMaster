@@ -85,4 +85,47 @@ public class SubjectRepository : ISubjectRepository
         return await _context.Subjects.Where(s => s.Grades.Any(g => g.Id == id)).Include(s => s.Education)
             .FirstOrDefaultAsync();
     }
+
+    public async Task<List<Subject>> GetBySearchWithLimitAsync(string searchValue, int startIndex, int amount)
+    {
+        if (!string.IsNullOrWhiteSpace(searchValue))
+        {
+            return await _context.Subjects
+                .Where(subject =>
+                    EF.Functions.Like(subject.Name.ToLower(), $"%{searchValue}%") ||
+                    (subject.Description != null && EF.Functions.Like(subject.Description.ToLower(), $"%{searchValue}%")) ||
+                    EF.Functions.Like(subject.Semester.ToString(), $"%{searchValue}%") ||
+                    EF.Functions.Like(subject.Education.Name.ToLower(), $"%{searchValue}%"))
+                .Include(s => s.Education)
+                .Include(s => s.Grades)
+                .OrderByDescending(s => s.Id)
+                .Skip(startIndex)
+                .Take(amount)
+                .ToListAsync();
+        }
+
+        return await _context.Subjects
+            .Include(s => s.Education)
+            .Include(s => s.Grades)
+            .OrderByDescending(s => s.Id)
+            .Skip(startIndex)
+            .Take(amount)
+            .ToListAsync();
+    }
+
+    public async Task<int> GetTotalCountAsync(string searchValue)
+    {
+        if (!string.IsNullOrWhiteSpace(searchValue))
+        {
+            return await _context.Subjects
+                .Where(subject =>
+                    EF.Functions.Like(subject.Name.ToLower(), $"%{searchValue}%") ||
+                    (subject.Description != null && EF.Functions.Like(subject.Description.ToLower(), $"%{searchValue}%")) ||
+                    EF.Functions.Like(subject.Semester.ToString(), $"%{searchValue}%") ||
+                    EF.Functions.Like(subject.Education.Name.ToLower(), $"%{searchValue}%"))
+                .CountAsync();
+        }
+
+        return await _context.Subjects.CountAsync();
+    }
 }

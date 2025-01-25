@@ -92,7 +92,8 @@ public class EducationRepository : IEducationRepository
                     (education.Description != null && EF.Functions.Like(education.Description.ToLower(), $"%{searchValue}%")) ||
                     EF.Functions.Like(education.Semesters.ToString().ToLower(), $"%{searchValue}%") ||
                     (education.Institution != null && EF.Functions.Like(education.Institution.ToLower(), $"%{searchValue}%")))
-                .Include(e => e.Subjects).ThenInclude(s => s.Grades)
+                .Include(e => e.Subjects)
+                    .ThenInclude(s => s.Grades)
                 .OrderByDescending(e => e.Id)
                 .Skip(startIndex)
                 .Take(amount)
@@ -100,7 +101,8 @@ public class EducationRepository : IEducationRepository
         }
 
         return await _context.Educations
-            .Include(e => e.Subjects).ThenInclude(s => s.Grades)
+            .Include(e => e.Subjects)
+                .ThenInclude(s => s.Grades)
             .OrderByDescending(e => e.Id)
             .Skip(startIndex)
             .Take(amount)
