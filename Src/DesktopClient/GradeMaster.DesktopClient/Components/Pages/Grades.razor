@@ -42,6 +42,7 @@
     [Inject] private ISubjectRepository _subjectRepository { get; set; }
     [Inject] private IWeightRepository _weightRepository { get; set; }
 
+    //[Inject] private IJSRuntime JSRuntime { get; set; }
     [Inject] private NavigationManager Navigation { get; set; }
 
     private string _searchValue = String.Empty;
@@ -55,6 +56,14 @@
         await _subjectRepository.GetAllWithGradesAsync();
         await _weightRepository.GetAllAsync();
     }
+
+    // protected override async Task OnAfterRenderAsync(bool firstRender)
+    // {
+    //     if (firstRender)
+    //     {
+    //         await JSRuntime.InvokeVoidAsync("initializeGridAnimation");
+    //     }
+    // }
 
     private async Task LoadGrades()
     {

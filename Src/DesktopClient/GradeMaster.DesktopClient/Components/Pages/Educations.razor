@@ -2,9 +2,7 @@
 
 <HeadContent>
     <style>
-        html, body {
-        overflow-y: scroll
-        }
+        html, body { overflow-y: scroll }
     </style>
 </HeadContent>
 
@@ -21,7 +19,6 @@
     <!--Add edit and detail button later-->
     <div class="col-1 col-md-1 mb-3 mt-4" style="width: 38px; margin-right: 10px">
         <Button Color="ButtonColor.Primary" class="px-2" style="height: 38px; padding-top: 3px;" @onclick="FilterEducations">
-            @* <i class="bi bi-plus-circle" style="font-size: 20px"></i> *@
             <Icon Name="IconName.Search" Size="IconSize.x5"/>
         </Button>
     </div>
@@ -36,8 +33,10 @@
         </Button>
     </div>
 </div>
-<div class="container align-content-center" style="margin-bottom: 25px;"> <!--set overflow to hidden maybe-->
-    <div class="component-card-grid py-4"> <!--set overflow to hidden maybe-->
+<div class="container align-content-center" style="margin-bottom: 25px;">
+    <!--set overflow to hidden maybe-->
+    <div class="component-card-grid py-4">
+        <!--set overflow to hidden maybe-->
         @* <Virtualize TItem="Education" Items="@(_filteredEducations.OrderByDescending(e => e.Id).ToList())" Context="education" OverscanCount="12"> *@
         <Virtualize TItem="Education" ItemsProvider="GetEducationsProvider" Context="education" OverscanCount="12" @ref="_virtualizeComponent">
             <ItemContent>
@@ -51,7 +50,7 @@
                 <div></div>
             </EmptyContent>
             <Placeholder>
-                <Spinner Type="SpinnerType.Dots" Class="me-3" Color="SpinnerColor.Secondary" />
+                <Spinner Type="SpinnerType.Dots" Class="me-3" Color="SpinnerColor.Secondary"/>
             </Placeholder>
         </Virtualize>
     </div>
@@ -66,9 +65,9 @@
 <style>
     .component-card-grid > div:first-child,
     .component-card-grid > div:last-child {
-    grid-column: 1 / -1; /* Span the entire grid without creating empty spaces */
-    /* visibility: hidden; */ /* Keep them invisible but functional */
-    height: auto; /* Retain the height set by Virtualize */
+        grid-column: 1/-1; /* Span the entire grid without creating empty spaces */
+        /* visibility: hidden; *//* Keep them invisible but functional */
+        height: auto; /* Retain the height set by Virtualize */
     }
 </style>
 
@@ -77,6 +76,7 @@
     //[Inject] private IGradeRepository _gradeRepository { get; set; }
     [Inject] private IWeightRepository _weightRepository { get; set; }
 
+    //[Inject] private IJSRuntime JSRuntime { get; set; }
     [Inject] private NavigationManager Navigation { get; set; }
 
     private string _searchValue = string.Empty;
@@ -108,6 +108,14 @@
         //await LoadEducations();
         //await _gradeRepository.GetAllWithWeightAsync(); // replace with only getting all Weights straight from the _weightRepository
     }
+
+    // protected override async Task OnAfterRenderAsync(bool firstRender)
+    // {
+    //     if (firstRender)
+    //     {
+    //         await JSRuntime.InvokeVoidAsync("initializeGridAnimation");
+    //     }
+    // }
 
     // private async Task LoadEducations()
     // {

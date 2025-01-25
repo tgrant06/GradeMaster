@@ -1,19 +1,29 @@
-document.addEventListener('DOMContentLoaded', (event) => {
-    const grid = document.querySelector(".component-card-grid");
+window.initializeGridAnimation = () => {
+    const gridContainer = document.querySelector(".component-card-grid");
 
-    if (grid) {
-        const observer = new MutationObserver(() => {
-            grid.style.transition = 'none';
-            grid.offsetHeight; // Trigger reflow
-            grid.style.transition = 'all 0.3s ease';
+    if (gridContainer) {
+        const gridAnimation = animateCSSGrid.wrapGrid(gridContainer, {
+            duration: 300,
+            easing: "circOut" // good options: easeOut, backOut, backInOut, circOut
         });
 
-        observer.observe(grid, { childList: true, subtree: true });
+        let previousColumnCount = getComputedStyle(gridContainer).gridTemplateColumns.split(' ').length;
 
-        // Initial animation
-        const items = grid.children;
-        for (let i = 0; i < items.length; i++) {
-            items[i].classList.add('animated-card');
-        }
+        const resizeListener = () => {
+            const currentColumnCount = getComputedStyle(gridContainer).gridTemplateColumns.split(' ').length;
+            if (currentColumnCount !== previousColumnCount) {
+                previousColumnCount = currentColumnCount;
+                gridAnimation.forceGridAnimation();
+            }
+        };
+
+        window.addEventListener("resize", resizeListener);
+
+        // Clean up the event listener when the component is disposed
+        return () => {
+            window.removeEventListener("resize", resizeListener);
+        };
+    } else {
+        console.error("No grid found");
     }
-});
+};

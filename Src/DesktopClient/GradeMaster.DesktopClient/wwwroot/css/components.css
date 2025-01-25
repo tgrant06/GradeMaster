@@ -5,19 +5,19 @@
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     gap: 1rem;
     position: relative;
-    transition: all 0.3s ease; /* Smooth transition for grid reflow */
+    /*transition: all 0.3s ease;*/ /* Smooth transition for grid reflow */
 }
 
-    .component-card-grid > * {
-        transition: transform 0.3s ease, opacity 0.3s ease; /* Smooth transition for position and opacity changes */
-        will-change: transform, opacity; /* Hint the browser for better animation performance */
-    }
+    /*.component-card-grid > * {*/
+        /*transition: transform 0.3s ease, opacity 0.3s ease;*/  /*Smooth transition for position and opacity changes */
+        /*will-change: transform, opacity;*/  /*Hint the browser for better animation performance */
+    /*}*/
 
 /* Keyframe animation for a smooth "appear" effect */
 @keyframes fadeIn {
     from {
         opacity: 0;
-        transform: scale(0.95); /*was 0.9*/
+        transform: scale(0.9); /*was 0.95*/
     }
 
     to {
@@ -26,38 +26,18 @@
     }
 }
 
-.component-card-grid > *:enter {
-    animation: fadeIn 0.15s ease;
-}
+/*.component-card-grid > *:enter {
+    animation: fadeIn 0.15s ease-out;
+}*/
 
 /*.component-card-grid > *:leave {
     animation: fadeOut 0.3s ease;
 }*/
 
 .animated-card {
-    animation: fadeIn 0.15s ease;
-    transition: transform 0.3s ease, opacity 0.3s ease;
+    animation: fadeIn 0.15s ease ;
+    /*transition: transform 0.3s ease, opacity 0.3s ease;*/
 }
-
-/*.grid-reflow > * {
-    transition: transform 0.3s ease, opacity 0.3s ease;
-}*/
-
-/*.component-card-grid > *:not([style*="position"]) {
-    grid-column: span 1;*/ /* Ensure actual content cards span 1 column */
-/*}
-
-.component-card-grid > *:not([style*="position"]):only-child {
-    grid-column: span 3;*/ /* Single card spans all columns */
-/*}
-
-.component-card-grid > *:not([style*="position"]):nth-child(2):last-child {
-    grid-column: span 2;*/ /* If only 2 cards, last card spans 2 columns */
-/*}*/
-
-/*.component-card-grid > * {
-    transition: all 0.2s ease-in-out;
-}*/
 
 .offcanvas-button-link {
     width: 100%;
