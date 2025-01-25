@@ -30,7 +30,7 @@
 </div>
 <div class="container align-content-center" style="margin-bottom: 25px;">
     <div class="component-card-grid py-4">
-        @foreach (Grade grade in _filteredGrades.OrderByDescending(e => e.Date))
+        @foreach (Grade grade in _filteredGrades.OrderByDescending(g => g.Date).ThenByDescending(g => g.Id))
         {
             <GradeCard Grade="@grade" OnGradeDeleted="HandleGradeDeleted" />
         }
