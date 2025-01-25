@@ -7,6 +7,7 @@ public class Education
     public int Id { get; set; }
 
     [Required]
+    [MaxLength(255, ErrorMessage = "Name may not exceed 255 characters.")]
     public string Name { get; set; }
 
     [MaxLength(2500, ErrorMessage = "Description may not exceed 2500 characters.")]
@@ -30,6 +31,7 @@ public class Education
     // maybe implement duration / length?
     // implement variable properties like average
 
+    [MaxLength(255, ErrorMessage = "Name may not exceed 255 characters.")]
     public string? Institution { get; set; } // optional
 
     public List<Subject> Subjects { get; set; }
