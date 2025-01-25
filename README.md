@@ -22,15 +22,31 @@ GradeMaster is a Desktop based grade management tool. It allows you to manage yo
 ### .NET Version: 9.0
 
 ## Installation and Setup
+### For personal usage
+To be determined...
+
+
+### For Developement
 To be determined...
 
 ## Info
+
+### Releases and Versions
+To be determined...
+
 ### Development State
-GradeMaster is currently in a developmental state. <br>
+GradeMaster is currently in a developmental state. <br> 
+The first full release is on the way and will release soon.
 
 ### Supported Platforms
 The Desktop GUI Client is currently limited to Windows only. <br>
 Support for other platforms will follow.
+
+### Supported Languages
+- English
+
+### Supported Grading Systems
+- Swiss
 
 ### Console Client
 The Console Client is currently only for testing purposes.
