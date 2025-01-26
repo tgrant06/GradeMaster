@@ -17,7 +17,7 @@
 @keyframes fadeIn {
     from {
         opacity: 0;
-        transform: scale(0.9); /*was 0.95*/
+        transform: scale(0.87); /*was 0.95 and 0.9 maybe change to max 0.8 */
     }
 
     to {
@@ -35,7 +35,7 @@
 }*/
 
 .animated-card {
-    animation: fadeIn 0.15s ease;
+    animation: fadeIn 0.155s ease; /*Maybe change to max 0.175*/
     will-change: transform, opacity;
     /*transition: transform 0.3s ease, opacity 0.3s ease;*/
 }
