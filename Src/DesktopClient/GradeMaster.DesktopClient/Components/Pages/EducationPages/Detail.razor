@@ -81,7 +81,6 @@
     [Parameter] public int Id { get; set; }
 
     [Inject] private IEducationRepository _educationRepository { get; set; }
-    [Inject] private IGradeRepository _gradeRepository { get; set; }
     [Inject] private ISubjectRepository _subjectRepository { get; set; }
 
     [Inject] protected ToastService ToastService { get; set; } = default!;
