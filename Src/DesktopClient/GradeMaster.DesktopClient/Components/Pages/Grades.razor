@@ -1,18 +1,26 @@
 ﻿@page "/grades"
 
+<HeadContent>
+    <style>
+        html, body {
+            overflow-y: scroll
+        }
+    </style>
+</HeadContent>
+
 <TopPageHeader>Grades</TopPageHeader>
 
 <div class="row py-3 mx-0">
     <!--had classes: bd-navbar sticky-top-->
     <div class="col-8 col-md-8 px-0 mb-3" style="max-width: 400px">
         <b>Search:</b>
-        <EditForm Model="_searchValue" OnValidSubmit="FilterGrades">
+        <EditForm Model="_searchValue" OnValidSubmit="RefreshGradeData">
             <InputText id="searchFieldGrade" class="form-control" placeholder="Search for Grade" @bind-Value="_searchValue" />
         </EditForm>
     </div>
     <!--Add edit and detail button later-->
     <div class="col-1 col-md-1 mb-3 mt-4" style="width: 38px; margin-right: 10px">
-        <Button Color="ButtonColor.Primary" class="px-2" style="height: 38px; padding-top: 3px;" @onclick="FilterGrades">
+        <Button Color="ButtonColor.Primary" class="px-2" style="height: 38px; padding-top: 3px;" @onclick="RefreshGradeData">
             @* <i class="bi bi-plus-circle" style="font-size: 20px"></i> *@
             <Icon Name="IconName.Search" Size="IconSize.x5" />
         </Button>
@@ -30,12 +38,40 @@
 </div>
 <div class="container align-content-center" style="margin-bottom: 25px;">
     <div class="component-card-grid py-4">
-        @foreach (Grade grade in _filteredGrades.OrderByDescending(g => g.Date).ThenByDescending(g => g.Id))
+        <Virtualize TItem="Grade" ItemsProvider="GetGradesProvider" Context="grade" OverscanCount="12" @ref="_virtualizeComponent">
+            <ItemContent>
+                <GradeCard Grade="@grade" OnGradeDeleted="RefreshGradeData" />
+            </ItemContent>
+            <EmptyContent>
+                <div></div>
+                <div class="text-center py-4" style="grid-column: 1/-1;">
+                    <p>No grades found. Try adjusting your search or add a new grade.</p>
+                </div>
+                <div></div>
+            </EmptyContent>
+            @* <Placeholder>
+                <div class="text-center">
+                    <Spinner Type="SpinnerType.Dots" Class="me-3" Color="SpinnerColor.Secondary" />
+                </div>
+            </Placeholder> *@
+        </Virtualize>
+
+        @*Was *@
+        @* @foreach (Grade grade in _filteredGrades.OrderByDescending(g => g.Date).ThenByDescending(g => g.Id))
         {
-            <GradeCard Grade="@grade" OnGradeDeleted="HandleGradeDeleted" />
-        }
+            <GradeCard Grade="@grade" OnGradeDeleted="HandleGradeDeleted"/>
+        } *@
     </div>
 </div>
+
+<style>
+    .component-card-grid > div:first-child,
+    .component-card-grid > div:last-child {
+        grid-column: 1/-1; /* Span the entire grid without creating empty spaces */
+        /* visibility: hidden; */ /* Keep them invisible but functional */
+        height: auto; /* Retain the height set by Virtualize */
+    }
+</style>
 
 @code {
     [Inject] private IGradeRepository _gradeRepository { get; set; }
@@ -45,17 +81,47 @@
     //[Inject] private IJSRuntime JSRuntime { get; set; }
     [Inject] private NavigationManager Navigation { get; set; }
 
-    private string _searchValue = String.Empty;
+    private string _searchValue = string.Empty;
 
-    private List<Grade> _grades = new();
-    private List<Grade> _filteredGrades = new();
+    private Virtualize<Grade>? _virtualizeComponent;
+
+
+    private async ValueTask<ItemsProviderResult<Grade>> GetGradesProvider(ItemsProviderRequest request)
+    {
+        var startIndex = request.StartIndex;
+        var count = request.Count;
+
+        // Fetch only the required slice of data
+        var fetchedGrades = await _gradeRepository.GetBySearchWithLimitAsync(_searchValue, startIndex, count);
+
+        // Calculate the total number of items (if known or needed)
+        var totalItemCount = await _gradeRepository.GetTotalCountAsync(_searchValue);
+
+        // Return the result to the Virtualize component
+        return new ItemsProviderResult<Grade>(fetchedGrades, totalItemCount);
+    }
 
     protected override async Task OnInitializedAsync()
     {
-        await LoadGrades();
-        await _subjectRepository.GetAllWithGradesAsync();
         await _weightRepository.GetAllAsync();
+        // await LoadGrades();
+        // await _subjectRepository.GetAllWithGradesAsync();
+        // await _weightRepository.GetAllAsync();
     }
+
+    private async Task RefreshGradeData()
+    {
+        await _virtualizeComponent?.RefreshDataAsync();
+    }
+
+    private async Task LoadAllGrades()
+    {
+        _searchValue = String.Empty;
+        await _virtualizeComponent?.RefreshDataAsync();
+        //await LoadGrades();
+    }
+
+    #region Not Used
 
     // protected override async Task OnAfterRenderAsync(bool firstRender)
     // {
@@ -65,45 +131,45 @@
     //     }
     // }
 
-    private async Task LoadGrades()
-    {
-        _grades = await _gradeRepository.GetAllAsync();
-        _filteredGrades = _grades;
-    }
+    // private async Task LoadGrades()
+    // {
+    //     _grades = await _gradeRepository.GetAllAsync();
+    //     _filteredGrades = _grades;
+    // }
 
-    private async Task LoadAllGrades()
-    {
-        _searchValue = String.Empty;
-        await LoadGrades();
-    }
+    // private async Task FilterGrades()
+    // {
+    //     await _virtualizeComponent?.RefreshDataAsync();
 
-    private void FilterGrades()
-    {
-        if (string.IsNullOrWhiteSpace(_searchValue))
-        {
-            _filteredGrades = _grades;
-        }
-        else
-        {
-            _filteredGrades = _grades
-                .Where(grade =>
-                    grade.Subject.Name.Contains(_searchValue, StringComparison.OrdinalIgnoreCase) ||
-                    (grade.Description != null && grade.Description.Contains(_searchValue, StringComparison.OrdinalIgnoreCase)) ||
-                    grade.Value.ToString().Contains(_searchValue, StringComparison.OrdinalIgnoreCase) ||
-                    grade.Subject.Education.Name.Contains(_searchValue, StringComparison.OrdinalIgnoreCase) ||
-                    grade.Date.ToString("yy-MM-dd").Contains(_searchValue, StringComparison.OrdinalIgnoreCase))
-                .ToList();
-        }
-    }
+    //     if (string.IsNullOrWhiteSpace(_searchValue))
+    //     {
+    //         _filteredGrades = _grades;
+    //     }
+    //     else
+    //     {
+    //         _filteredGrades = _grades
+    //             .Where(grade =>
+    //                 grade.Subject.Name.Contains(_searchValue, StringComparison.OrdinalIgnoreCase) ||
+    //                 (grade.Description != null && grade.Description.Contains(_searchValue, StringComparison.OrdinalIgnoreCase)) ||
+    //                 grade.Value.ToString().Contains(_searchValue, StringComparison.OrdinalIgnoreCase) ||
+    //                 grade.Subject.Education.Name.Contains(_searchValue, StringComparison.OrdinalIgnoreCase) ||
+    //                 grade.Date.ToString("yy-MM-dd").Contains(_searchValue, StringComparison.OrdinalIgnoreCase))
+    //             .ToList();
+    //     }
+    // }
 
-    private void HandleGradeDeleted(int gradeId)
-    {
-        var grade = _filteredGrades.FirstOrDefault(g => g.Id == gradeId);
-        if (grade != null)
-        {
-            _filteredGrades.Remove(grade);
-        }
-    }
+    // private async Task HandleGradeDeleted(int gradeId)
+    // {
+    //     var grade = _filteredGrades.FirstOrDefault(g => g.Id == gradeId);
+    //     if (grade != null)
+    //     {
+    //         _filteredGrades.Remove(grade);
+    //     }
+
+    //     await _virtualizeComponent?.RefreshDataAsync();
+    // }
+
+    #endregion
 
     private void CreateGrade()
     {

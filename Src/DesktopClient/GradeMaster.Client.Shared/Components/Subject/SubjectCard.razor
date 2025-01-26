@@ -51,7 +51,7 @@
 
 @code {
     [Parameter] public Subject Subject { get; set; }
-    [Parameter] public EventCallback<int> OnSubjectDeleted { get; set; }
+    [Parameter] public EventCallback OnSubjectDeleted { get; set; } // was EventCallback<int> OnSubjectDeleted { get; set; }
 
     //[Inject] private IGradeRepository _gradeRepository { get; set; }
     [Inject] private ISubjectRepository _subjectRepository { get; set; }
@@ -131,7 +131,7 @@
             try
             {
                 _subjectRepository.DeleteByIdAsync(Subject.Id);
-                await OnSubjectDeleted.InvokeAsync(Subject.Id);
+                await OnSubjectDeleted.InvokeAsync(); // was await OnSubjectDeleted.InvokeAsync(Subject.Id);
                 ToastService.Notify(new ToastMessage(ToastType.Success, $"Subject deleted successfully."));
             }
             catch (Exception e)

@@ -12,13 +12,13 @@
     <!--had classes: bd-navbar sticky-top-->
     <div class="col-8 col-md-8 px-0 mb-3" style="max-width: 400px">
         <b>Search:</b>
-        <EditForm Model="_searchValue" OnValidSubmit="FilterEducations">
+        <EditForm Model="_searchValue" OnValidSubmit="RefreshEducationData">
             <InputText id="searchFieldEducation" class="form-control" placeholder="Search for Education" @bind-Value="_searchValue"/>
         </EditForm>
     </div>
     <!--Add edit and detail button later-->
     <div class="col-1 col-md-1 mb-3 mt-4" style="width: 38px; margin-right: 10px">
-        <Button Color="ButtonColor.Primary" class="px-2" style="height: 38px; padding-top: 3px;" @onclick="FilterEducations">
+        <Button Color="ButtonColor.Primary" class="px-2" style="height: 38px; padding-top: 3px;" @onclick="RefreshEducationData">
             <Icon Name="IconName.Search" Size="IconSize.x5"/>
         </Button>
     </div>
@@ -40,7 +40,7 @@
         @* <Virtualize TItem="Education" Items="@(_filteredEducations.OrderByDescending(e => e.Id).ToList())" Context="education" OverscanCount="12"> *@
         <Virtualize TItem="Education" ItemsProvider="GetEducationsProvider" Context="education" OverscanCount="12" @ref="_virtualizeComponent">
             <ItemContent>
-                <EducationCard @key="@education.Id" Education="@education" OnEducationDeleted="HandleEducationDeleted"/>
+                <EducationCard @key="@education.Id" Education="@education" OnEducationDeleted="RefreshEducationData" />
             </ItemContent>
             <EmptyContent>
                 <div></div>
@@ -49,11 +49,11 @@
                 </div>
                 <div></div>
             </EmptyContent>
-            <Placeholder>
+            @* <Placeholder>
                 <div class="text-center">
                     <Spinner Type="SpinnerType.Dots" Class="me-3" Color="SpinnerColor.Secondary" />
                 </div>
-            </Placeholder>
+            </Placeholder> *@
         </Virtualize>
     </div>
 </div>
@@ -111,6 +111,20 @@
         //await _gradeRepository.GetAllWithWeightAsync(); // replace with only getting all Weights straight from the _weightRepository
     }
 
+    private async Task RefreshEducationData()
+    {
+        await _virtualizeComponent?.RefreshDataAsync();
+    }
+
+    private async Task LoadAllEducations()
+    {
+        _searchValue = string.Empty;
+        await _virtualizeComponent?.RefreshDataAsync();
+        //await LoadEducations();
+    }
+
+    #region Not Used
+
     // protected override async Task OnAfterRenderAsync(bool firstRender)
     // {
     //     if (firstRender)
@@ -125,48 +139,44 @@
     //     _filteredEducations = _educations;
     // }
 
-    private async Task LoadAllEducations()
-    {
-        _searchValue = string.Empty;
-        await _virtualizeComponent?.RefreshDataAsync();
-        //await LoadEducations();
-    }
+    // private async Task FilterEducations()
+    // {
+    //     await _virtualizeComponent?.RefreshDataAsync();
 
-    private async Task FilterEducations()
-    {
-        await _virtualizeComponent?.RefreshDataAsync();
+    //     if (string.IsNullOrWhiteSpace(_searchValue))
+    //     {
+    //         _filteredEducations = _educations;
+    //     }
+    //     else
+    //     {
+    //         _filteredEducations = _educations
+    //             .Where(education =>
+    //                 education.Name.Contains(_searchValue, StringComparison.OrdinalIgnoreCase) ||
+    //                 (education.Description != null && education.Description.Contains(_searchValue, StringComparison.OrdinalIgnoreCase)) ||
+    //                 education.Semesters.ToString().Contains(_searchValue, StringComparison.OrdinalIgnoreCase) ||
+    //                 (education.Institution != null && education.Institution.Contains(_searchValue, StringComparison.OrdinalIgnoreCase)))
+    //             .ToList();
+    //     }
+    // }
 
-        // if (string.IsNullOrWhiteSpace(_searchValue))
-        // {
-        //     _filteredEducations = _educations;
-        // }
-        // else
-        // {
-        //     _filteredEducations = _educations
-        //         .Where(education =>
-        //             education.Name.Contains(_searchValue, StringComparison.OrdinalIgnoreCase) ||
-        //             (education.Description != null && education.Description.Contains(_searchValue, StringComparison.OrdinalIgnoreCase)) ||
-        //             education.Semesters.ToString().Contains(_searchValue, StringComparison.OrdinalIgnoreCase) ||
-        //             (education.Institution != null && education.Institution.Contains(_searchValue, StringComparison.OrdinalIgnoreCase)))
-        //         .ToList();
-        // }
-    }
+    // was void HandleEducationDeleted(int educationId)
+    // private async Task HandleEducationDeleted()
+    // {
+    //     was void HandleEducationDeleted(int educationId)
+    //     _virtualizeComponent?.RefreshDataAsync(); causes some sort of error in the dev console in bootstrap js file 
+    //     error does not affect the application, but it is annoying
 
-    private async Task HandleEducationDeleted(int educationId)
-    {
-        // was void HandleEducationDeleted(int educationId)
-        // _virtualizeComponent?.RefreshDataAsync(); causes some sort of error in the dev console in bootstrap js file 
-        // error does not affect the application, but it is annoying
+    //     var education = _filteredEducations.FirstOrDefault(e => e.Id == educationId);
+    //     if (education != null)
+    //     {
+    //         _filteredEducations.Remove(education);
+    //     }
 
-        // var education = _filteredEducations.FirstOrDefault(e => e.Id == educationId);
-        // if (education != null)
-        // {
-        //     _filteredEducations.Remove(education);
-        // }
+    //     Trigger a refresh of the Virtualize component
+    //     await _virtualizeComponent?.RefreshDataAsync();
+    // }
 
-        // Trigger a refresh of the Virtualize component
-        await _virtualizeComponent?.RefreshDataAsync();
-    }
+    #endregion
 
     private void CreateEducation()
     {

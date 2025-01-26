@@ -102,7 +102,7 @@ public class GradeRepository : IGradeRepository
 
         return await _context.Grades
             .Include(g => g.Subject)
-                .ThenInclude(s => s.Grades)
+                .ThenInclude(s => s.Education)
             .OrderByDescending(g => g.Date)
                 .ThenByDescending(g => g.Id)
             .Skip(startIndex)

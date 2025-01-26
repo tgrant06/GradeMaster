@@ -51,7 +51,7 @@
 
 @code {
     [Parameter] public Education Education { get; set; }
-    [Parameter] public EventCallback<int> OnEducationDeleted { get; set; }
+    [Parameter] public EventCallback OnEducationDeleted { get; set; } // was EventCallback<int> OnEducationDeleted { get; set; }
 
     //[Inject] private IGradeRepository _gradeRepository { get; set; }
     [Inject] private IEducationRepository _educationRepository { get; set; }
@@ -153,7 +153,7 @@
             try
             {
                 _educationRepository.DeleteByIdAsync(Education.Id);
-                await OnEducationDeleted.InvokeAsync(Education.Id);
+                await OnEducationDeleted.InvokeAsync(Education.Id); // was await OnEducationDeleted.InvokeAsync(Education.Id);
                 ToastService.Notify(new ToastMessage(ToastType.Success, $"Education deleted successfully."));
             }
             catch (Exception e)

@@ -14,13 +14,13 @@
     <!--had classes: bd-navbar sticky-top-->
     <div class="col-8 col-md-8 px-0 mb-3" style="max-width: 400px">
         <b>Search:</b>
-        <EditForm Model="_searchValue" OnValidSubmit="FilterSubjects">
+        <EditForm Model="_searchValue" OnValidSubmit="RefreshSubjectData">
             <InputText id="searchFieldSubject" class="form-control" placeholder="Search for Subject" @bind-Value="_searchValue" />
         </EditForm>
     </div>
     <!--Add edit and detail button later-->
     <div class="col-1 col-md-1 mb-3 mt-4" style="width: 38px; margin-right: 10px">
-        <Button Color="ButtonColor.Primary" class="px-2" style="height: 38px; padding-top: 3px;" @onclick="FilterSubjects">
+        <Button Color="ButtonColor.Primary" class="px-2" style="height: 38px; padding-top: 3px;" @onclick="RefreshSubjectData">
             @* <i class="bi bi-plus-circle" style="font-size: 20px"></i> *@
             <Icon Name="IconName.Search" Size="IconSize.x5" />
         </Button>
@@ -40,7 +40,7 @@
     <div class="component-card-grid py-4">
         <Virtualize TItem="Subject" ItemsProvider="GetSubjectsProvider" Context="subject" OverscanCount="12" @ref="_virtualizeComponent">
             <ItemContent>
-                <SubjectCard Subject="@subject" OnSubjectDeleted="HandleSubjectDeleted" />
+                <SubjectCard Subject="@subject" OnSubjectDeleted="RefreshSubjectData" />
             </ItemContent>
             <EmptyContent>
                 <div></div>
@@ -49,11 +49,11 @@
                 </div>
                 <div></div>
             </EmptyContent>
-            <Placeholder>
+            @* <Placeholder>
                 <div class="text-center">
                     <Spinner Type="SpinnerType.Dots" Class="me-3" Color="SpinnerColor.Secondary"/>
                 </div>
-            </Placeholder>
+            </Placeholder> *@
         </Virtualize>
 
         @*Was*@
@@ -110,12 +110,10 @@
         // await _gradeRepository.GetAllWithWeightAsync();
     }
 
-    // private async Task LoadSubjects()
-    // {
-    //     _subjects = await _subjectRepository.GetAllAsync();
-    //     //await _educationRepository.GetAllAsync();
-    //     _filteredSubjects = _subjects;
-    // }
+    private async Task RefreshSubjectData()
+    {
+        await _virtualizeComponent?.RefreshDataAsync();
+    }
 
     private async Task LoadAllSubjects()
     {
@@ -124,36 +122,47 @@
         //await LoadSubjects();
     }
 
-    private async Task FilterSubjects()
-    {
-        await _virtualizeComponent?.RefreshDataAsync();
+    #region Not Used
 
-        // if (string.IsNullOrWhiteSpace(_searchValue))
-        // {
-        //     _filteredSubjects = _subjects;
-        // }
-        // else
-        // {
-        //     _filteredSubjects = _subjects
-        //         .Where(subject =>
-        //             subject.Name.Contains(_searchValue, StringComparison.OrdinalIgnoreCase) ||
-        //             (subject.Description != null && subject.Description.Contains(_searchValue, StringComparison.OrdinalIgnoreCase)) ||
-        //             subject.Semester.ToString().Contains(_searchValue, StringComparison.OrdinalIgnoreCase) ||
-        //             subject.Education.Name.Contains(_searchValue, StringComparison.OrdinalIgnoreCase))
-        //         .ToList();
-        // }
-    }
+    // private async Task LoadSubjects()
+    // {
+    //     _subjects = await _subjectRepository.GetAllAsync();
+    //     //await _educationRepository.GetAllAsync();
+    //     _filteredSubjects = _subjects;
+    // }
 
-    private async Task HandleSubjectDeleted(int subjectId)
-    {
-        // var subject = _filteredSubjects.FirstOrDefault(s => s.Id == subjectId);
-        // if (subject != null)
-        // {
-        //     _filteredSubjects.Remove(subject);
-        // }
+    // private async Task FilterSubjects()
+    // {
+    //     await _virtualizeComponent?.RefreshDataAsync();
 
-        await _virtualizeComponent?.RefreshDataAsync();
-    }
+    //     if (string.IsNullOrWhiteSpace(_searchValue))
+    //     {
+    //         _filteredSubjects = _subjects;
+    //     }
+    //     else
+    //     {
+    //         _filteredSubjects = _subjects
+    //             .Where(subject =>
+    //                 subject.Name.Contains(_searchValue, StringComparison.OrdinalIgnoreCase) ||
+    //                 (subject.Description != null && subject.Description.Contains(_searchValue, StringComparison.OrdinalIgnoreCase)) ||
+    //                 subject.Semester.ToString().Contains(_searchValue, StringComparison.OrdinalIgnoreCase) ||
+    //                 subject.Education.Name.Contains(_searchValue, StringComparison.OrdinalIgnoreCase))
+    //             .ToList();
+    //     }
+    // }
+
+    // private async Task HandleSubjectDeleted(int subjectId)
+    // {
+    //     var subject = _filteredSubjects.FirstOrDefault(s => s.Id == subjectId);
+    //     if (subject != null)
+    //     {
+    //         _filteredSubjects.Remove(subject);
+    //     }
+
+    //     await _virtualizeComponent?.RefreshDataAsync();
+    // }
+
+    #endregion
 
     private void CreateSubject()
     {

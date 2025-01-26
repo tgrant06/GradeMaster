@@ -57,11 +57,6 @@ public class EducationRepository : IEducationRepository
         }
     }
 
-    public Task<List<Education>> GetBySubjectIdsAsync(List<int> ids)
-    {
-        return null;
-    }
-
     public async Task<Education?> GetBySubjectIdAsync(int subjectId)
     {
         return await _context.Educations.Where(e => e.Subjects.Any(s => s.Id == subjectId)) // Filter by Subject ID
@@ -91,7 +86,9 @@ public class EducationRepository : IEducationRepository
                     EF.Functions.Like(education.Name.ToLower(), $"%{searchValue}%") ||
                     (education.Description != null && EF.Functions.Like(education.Description.ToLower(), $"%{searchValue}%")) ||
                     EF.Functions.Like(education.Semesters.ToString().ToLower(), $"%{searchValue}%") ||
-                    (education.Institution != null && EF.Functions.Like(education.Institution.ToLower(), $"%{searchValue}%")))
+                    (education.Institution != null && EF.Functions.Like(education.Institution.ToLower(), $"%{searchValue}%")) ||
+                    EF.Functions.Like(education.StartDate.Year.ToString(), $"%{searchValue}%") || // Search in StartDate
+                    EF.Functions.Like(education.EndDate.Year.ToString(), $"%{searchValue}%"))
                 .Include(e => e.Subjects)
                     .ThenInclude(s => s.Grades)
                 .OrderByDescending(e => e.Id)
@@ -118,7 +115,9 @@ public class EducationRepository : IEducationRepository
                     EF.Functions.Like(education.Name.ToLower(), $"%{searchValue}%") ||
                     (education.Description != null && EF.Functions.Like(education.Description.ToLower(), $"%{searchValue}%")) ||
                     EF.Functions.Like(education.Semesters.ToString().ToLower(), $"%{searchValue}%") ||
-                    (education.Institution != null && EF.Functions.Like(education.Institution.ToLower(), $"%{searchValue}%")))
+                    (education.Institution != null && EF.Functions.Like(education.Institution.ToLower(), $"%{searchValue}%")) ||
+                    EF.Functions.Like(education.StartDate.Year.ToString(), $"%{searchValue}%") || // Search in StartDate
+                    EF.Functions.Like(education.EndDate.Year.ToString(), $"%{searchValue}%"))
                 .CountAsync();
         }
 
