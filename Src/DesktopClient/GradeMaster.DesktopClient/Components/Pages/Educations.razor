@@ -64,21 +64,11 @@
 }
     </div>*@
 <!--Later move style block to components.css file-->
-<style>
-    .component-card-grid > div:first-child,
-    .component-card-grid > div:last-child {
-        grid-column: 1/-1; /* Span the entire grid without creating empty spaces */
-        /* visibility: hidden; *//* Keep them invisible but functional */
-        height: auto; /* Retain the height set by Virtualize */
-    }
-</style>
 
 @code {
     [Inject] private IEducationRepository _educationRepository { get; set; }
-    //[Inject] private IGradeRepository _gradeRepository { get; set; }
     [Inject] private IWeightRepository _weightRepository { get; set; }
 
-    //[Inject] private IJSRuntime JSRuntime { get; set; }
     [Inject] private NavigationManager Navigation { get; set; }
 
     private string _searchValue = string.Empty;

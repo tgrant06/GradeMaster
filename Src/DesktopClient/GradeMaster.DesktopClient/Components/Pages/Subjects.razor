@@ -21,7 +21,6 @@
     <!--Add edit and detail button later-->
     <div class="col-1 col-md-1 mb-3 mt-4" style="width: 38px; margin-right: 10px">
         <Button Color="ButtonColor.Primary" class="px-2" style="height: 38px; padding-top: 3px;" @onclick="RefreshSubjectData">
-            @* <i class="bi bi-plus-circle" style="font-size: 20px"></i> *@
             <Icon Name="IconName.Search" Size="IconSize.x5" />
         </Button>
     </div>
@@ -64,19 +63,8 @@
     </div>
 </div>
 
-<style>
-    .component-card-grid > div:first-child,
-    .component-card-grid > div:last-child {
-        grid-column: 1/-1; /* Span the entire grid without creating empty spaces */
-        /* visibility: hidden; */ /* Keep them invisible but functional */
-        height: auto; /* Retain the height set by Virtualize */
-    }
-</style>
-
 @code {
     [Inject] private ISubjectRepository _subjectRepository { get; set; }
-    //[Inject] private IEducationRepository _educationRepository { get; set; }
-    //[Inject] private IGradeRepository _gradeRepository { get; set; }
     [Inject] private IWeightRepository _weightRepository { get; set; }
 
     [Inject] private NavigationManager Navigation { get; set; }
