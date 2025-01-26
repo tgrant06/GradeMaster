@@ -6,7 +6,7 @@
 
 
 <div class="row py-3 mx-0">
-    <!--had classes: bd-navbar sticky-top-->
+    <!--had classes: bd-navbar sticky-top / maybe reverse order (.OrderByDescending(e => e.Id)-->
     <div class="col-8 col-md-8 px-0 mb-3" style="max-width: 400px">
         <b>Education: </b>
         <select class="form-select" style="min-width: 200px; max-width: 400px" aria-label="Default select example" name="selectFieldEducation" id="selectFieldEducation"
@@ -108,7 +108,6 @@
     private decimal _educationAverage = new();
     private int? _selectedEducationId;
 
-    // rename to _repository
     [Inject] private IEducationRepository _educationRepository { get; set; } 
     [Inject] private ISubjectRepository _subjectRepository { get; set; }
 
@@ -116,7 +115,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        _educations = await _educationRepository.GetAllSimpleAsync(); //make without subjects
+        _educations = await _educationRepository.GetAllSimpleAsync();
         var uri = Navigation.ToAbsoluteUri(Navigation.Uri);
         if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("educationId", out var educationIdString) && int.TryParse(educationIdString, out var educationId))
         {

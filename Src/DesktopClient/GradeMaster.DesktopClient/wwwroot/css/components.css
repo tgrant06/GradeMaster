@@ -8,6 +8,13 @@
     /*transition: all 0.3s ease;*/ /* Smooth transition for grid reflow */
 }
 
+.component-card-grid > div:first-child,
+.component-card-grid > div:last-child {
+    grid-column: 1/-1; /* Span the entire grid without creating empty spaces */
+    /* visibility: hidden; */ /* Keep them invisible but functional */
+    height: auto; /* Retain the height set by Virtualize */
+}
+
     /*.component-card-grid > * {*/
         /*transition: transform 0.3s ease, opacity 0.3s ease;*/  /*Smooth transition for position and opacity changes */
         /*will-change: transform, opacity;*/  /*Hint the browser for better animation performance */
