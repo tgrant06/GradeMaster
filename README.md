@@ -13,7 +13,7 @@ GradeMaster is a Desktop based grade management tool. It allows you to manage yo
 
 
 ### Backend & Database
-- [Entity Framework Core](https://learn.microsoft.com/de-de/ef/core/) (Version: 9)
+- [Entity Framework Core](https://learn.microsoft.com/de-de/ef/core/)
 - [SQLite](https://sqlite.org/) <br>
 
 ### Win Client (discontinued and removed)
