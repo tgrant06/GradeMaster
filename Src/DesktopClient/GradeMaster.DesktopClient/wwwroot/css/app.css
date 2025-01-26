@@ -113,3 +113,7 @@ h1:focus {
     .btn-translucient:hover:active {
         background-color: rgba(0, 0, 0, 0.30)
     }
+
+.list-item-bottom-spacer {
+    margin-bottom: 50px;
+}
