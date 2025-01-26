@@ -71,6 +71,7 @@ else
             <label class="col-md-2 col-form-label nowrap" for="description">Description:</label>
             <div class="col-md-10">
                 <InputTextArea @bind-Value="NewSubject.Description" Id="description" class="form-control" Rows="4" Placeholder="Enter a description" style="max-height: 256px"/>
+                <ValidationMessage For="@(() => NewSubject.Description)" />
             </div>
         </div>
 
@@ -94,6 +95,7 @@ else
         white-space: nowrap;
     }
 </style>
+
 @code {
     [Parameter] public FormType FormType { get; set; }
     [Parameter] public Subject? Subject { get; set; }
@@ -112,7 +114,7 @@ else
 
     public Subject NewSubject { get; set; } = new();
 
-    public List<Education> Educations { get; set; }
+    public List<Education> Educations { get; set; } = new();
     private int SelectedEducationId
     {
         get => NewSubject.Education?.Id ?? 0;
@@ -133,15 +135,26 @@ else
         {
             return 256;
         }
-        
-            return education.Semesters;
+
+        return education.Semesters;
     }
 
     protected override async Task OnInitializedAsync()
     {
         try
         {
-            Educations = await _educationRepository.GetAllAsync();
+            Educations = await _educationRepository.GetByCompletedAsync(false);
+            Educations = Educations.OrderByDescending(e => e.Id).ToList();
+            if (FormType == FormType.Edit && Subject != null)
+            {
+                // can never be null
+                var education = await _educationRepository.GetBySubjectIdAsync(Subject.Id);
+
+                if (!Educations.Exists(e => e.Id == education.Id))
+                {
+                    Educations.Insert(0, education);
+                }
+            }
 
             if (Educations == null || !Educations.Any())
             {

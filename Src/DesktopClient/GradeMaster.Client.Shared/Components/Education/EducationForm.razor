@@ -27,7 +27,7 @@ else
             <label class="col-md-2 col-form-label nowrap" for="institutionName">Institution:</label>
             <div class="col-md-10">
                 <InputText @bind-Value="NewEducation.Institution" Id="institutionName" class="form-control" Placeholder="Enter the institution name"/>
-                @* <ValidationMessage For="@(() => NewEducation.Institution)"/> *@
+                <ValidationMessage For="@(() => NewEducation.Institution)"/>
             </div>
         </div>
 
@@ -40,7 +40,7 @@ else
                 <label for="startDate">
                     <strong>Start Date: <span class="text-danger">*</span></strong>
                 </label>
-                <InputDate @bind-Value="NewEducation.StartDate" Id="startDate" class="form-control" style="width: auto; max-width: 200px;"/>
+                <InputDate TValue="DateOnly" @bind-Value="NewEducation.StartDate" Id="startDate" class="form-control" style="width: auto; max-width: 200px;" />
                 @* <ValidationMessage For="@(() => NewEducation.StartDate)" /> *@
             </div>
 
@@ -51,7 +51,7 @@ else
                 <label for="endDate">
                     <strong>End Date: <span class="text-danger">*</span></strong>
                 </label>
-                <InputDate @bind-Value="NewEducation.EndDate" Id="endDate" class="form-control" style="width: auto; max-width: 200px"/>
+                <InputDate TValue="DateOnly" @bind-Value="NewEducation.EndDate" Id="endDate" class="form-control" style="width: auto; max-width: 200px" />
                 @* <ValidationMessage For="@(() => NewEducation.EndDate)" /> *@
             </div>
         </div>
@@ -91,7 +91,7 @@ else
             <label class="col-md-2 col-form-label nowrap" for="description">Description:</label>
             <div class="col-md-10">
                 <InputTextArea @bind-Value="NewEducation.Description" Id="description" class="form-control" Rows="4" Placeholder="Enter a description" style="max-height: 256px"/>
-                @* <ValidationMessage For="@(() => NewEducation.Description)"/> *@
+                <ValidationMessage For="@(() => NewEducation.Description)"/>
             </div>
         </div>
 
@@ -132,8 +132,8 @@ else
             // Initialize Education for creation
             Education = new Education
             {
-                StartDate = DateTime.Today,
-                EndDate = DateTime.Today.AddYears(1),
+                StartDate = DateOnly.FromDateTime(DateTime.Today),
+                EndDate = DateOnly.FromDateTime(DateTime.Today.AddYears(1)),
                 Semesters = 2,
                 Completed = false
             };

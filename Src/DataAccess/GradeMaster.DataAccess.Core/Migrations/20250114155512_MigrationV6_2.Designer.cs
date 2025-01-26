@@ -3,6 +3,7 @@ using System;
 using GradeMaster.DataAccess.Core;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,12 +11,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GradeMaster.DataAccess.Core.Migrations
 {
     [DbContext(typeof(GradeMasterDbContext))]
-    partial class GradeMasterDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250114155512_MigrationV6_2")]
+    partial class MigrationV6_2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "9.0.1");
+            modelBuilder.HasAnnotation("ProductVersion", "9.0.0");
 
             modelBuilder.Entity("GradeMaster.Shared.Core.Entities.Education", b =>
                 {
@@ -177,6 +180,12 @@ namespace GradeMaster.DataAccess.Core.Migrations
                             Id = 3,
                             Name = "87.5%",
                             Value = 0.875m
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "85%",
+                            Value = 0.85m
                         },
                         new
                         {

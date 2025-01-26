@@ -18,7 +18,7 @@
             <b>@Grade.Value.ToString("0.##")</b>
         }
     </h2>
-    <CardSubTitle Style="margin-top: 6px;">Weight: @Grade.Weight.Name / @Grade.Weight.Value.ToString("0.00#")</CardSubTitle>
+    <CardSubTitle Style="margin-top: 6px;">Weight: @Grade.Weight.Name / @Grade.Weight.Value.ToString("0.0##")</CardSubTitle>
     @* <CardSubTitle Style="margin-top: 6px;">@Grade.Subject.Name | @Grade.Subject.Education.Name | @Grade.Subject.Education.StartDate.Year - @Grade.Subject.Education.EndDate.Year @(String.IsNullOrEmpty(Grade.Subject.Education.Institution) ? "" : "| " + Grade.Subject.Education.Institution.Split(",")[0])</CardSubTitle> *@
 </div>
 
@@ -69,7 +69,7 @@
                 </div>
                 <div class="col mb-3">
                     <CardText Class="border-bottom" Style="padding-bottom: 20px; margin-bottom: 6px;">
-                        <b>Institution:</b> @(Grade.Subject.Education.Institution?.Split(",")[0] ?? "-")
+                        <b>Institution:</b> @(String.IsNullOrWhiteSpace(Grade.Subject.Education.Institution) ? "-" : Grade.Subject.Education.Institution)
                     </CardText>
                 </div>
             </div>
@@ -91,9 +91,8 @@
 
 @code {
     [Parameter] public int Id { get; set; }
-    [Inject] private IEducationRepository _educationRepository { get; set; }
+
     [Inject] private IGradeRepository _gradeRepository { get; set; }
-    [Inject] private ISubjectRepository _subjectRepository { get; set; }
 
     [Inject] protected ToastService ToastService { get; set; } = default!;
     [Inject] private NavigationManager Navigation { get; set; }
@@ -123,7 +122,7 @@
         Navigation.NavigateTo($"/grades/{Grade.Id}/edit");
     }
 
-    #region Averages
+    #region Averages Currently Not Used
 
     private async Task CalculateSubjectAverage()
     {

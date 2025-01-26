@@ -4,7 +4,7 @@
 
 <div style="margin-top: 50px;"></div>
 
-<div style="max-width: 1000px;">
+<div style="max-width: 1008px;">
     <Accordion>
         <AccordionItem Title="What is the ' - 4' at the end of each Subject Name? For Example: 'Math - 4'">
             <Content>
@@ -41,7 +41,7 @@
                 No, GradeMaster does not update automatically, as of this moment.
             </Content>
         </AccordionItem>
-        <AccordionItem Title="Where can I get info to GradeMaster?">
+        <AccordionItem Title="Where can I get more info about GradeMaster?">
             <Content>
                 You can go to the official repository: <a href="https://github.com/DevT06/GradeMaster" class="btn-link" target="_blank">https://github.com/DevT06/GradeMaster</a>
             </Content>
@@ -54,7 +54,7 @@
         <AccordionItem Title="How can I reload the current page?">
             <Content>
                 By pressing 'F5' for normal reload and 'CTRL + F5' or 'CTRL + SHIFT + R' you can hard reload the current page. <br/>
-                <Icon Name="IconName.ExclamationTriangleFill" Color="IconColor.Warning" /> Warning refresh is rarely necessary and only refresh once at a time and not multiple times.
+                <Icon Name="IconName.ExclamationTriangleFill" Color="IconColor.Warning" /> Warning refresh is rarely necessary and only refresh once at a time and not multiple times (primarily when in dark mode to avoid flashes).
             </Content>
         </AccordionItem>
         <AccordionItem Title="What should I do if the application crashes and the reload link doesnt work?">
@@ -62,10 +62,15 @@
                 If the reload link does not work then navigate back in the history one or two times with 'ALT + Left Arrow Key' and then try to reload using the reload Key combinations 'F5', 'CTRL + F5' or 'CTRL + SHIFT + R'.
             </Content>
         </AccordionItem>
+        <AccordionItem Title="Why cant i find Objects to select that are completed in select fields?">
+            <Content>
+                In order to de clutter the selection of objects, only objects that are not completed are shown. If you want to see the 'In Progress' objects, you can edit each object to be 'In Progress' in the edit page of the individual objects.
+            </Content>
+        </AccordionItem>
     </Accordion>
 </div>
 
-<div style="margin-bottom: 25px;"></div>
+<div style="margin-bottom: 100px;"></div>
 
 @code {
 

@@ -8,7 +8,8 @@
     <h2>
         <b>@Subject.Name - @Subject.Semester</b>
     </h2>
-    <CardSubTitle Style="margin-top: 6px;">@Subject.Education.Name | @Subject.Education.StartDate.Year - @Subject.Education.EndDate.Year @(String.IsNullOrEmpty(Subject.Education.Institution) ? "" : "| " + Subject.Education.Institution.Split(",")[0])</CardSubTitle>
+    <CardSubTitle Style="margin-top: 6px;">@Subject.Education.Name | @Subject.Education.StartDate.Year - @Subject.Education.EndDate.Year</CardSubTitle>
+    <CardSubTitle Style="margin-top: 6px;">@Subject.Education.Institution</CardSubTitle>
 </div>
 
 <div class="py-2 px-2">
@@ -75,10 +76,10 @@
         Edit <Icon Name="IconName.PencilSquare" />
     </Button>
 </div>
+
 @code {
     [Parameter] public int Id { get; set; }
 
-    [Inject] private IEducationRepository _educationRepository { get; set; }
     [Inject] private IGradeRepository _gradeRepository { get; set; }
     [Inject] private ISubjectRepository _subjectRepository { get; set; }
 

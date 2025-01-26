@@ -2,6 +2,7 @@
 using GradeMaster.Shared.Core.Entities;
 using GradeMaster.Shared.Core.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System.Buffers;
 
 namespace GradeMaster.DataAccess.Core.Repositories;
 
@@ -56,11 +57,6 @@ public class EducationRepository : IEducationRepository
         }
     }
 
-    public Task<List<Education>> GetBySubjectIdsAsync(List<int> ids)
-    {
-        return null;
-    }
-
     public async Task<Education?> GetBySubjectIdAsync(int subjectId)
     {
         return await _context.Educations.Where(e => e.Subjects.Any(s => s.Id == subjectId)) // Filter by Subject ID
@@ -68,4 +64,68 @@ public class EducationRepository : IEducationRepository
     }
     // Lambda expression
     //public void DeleteByIdAsync(int id) => throw new NotImplementedException();
+
+    public Task<List<Education>> GetByCompletedAsync(bool completed)
+    {
+        return _context.Educations.Where(e => e.Completed == completed).ToListAsync();
+    }
+
+
+    // later add order type enum
+    public async Task<List<Education>> GetBySearchWithLimitAsync(string searchValue, int startIndex, int amount)
+    {
+        if (!string.IsNullOrWhiteSpace(searchValue))
+        {
+            return await _context.Educations
+                //.Where(education =>
+                //    education.Name.Contains(searchValue, StringComparison.OrdinalIgnoreCase) ||
+                //    (education.Description != null && education.Description.Contains(searchValue, StringComparison.OrdinalIgnoreCase)) ||
+                //    education.Semesters.ToString().Contains(searchValue, StringComparison.OrdinalIgnoreCase) ||
+                //    (education.Institution != null && education.Institution.Contains(searchValue, StringComparison.OrdinalIgnoreCase)))
+                .Where(education =>
+                    EF.Functions.Like(education.Name.ToLower(), $"%{searchValue}%") ||
+                    (education.Description != null && EF.Functions.Like(education.Description.ToLower(), $"%{searchValue}%")) ||
+                    EF.Functions.Like(education.Semesters.ToString().ToLower(), $"%{searchValue}%") ||
+                    (education.Institution != null && EF.Functions.Like(education.Institution.ToLower(), $"%{searchValue}%")) ||
+                    EF.Functions.Like(education.StartDate.Year.ToString(), $"%{searchValue}%") || // Search in StartDate
+                    EF.Functions.Like(education.EndDate.Year.ToString(), $"%{searchValue}%"))
+                .Include(e => e.Subjects)
+                    .ThenInclude(s => s.Grades)
+                .OrderByDescending(e => e.Id)
+                .Skip(startIndex)
+                .Take(amount)
+                .ToListAsync();
+        }
+
+        return await _context.Educations
+            .Include(e => e.Subjects)
+                .ThenInclude(s => s.Grades)
+            .OrderByDescending(e => e.Id)
+            .Skip(startIndex)
+            .Take(amount)
+            .ToListAsync();
+    }
+
+    public async Task<int> GetTotalCountAsync(string searchValue)
+    {
+        if (!string.IsNullOrWhiteSpace(searchValue))
+        {
+            return await _context.Educations
+                .Where(education =>
+                    EF.Functions.Like(education.Name.ToLower(), $"%{searchValue}%") ||
+                    (education.Description != null && EF.Functions.Like(education.Description.ToLower(), $"%{searchValue}%")) ||
+                    EF.Functions.Like(education.Semesters.ToString().ToLower(), $"%{searchValue}%") ||
+                    (education.Institution != null && EF.Functions.Like(education.Institution.ToLower(), $"%{searchValue}%")) ||
+                    EF.Functions.Like(education.StartDate.Year.ToString(), $"%{searchValue}%") || // Search in StartDate
+                    EF.Functions.Like(education.EndDate.Year.ToString(), $"%{searchValue}%"))
+                .CountAsync();
+        }
+
+        return await _context.Educations.CountAsync();
+    }
+
+    public async Task<List<Education>> GetAllSimpleAsync()
+    {
+        return await _context.Educations.ToListAsync(); // maybe change ordering
+    }
 }

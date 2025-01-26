@@ -31,10 +31,10 @@ else
                     <option value="0" style="background-color: #eeeeee; color: black; border: solid 1px">Select Weight</option>
                     @foreach (var weight in Weights)
                     {
-                        <option value="@weight.Id" style="background-color: #eeeeee; color: black;">@weight.Name / @weight.Value.ToString("0.00#")</option>
+                        <option value="@weight.Id" style="background-color: #eeeeee; color: black;">@weight.Name / @weight.Value.ToString("0.0##")</option>
                     }
                 </select>
-                <ValidationMessage For="@(() => NewGrade.Subject)"/>
+                <ValidationMessage For="@(() => NewGrade.Weight)"/>
             </div>
         </div>
 
@@ -60,7 +60,7 @@ else
                 <strong>Date: <span class="text-danger">*</span></strong>
             </label>
             <div class="col-md-10">
-                <InputDate @bind-Value="NewGrade.Date" Id="date" class="form-control" style="width: auto; max-width: 200px;" />
+                <InputDate TValue="DateOnly" @bind-Value="NewGrade.Date" Id="date" class="form-control" style="width: auto; max-width: 200px;" />
                 <ValidationMessage For="@(() => NewGrade.Date)" />
             </div>
         </div>
@@ -87,6 +87,7 @@ else
             <label class="col-md-2 col-form-label nowrap" for="description">Description:</label>
             <div class="col-md-10">
                 <InputTextArea @bind-Value="NewGrade.Description" Id="description" class="form-control" Rows="4" Placeholder="Enter a description" style="max-height: 256px"/>
+                <ValidationMessage For="@(() => NewGrade.Description)"/>
             </div>
         </div>
 
@@ -137,7 +138,7 @@ else
         }
     }
 
-    public List<Subject> Subjects { get; set; }
+    public List<Subject> Subjects { get; set; } = new();
     private int SelectedSubjectId
     {
         get => NewGrade.Subject?.Id ?? 0;
@@ -150,18 +151,6 @@ else
         }
     }
 
-    // private int GetMaxSemesterNumber()
-    // {
-    //     var subject = Subjects.FirstOrDefault(e => e.Id == SelectedEducationId);
-
-    //     if (subject == null)
-    //     {
-    //         return 256;
-    //     }
-
-    //     return subject.Semesters;
-    // }
-
     protected override async Task OnInitializedAsync()
     {
         try
@@ -173,7 +162,18 @@ else
                 throw new InvalidOperationException("No weights found.");
             }
 
-            Subjects = await _subjectRepository.GetAllAsync();
+            Subjects = await _subjectRepository.GetByCompletedAsync(false);
+            Subjects = Subjects.OrderByDescending(e => e.Id).ToList();
+            if (FormType == FormType.Edit && Grade != null)
+            {
+                // can never be null
+                var subject = await _subjectRepository.GetByGradeIdAsync(Grade.Id);
+
+                if (!Subjects.Exists(e => e.Id == subject.Id))
+                {
+                    Subjects.Insert(0, subject);
+                }
+            }
 
             if (Subjects == null || !Subjects.Any())
             {
@@ -185,7 +185,7 @@ else
                 // Initialize Education for creation
                 Grade = new Grade
                     {
-                        Date = DateTime.Today,
+                        Date = DateOnly.FromDateTime(DateTime.Today),
                         Weight = new Weight(),
                         Subject = new Subject()
                     };

@@ -10,6 +10,7 @@ html, body {
     font-family: 'Segoe UI', sans-serif;
     touch-action: none;
     -ms-content-zooming: none;
+    /*background-color: light-dark(#ffffff, #212529);*/
 }
 
 a, .btn-link {
@@ -101,6 +102,10 @@ h1:focus {
     background-color: rgba(0, 0, 0, 0.00)
 }
 
+    /*.btn-translucient:active {
+        background-color: rgba(0, 0, 0, 0.10)
+    }*/
+
     .btn-translucient:hover {
         background-color: rgba(0, 0, 0, 0.20); 
     }
@@ -108,3 +113,7 @@ h1:focus {
     .btn-translucient:hover:active {
         background-color: rgba(0, 0, 0, 0.30)
     }
+
+.list-item-bottom-spacer {
+    margin-bottom: 50px;
+}

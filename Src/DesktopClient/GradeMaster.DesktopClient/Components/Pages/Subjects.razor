@@ -1,19 +1,26 @@
 ﻿@page "/subjects"
 
+<HeadContent>
+    <style>
+        html, body {
+            overflow-y: scroll
+        }
+    </style>
+</HeadContent>
+
 <TopPageHeader>Subjects</TopPageHeader>
 
 <div class="row py-3 mx-0">
     <!--had classes: bd-navbar sticky-top-->
     <div class="col-8 col-md-8 px-0 mb-3" style="max-width: 400px">
         <b>Search:</b>
-        <EditForm Model="_searchValue" OnValidSubmit="FilterSubjects">
-            <InputText class="form-control" placeholder="Search for Subject" @bind-Value="_searchValue" />
+        <EditForm Model="_searchValue" OnValidSubmit="RefreshSubjectData">
+            <InputText id="searchFieldSubject" class="form-control" placeholder="Search for Subject" @bind-Value="_searchValue" />
         </EditForm>
     </div>
     <!--Add edit and detail button later-->
     <div class="col-1 col-md-1 mb-3 mt-4" style="width: 38px; margin-right: 10px">
-        <Button Color="ButtonColor.Primary" class="px-2" style="height: 38px; padding-top: 3px;" @onclick="FilterSubjects">
-            @* <i class="bi bi-plus-circle" style="font-size: 20px"></i> *@
+        <Button Color="ButtonColor.Primary" class="px-2" style="height: 38px; padding-top: 3px;" @onclick="RefreshSubjectData">
             <Icon Name="IconName.Search" Size="IconSize.x5" />
         </Button>
     </div>
@@ -30,70 +37,120 @@
 </div>
 <div class="container align-content-center" style="margin-bottom: 25px;">
     <div class="component-card-grid py-4">
-        @foreach (Subject subject in _filteredSubjects.OrderByDescending(e => e.Id))
+        <Virtualize TItem="Subject" ItemsProvider="GetSubjectsProvider" Context="subject" OverscanCount="12" @ref="_virtualizeComponent">
+            <ItemContent>
+                <SubjectCard Subject="@subject" OnSubjectDeleted="RefreshSubjectData" />
+            </ItemContent>
+            <EmptyContent>
+                <div></div>
+                <div class="text-center py-4" style="grid-column: 1/-1;">
+                    <p>No subjects found. Try adjusting your search or add a new subject.</p>
+                </div>
+                <div></div>
+            </EmptyContent>
+            @* <Placeholder>
+                <div class="text-center">
+                    <Spinner Type="SpinnerType.Dots" Class="me-3" Color="SpinnerColor.Secondary"/>
+                </div>
+            </Placeholder> *@
+        </Virtualize>
+
+        @*Was*@
+        @* @foreach (Subject subject in _filteredSubjects.OrderByDescending(e => e.Id))
         {
-            <SubjectCard Subject="@subject" OnSubjectDeleted="HandleSubjectDeleted" />
-        }
+            <SubjectCard Subject="@subject" OnSubjectDeleted="HandleSubjectDeleted"/>
+        } *@
     </div>
 </div>
 
 @code {
     [Inject] private ISubjectRepository _subjectRepository { get; set; }
-    [Inject] private IEducationRepository _educationRepository { get; set; }
-    [Inject] private IGradeRepository _gradeRepository { get; set; }
+    [Inject] private IWeightRepository _weightRepository { get; set; }
 
     [Inject] private NavigationManager Navigation { get; set; }
 
-    private string _searchValue = String.Empty;
+    private string _searchValue = string.Empty;
 
-    private List<Subject> _subjects = new();
-    private List<Subject> _filteredSubjects = new();
+    private Virtualize<Subject>? _virtualizeComponent;
+
+    // private List<Subject> _subjects = new();
+    // private List<Subject> _filteredSubjects = new();
+
+    private async ValueTask<ItemsProviderResult<Subject>> GetSubjectsProvider(ItemsProviderRequest request)
+    {
+        var startIndex = request.StartIndex;
+        var count = request.Count;
+
+        // Fetch only the required slice of data
+        var fetchedSubjects= await _subjectRepository.GetBySearchWithLimitAsync(_searchValue, startIndex, count);
+
+        // Calculate the total number of items (if known or needed)
+        var totalItemCount = await _subjectRepository.GetTotalCountAsync(_searchValue);
+
+        // Return the result to the Virtualize component
+        return new ItemsProviderResult<Subject>(fetchedSubjects, totalItemCount);
+    }
 
     protected override async Task OnInitializedAsync()
     {
-        await LoadSubjects();
-        await _gradeRepository.GetAllWithWeightAsync();
+        await _weightRepository.GetAllAsync();
+        // await LoadSubjects();
+        // await _gradeRepository.GetAllWithWeightAsync();
     }
 
-    private async Task LoadSubjects()
+    private async Task RefreshSubjectData()
     {
-        _subjects = await _subjectRepository.GetAllAsync();
-        //await _educationRepository.GetAllAsync();
-        _filteredSubjects = _subjects;
+        await _virtualizeComponent?.RefreshDataAsync();
     }
 
     private async Task LoadAllSubjects()
     {
-        _searchValue = String.Empty;
-        await LoadSubjects();
+        _searchValue = string.Empty;
+        await _virtualizeComponent?.RefreshDataAsync();
+        //await LoadSubjects();
     }
 
-    private void FilterSubjects()
-    {
-        if (string.IsNullOrWhiteSpace(_searchValue))
-        {
-            _filteredSubjects = _subjects;
-        }
-        else
-        {
-            _filteredSubjects = _subjects
-                .Where(subject =>
-                    subject.Name.Contains(_searchValue, StringComparison.OrdinalIgnoreCase) ||
-                    (subject.Description != null && subject.Description.Contains(_searchValue, StringComparison.OrdinalIgnoreCase)) ||
-                    subject.Semester.ToString().Contains(_searchValue, StringComparison.OrdinalIgnoreCase) ||
-                    subject.Education.Name.Contains(_searchValue, StringComparison.OrdinalIgnoreCase))
-                .ToList();
-        }
-    }
+    #region Not Used
 
-    private void HandleSubjectDeleted(int subjectId)
-    {
-        var subject = _filteredSubjects.FirstOrDefault(s => s.Id == subjectId);
-        if (subject != null)
-        {
-            _filteredSubjects.Remove(subject);
-        }
-    }
+    // private async Task LoadSubjects()
+    // {
+    //     _subjects = await _subjectRepository.GetAllAsync();
+    //     //await _educationRepository.GetAllAsync();
+    //     _filteredSubjects = _subjects;
+    // }
+
+    // private async Task FilterSubjects()
+    // {
+    //     await _virtualizeComponent?.RefreshDataAsync();
+
+    //     if (string.IsNullOrWhiteSpace(_searchValue))
+    //     {
+    //         _filteredSubjects = _subjects;
+    //     }
+    //     else
+    //     {
+    //         _filteredSubjects = _subjects
+    //             .Where(subject =>
+    //                 subject.Name.Contains(_searchValue, StringComparison.OrdinalIgnoreCase) ||
+    //                 (subject.Description != null && subject.Description.Contains(_searchValue, StringComparison.OrdinalIgnoreCase)) ||
+    //                 subject.Semester.ToString().Contains(_searchValue, StringComparison.OrdinalIgnoreCase) ||
+    //                 subject.Education.Name.Contains(_searchValue, StringComparison.OrdinalIgnoreCase))
+    //             .ToList();
+    //     }
+    // }
+
+    // private async Task HandleSubjectDeleted(int subjectId)
+    // {
+    //     var subject = _filteredSubjects.FirstOrDefault(s => s.Id == subjectId);
+    //     if (subject != null)
+    //     {
+    //         _filteredSubjects.Remove(subject);
+    //     }
+
+    //     await _virtualizeComponent?.RefreshDataAsync();
+    // }
+
+    #endregion
 
     private void CreateSubject()
     {

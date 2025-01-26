@@ -7,8 +7,10 @@ public class Subject
     public int Id { get; set; }
 
     [Required]
+    [MaxLength(255, ErrorMessage = "Name may not exceed 255 characters.")]
     public string Name { get; set; }
 
+    [MaxLength(2500, ErrorMessage = "Description may not exceed 2500 characters.")]
     public string? Description { get; set; }
 
     [Required]
