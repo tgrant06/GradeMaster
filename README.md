@@ -42,7 +42,7 @@ GradeMaster is a Desktop based grade management tool. It allows you to manage yo
 ## Info
 
 ### Releases and Versions
-Current full Version: 1.0.0
+Current full Version: 1.0.0 <br>
 ![Downloads@latest](https://img.shields.io/github/downloads/devt06/GradeMaster/1.0.0/total)
 
 ### Price
