@@ -95,10 +95,12 @@ public class SubjectRepository : ISubjectRepository
                     EF.Functions.Like(subject.Name.ToLower(), $"%{searchValue}%") ||
                     (subject.Description != null && EF.Functions.Like(subject.Description.ToLower(), $"%{searchValue}%")) ||
                     EF.Functions.Like(subject.Semester.ToString(), $"%{searchValue}%") ||
-                    EF.Functions.Like(subject.Education.Name.ToLower(), $"%{searchValue}%"))
+                    EF.Functions.Like(subject.Education.Name.ToLower(), $"%{searchValue}%") ||
+                    (subject.Education.Institution != null && EF.Functions.Like(subject.Education.Institution.ToLower(), $"%{searchValue}%")))
                 .Include(s => s.Education)
                 .Include(s => s.Grades)
                 .OrderByDescending(s => s.Id)
+                    //.ThenByDescending(s => s.Semester)
                 .Skip(startIndex)
                 .Take(amount)
                 .ToListAsync();
@@ -108,6 +110,7 @@ public class SubjectRepository : ISubjectRepository
             .Include(s => s.Education)
             .Include(s => s.Grades)
             .OrderByDescending(s => s.Id)
+                //.ThenByDescending(s => s.Semester)
             .Skip(startIndex)
             .Take(amount)
             .ToListAsync();
@@ -122,7 +125,8 @@ public class SubjectRepository : ISubjectRepository
                     EF.Functions.Like(subject.Name.ToLower(), $"%{searchValue}%") ||
                     (subject.Description != null && EF.Functions.Like(subject.Description.ToLower(), $"%{searchValue}%")) ||
                     EF.Functions.Like(subject.Semester.ToString(), $"%{searchValue}%") ||
-                    EF.Functions.Like(subject.Education.Name.ToLower(), $"%{searchValue}%"))
+                    EF.Functions.Like(subject.Education.Name.ToLower(), $"%{searchValue}%") ||
+                    (subject.Education.Institution != null && EF.Functions.Like(subject.Education.Institution.ToLower(), $"%{searchValue}%")))
                 .CountAsync();
         }
 

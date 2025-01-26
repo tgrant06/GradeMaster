@@ -85,12 +85,14 @@ public class GradeRepository : IGradeRepository
         if (!string.IsNullOrWhiteSpace(searchValue))
         {
             return await _context.Grades
+                // maybe add search by weight
                 .Where(grade =>
                     EF.Functions.Like(grade.Subject.Name.ToLower(), $"%{searchValue}%") ||
                     (grade.Description != null && EF.Functions.Like(grade.Description.ToLower(), $"%{searchValue}%")) ||
                     EF.Functions.Like(grade.Value.ToString(), $"%{searchValue}%") ||
                     EF.Functions.Like(grade.Subject.Education.Name.ToLower(), $"%{searchValue}%") ||
-                    EF.Functions.Like(grade.Date.ToString(), $"%{searchValue}%"))
+                    EF.Functions.Like(grade.Date.ToString(), $"%{searchValue}%") ||
+                    (grade.Subject.Education.Institution != null && EF.Functions.Like(grade.Subject.Education.Institution.ToLower(), $"%{searchValue}%")))
                 .Include(g => g.Subject)
                     .ThenInclude(s => s.Education)
                 .OrderByDescending(g => g.Date)
@@ -120,10 +122,11 @@ public class GradeRepository : IGradeRepository
                     (grade.Description != null && EF.Functions.Like(grade.Description.ToLower(), $"%{searchValue}%")) ||
                     EF.Functions.Like(grade.Value.ToString(), $"%{searchValue}%") ||
                     EF.Functions.Like(grade.Subject.Education.Name.ToLower(), $"%{searchValue}%") ||
-                    EF.Functions.Like(grade.Date.ToString(), $"%{searchValue}%"))
+                    EF.Functions.Like(grade.Date.ToString(), $"%{searchValue}%") ||
+                    (grade.Subject.Education.Institution != null && EF.Functions.Like(grade.Subject.Education.Institution.ToLower(), $"%{searchValue}%")))
                 .CountAsync();
         }
 
-        return await _context.Subjects.CountAsync();
+        return await _context.Grades.CountAsync();
     }
 }
