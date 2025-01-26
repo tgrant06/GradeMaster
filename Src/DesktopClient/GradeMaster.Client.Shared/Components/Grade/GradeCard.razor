@@ -13,6 +13,7 @@
                 <b>@Grade.Value.ToString("0.##")</b>
             }
         </CardTitle>
+        @*Maybe remove Weight: before @Grade.Weight.Name*@
         <CardSubTitle Class="mb-2 text-muted">Weight: @Grade.Weight.Name / @Grade.Weight.Value.ToString("0.0##")</CardSubTitle>
     </CardHeader>
     <CardBody>
@@ -22,7 +23,7 @@
     </CardBody>
     <CardBody Class="border-top">
         <CardText Class="border-bottom" Style="padding-bottom: 11px; margin-bottom: 11px;">
-            <b>Education: </b> @Grade.Subject.Education.Name
+            <b>Education: </b> @Grade.Subject.Education.Name @(!string.IsNullOrEmpty(Grade.Subject.Education.Institution) ? " | " + Grade.Subject.Education.Institution.Split(",")[0] : "")
         </CardText>
         <CardText Class="border-bottom" Style="padding-bottom: 11px; margin-bottom: 11px;">
             <b>Subject: </b> @Grade.Subject.Name - @Grade.Subject.Semester

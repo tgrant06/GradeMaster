@@ -89,12 +89,13 @@ else
     .nowrap { white-space: nowrap; }
 
     .truncate {
-    max-width: 500px; /* Adjust the width as needed */
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+        max-width: 500px; /* Adjust the width as needed */
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
 </style>
+
 @code {
     [Parameter] public FormType FormType { get; set; }
     [Parameter] public Subject? Subject { get; set; }

@@ -53,7 +53,6 @@
     [Parameter] public Education Education { get; set; }
     [Parameter] public EventCallback OnEducationDeleted { get; set; } // was EventCallback<int> OnEducationDeleted { get; set; }
 
-    //[Inject] private IGradeRepository _gradeRepository { get; set; }
     [Inject] private IEducationRepository _educationRepository { get; set; }
 
     [Inject] private NavigationManager Navigation { get; set; }

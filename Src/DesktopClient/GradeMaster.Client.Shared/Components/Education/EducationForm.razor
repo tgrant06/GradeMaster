@@ -27,7 +27,7 @@ else
             <label class="col-md-2 col-form-label nowrap" for="institutionName">Institution:</label>
             <div class="col-md-10">
                 <InputText @bind-Value="NewEducation.Institution" Id="institutionName" class="form-control" Placeholder="Enter the institution name"/>
-                @* <ValidationMessage For="@(() => NewEducation.Institution)"/> *@
+                <ValidationMessage For="@(() => NewEducation.Institution)"/>
             </div>
         </div>
 
