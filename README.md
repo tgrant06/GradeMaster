@@ -33,10 +33,11 @@ GradeMaster is a Desktop based grade management tool. It allows you to manage yo
 3. After the installation you will see the folder containing the app. There you can copy the shortcut and paste it to the Desktop.
 4. You Can now launch the app from the shortcut.
 5. Before you launch the application make shure you trust the binary, by checking the mark in the Properties tap when right clicking the file. (File location: `C:\GradeMaster\bin\win-x64\GradeMaster.DesktopClient.exe`)
+6. Optional: If you like you can also copy the shortcut to the Start Menu. You can do this by copying the shortcut to this directory: `Win + R` then `%AppData%\Microsoft\Windows\Start Menu\Programs`.
 
 ### Updating Software (Windows)
 1. Make shure you delete the contents of the `C:\GradeMaster` directory. (It is recommended you make a backup of your Data by copying your GradeMaster.db file located in `C:\Users\MaurerTimothy\AppData\Local\GradeMaster`. The database should remain compatible with the newer versions of the app and no data should be lost)
-2. Then Follow the same steps from the Instalation Guide for personal use.
+2. Then Follow the same steps from the Instalation Guide for personal use. (You do not have to copy the shortcut again. You can skip this step. Only do this step if the shortcut doesnt work anymore.)
 
 ### For Developement
 1. Clone this repository to your PC.
