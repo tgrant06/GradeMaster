@@ -1,10 +1,13 @@
 # GradeMaster
 ![GradeMaster Logo](Images/logo.png)
 
+
 ## About
 GradeMaster is a Desktop based grade management tool. It allows you to manage your educations, subjects and grades.
 
+
 ## Technologies Used
+
 ### Desktop Client
 - [.Net MAUI](https://dotnet.microsoft.com/en-us/apps/maui)
 - [Blazor](https://dotnet.microsoft.com/en-us/apps/aspnet/web-apps/blazor)
@@ -21,14 +24,19 @@ GradeMaster is a Desktop based grade management tool. It allows you to manage yo
 
 ### .NET Version: 9.0
 
-## Installation and Setup
-### For personal usage
+
+## Installation and Setup Guide
+
+### For personal usage (Windows)
 1. Install the Zip-File (GradeMaster_[win-x64/win-arm64] depending on your System) from the Release Section. Make sure you install the newest available version.
 2. Unpack the Zip-File in the `C:\` directory.
 3. After the installation you will see the folder containing the app. There you can copy the shortcut and paste it to the Desktop.
 4. You Can now launch the app from the shortcut.
 5. Before you launch the application make shure you trust the binary, by checking the mark in the Properties tap when right clicking the file. (File location: `C:\GradeMaster\bin\win-x64\GradeMaster.DesktopClient.exe`)
 
+### Updating Software (Windows)
+1. Make shure you delete the contents of the `C:\GradeMaster` directory. (It is recommended you make a backup of your Data by copying your GradeMaster.db file located in `C:\Users\MaurerTimothy\AppData\Local\GradeMaster`. The database should remain compatible with the newer versions of the app and no data should be lost)
+2. Then Follow the same steps from the Instalation Guide for personal use.
 
 ### For Developement
 1. Clone this repository to your PC.
@@ -38,6 +46,7 @@ GradeMaster is a Desktop based grade management tool. It allows you to manage yo
 5. Then make shure all the packages and dependancies are loaded.
 6. Next you can build the solution.
 7. After you can start the application from the start button in Visual Studio. Make shure you have the Developer-Mode activated on your device.
+
 
 ## Info
 
@@ -61,8 +70,11 @@ GradeMaster is in active development. <br>
 | iOS     | arm64        | No        |
 | Android | arm64        | No        |
 
-The Desktop GUI Client is currently limited to Windows only. <br>
-Support for other platforms might change in the future.
+#### The Desktop GUI Client is currently limited to Windows only.
+- Windows versions that are supported and work (tested): Windows 11
+- Windows versions that are supported and should work (not tested): Windows 10
+
+Other platforms might get Support in the future.
 
 ### Supported Languages
 - English
@@ -84,3 +96,8 @@ The WinClient (based on WinUi 3) is discontinued and removed from the main branc
 This project is licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) License. For commercial use, please contact **[timothygmaurer@outlook.com](mailto:timothygmaurer@outlook.com)**.
 
 [License: CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)
+
+
+## Disclaimer
+THIS SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF, OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
