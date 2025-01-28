@@ -19,8 +19,8 @@ GradeMaster is a Desktop based grade management tool. It allows you to manage yo
 - [Entity Framework Core](https://learn.microsoft.com/de-de/ef/core/)
 - [SQLite](https://sqlite.org/) <br>
 
-### Win Client (discontinued and removed)
-- [WinUi 3](https://learn.microsoft.com/de-de/windows/apps/winui/winui3/) <br>
+<!-- ### Win Client (discontinued and removed)
+- [WinUi 3](https://learn.microsoft.com/de-de/windows/apps/winui/winui3/) <br> -->
 
 ### .NET Version: 9.0
 
@@ -86,8 +86,8 @@ Other platforms might get Support in the future.
 ### Console Client
 The Console Client is currently only for testing purposes.
 
-### Win Client
-The WinClient (based on WinUi 3) is discontinued and removed from the main branch, in favor of the .Net MAUI Blazor hybrid DesktopClient.
+<!-- ### Win Client
+The WinClient (based on WinUi 3) is discontinued and removed from the main branch, in favor of the .Net MAUI Blazor hybrid DesktopClient. -->
 
 
 <br>
