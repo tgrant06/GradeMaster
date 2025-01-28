@@ -76,6 +76,9 @@ public class EducationRepository : IEducationRepository
     {
         if (!string.IsNullOrWhiteSpace(searchValue))
         {
+            // var searchValue = $"%{searchValue}%";
+            // use the new searchValue variable instead of the string interpolation (multiple times)
+
             return await _context.Educations
                 //.Where(education =>
                 //    education.Name.Contains(searchValue, StringComparison.OrdinalIgnoreCase) ||
