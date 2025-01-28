@@ -35,7 +35,12 @@ public static class MauiProgram
         // Register DbContext with connection string from appsettings.json
         builder.Services.AddDbContext<GradeMasterDbContext>(options =>
         {
-            var appName = "GradeMaster";
+            #if RELEASE
+                var appName = "GradeMaster";
+            #elif DEBUG
+                var appName = "GradeMasterDev";
+            #endif
+
             var appDataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), appName);
 
             if (!Directory.Exists(appDataPath))
