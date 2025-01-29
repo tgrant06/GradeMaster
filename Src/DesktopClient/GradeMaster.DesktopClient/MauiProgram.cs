@@ -41,7 +41,7 @@ public static class MauiProgram
                 var appName = "GradeMasterDev";
             #endif
 
-            var appDataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), appName);
+            var appDataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), appName, "Data");
 
             if (!Directory.Exists(appDataPath))
             {
