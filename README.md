@@ -39,6 +39,11 @@ GradeMaster is a Desktop based grade management tool. It allows you to manage yo
 1. Make shure you delete the contents of the `C:\GradeMaster` directory. (It is recommended you make a backup of your Data by copying your GradeMaster.db file located in `C:\Users\MaurerTimothy\AppData\Local\GradeMaster`. The database should remain compatible with the newer versions of the app and no data should be lost)
 2. Then Follow the same steps from the Instalation Guide for personal use. (You do not have to copy the shortcut again. You can skip this step. Only do this step if the shortcut doesnt work anymore.)
 
+### Uninstalling the App for Users (Windows)
+1. Delete the directory `C:\GradeMaster`.
+2. You can also delete the data directory if you want to delete your data (not recommended). To do this delete the directory `C:\Users\MaurerTimothy\AppData\Local\GradeMaster`.
+3. You can also delete all of the shortcuts. Delete them, where you copied them.
+
 ### For Developement
 1. Clone this repository to your PC.
 2. Make shure you have the necessary stuff installed in Visual Studio for .NET MAUI Blazor Hybrid applications.
@@ -70,6 +75,10 @@ GradeMaster is in active development. <br>
 | macOS   | arm64        | No        |
 | iOS     | arm64        | No        |
 | Android | arm64        | No        |
+
+#### Info
+- You also have to make shure you have the WebView2 installed on your System. [WebView2](https://developer.microsoft.com/en-us/microsoft-edge/webview2)
+- The WebView2 should already be pre installed on all Windows 11 and most Windows 10 devices.
 
 #### The Desktop GUI Client is currently limited to Windows only.
 - Windows versions that are supported and work (tested): Windows 11
