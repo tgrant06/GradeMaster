@@ -21,6 +21,8 @@ public class Subject
     public bool Completed { get; set; }
     // teacher? add Entity people, persons , teachers, students... users?
 
+    // maybe add DateOnly Date { get; set; } // date for sorting? optional
+
     [Required]
     public Education Education { get; set; }
     public int EducationId { get; set; }
