@@ -13,14 +13,14 @@ public class EducationConfiguration : IEntityTypeConfiguration<Education>
         builder.HasKey(e => e.Id);
         builder.Property(e => e.Id).HasColumnName("Id").ValueGeneratedOnAdd();
 
-        builder.Property(e => e.Name).HasColumnName("Name").IsUnicode().HasMaxLength(255).IsRequired();
-        builder.Property(e => e.Description).HasColumnName("Description").IsUnicode().HasMaxLength(2500).IsRequired(false);
+        builder.Property(e => e.Name).HasColumnName("Name").IsUnicode().HasMaxLength(255).IsRequired().UseCollation("NOCASE");
+        builder.Property(e => e.Description).HasColumnName("Description").IsUnicode().HasMaxLength(2500).IsRequired(false).UseCollation("NOCASE");
         builder.Property(e => e.Semesters).HasColumnName("Semesters").IsRequired();
        
         builder.Property(e => e.StartDate).HasColumnName("StartDate").IsRequired();
         builder.Property(e => e.EndDate).HasColumnName("EndDate").IsRequired();
 
-        builder.Property(e => e.Institution).HasColumnName("Institution").IsUnicode().HasMaxLength(255).IsRequired(false);
+        builder.Property(e => e.Institution).HasColumnName("Institution").IsUnicode().HasMaxLength(255).IsRequired(false).UseCollation("NOCASE");
 
         builder.Property(e => e.Completed).HasColumnName("Completed").IsRequired();
 

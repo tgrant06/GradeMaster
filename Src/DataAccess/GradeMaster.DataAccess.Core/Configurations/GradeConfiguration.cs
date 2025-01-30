@@ -14,7 +14,7 @@ public class GradeConfiguration : IEntityTypeConfiguration<Grade>
         builder.Property(g => g.Id).HasColumnName("Id").ValueGeneratedOnAdd();
 
         builder.Property(g => g.Value).HasColumnName("Value").HasColumnType("decimal(3, 2)").IsRequired(); // grade (format 5.55) Swiss system
-        builder.Property(g => g.Description).HasColumnName("Description").IsUnicode().HasMaxLength(2500).IsRequired(false);
+        builder.Property(g => g.Description).HasColumnName("Description").IsUnicode().HasMaxLength(2500).IsRequired(false).UseCollation("NOCASE");
         builder.Property(g => g.Date).HasColumnName("Date").IsRequired();
 
         builder.HasOne(g => g.Weight).WithMany(w => w.Grades).HasForeignKey(g => g.WeightId).OnDelete(DeleteBehavior.Cascade).IsRequired();
