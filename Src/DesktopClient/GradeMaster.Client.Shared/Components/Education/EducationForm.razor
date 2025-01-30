@@ -154,8 +154,7 @@ else
     {
         if (OnSave.HasDelegate)
         {
-            PassEducationAttributes(Education, NewEducation);
-
+            PassEducationAttributes(Education, NewEducation, true);
             await OnSave.InvokeAsync(Education);
         }
         else
@@ -179,15 +178,23 @@ else
 
     #region Logic
 
-    private void PassEducationAttributes(Education toEducation, Education fromEducation)
+    private void PassEducationAttributes(Education toEducation, Education fromEducation, bool actionSubmit = false)
     {
-        toEducation.Name = fromEducation.Name;
+        toEducation.Name = actionSubmit ? fromEducation.Name.Trim() : fromEducation.Name;
+        toEducation.Description = actionSubmit ? fromEducation.Description?.Trim() : fromEducation.Description;
+        toEducation.Institution = actionSubmit ? fromEducation.Institution?.Trim() : fromEducation.Institution;
         toEducation.Completed = fromEducation.Completed;
-        toEducation.Description = fromEducation.Description;
         toEducation.Semesters = fromEducation.Semesters;
-        toEducation.Institution = fromEducation.Institution;
         toEducation.StartDate = fromEducation.StartDate;
         toEducation.EndDate = fromEducation.EndDate;
+
+        // toEducation.Name = fromEducation.Name;
+        // toEducation.Completed = fromEducation.Completed;
+        // toEducation.Description = fromEducation.Description;
+        // toEducation.Semesters = fromEducation.Semesters;
+        // toEducation.Institution = fromEducation.Institution;
+        // toEducation.StartDate = fromEducation.StartDate;
+        // toEducation.EndDate = fromEducation.EndDate;
     }
 
     #endregion
