@@ -53,4 +53,9 @@ public class WeightRepository : IWeightRepository
             _context.SaveChanges();
         }
     }
+
+    public async Task<bool> ExistsAnyAsync()
+    {
+        return await _context.Weights.AnyAsync();
+    }
 }

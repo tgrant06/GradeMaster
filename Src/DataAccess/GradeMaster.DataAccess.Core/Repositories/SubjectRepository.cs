@@ -90,13 +90,15 @@ public class SubjectRepository : ISubjectRepository
     {
         if (!string.IsNullOrWhiteSpace(searchValue))
         {
+            var newSearchValue = $"%{searchValue}%";
+
             return await _context.Subjects
                 .Where(subject =>
-                    EF.Functions.Like(subject.Name.ToLower(), $"%{searchValue}%") ||
-                    (subject.Description != null && EF.Functions.Like(subject.Description.ToLower(), $"%{searchValue}%")) ||
-                    EF.Functions.Like(subject.Semester.ToString(), $"%{searchValue}%") ||
-                    EF.Functions.Like(subject.Education.Name.ToLower(), $"%{searchValue}%") ||
-                    (subject.Education.Institution != null && EF.Functions.Like(subject.Education.Institution.ToLower(), $"%{searchValue}%")))
+                    EF.Functions.Like(subject.Name, newSearchValue) ||
+                    (subject.Description != null && EF.Functions.Like(subject.Description, newSearchValue)) ||
+                    EF.Functions.Like(subject.Semester.ToString(), newSearchValue) ||
+                    EF.Functions.Like(subject.Education.Name, newSearchValue) ||
+                    (subject.Education.Institution != null && EF.Functions.Like(subject.Education.Institution, newSearchValue)))
                 .Include(s => s.Education)
                 .Include(s => s.Grades)
                 .OrderByDescending(s => s.Id)
@@ -120,16 +122,23 @@ public class SubjectRepository : ISubjectRepository
     {
         if (!string.IsNullOrWhiteSpace(searchValue))
         {
+            var newSearchValue = $"%{searchValue}%";
+
             return await _context.Subjects
                 .Where(subject =>
-                    EF.Functions.Like(subject.Name.ToLower(), $"%{searchValue}%") ||
-                    (subject.Description != null && EF.Functions.Like(subject.Description.ToLower(), $"%{searchValue}%")) ||
-                    EF.Functions.Like(subject.Semester.ToString(), $"%{searchValue}%") ||
-                    EF.Functions.Like(subject.Education.Name.ToLower(), $"%{searchValue}%") ||
-                    (subject.Education.Institution != null && EF.Functions.Like(subject.Education.Institution.ToLower(), $"%{searchValue}%")))
+                    EF.Functions.Like(subject.Name, newSearchValue) ||
+                    (subject.Description != null && EF.Functions.Like(subject.Description, newSearchValue)) ||
+                    EF.Functions.Like(subject.Semester.ToString(), newSearchValue) ||
+                    EF.Functions.Like(subject.Education.Name, newSearchValue) ||
+                    (subject.Education.Institution != null && EF.Functions.Like(subject.Education.Institution, newSearchValue)))
                 .CountAsync();
         }
 
         return await _context.Subjects.CountAsync();
+    }
+
+    public async Task<bool> ExistsAnyAsync()
+    {
+        return await _context.Subjects.AnyAsync();
     }
 }

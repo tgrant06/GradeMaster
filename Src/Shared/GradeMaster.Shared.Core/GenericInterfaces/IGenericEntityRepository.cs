@@ -11,4 +11,6 @@ public interface IGenericEntityRepository<T>
     void UpdateAsync(int id, T t);
 
     void DeleteByIdAsync(int id);
+
+    Task<bool> ExistsAnyAsync();
 }
