@@ -92,11 +92,13 @@ public class SubjectRepository : ISubjectRepository
         {
             var newSearchValue = $"%{searchValue}%";
 
+            bool isNumericSearch = int.TryParse(searchValue, out int searchValueAsInt);
+
             return await _context.Subjects
                 .Where(subject =>
                     EF.Functions.Like(subject.Name, newSearchValue) ||
                     (subject.Description != null && EF.Functions.Like(subject.Description, newSearchValue)) ||
-                    EF.Functions.Like(subject.Semester.ToString(), newSearchValue) ||
+                    (isNumericSearch && subject.Semester == searchValueAsInt) ||
                     EF.Functions.Like(subject.Education.Name, newSearchValue) ||
                     (subject.Education.Institution != null && EF.Functions.Like(subject.Education.Institution, newSearchValue)))
                 .Include(s => s.Education)
@@ -124,11 +126,13 @@ public class SubjectRepository : ISubjectRepository
         {
             var newSearchValue = $"%{searchValue}%";
 
+            bool isNumericSearch = int.TryParse(searchValue, out int searchValueAsInt);
+
             return await _context.Subjects
                 .Where(subject =>
                     EF.Functions.Like(subject.Name, newSearchValue) ||
                     (subject.Description != null && EF.Functions.Like(subject.Description, newSearchValue)) ||
-                    EF.Functions.Like(subject.Semester.ToString(), newSearchValue) ||
+                    (isNumericSearch && subject.Semester == searchValueAsInt) ||
                     EF.Functions.Like(subject.Education.Name, newSearchValue) ||
                     (subject.Education.Institution != null && EF.Functions.Like(subject.Education.Institution, newSearchValue)))
                 .CountAsync();

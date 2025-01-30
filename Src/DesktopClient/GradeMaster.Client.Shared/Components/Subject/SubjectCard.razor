@@ -3,7 +3,7 @@
         <CardTitle Style="padding-top: 6px">
             <b>@Subject.Name - @Subject.Semester</b>
         </CardTitle>
-        <CardSubTitle Class="mb-2 text-muted">@TruncateString(Subject.Education.Name, 62)</CardSubTitle>
+        <CardSubTitle Class="mb-2 text-muted">@TruncateString(Subject.Education.Name, 52) @TruncateString(string.IsNullOrEmpty(Subject.Education.Institution) ? " " : "| " + Subject.Education.Institution.Split(",")[0], 15)</CardSubTitle>
     </CardHeader>
     <CardBody>
         <CardText>
