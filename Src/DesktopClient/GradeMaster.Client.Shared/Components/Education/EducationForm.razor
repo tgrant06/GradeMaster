@@ -152,6 +152,12 @@ else
 
     private async Task HandleValidSubmit()
     {
+        if (NewEducation.EndDate < NewEducation.StartDate)
+        {
+            ToastService.Notify(new ToastMessage(ToastType.Warning, $"End Date cannot be before Start Date."));
+            return;
+        }
+
         if (OnSave.HasDelegate)
         {
             PassEducationAttributes(Education, NewEducation, true);
