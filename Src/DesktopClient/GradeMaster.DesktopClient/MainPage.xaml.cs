@@ -58,13 +58,13 @@ public partial class MainPage : ContentPage
                 }
                 catch (Exception ex)
                 {
-                    throw ex;
+                    //throw ex;
                 }
             };
         }
         catch (Exception ex)
         {
-            throw ex;
+            //throw ex;
         }
     }
 }

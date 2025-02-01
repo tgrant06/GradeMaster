@@ -110,12 +110,15 @@
 
     [Inject] private IEducationRepository _educationRepository { get; set; } 
     [Inject] private ISubjectRepository _subjectRepository { get; set; }
+    [Inject] private IWeightRepository _weightRepository { get; set; }
 
     [Inject] private NavigationManager Navigation { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
         _educations = await _educationRepository.GetAllSimpleAsync();
+        await _weightRepository.GetAllAsync();
+
         var uri = Navigation.ToAbsoluteUri(Navigation.Uri);
         if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("educationId", out var educationIdString) && int.TryParse(educationIdString, out var educationId))
         {
