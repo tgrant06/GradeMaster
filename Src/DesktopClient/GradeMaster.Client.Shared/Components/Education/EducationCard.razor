@@ -7,7 +7,7 @@
     </CardHeader>
     <CardBody>
         <CardText>
-            <b>Description:</b> <br/> @TruncateString(String.IsNullOrEmpty(Education.Description) ? "-" : Education.Description, 200)
+            <b>Description:</b> <br/> @TruncateString(string.IsNullOrEmpty(Education.Description) ? "-" : Education.Description, 150)
         </CardText>
     </CardBody>
     <CardBody Class="border-top">
