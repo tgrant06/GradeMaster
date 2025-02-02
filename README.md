@@ -36,12 +36,12 @@ GradeMaster is a Desktop based grade management tool. It allows you to manage yo
 6. Optional: If you like you can also copy the shortcut to the Start Menu. You can do this by copying the shortcut to this directory: `Win + R` then `%AppData%\Microsoft\Windows\Start Menu\Programs`.
 
 ### Updating Software (Windows)
-1. Make shure you delete the contents of the `C:\GradeMaster` directory. (It is recommended you make a backup of your Data by copying your GradeMaster.db file located in `C:\Users\MaurerTimothy\AppData\Local\GradeMaster`. The database should remain compatible with the newer versions of the app and no data should be lost)
+1. Make shure you delete the contents of the `C:\GradeMaster` directory. (It is recommended you make a backup of your Data by copying your GradeMaster.db file located in `C:\Users\MaurerTimothy\AppData\Local\GradeMaster\Data`. The database should remain compatible with the newer versions of the app and no data should be lost)
 2. Then Follow the same steps from the Instalation Guide for personal use. (You do not have to copy the shortcut again. You can skip this step. Only do this step if the shortcut doesnt work anymore.)
 
 ### Uninstalling the App for Users (Windows)
 1. Delete the directory `C:\GradeMaster`.
-2. You can also delete the data directory if you want to delete your data (not recommended). To do this delete the directory `C:\Users\MaurerTimothy\AppData\Local\GradeMaster`.
+2. You can also delete the application data directory if you want to delete your data (not recommended). To do this delete the directory `C:\Users\MaurerTimothy\AppData\Local\GradeMaster`.
 3. You can also delete all of the shortcuts. Delete them, where you copied them.
 
 ### For Developement
@@ -85,6 +85,9 @@ GradeMaster is in active development. <br>
 - Windows versions that are supported and should work (not tested): Windows 10
 
 Other platforms might get Support in the future.
+
+#### Disk Space Requirement
+- It is recommended to have at least 1gb of free disk space for the application.
 
 ### Supported Languages
 - English
