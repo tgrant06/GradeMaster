@@ -33,6 +33,9 @@
         </Button>
     </div>
 </div>
+
+<ConfirmDialog @ref="_dialog" />
+
 <div class="container align-content-center" style="margin-bottom: 25px;">
     <!--set overflow to hidden maybe-->
     <div class="component-card-grid py-4">
@@ -40,7 +43,7 @@
         @* <Virtualize TItem="Education" Items="@(_filteredEducations.OrderByDescending(e => e.Id).ToList())" Context="education" OverscanCount="12"> *@
         <Virtualize TItem="Education" ItemsProvider="GetEducationsProvider" Context="education" OverscanCount="12" @ref="_virtualizeComponent">
             <ItemContent>
-                <EducationCard @key="@education.Id" Education="@education" OnEducationDeleted="RefreshEducationData" />
+                <EducationCard @key="@education.Id" Education="@education" OnEducationDeleted="RefreshEducationData" Dialog="_dialog" />
             </ItemContent>
             <EmptyContent>
                 <div></div>
@@ -74,6 +77,8 @@
     private string _searchValue = string.Empty;
 
     private Virtualize<Education>? _virtualizeComponent;
+
+    private ConfirmDialog _dialog = default!; 
 
     //private List<Education> _educations = new();
     //private List<Education> _filteredEducations = new();

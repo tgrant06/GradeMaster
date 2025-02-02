@@ -46,11 +46,14 @@
         }
     </div>
 </div>
+
+<ConfirmDialog @ref="_dialog" />
+
 <div class="container align-content-center" style="margin-bottom: 25px;">
     <div class="component-card-grid py-4">
         <Virtualize TItem="Grade" ItemsProvider="GetGradesProvider" Context="grade" OverscanCount="12" @ref="_virtualizeComponent">
             <ItemContent>
-                <GradeCard Grade="@grade" OnGradeDeleted="RefreshGradeData" />
+                <GradeCard Grade="@grade" OnGradeDeleted="RefreshGradeData" Dialog="_dialog" />
             </ItemContent>
             <EmptyContent>
                 <div></div>
@@ -85,6 +88,7 @@
 
     private Virtualize<Grade>? _virtualizeComponent;
 
+    private ConfirmDialog _dialog = default!;
 
     private async ValueTask<ItemsProviderResult<Grade>> GetGradesProvider(ItemsProviderRequest request)
     {

@@ -47,15 +47,18 @@
     </CardFooter>
 </Card>
 
-<ConfirmDialog @ref="_dialog"/>
+@* <ConfirmDialog @ref="_dialog"/> *@
 
 @code {
     [Parameter] public Education Education { get; set; }
     [Parameter] public EventCallback OnEducationDeleted { get; set; } // was EventCallback<int> OnEducationDeleted { get; set; }
+    [Parameter] public ConfirmDialog Dialog { get; set; } = default!;
 
     [Inject] private IEducationRepository _educationRepository { get; set; }
 
     [Inject] private NavigationManager Navigation { get; set; }
+
+    [Inject] protected ToastService ToastService { get; set; } = default!;
 
     private decimal _educationAverage;
 
@@ -130,9 +133,7 @@
 
     #region Delete Education
 
-    private ConfirmDialog _dialog = default!;
-
-    [Inject] protected ToastService ToastService { get; set; } = default!;
+    //private ConfirmDialog _dialog = default!;
 
     private async Task DeleteEducationAsync()
     {
@@ -141,9 +142,9 @@
             YesButtonColor = ButtonColor.Danger,
         };
 
-        var confirmation = await _dialog.ShowAsync(
+        var confirmation = await Dialog.ShowAsync(
             title: "Are you sure you want to delete this Education?",
-            message1: $"Education: {Education.Name}, {Education.Subjects.Count()} subject(s) and all related objects will be deleted.",
+            message1: $"Education: {Education.Name}, {Education.Subjects.Count()} Subject(s) and all related Objects will be deleted.",
             message2: "Do you want to proceed?",
             confirmDialogOptions: options);
 

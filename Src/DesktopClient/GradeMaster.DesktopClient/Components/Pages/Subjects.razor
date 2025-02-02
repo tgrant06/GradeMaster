@@ -46,11 +46,14 @@
         }
     </div>
 </div>
+
+<ConfirmDialog @ref="_dialog" />
+
 <div class="container align-content-center" style="margin-bottom: 25px;">
     <div class="component-card-grid py-4">
         <Virtualize TItem="Subject" ItemsProvider="GetSubjectsProvider" Context="subject" OverscanCount="12" @ref="_virtualizeComponent">
             <ItemContent>
-                <SubjectCard Subject="@subject" OnSubjectDeleted="RefreshSubjectData" />
+                <SubjectCard Subject="@subject" OnSubjectDeleted="RefreshSubjectData" Dialog="_dialog" />
             </ItemContent>
             <EmptyContent>
                 <div></div>
@@ -84,6 +87,8 @@
     private string _searchValue = string.Empty;
 
     private Virtualize<Subject>? _virtualizeComponent;
+
+    private ConfirmDialog _dialog = default!;
 
     // private List<Subject> _subjects = new();
     // private List<Subject> _filteredSubjects = new();
