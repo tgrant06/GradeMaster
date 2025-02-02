@@ -61,8 +61,10 @@ public class SubjectRepository : ISubjectRepository
 
     public async Task<List<Subject>> GetByEducationIdAsync(int id)
     {
-        return await _context.Subjects.Where(s => s.Education.Id == id).Include(s => s.Grades)
-            .ThenInclude(g => g.Weight).ToListAsync();
+        return await _context.Subjects.Where(s => s.Education.Id == id)
+            .Include(s => s.Grades)
+            //.ThenInclude(g => g.Weight)
+            .ToListAsync();
     }
 
     public async Task<List<Subject>> GetAllWithGradesAsync()
@@ -90,13 +92,17 @@ public class SubjectRepository : ISubjectRepository
     {
         if (!string.IsNullOrWhiteSpace(searchValue))
         {
+            var newSearchValue = $"%{searchValue}%";
+
+            bool isNumericSearch = int.TryParse(searchValue, out int searchValueAsInt);
+
             return await _context.Subjects
                 .Where(subject =>
-                    EF.Functions.Like(subject.Name.ToLower(), $"%{searchValue}%") ||
-                    (subject.Description != null && EF.Functions.Like(subject.Description.ToLower(), $"%{searchValue}%")) ||
-                    EF.Functions.Like(subject.Semester.ToString(), $"%{searchValue}%") ||
-                    EF.Functions.Like(subject.Education.Name.ToLower(), $"%{searchValue}%") ||
-                    (subject.Education.Institution != null && EF.Functions.Like(subject.Education.Institution.ToLower(), $"%{searchValue}%")))
+                    EF.Functions.Like(subject.Name, newSearchValue) ||
+                    (subject.Description != null && EF.Functions.Like(subject.Description, newSearchValue)) ||
+                    (isNumericSearch && subject.Semester == searchValueAsInt) ||
+                    EF.Functions.Like(subject.Education.Name, newSearchValue) ||
+                    (subject.Education.Institution != null && EF.Functions.Like(subject.Education.Institution, newSearchValue)))
                 .Include(s => s.Education)
                 .Include(s => s.Grades)
                 .OrderByDescending(s => s.Id)
@@ -120,16 +126,25 @@ public class SubjectRepository : ISubjectRepository
     {
         if (!string.IsNullOrWhiteSpace(searchValue))
         {
+            var newSearchValue = $"%{searchValue}%";
+
+            bool isNumericSearch = int.TryParse(searchValue, out int searchValueAsInt);
+
             return await _context.Subjects
                 .Where(subject =>
-                    EF.Functions.Like(subject.Name.ToLower(), $"%{searchValue}%") ||
-                    (subject.Description != null && EF.Functions.Like(subject.Description.ToLower(), $"%{searchValue}%")) ||
-                    EF.Functions.Like(subject.Semester.ToString(), $"%{searchValue}%") ||
-                    EF.Functions.Like(subject.Education.Name.ToLower(), $"%{searchValue}%") ||
-                    (subject.Education.Institution != null && EF.Functions.Like(subject.Education.Institution.ToLower(), $"%{searchValue}%")))
+                    EF.Functions.Like(subject.Name, newSearchValue) ||
+                    (subject.Description != null && EF.Functions.Like(subject.Description, newSearchValue)) ||
+                    (isNumericSearch && subject.Semester == searchValueAsInt) ||
+                    EF.Functions.Like(subject.Education.Name, newSearchValue) ||
+                    (subject.Education.Institution != null && EF.Functions.Like(subject.Education.Institution, newSearchValue)))
                 .CountAsync();
         }
 
         return await _context.Subjects.CountAsync();
+    }
+
+    public async Task<bool> ExistsAnyAsync()
+    {
+        return await _context.Subjects.AnyAsync();
     }
 }

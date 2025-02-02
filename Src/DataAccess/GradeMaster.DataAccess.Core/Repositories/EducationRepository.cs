@@ -76,8 +76,9 @@ public class EducationRepository : IEducationRepository
     {
         if (!string.IsNullOrWhiteSpace(searchValue))
         {
-            // var searchValue = $"%{searchValue}%";
-            // use the new searchValue variable instead of the string interpolation (multiple times)
+            var newSearchValue = $"%{searchValue}%";
+
+            bool isNumericSearch = int.TryParse(searchValue, out int searchValueAsInt);
 
             return await _context.Educations
                 //.Where(education =>
@@ -85,13 +86,21 @@ public class EducationRepository : IEducationRepository
                 //    (education.Description != null && education.Description.Contains(searchValue, StringComparison.OrdinalIgnoreCase)) ||
                 //    education.Semesters.ToString().Contains(searchValue, StringComparison.OrdinalIgnoreCase) ||
                 //    (education.Institution != null && education.Institution.Contains(searchValue, StringComparison.OrdinalIgnoreCase)))
+                //.Where(education =>
+                //    EF.Functions.Like(education.Name, newSearchValue) ||
+                //    (education.Description != null && EF.Functions.Like(education.Description, newSearchValue)) ||
+                //    EF.Functions.Like(education.Semesters.ToString(), newSearchValue) ||
+                //    (education.Institution != null && EF.Functions.Like(education.Institution, newSearchValue)) ||
+                //    EF.Functions.Like(education.StartDate.Year.ToString(), newSearchValue) || // Search in StartDate
+                //    EF.Functions.Like(education.EndDate.Year.ToString(), newSearchValue))
                 .Where(education =>
-                    EF.Functions.Like(education.Name.ToLower(), $"%{searchValue}%") ||
-                    (education.Description != null && EF.Functions.Like(education.Description.ToLower(), $"%{searchValue}%")) ||
-                    EF.Functions.Like(education.Semesters.ToString().ToLower(), $"%{searchValue}%") ||
-                    (education.Institution != null && EF.Functions.Like(education.Institution.ToLower(), $"%{searchValue}%")) ||
-                    EF.Functions.Like(education.StartDate.Year.ToString(), $"%{searchValue}%") || // Search in StartDate
-                    EF.Functions.Like(education.EndDate.Year.ToString(), $"%{searchValue}%"))
+                    EF.Functions.Like(education.Name, newSearchValue) ||
+                    (education.Description != null && EF.Functions.Like(education.Description, newSearchValue)) ||
+                    (education.Institution != null && EF.Functions.Like(education.Institution, newSearchValue)) ||
+                    (isNumericSearch && education.Semesters == searchValueAsInt) || // Direct integer comparison
+                    (isNumericSearch && education.StartDate.Year == searchValueAsInt) || // Compare Year as an int
+                    (isNumericSearch && education.EndDate.Year == searchValueAsInt)
+                )
                 .Include(e => e.Subjects)
                     .ThenInclude(s => s.Grades)
                 .OrderByDescending(e => e.Id)
@@ -113,14 +122,19 @@ public class EducationRepository : IEducationRepository
     {
         if (!string.IsNullOrWhiteSpace(searchValue))
         {
+            var newSearchValue = $"%{searchValue}%";
+
+            bool isNumericSearch = int.TryParse(searchValue, out int searchValueAsInt);
+
             return await _context.Educations
                 .Where(education =>
-                    EF.Functions.Like(education.Name.ToLower(), $"%{searchValue}%") ||
-                    (education.Description != null && EF.Functions.Like(education.Description.ToLower(), $"%{searchValue}%")) ||
-                    EF.Functions.Like(education.Semesters.ToString().ToLower(), $"%{searchValue}%") ||
-                    (education.Institution != null && EF.Functions.Like(education.Institution.ToLower(), $"%{searchValue}%")) ||
-                    EF.Functions.Like(education.StartDate.Year.ToString(), $"%{searchValue}%") || // Search in StartDate
-                    EF.Functions.Like(education.EndDate.Year.ToString(), $"%{searchValue}%"))
+                    EF.Functions.Like(education.Name, newSearchValue) ||
+                    (education.Description != null && EF.Functions.Like(education.Description, newSearchValue)) ||
+                    (education.Institution != null && EF.Functions.Like(education.Institution, newSearchValue)) ||
+                    (isNumericSearch && education.Semesters == searchValueAsInt) || // Direct integer comparison
+                    (isNumericSearch && education.StartDate.Year == searchValueAsInt) || // Compare Year as an int
+                    (isNumericSearch && education.EndDate.Year == searchValueAsInt)
+                )
                 .CountAsync();
         }
 
@@ -130,5 +144,10 @@ public class EducationRepository : IEducationRepository
     public async Task<List<Education>> GetAllSimpleAsync()
     {
         return await _context.Educations.ToListAsync(); // maybe change ordering
+    }
+
+    public async Task<bool> ExistsAnyAsync()
+    {
+        return await _context.Educations.AnyAsync();
     }
 }

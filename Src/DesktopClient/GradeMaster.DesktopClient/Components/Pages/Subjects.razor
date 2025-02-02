@@ -19,7 +19,7 @@
         </EditForm>
     </div>
     <!--Add edit and detail button later-->
-    <div class="col-1 col-md-1 mb-3 mt-4" style="width: 38px; margin-right: 10px">
+    <div class="col-1 col-md-1 mb-3 mt-4" style="width: 38px; margin-right: 6px; padding-left: 9px;">
         <Button Color="ButtonColor.Primary" class="px-2" style="height: 38px; padding-top: 3px;" @onclick="RefreshSubjectData">
             <Icon Name="IconName.Search" Size="IconSize.x5" />
         </Button>
@@ -30,16 +30,30 @@
         </Button>
     </div>
     <div class="col-4 col-md-4 text-end ms-auto mb-3 mt-4" style="width: 150px;">
-        <Button Color="ButtonColor.Success" @onclick="CreateSubject" Size="ButtonSize.Medium" Style="height: 38px;">
-            New <Icon Name="IconName.PlusCircle" />
-        </Button>
+        @if (!_educationRepository.ExistsAnyAsync().Result)
+        {
+            <Tooltip Title="Create Education first" Style="padding-top: 6px">
+                <Button Color="ButtonColor.Success" @onclick="CreateSubject" Disabled="true" Size="ButtonSize.Medium" Style="height: 38px;">
+                    New <Icon Name="IconName.PlusSquare"/>
+                </Button>
+            </Tooltip>
+        }
+        else
+        {
+            <Button Color="ButtonColor.Success" @onclick="CreateSubject" Size="ButtonSize.Medium" Style="height: 38px;">
+                New <Icon Name="IconName.PlusSquare"/>
+            </Button>
+        }
     </div>
 </div>
+
+<ConfirmDialog @ref="_dialog" />
+
 <div class="container align-content-center" style="margin-bottom: 25px;">
     <div class="component-card-grid py-4">
         <Virtualize TItem="Subject" ItemsProvider="GetSubjectsProvider" Context="subject" OverscanCount="12" @ref="_virtualizeComponent">
             <ItemContent>
-                <SubjectCard Subject="@subject" OnSubjectDeleted="RefreshSubjectData" />
+                <SubjectCard Subject="@subject" OnSubjectDeleted="RefreshSubjectData" Dialog="_dialog" />
             </ItemContent>
             <EmptyContent>
                 <div></div>
@@ -64,6 +78,7 @@
 </div>
 
 @code {
+    [Inject] private IEducationRepository _educationRepository { get; set; }
     [Inject] private ISubjectRepository _subjectRepository { get; set; }
     [Inject] private IWeightRepository _weightRepository { get; set; }
 
@@ -72,6 +87,8 @@
     private string _searchValue = string.Empty;
 
     private Virtualize<Subject>? _virtualizeComponent;
+
+    private ConfirmDialog _dialog = default!;
 
     // private List<Subject> _subjects = new();
     // private List<Subject> _filteredSubjects = new();

@@ -224,7 +224,7 @@ else
 
         if (OnSave.HasDelegate)
         {
-            PassGradeAttributes(Grade, NewGrade);
+            PassGradeAttributes(Grade, NewGrade, true);
             await OnSave.InvokeAsync(Grade);
         }
         else
@@ -256,10 +256,10 @@ else
 
     #region Logic
 
-    private void PassGradeAttributes(Grade toGrade, Grade fromGrade)
+    private void PassGradeAttributes(Grade toGrade, Grade fromGrade, bool actionSubmit = false)
     {
         toGrade.Value = fromGrade.Value;
-        toGrade.Description = fromGrade.Description;
+        toGrade.Description = actionSubmit ? fromGrade.Description?.Trim() : fromGrade.Description;
         toGrade.Date = fromGrade.Date;
         toGrade.Weight = fromGrade.Weight ?? new Weight();
         toGrade.Subject = fromGrade.Subject ?? new Subject();

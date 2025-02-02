@@ -29,19 +29,19 @@ GradeMaster is a Desktop based grade management tool. It allows you to manage yo
 
 ### For personal usage (Windows)
 1. Install the Zip-File (GradeMaster_[win-x64/win-arm64] depending on your System) from the Release Section. Make sure you install the newest available version.
-2. Unpack the Zip-File in the `C:\` directory.
+2. Unpack the Zip-File in the `C:\Program Files\` directory.
 3. After the installation you will see the folder containing the app. There you can copy the shortcut and paste it to the Desktop.
 4. You Can now launch the app from the shortcut.
-5. Before you launch the application make shure you trust the binary, by checking the mark in the Properties tap when right clicking the file. (File location: `C:\GradeMaster\bin\win-x64\GradeMaster.DesktopClient.exe`)
+5. Before you launch the application make shure you trust the binary, by checking the mark in the Properties tap when right clicking the file. (File location: `C:\Program Files\GradeMaster\bin\win-x64\GradeMaster.DesktopClient.exe`) (or `C:\Program Files\GradeMaster\bin\win-arm64\GradeMaster.DesktopClient.exe` for arm based systems)
 6. Optional: If you like you can also copy the shortcut to the Start Menu. You can do this by copying the shortcut to this directory: `Win + R` then `%AppData%\Microsoft\Windows\Start Menu\Programs`.
 
 ### Updating Software (Windows)
-1. Make shure you delete the contents of the `C:\GradeMaster` directory. (It is recommended you make a backup of your Data by copying your GradeMaster.db file located in `C:\Users\MaurerTimothy\AppData\Local\GradeMaster`. The database should remain compatible with the newer versions of the app and no data should be lost)
+1. Make shure you delete the `C:\Program Files\GradeMaster` directory. (It is recommended you make a backup of your Data by copying your GradeMaster.db file located in `C:\Users\YourUser\AppData\Local\GradeMaster\Data`. The database should remain compatible with the newer versions of the app and no data should be lost)
 2. Then Follow the same steps from the Instalation Guide for personal use. (You do not have to copy the shortcut again. You can skip this step. Only do this step if the shortcut doesnt work anymore.)
 
 ### Uninstalling the App for Users (Windows)
-1. Delete the directory `C:\GradeMaster`.
-2. You can also delete the data directory if you want to delete your data (not recommended). To do this delete the directory `C:\Users\MaurerTimothy\AppData\Local\GradeMaster`.
+1. Delete the directory `C:\Program Files\GradeMaster`.
+2. You can also delete the application data directory if you want to delete your data (not recommended). To do this delete the directory `C:\Users\YourUser\AppData\Local\GradeMaster`.
 3. You can also delete all of the shortcuts. Delete them, where you copied them.
 
 ### For Developement
@@ -59,6 +59,7 @@ GradeMaster is a Desktop based grade management tool. It allows you to manage yo
 ### Releases and Versions
 [![Release Version Badge](https://img.shields.io/github/v/release/devt06/GradeMaster)](https://github.com/DevT06/GradeMaster/releases)
 [![Downloads@latest](https://img.shields.io/github/downloads/devt06/GradeMaster/1.0.0/total)](https://github.com/DevT06/GradeMaster/releases/latest)
+<!-- [![Downloads@latest](https://img.shields.io/github/downloads/devt06/GradeMaster/latest/total)](https://github.com/DevT06/GradeMaster/releases/latest) -->
 
 ### Price
 GradeMaster is free to use, as of this moment.
@@ -85,6 +86,9 @@ GradeMaster is in active development. <br>
 - Windows versions that are supported and should work (not tested): Windows 10
 
 Other platforms might get Support in the future.
+
+#### Disk Space Requirement
+- It is recommended to have at least 1gb of free disk space for the application.
 
 ### Supported Languages
 - English

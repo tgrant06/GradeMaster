@@ -19,8 +19,8 @@
         </select>
     </div>
     <!--Add edit and detail button later-->
-    <div class="col-1 col-md-1 mb-3 mt-4" style="width: 38px; margin-right: 10px;">
-        <Tooltip Title="New Education" Style="padding-top: 5px;">
+    <div class="col-1 col-md-1 mb-3 mt-4" style="width: 38px; margin-right: 6px; padding-left: 9px;">
+        <Tooltip Title="New Education" Style="padding-top: 6px;">
             <NavLink href="/educations/create" class="btn btn-primary px-2" style="height: 38px; padding-top: 3px;">
                 <Icon Name="IconName.PlusCircle" Size="IconSize.x5"/>
             </NavLink>
@@ -59,8 +59,8 @@
                 {
                     <span>No Grades </span>
                 }
-                <Tooltip Title="New Grade">
-                    <NavLink href="/grades/create" class="btn btn-secondary px-1" style="height: 28px; width: 28px; padding-top: 1px;">
+                <Tooltip Title="New Grade" Style="padding-top: 1px;">
+                    <NavLink href="/grades/create" class="btn btn-secondary" style="height: 29px; width: 29px; padding-top: 2px; padding-left: 5px;">
                         <Icon Name="IconName.PlusCircle" Size="IconSize.x6"/>
                     </NavLink>
                 </Tooltip>
@@ -110,12 +110,15 @@
 
     [Inject] private IEducationRepository _educationRepository { get; set; } 
     [Inject] private ISubjectRepository _subjectRepository { get; set; }
+    [Inject] private IWeightRepository _weightRepository { get; set; }
 
     [Inject] private NavigationManager Navigation { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
         _educations = await _educationRepository.GetAllSimpleAsync();
+        await _weightRepository.GetAllAsync();
+
         var uri = Navigation.ToAbsoluteUri(Navigation.Uri);
         if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("educationId", out var educationIdString) && int.TryParse(educationIdString, out var educationId))
         {

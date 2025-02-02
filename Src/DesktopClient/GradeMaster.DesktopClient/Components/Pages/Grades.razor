@@ -19,7 +19,7 @@
         </EditForm>
     </div>
     <!--Add edit and detail button later-->
-    <div class="col-1 col-md-1 mb-3 mt-4" style="width: 38px; margin-right: 10px">
+    <div class="col-1 col-md-1 mb-3 mt-4" style="width: 38px; margin-right: 6px; padding-left: 9px;">
         <Button Color="ButtonColor.Primary" class="px-2" style="height: 38px; padding-top: 3px;" @onclick="RefreshGradeData">
             <Icon Name="IconName.Search" Size="IconSize.x5" />
         </Button>
@@ -30,16 +30,30 @@
         </Button>
     </div>
     <div class="col-4 col-md-4 text-end ms-auto mb-3 mt-4" style="width: 150px;">
-        <Button Color="ButtonColor.Success" @onclick="CreateGrade" Size="ButtonSize.Medium" Style="height: 38px;">
-            New <Icon Name="IconName.PlusCircle" />
-        </Button>
+        @if (!_subjectRepository.ExistsAnyAsync().Result)
+        {
+            <Tooltip Title="Create Subject first" Style="padding-top: 6px">
+                <Button Color="ButtonColor.Success" @onclick="CreateGrade" Disabled="true" Size="ButtonSize.Medium" Style="height: 38px;">
+                    New <Icon Name="IconName.BookmarkPlus" />
+                </Button>
+            </Tooltip>
+        }
+        else
+        {
+            <Button Color="ButtonColor.Success" @onclick="CreateGrade" Size="ButtonSize.Medium" Style="height: 38px;">
+                New <Icon Name="IconName.BookmarkPlus" />
+            </Button>
+        }
     </div>
 </div>
+
+<ConfirmDialog @ref="_dialog" />
+
 <div class="container align-content-center" style="margin-bottom: 25px;">
     <div class="component-card-grid py-4">
         <Virtualize TItem="Grade" ItemsProvider="GetGradesProvider" Context="grade" OverscanCount="12" @ref="_virtualizeComponent">
             <ItemContent>
-                <GradeCard Grade="@grade" OnGradeDeleted="RefreshGradeData" />
+                <GradeCard Grade="@grade" OnGradeDeleted="RefreshGradeData" Dialog="_dialog" />
             </ItemContent>
             <EmptyContent>
                 <div></div>
@@ -74,6 +88,7 @@
 
     private Virtualize<Grade>? _virtualizeComponent;
 
+    private ConfirmDialog _dialog = default!;
 
     private async ValueTask<ItemsProviderResult<Grade>> GetGradesProvider(ItemsProviderRequest request)
     {
