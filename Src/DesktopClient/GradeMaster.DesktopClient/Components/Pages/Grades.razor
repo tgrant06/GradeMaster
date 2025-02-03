@@ -3,7 +3,7 @@
 <HeadContent>
     <style>
         html, body {
-            overflow-y: scroll
+        overflow-y: scroll
         }
     </style>
 </HeadContent>
@@ -30,19 +30,19 @@
         </Button>
     </div>
     <div class="col-4 col-md-4 text-end ms-auto mb-3 mt-4" style="width: 150px;">
-        @if (!_subjectRepository.ExistsAnyIsCompletedAsync(false).Result)
+        @if (_existsAnySubjectInProgress)
+        {
+            <Button Color="ButtonColor.Success" @onclick="CreateGrade" Size="ButtonSize.Medium" Style="height: 38px;">
+                New <Icon Name="IconName.BookmarkPlus" />
+            </Button>
+        }
+        else
         {
             <Tooltip Title="Create Subject first" Style="padding-top: 6px">
                 <Button Color="ButtonColor.Success" @onclick="CreateGrade" Disabled="true" Size="ButtonSize.Medium" Style="height: 38px;">
                     New <Icon Name="IconName.BookmarkPlus" />
                 </Button>
             </Tooltip>
-        }
-        else
-        {
-            <Button Color="ButtonColor.Success" @onclick="CreateGrade" Size="ButtonSize.Medium" Style="height: 38px;">
-                New <Icon Name="IconName.BookmarkPlus" />
-            </Button>
         }
     </div>
 </div>
@@ -85,6 +85,7 @@
     [Inject] private NavigationManager Navigation { get; set; }
 
     private string _searchValue = string.Empty;
+    private bool _existsAnySubjectInProgress;
 
     private Virtualize<Grade>? _virtualizeComponent;
 
@@ -108,6 +109,7 @@
     protected override async Task OnInitializedAsync()
     {
         await _weightRepository.GetAllAsync();
+        _existsAnySubjectInProgress = await _subjectRepository.ExistsAnyIsCompletedAsync(false);
         // await LoadGrades();
         // await _subjectRepository.GetAllWithGradesAsync();
         // await _weightRepository.GetAllAsync();

@@ -3,7 +3,7 @@
 <HeadContent>
     <style>
         html, body {
-            overflow-y: scroll
+        overflow-y: scroll
         }
     </style>
 </HeadContent>
@@ -30,19 +30,19 @@
         </Button>
     </div>
     <div class="col-4 col-md-4 text-end ms-auto mb-3 mt-4" style="width: 150px;">
-        @if (!_educationRepository.ExistsAnyIsCompletedAsync(false).Result)
+        @if (_existsAnyEducationInProgress)
         {
-            <Tooltip Title="Create Education first" Style="padding-top: 6px">
-                <Button Color="ButtonColor.Success" @onclick="CreateSubject" Disabled="true" Size="ButtonSize.Medium" Style="height: 38px;">
-                    New <Icon Name="IconName.PlusSquare"/>
-                </Button>
-            </Tooltip>
+            <Button Color="ButtonColor.Success" @onclick="CreateSubject" Size="ButtonSize.Medium" Style="height: 38px;">
+                New <Icon Name="IconName.PlusSquare" />
+            </Button>
         }
         else
         {
-            <Button Color="ButtonColor.Success" @onclick="CreateSubject" Size="ButtonSize.Medium" Style="height: 38px;">
-                New <Icon Name="IconName.PlusSquare"/>
-            </Button>
+            <Tooltip Title="Create Education first" Style="padding-top: 6px">
+                <Button Color="ButtonColor.Success" @onclick="CreateSubject" Disabled="true" Size="ButtonSize.Medium" Style="height: 38px;">
+                    New <Icon Name="IconName.PlusSquare" />
+                </Button>
+            </Tooltip>
         }
     </div>
 </div>
@@ -85,6 +85,7 @@
     [Inject] private NavigationManager Navigation { get; set; }
 
     private string _searchValue = string.Empty;
+    private bool _existsAnyEducationInProgress;
 
     private Virtualize<Subject>? _virtualizeComponent;
 
@@ -111,6 +112,7 @@
     protected override async Task OnInitializedAsync()
     {
         await _weightRepository.GetAllAsync();
+        _existsAnyEducationInProgress = await _educationRepository.ExistsAnyIsCompletedAsync(false);
         // await LoadSubjects();
         // await _gradeRepository.GetAllWithWeightAsync();
     }
