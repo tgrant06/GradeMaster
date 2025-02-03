@@ -54,22 +54,22 @@
                 <!-- Second Column -->
                 <div class="col mb-3">
                     <CardText Class="border-bottom" Style="padding-bottom: 20px; margin-bottom: 6px;">
-                        <b>Subject:</b> @Grade.Subject.Name - @Grade.Subject.Semester
-                    </CardText>
-                </div>
-                <div class="col mb-3">
-                    <CardText Class="border-bottom" Style="padding-bottom: 20px; margin-bottom: 6px;">
                         <b>Education:</b> @Grade.Subject.Education.Name
                     </CardText>
                 </div>
                 <div class="col mb-3">
                     <CardText Class="border-bottom" Style="padding-bottom: 20px; margin-bottom: 6px;">
-                        <b>Date:</b> @Grade.Date.ToShortDateString()
+                        <b>Subject:</b> @Grade.Subject.Name - @Grade.Subject.Semester
                     </CardText>
                 </div>
                 <div class="col mb-3">
                     <CardText Class="border-bottom" Style="padding-bottom: 20px; margin-bottom: 6px;">
-                        <b>Institution:</b> @(String.IsNullOrWhiteSpace(Grade.Subject.Education.Institution) ? "-" : Grade.Subject.Education.Institution)
+                        <b>Institution:</b> @(string.IsNullOrWhiteSpace(Grade.Subject.Education.Institution) ? "-" : Grade.Subject.Education.Institution)
+                    </CardText>
+                </div>
+                <div class="col mb-3">
+                    <CardText Class="border-bottom" Style="padding-bottom: 20px; margin-bottom: 6px;">
+                        <b>Date:</b> @Grade.Date.ToShortDateString()
                     </CardText>
                 </div>
             </div>
