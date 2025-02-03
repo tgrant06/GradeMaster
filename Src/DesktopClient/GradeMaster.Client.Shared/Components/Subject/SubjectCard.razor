@@ -66,6 +66,11 @@
         await CalculateSubjectAverage();
     }
 
+    protected override async Task OnParametersSetAsync()
+    {
+        await CalculateSubjectAverage();
+    }
+
     private string TruncateString(string name, int maxLength)
     {
         if (string.IsNullOrEmpty(name) || name.Length <= maxLength)

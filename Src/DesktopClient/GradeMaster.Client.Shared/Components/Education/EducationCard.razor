@@ -67,6 +67,11 @@
         await CalculateEducationAverage();
     }
 
+    // protected override async Task OnParametersSetAsync()
+    // {
+    //     await CalculateEducationAverage();
+    // }
+
     private string TruncateString(string name, int maxLength)
     {
         if (string.IsNullOrEmpty(name) || name.Length <= maxLength)
