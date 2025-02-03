@@ -1,7 +1,9 @@
 ﻿* {
     /*For more native feel*/
-    -webkit-user-drag: none; /* Safari and WebKit browsers */
+    -webkit-user-drag: none;
+    -webkit-user-select: none; /* Safari and WebKit browsers */
     user-select: none; /* Prevents text selection */
+    /*pointer-events: auto;*/ /* Ensures normal interactions */
 }
 
 /*#if (SampleContent)*/
