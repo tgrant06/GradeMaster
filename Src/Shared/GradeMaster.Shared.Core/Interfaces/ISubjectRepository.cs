@@ -20,4 +20,6 @@ public interface ISubjectRepository : IGenericEntityRepository<Subject>
     Task<List<Subject>> GetBySearchWithLimitAsync(string searchValue, int startIndex, int amount);
 
     Task<int> GetTotalCountAsync(string searchValue);
+
+    Task<bool> ExistsAnyIsCompletedAsync(bool completed);
 }

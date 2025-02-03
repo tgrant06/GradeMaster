@@ -19,4 +19,6 @@ public interface IEducationRepository : IGenericEntityRepository<Education>
     Task<List<Education>> GetAllSimpleAsync();
 
     //Task<List<Education>> GetBySemestersAsync(int semesters); later
+
+    Task<bool> ExistsAnyIsCompletedAsync(bool completed);
 }

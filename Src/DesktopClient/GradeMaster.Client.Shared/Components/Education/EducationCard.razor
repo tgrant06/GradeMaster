@@ -62,6 +62,7 @@
 
     private decimal _educationAverage;
 
+    // if OnParametersSetAsync is used, then OnInitializedAsync is redundant?
     protected override async Task OnInitializedAsync()
     {
         await CalculateEducationAverage();

@@ -30,7 +30,7 @@
         </Button>
     </div>
     <div class="col-4 col-md-4 text-end ms-auto mb-3 mt-4" style="width: 150px;">
-        @if (!_subjectRepository.ExistsAnyAsync().Result)
+        @if (!_subjectRepository.ExistsAnyIsCompletedAsync(false).Result)
         {
             <Tooltip Title="Create Subject first" Style="padding-top: 6px">
                 <Button Color="ButtonColor.Success" @onclick="CreateGrade" Disabled="true" Size="ButtonSize.Medium" Style="height: 38px;">
