@@ -14,7 +14,7 @@
             <option value="" style="background-color: #eeeeee; color: black; border: solid 1px">Select Education</option>
             @foreach (var education in _educations)
             {
-                <option value="@education.Id" style="background-color: #eeeeee; color: black;">@TruncateString(education.Name, 50)</option>
+                <option value="@education.Id" style="background-color: #eeeeee; color: black;">@TruncateString(education.Name, 65)</option>
             }
         </select>
     </div>
