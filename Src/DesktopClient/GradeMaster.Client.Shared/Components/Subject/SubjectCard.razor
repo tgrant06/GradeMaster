@@ -139,7 +139,7 @@
             {
                 _subjectRepository.DeleteByIdAsync(Subject.Id);
                 await OnSubjectDeleted.InvokeAsync(); // was await OnSubjectDeleted.InvokeAsync(Subject.Id);
-                ToastService.Notify(new ToastMessage(ToastType.Success, $"Subject deleted successfully."));
+                ToastService.Notify(new ToastMessage(ToastType.Success, $"Subject deleted successfully.")); // maybe add Name of deleted object
             }
             catch (Exception e)
             {

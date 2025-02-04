@@ -160,7 +160,7 @@
             {
                 _educationRepository.DeleteByIdAsync(Education.Id);
                 await OnEducationDeleted.InvokeAsync(Education.Id); // was await OnEducationDeleted.InvokeAsync(Education.Id);
-                ToastService.Notify(new ToastMessage(ToastType.Success, $"Education deleted successfully."));
+                ToastService.Notify(new ToastMessage(ToastType.Success, $"Education deleted successfully.")); // maybe add Name of deleted object
             }
             catch (Exception e)
             {
