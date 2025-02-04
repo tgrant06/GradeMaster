@@ -90,6 +90,7 @@ public class GradeRepository : IGradeRepository
 
             return await _context.Grades
                 // maybe add search by weight
+                // maybe add search by Subject.Semester
                 .Where(grade =>
                     EF.Functions.Like(grade.Subject.Name, newSearchValue) ||
                     (grade.Description != null && EF.Functions.Like(grade.Description, newSearchValue)) ||
