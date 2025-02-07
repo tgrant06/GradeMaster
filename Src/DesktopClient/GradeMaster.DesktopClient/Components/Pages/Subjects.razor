@@ -53,7 +53,7 @@
     <div class="component-card-grid py-4">
         <Virtualize TItem="Subject" ItemsProvider="GetSubjectsProvider" Context="subject" OverscanCount="12" @ref="_virtualizeComponent">
             <ItemContent>
-                <SubjectCard Subject="@subject" OnSubjectDeleted="RefreshSubjectData" Dialog="_dialog" />
+                <SubjectCard @key="subject.Id" Subject="@subject" OnSubjectDeleted="RefreshSubjectData" Dialog="_dialog" />
             </ItemContent>
             <EmptyContent>
                 <div></div>

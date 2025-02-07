@@ -63,15 +63,15 @@
     private decimal _educationAverage;
 
     // if OnParametersSetAsync is used, then OnInitializedAsync is redundant?
-    protected override async Task OnInitializedAsync()
-    {
-        await CalculateEducationAverage();
-    }
-
-    // protected override async Task OnParametersSetAsync()
+    // protected override async Task OnInitializedAsync()
     // {
     //     await CalculateEducationAverage();
     // }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await CalculateEducationAverage();
+    }
 
     private string TruncateString(string name, int maxLength)
     {
