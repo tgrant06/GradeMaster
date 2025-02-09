@@ -32,7 +32,7 @@ GradeMaster is a Desktop based grade management tool. It allows you to manage yo
 2. Unpack the Zip-File in the `C:\Program Files\` directory.
 3. After the installation you will see the folder containing the app. There you can copy the shortcut and paste it to the Desktop.
 4. You can now launch the app from the shortcut.
-5. Before you launch the application make shure you trust the binary, by checking the mark in the Properties tap when right clicking the file. (File location: `C:\Program Files\GradeMaster\bin\win-x64\GradeMaster.DesktopClient.exe`) (or `C:\Program Files\GradeMaster\bin\win-arm64\GradeMaster.DesktopClient.exe` for arm based systems)
+5. Before you launch the application make shure you trust the binary, by checking the mark in the Properties tab when right clicking the file. (File location: `C:\Program Files\GradeMaster\bin\win-x64\GradeMaster.DesktopClient.exe`) (or `C:\Program Files\GradeMaster\bin\win-arm64\GradeMaster.DesktopClient.exe` for arm based systems)
 6. Optional: If you like you can also copy the shortcut to the Start Menu. You can do this by copying the shortcut to this directory: `Win + R` then `%AppData%\Microsoft\Windows\Start Menu\Programs`.
 
 ### Updating Software (Windows)
