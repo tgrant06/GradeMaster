@@ -37,25 +37,25 @@ public class SubjectRepository : ISubjectRepository
         return subject;
     }
 
-    public void UpdateAsync(int id, Subject subject)
+    public async Task UpdateAsync(int id, Subject subject)
     {
         _context.Educations.Attach(subject.Education);
         _context.Grades.AttachRange(subject.Grades);
 
         _context.Subjects.Update(subject);
 
-        _context.SaveChangesAsync();
+        await _context.SaveChangesAsync();
     }
 
-    public void DeleteByIdAsync(int id)
+    public async Task DeleteByIdAsync(int id)
     {
-        var existingSubject = GetByIdAsync(id);
+        var existingSubject = await GetByIdAsync(id);
 
         if (existingSubject != null)
         {
             // the deletion of the related entities is handled by the database
-            _context.Subjects.Remove(existingSubject.Result);
-            _context.SaveChanges();
+            _context.Subjects.Remove(existingSubject);
+            await _context.SaveChangesAsync();
         }
     }
 

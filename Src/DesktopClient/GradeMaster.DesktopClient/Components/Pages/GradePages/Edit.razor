@@ -27,7 +27,7 @@
     {
         try
         {
-            _gradeRepository.UpdateAsync(grade.Id, grade);
+            await _gradeRepository.UpdateAsync(grade.Id, grade);
             ToastService.Notify(new ToastMessage(ToastType.Success, $"Grade updated and saved successfully."));
             await JSRuntime.InvokeVoidAsync("window.history.back");
         }

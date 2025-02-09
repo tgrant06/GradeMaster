@@ -34,23 +34,23 @@ public class WeightRepository : IWeightRepository
         return weight;
     }
 
-    public void UpdateAsync(int id, Weight weight)
+    public async Task UpdateAsync(int id, Weight weight)
     {
         _context.Grades.AttachRange(weight.Grades);
 
         _context.Weights.Update(weight);
 
-        _context.SaveChangesAsync();
+        await _context.SaveChangesAsync();
     }
 
-    public void DeleteByIdAsync(int id)
+    public async Task DeleteByIdAsync(int id)
     {
-        var existingWeight = GetByIdAsync(id);
+        var existingWeight = await GetByIdAsync(id);
 
         if (existingWeight != null)
         {
-            _context.Weights.Remove(existingWeight.Result);
-            _context.SaveChanges();
+            _context.Weights.Remove(existingWeight);
+            await _context.SaveChangesAsync();
         }
     }
 

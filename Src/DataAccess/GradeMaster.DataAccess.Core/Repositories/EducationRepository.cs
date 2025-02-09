@@ -36,24 +36,24 @@ public class EducationRepository : IEducationRepository
         return education;
     }
 
-    public void UpdateAsync(int id, Education education)
+    public async Task UpdateAsync(int id, Education education)
     {
         // handle if education doesnt exist in db
         _context.Subjects.AttachRange(education.Subjects);
 
         _context.Educations.Update(education);
 
-        _context.SaveChangesAsync();
+        await _context.SaveChangesAsync();
     }
 
-    public void DeleteByIdAsync(int id)
+    public async Task DeleteByIdAsync(int id)
     {
-        var existingBlog = GetByIdAsync(id);
+        var existingEducation = await GetByIdAsync(id);
 
-        if (existingBlog != null)
+        if (existingEducation != null)
         {
-            _context.Educations.Remove(existingBlog.Result);
-            _context.SaveChangesAsync();
+            _context.Educations.Remove(existingEducation);
+            await _context.SaveChangesAsync();
         }
     }
 

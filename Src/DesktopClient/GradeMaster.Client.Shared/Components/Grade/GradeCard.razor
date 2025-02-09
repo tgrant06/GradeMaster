@@ -98,7 +98,7 @@
         {
             try
             {
-                _gradeRepository.DeleteByIdAsync(Grade.Id);
+                await _gradeRepository.DeleteByIdAsync(Grade.Id);
                 await OnGradeDeleted.InvokeAsync(); // was await OnGradeDeleted.InvokeAsync(Grade.Id);
                 ToastService.Notify(new ToastMessage(ToastType.Success, $"Grade deleted successfully.")); // maybe add Name of deleted object
             }

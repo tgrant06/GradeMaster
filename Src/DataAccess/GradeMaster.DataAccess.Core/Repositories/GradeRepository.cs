@@ -35,24 +35,24 @@ public class GradeRepository : IGradeRepository
         return grade;
     }
 
-    public void UpdateAsync(int id, Grade grade)
+    public async Task UpdateAsync(int id, Grade grade)
     {
         _context.Subjects.Attach(grade.Subject);
         _context.Weights.Attach(grade.Weight);
 
         _context.Grades.Update(grade);
 
-        _context.SaveChangesAsync();
+        await _context.SaveChangesAsync();
     }
 
-    public void DeleteByIdAsync(int id)
+    public async Task DeleteByIdAsync(int id)
     {
-        var existingGrade = GetByIdAsync(id);
+        var existingGrade = await GetByIdAsync(id);
 
         if (existingGrade != null)
         {
-            _context.Grades.Remove(existingGrade.Result);
-            _context.SaveChanges();
+            _context.Grades.Remove(existingGrade);
+            await _context.SaveChangesAsync();
         }
     }
 

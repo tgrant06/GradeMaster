@@ -26,7 +26,7 @@
     {
         try
         {
-            _subjectRepository.UpdateAsync(subject.Id, subject);
+            await _subjectRepository.UpdateAsync(subject.Id, subject);
             ToastService.Notify(new ToastMessage(ToastType.Success, $"Subject updated and saved successfully."));
             await JSRuntime.InvokeVoidAsync("window.history.back");
         }

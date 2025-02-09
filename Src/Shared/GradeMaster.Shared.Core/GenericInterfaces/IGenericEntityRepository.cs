@@ -8,9 +8,9 @@ public interface IGenericEntityRepository<T>
 
     Task<T> AddAsync(T t);
 
-    void UpdateAsync(int id, T t);
+    Task UpdateAsync(int id, T t);
 
-    void DeleteByIdAsync(int id);
+    Task DeleteByIdAsync(int id);
 
     Task<bool> ExistsAnyAsync();
 }

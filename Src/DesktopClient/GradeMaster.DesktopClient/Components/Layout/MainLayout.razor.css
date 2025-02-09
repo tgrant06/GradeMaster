@@ -14,7 +14,7 @@ main {
 
 .top-row {
     /*background-color: #f7f7f7;*/
-    background-color: light-dark(#f7f7f7B0, #262A2ECC); /*was: #292c2f also was: #f7f7f7, #262A2E*/
+    background-color: light-dark(#f3f3f3b0, #262A2ECC); /*was: #292c2f also was: #f7f7f7, #262A2E new make light mode darker new color suggestion: #f1f1f1b0, light was #f7f7f7B0 and dark was #262A2ECC. maybe change dark to: #2b2f33cc or #2b2e31cc*/
     backdrop-filter: blur(16px);
     /*border-bottom: light-dark(1px solid #d6d5d5, 1px solid #818181);*/
     border-bottom-color: light-dark(#d6d5d5, #4b4b4b);
