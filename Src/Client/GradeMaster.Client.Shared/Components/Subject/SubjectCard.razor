@@ -3,11 +3,11 @@
         <CardTitle Style="padding-top: 6px">
             <b>@Subject.Name - @Subject.Semester</b>
         </CardTitle>
-        <CardSubTitle Class="mb-2 text-muted">@TruncateString(Subject.Education.Name, 60) @TruncateString(string.IsNullOrEmpty(Subject.Education.Institution) ? " " : "| " + Subject.Education.Institution.Split(",")[0], 15)</CardSubTitle>
+        <CardSubTitle Class="mb-2 text-muted">@UIUtils.TruncateString(Subject.Education.Name, 60) @UIUtils.TruncateString(string.IsNullOrEmpty(Subject.Education.Institution) ? " " : "| " + Subject.Education.Institution.Split(",")[0], 15)</CardSubTitle>
     </CardHeader>
     <CardBody>
         <CardText>
-            <b>Description:</b> <br /> @TruncateString(string.IsNullOrEmpty(Subject.Description) ? "-" : Subject.Description, 150)
+            <b>Description:</b> <br /> @UIUtils.TruncateString(string.IsNullOrEmpty(Subject.Description) ? "-" : Subject.Description, 150)
         </CardText>
     </CardBody>
     <CardBody Class="border-top">
@@ -68,46 +68,46 @@
     //     await CalculateSubjectAverage();
     // }
 
-    protected override async Task OnParametersSetAsync()
+    protected override void OnParametersSet()
     {
-        await CalculateSubjectAverage();
+        _subjectAverage = SubjectUtils.CalculateWeightedAverage(Subject.Grades);
     }
 
-    private string TruncateString(string name, int maxLength)
-    {
-        if (string.IsNullOrEmpty(name) || name.Length <= maxLength)
-        {
-            return name;
-        }
+    // private string TruncateString(string name, int maxLength)
+    // {
+    //     if (string.IsNullOrEmpty(name) || name.Length <= maxLength)
+    //     {
+    //         return name;
+    //     }
 
-        return name.Substring(0, maxLength) + "...";
-    }
+    //     return name.Substring(0, maxLength) + "...";
+    // }
 
     #region Averages
 
-    private async Task CalculateSubjectAverage()
-    {
+    //private async Task CalculateSubjectAverage()
+    //{
         // get all grades outside of card to save queries? too many queries!?
         //var grades = await _gradeRepository.GetBySubjectIdAsync(Subject.Id);
-        _subjectAverage = CalculateWeightedAverage(Subject.Grades);
-    }
+        //_subjectAverage = CalculateWeightedAverage(Subject.Grades);
+    //}
 
-    private decimal CalculateWeightedAverage(ICollection<Grade> grades)
-    {
-        if (grades == null || !grades.Any())
-        {
-            return 0;
-        }
+    // private decimal CalculateWeightedAverage(ICollection<Grade> grades)
+    // {
+    //     if (grades == null || !grades.Any())
+    //     {
+    //         return 0;
+    //     }
 
-        decimal totalWeight = grades.Sum(g => g.Weight?.Value ?? 1); // Default weight to 1 if null
-        if (totalWeight == 0)
-        {
-            return 0;
-        }
+    //     decimal totalWeight = grades.Sum(g => g.Weight?.Value ?? 1); // Default weight to 1 if null
+    //     if (totalWeight == 0)
+    //     {
+    //         return 0;
+    //     }
 
-        decimal weightedSum = grades.Sum(g => g.Value * (g.Weight?.Value ?? 1)); // Default weight to 1 if null
-        return weightedSum / totalWeight;
-    }
+    //     decimal weightedSum = grades.Sum(g => g.Value * (g.Weight?.Value ?? 1)); // Default weight to 1 if null
+    //     return weightedSum / totalWeight;
+    // }
 
     #endregion
 

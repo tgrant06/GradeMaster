@@ -3,11 +3,11 @@
         <CardTitle Style="padding-top: 6px">
             <b>@Education.Name</b>
         </CardTitle>
-        <CardSubTitle Class="mb-2 text-muted">@Education.StartDate.Year - @Education.EndDate.Year @TruncateString(String.IsNullOrEmpty(Education.Institution) ? " " : "| " + Education.Institution.Split(",")[0], 15)</CardSubTitle>
+        <CardSubTitle Class="mb-2 text-muted">@Education.StartDate.Year - @Education.EndDate.Year @UIUtils.TruncateString(string.IsNullOrEmpty(Education.Institution) ? " " : "| " + Education.Institution.Split(",")[0], 15)</CardSubTitle>
     </CardHeader>
     <CardBody>
         <CardText>
-            <b>Description:</b> <br/> @TruncateString(string.IsNullOrEmpty(Education.Description) ? "-" : Education.Description, 150)
+            <b>Description:</b> <br/> @UIUtils.TruncateString(string.IsNullOrEmpty(Education.Description) ? "-" : Education.Description, 150)
         </CardText>
     </CardBody>
     <CardBody Class="border-top">
@@ -62,72 +62,78 @@
 
     private decimal _educationAverage;
 
+    protected override void OnParametersSet()
+    {
+        _educationAverage = EducationUtils.CalculateEducationAverage(Education.Subjects);
+    }
+
     // if OnParametersSetAsync is used, then OnInitializedAsync is redundant?
     // protected override async Task OnInitializedAsync()
     // {
     //     await CalculateEducationAverage();
     // }
 
-    protected override async Task OnParametersSetAsync()
-    {
-        await CalculateEducationAverage();
-    }
+    // protected override async Task OnParametersSetAsync()
+    // {
+    //     await CalculateEducationAverage();
+    // }
 
-    private string TruncateString(string name, int maxLength)
-    {
-        if (string.IsNullOrEmpty(name) || name.Length <= maxLength)
-        {
-            return name;
-        }
+    // private string TruncateString(string name, int maxLength)
+    // {
+    //     if (string.IsNullOrEmpty(name) || name.Length <= maxLength)
+    //     {
+    //         return name;
+    //     }
 
-        return name.Substring(0, maxLength) + "...";
-    }
+    //     return name.Substring(0, maxLength) + "...";
+    // }
 
     #region Averages
 
-    private async Task CalculateEducationAverage()
-    {
+    //private async Task CalculateEducationAverage()
+    //{
         // var grades
         // get all grades outside of card to save queries? too many queries!?
         //await _gradeRepository.GetBySubjectIdsAsync(Education.Subjects.Select(s => s.Id).ToList());
-        _educationAverage = CalculateEducationAverage(Education.Subjects);
-    }
+        //_educationAverage = CalculateEducationAverage(Education.Subjects);
+        //_educationAverage = EducationUtils.CalculateEducationAverage(Education.Subjects);
+    //}
 
-    private decimal CalculateWeightedAverage(ICollection<Grade> grades)
-    {
-        if (grades == null || !grades.Any())
-        {
-            return 0;
-        }
+    // private decimal CalculateWeightedAverage(ICollection<Grade> grades)
+    // {
+    //     if (grades == null || !grades.Any())
+    //     {
+    //         return 0;
+    //     }
 
-        decimal totalWeight = grades.Sum(g => g.Weight?.Value ?? 1); // Default weight to 1 if null
-        if (totalWeight == 0)
-        {
-            return 0;
-        }
+    //     decimal totalWeight = grades.Sum(g => g.Weight?.Value ?? 1); // Default weight to 1 if null
+    //     if (totalWeight == 0)
+    //     {
+    //         return 0;
+    //     }
 
-        decimal weightedSum = grades.Sum(g => g.Value * (g.Weight?.Value ?? 1)); // Default weight to 1 if null
-        return weightedSum / totalWeight;
-    }
+    //     decimal weightedSum = grades.Sum(g => g.Value * (g.Weight?.Value ?? 1)); // Default weight to 1 if null
+    //     return weightedSum / totalWeight;
+    // }
 
-    private decimal CalculateEducationAverage(List<Subject> subjects)
-    {
-        if (subjects == null || !subjects.Any())
-        {
-            return 0;
-        }
+    // private decimal CalculateEducationAverage(List<Subject> subjects)
+    // {
+    //     if (subjects == null || !subjects.Any())
+    //     {
+    //         return 0;
+    //     }
 
-        var subjectAverages = subjects
-            .Where(s => s.Grades != null && s.Grades.Any())
-            .Select(s => CalculateWeightedAverage(s.Grades));
+    //     var subjectAverages = subjects
+    //         .Where(s => s.Grades != null && s.Grades.Any())
+    //         .Select(s => CalculateWeightedAverage(s.Grades));
 
-        if (!subjectAverages.Any())
-        {
-            return 0;
-        }
+    //     if (!subjectAverages.Any())
+    //     {
+    //         return 0;
+    //     }
 
-        return subjectAverages.Average();
-    }
+    //     return subjectAverages.Average();
+    // }
 
     #endregion
 
