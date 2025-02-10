@@ -31,7 +31,7 @@ else
                     <option value="0" class="truncate" style="background-color: #eeeeee; color: black; border: solid 1px">Select Education</option>
                     @foreach (var education in Educations)
                     {
-                        <option value="@education.Id" class="truncate" style="background-color: #eeeeee; color: black;">@TruncateString(education.Name, 65)</option>
+                        <option value="@education.Id" class="truncate" style="background-color: #eeeeee; color: black;">@UIUtils.TruncateString(education.Name, 65)</option>
                     }
                 </select>
                 <ValidationMessage For="@(() => NewSubject.Education)"/>
@@ -232,13 +232,13 @@ else
 
     #endregion
 
-    private string TruncateString(string name, int maxLength)
-    {
-        if (string.IsNullOrEmpty(name) || name.Length <= maxLength)
-        {
-            return name;
-        }
+    // private string TruncateString(string name, int maxLength)
+    // {
+    //     if (string.IsNullOrEmpty(name) || name.Length <= maxLength)
+    //     {
+    //         return name;
+    //     }
 
-        return name.Substring(0, maxLength) + "...";
-    }
+    //     return name.Substring(0, maxLength) + "...";
+    // }
 }

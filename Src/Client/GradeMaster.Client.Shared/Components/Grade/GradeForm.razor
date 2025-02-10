@@ -47,7 +47,7 @@ else
                     <option value="0" style="background-color: #eeeeee; color: black; border: solid 1px">Select Subject</option>
                     @foreach (var subject in Subjects)
                     {
-                        <option value="@subject.Id" style="background-color: #eeeeee; color: black;">@TruncateString(@subject.Name, 60) - @subject.Semester | @TruncateString(subject.Education.Name, 60)</option>
+                        <option value="@subject.Id" style="background-color: #eeeeee; color: black;">@UIUtils.TruncateString(@subject.Name, 60) - @subject.Semester | @UIUtils.TruncateString(subject.Education.Name, 60)</option>
                     }
                 </select>
                 <ValidationMessage For="@(() => NewGrade.Subject)"/>
@@ -234,15 +234,15 @@ else
         }
     }
 
-    private string TruncateString(string name, int maxLength)
-    {
-        if (string.IsNullOrEmpty(name) || name.Length <= maxLength)
-        {
-            return name;
-        }
+    // private string TruncateString(string name, int maxLength)
+    // {
+    //     if (string.IsNullOrEmpty(name) || name.Length <= maxLength)
+    //     {
+    //         return name;
+    //     }
 
-        return name.Substring(0, maxLength) + "...";
-    }
+    //     return name.Substring(0, maxLength) + "...";
+    // }
 
     private async Task Cancel()
     {

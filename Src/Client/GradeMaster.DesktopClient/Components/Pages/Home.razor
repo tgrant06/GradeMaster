@@ -14,7 +14,7 @@
             <option value="" style="background-color: #eeeeee; color: black; border: solid 1px">Select Education</option>
             @foreach (var education in _educations)
             {
-                <option value="@education.Id" style="background-color: #eeeeee; color: black;">@TruncateString(education.Name, 65)</option>
+                <option value="@education.Id" style="background-color: #eeeeee; color: black;">@UIUtils.TruncateString(education.Name, 65)</option>
             }
         </select>
     </div>
@@ -47,7 +47,7 @@
 
         <GridColumns>
             <GridColumn TItem="Subject" HeaderText="Subject" PropertyName="Name" Class="name-column">
-                @TruncateString(context.Name, 21) - @context.Semester
+                @UIUtils.TruncateString(context.Name, 21) - @context.Semester
             </GridColumn>
             <GridColumn TItem="Subject" HeaderText="Grades" SortKeySelector="item => item.Grades != null ? item.Grades.Count : 0" Class="grades-column">
                 @if (context.Grades != null && context.Grades.Any())
@@ -67,7 +67,7 @@
                 <!--Later add detail navigation to every grade-->
             </GridColumn>
             <GridColumn TItem="Subject" HeaderText="Average" SortKeySelector="item => item.Grades != null ? item.Grades.Average(g => g.Value) : 0" HeaderTextAlignment="Alignment.End" TextAlignment="Alignment.Center" Class="average-grade-column">
-                @if (CalculateWeightedAverage(context.Grades) < 4 && CalculateWeightedAverage(context.Grades) != 0)
+                @if (SubjectUtils.CalculateWeightedAverage(context.Grades) < 4 && SubjectUtils.CalculateWeightedAverage(context.Grades) != 0)
                 {
                     <Badge Color="BadgeColor.Danger" IndicatorType="BadgeIndicatorType.RoundedPill" Style="font-size: initial">
                         <b>@GetAverageGrade(context.Grades)</b>
@@ -164,68 +164,68 @@
     {
         _currentEducationId = educationId;
         _subjects = await _subjectRepository.GetByEducationIdAsync(educationId); // get weight separately
-        _educationAverage = CalculateEducationAverage(_subjects);
+        _educationAverage = EducationUtils.CalculateEducationAverage(_subjects);
     }
 
     #region Averages
 
-    private decimal CalculateEducationAverage(List<Subject> subjects)
-    {
-        if (subjects == null || !subjects.Any())
-        {
-            return 0;
-        }
+    // private decimal CalculateEducationAverage(List<Subject> subjects)
+    // {
+    //     if (subjects == null || !subjects.Any())
+    //     {
+    //         return 0;
+    //     }
 
-        var subjectAverages = subjects
-            .Where(s => s.Grades != null && s.Grades.Any())
-            .Select(s => CalculateWeightedAverage(s.Grades));
+    //     var subjectAverages = subjects
+    //         .Where(s => s.Grades != null && s.Grades.Any())
+    //         .Select(s => CalculateWeightedAverage(s.Grades));
 
-        if (!subjectAverages.Any())
-        {
-            return 0;
-        }
+    //     if (!subjectAverages.Any())
+    //     {
+    //         return 0;
+    //     }
 
-        return subjectAverages.Average();
-    }
+    //     return subjectAverages.Average();
+    // }
 
     private string GetAverageGrade(ICollection<Grade> grades)
     {
         if (grades != null && grades.Any())
         {
-            return CalculateWeightedAverage(grades).ToString("0.##");
+            return SubjectUtils.CalculateWeightedAverage(grades).ToString("0.##");
         }
 
         return "N/A";
     }
 
-    private decimal CalculateWeightedAverage(ICollection<Grade> grades)
-    {
-        if (grades == null || !grades.Any())
-        {
-            return 0;
-        }
+    // private decimal CalculateWeightedAverage(ICollection<Grade> grades)
+    // {
+    //     if (grades == null || !grades.Any())
+    //     {
+    //         return 0;
+    //     }
 
-        decimal totalWeight = grades.Sum(g => g.Weight?.Value ?? 1); // Default weight to 1 if null
-        if (totalWeight == 0)
-        {
-            return 0;
-        }
+    //     decimal totalWeight = grades.Sum(g => g.Weight?.Value ?? 1); // Default weight to 1 if null
+    //     if (totalWeight == 0)
+    //     {
+    //         return 0;
+    //     }
 
-        decimal weightedSum = grades.Sum(g => g.Value * (g.Weight?.Value ?? 1)); // Default weight to 1 if null
-        return weightedSum / totalWeight;
-    }
+    //     decimal weightedSum = grades.Sum(g => g.Value * (g.Weight?.Value ?? 1)); // Default weight to 1 if null
+    //     return weightedSum / totalWeight;
+    // }
 
     #endregion
 
-    private string TruncateString(string name, int maxLength)
-    {
-        if (string.IsNullOrEmpty(name) || name.Length <= maxLength)
-        {
-            return name;
-        }
+    // private string TruncateString(string name, int maxLength)
+    // {
+    //     if (string.IsNullOrEmpty(name) || name.Length <= maxLength)
+    //     {
+    //         return name;
+    //     }
 
-        return name.Substring(0, maxLength) + "...";
-    }
+    //     return name.Substring(0, maxLength) + "...";
+    // }
 
     private async Task ReloadData()
     {

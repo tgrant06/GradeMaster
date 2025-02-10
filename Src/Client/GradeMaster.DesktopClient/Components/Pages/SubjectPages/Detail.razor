@@ -116,25 +116,25 @@
     private async Task CalculateSubjectAverage()
     {
         var grades = await _gradeRepository.GetBySubjectIdAsync(Subject.Id);
-        _subjectAverage = CalculateWeightedAverage(grades);
+        _subjectAverage = SubjectUtils.CalculateWeightedAverage(grades);
     }
 
-    private decimal CalculateWeightedAverage(ICollection<Grade> grades)
-    {
-        if (grades == null || !grades.Any())
-        {
-            return 0;
-        }
+    // private decimal CalculateWeightedAverage(ICollection<Grade> grades)
+    // {
+    //     if (grades == null || !grades.Any())
+    //     {
+    //         return 0;
+    //     }
 
-        decimal totalWeight = grades.Sum(g => g.Weight?.Value ?? 1); // Default weight to 1 if null
-        if (totalWeight == 0)
-        {
-            return 0;
-        }
+    //     decimal totalWeight = grades.Sum(g => g.Weight?.Value ?? 1); // Default weight to 1 if null
+    //     if (totalWeight == 0)
+    //     {
+    //         return 0;
+    //     }
 
-        decimal weightedSum = grades.Sum(g => g.Value * (g.Weight?.Value ?? 1)); // Default weight to 1 if null
-        return weightedSum / totalWeight;
-    }
+    //     decimal weightedSum = grades.Sum(g => g.Value * (g.Weight?.Value ?? 1)); // Default weight to 1 if null
+    //     return weightedSum / totalWeight;
+    // }
 
     #endregion
 
