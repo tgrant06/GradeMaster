@@ -3,31 +3,31 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35327.3
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1_dataAccess", "1_dataAccess", "{BDCCEBB3-1726-4857-B2CE-419A93CA7966}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1_DataAccess", "1_DataAccess", "{BDCCEBB3-1726-4857-B2CE-419A93CA7966}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2_shared", "2_shared", "{2896C508-8052-4C4C-BF47-A156D4B5A27C}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2_Common", "2_Common", "{2896C508-8052-4C4C-BF47-A156D4B5A27C}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "6_tests", "6_tests", "{2D746D82-F5C4-4C63-8AC5-9B695BE0143F}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "6_Tests", "6_Tests", "{2D746D82-F5C4-4C63-8AC5-9B695BE0143F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GradeMaster.Shared.Core", "Shared\GradeMaster.Shared.Core\GradeMaster.Shared.Core.csproj", "{01ECD38E-D889-4F52-BA3B-A1DFDF11687A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GradeMaster.DataAccess.Core", "DataAccess\GradeMaster.DataAccess.Core\GradeMaster.DataAccess.Core.csproj", "{8EEEB257-0D00-48A3-B8AD-0106CD698C32}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "5_applicationConsoleClient", "5_applicationConsoleClient", "{77BC7E4E-EDB7-4DF0-AEB2-B744ACD29228}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "5_ApplicationConsoleClient", "5_ApplicationConsoleClient", "{77BC7E4E-EDB7-4DF0-AEB2-B744ACD29228}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GradeMaster.ConsoleClient", "ConsoleClient\GradeMaster.ConsoleClient\GradeMaster.ConsoleClient.csproj", "{5A82F088-CCFA-40FD-8FCC-DF71C0BB820B}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4_applicationDesktopClient", "4_applicationDesktopClient", "{331F36AB-1180-438A-A167-193427B1191A}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4_ApplicationDesktopClient", "4_ApplicationDesktopClient", "{331F36AB-1180-438A-A167-193427B1191A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GradeMaster.DesktopClient", "DesktopClient\GradeMaster.DesktopClient\GradeMaster.DesktopClient.csproj", "{1531EA49-A0DF-4246-8CCF-12A71A4EAD37}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3_logic", "3_logic", "{8308C4A7-8740-41E3-A571-E09AF7936D7C}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3_Logic", "3_Logic", "{8308C4A7-8740-41E3-A571-E09AF7936D7C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GradeMaster.Client.Shared", "DesktopClient\GradeMaster.Client.Shared\GradeMaster.Client.Shared.csproj", "{E01BBA5E-384D-4CEC-988D-091D18FB1187}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GradeMaster.Logic.Core", "Logic\GradeMaster.Logic.Core\GradeMaster.Logic.Core.csproj", "{C441B102-4937-4E75-8F41-B03295CCAF17}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0_interfaces", "0_interfaces", "{1FA540EC-2FE2-430D-9380-70994EBBF1AB}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0_Interfaces", "0_Interfaces", "{1FA540EC-2FE2-430D-9380-70994EBBF1AB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
