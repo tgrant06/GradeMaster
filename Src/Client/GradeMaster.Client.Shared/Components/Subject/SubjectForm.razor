@@ -104,6 +104,8 @@ else
     [Inject] private IJSRuntime JSRuntime { get; set; }
     [Inject] private NavigationManager Navigation { get; set; }
 
+    [Inject] private ISubjectService _subjectService { get; set; }
+
     [Inject] protected ToastService ToastService { get; set; } = default!;
 
     [Inject] private IEducationRepository _educationRepository { get; set; }
@@ -178,7 +180,8 @@ else
                 FormTitle = "Edit Subject";
             }
 
-            PassSubjectAttributes(NewSubject, Subject);
+            //PassSubjectAttributes(NewSubject, Subject);
+            _subjectService.PassObjectAttributes(NewSubject, Subject);
 
             _editContext = new EditContext(NewSubject);
         }
@@ -199,7 +202,8 @@ else
 
         if (OnSave.HasDelegate)
         {
-            PassSubjectAttributes(Subject, NewSubject, true);
+            //PassSubjectAttributes(Subject, NewSubject, true);
+            _subjectService.PassObjectAttributes(Subject, NewSubject, true);
             await OnSave.InvokeAsync(Subject);
         }
         else
@@ -214,21 +218,21 @@ else
         await JSRuntime.InvokeVoidAsync("window.history.back");
     }
 
-    private async Task HandleInvalidSubmit()
+    private void HandleInvalidSubmit()
     {
         ToastService.Notify(new ToastMessage(ToastType.Warning, $"Subject form is not valid."));
     }
 
     #region Logic
 
-    private void PassSubjectAttributes(Subject toSubject, Subject fromSubject, bool actionSubmit = false)
-    {
-        toSubject.Name = actionSubmit ? fromSubject.Name.Trim() : fromSubject.Name;
-        toSubject.Description = actionSubmit ? fromSubject.Description?.Trim() : fromSubject.Description;
-        toSubject.Semester = fromSubject.Semester;
-        toSubject.Completed = fromSubject.Completed;
-        toSubject.Education = fromSubject.Education ?? new Education();
-    }
+    // private void PassSubjectAttributes(Subject toSubject, Subject fromSubject, bool actionSubmit = false)
+    // {
+    //     toSubject.Name = actionSubmit ? fromSubject.Name.Trim() : fromSubject.Name;
+    //     toSubject.Description = actionSubmit ? fromSubject.Description?.Trim() : fromSubject.Description;
+    //     toSubject.Semester = fromSubject.Semester;
+    //     toSubject.Completed = fromSubject.Completed;
+    //     toSubject.Education = fromSubject.Education ?? new Education();
+    // }
 
     #endregion
 

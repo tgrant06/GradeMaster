@@ -15,7 +15,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Services\" />
+    <ProjectReference Include="..\..\Common\GradeMaster.Common\GradeMaster.Common.csproj" />
+    <ProjectReference Include="..\..\Interfaces\GradeMaster.Logic.Interfaces\GradeMaster.Logic.Interfaces.csproj" />
   </ItemGroup>
 
 </Project>

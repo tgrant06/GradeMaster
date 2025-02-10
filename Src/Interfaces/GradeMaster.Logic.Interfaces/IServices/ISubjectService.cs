@@ -1,6 +1,9 @@
-﻿namespace GradeMaster.Logic.Interfaces.IServices;
+﻿using GradeMaster.Common.Entities;
+using GradeMaster.Logic.Interfaces.GenericInterfaces;
 
-public interface ISubjectService
+namespace GradeMaster.Logic.Interfaces.IServices;
+
+public interface ISubjectService : IGenericEntityService<Subject>
 {
     
 }

@@ -113,6 +113,8 @@ else
     [Inject] private IJSRuntime JSRuntime { get; set; }
     [Inject] private NavigationManager Navigation { get; set; }
 
+    [Inject] private IGradeService _gradeService { get; set; }
+
     [Inject] protected ToastService ToastService { get; set; } = default!;
 
     [Inject] private IEducationRepository _educationRepository { get; set; }
@@ -197,7 +199,8 @@ else
                 FormTitle = "Edit Grade";
             }
 
-            PassGradeAttributes(NewGrade, Grade);
+            //PassGradeAttributes(NewGrade, Grade);
+            _gradeService.PassObjectAttributes(NewGrade, Grade);
 
             _editContext = new EditContext(NewGrade);
         }
@@ -224,7 +227,8 @@ else
 
         if (OnSave.HasDelegate)
         {
-            PassGradeAttributes(Grade, NewGrade, true);
+            //PassGradeAttributes(Grade, NewGrade, true);
+            _gradeService.PassObjectAttributes(Grade, NewGrade, true);
             await OnSave.InvokeAsync(Grade);
         }
         else
@@ -249,21 +253,21 @@ else
         await JSRuntime.InvokeVoidAsync("window.history.back");
     }
 
-    private async Task HandleInvalidSubmit()
+    private void HandleInvalidSubmit()
     {
         ToastService.Notify(new ToastMessage(ToastType.Warning, $"Grade form is not valid."));
     }
 
     #region Logic
 
-    private void PassGradeAttributes(Grade toGrade, Grade fromGrade, bool actionSubmit = false)
-    {
-        toGrade.Value = fromGrade.Value;
-        toGrade.Description = actionSubmit ? fromGrade.Description?.Trim() : fromGrade.Description;
-        toGrade.Date = fromGrade.Date;
-        toGrade.Weight = fromGrade.Weight ?? new Weight();
-        toGrade.Subject = fromGrade.Subject ?? new Subject();
-    }
+    // private void PassGradeAttributes(Grade toGrade, Grade fromGrade, bool actionSubmit = false)
+    // {
+    //     toGrade.Value = fromGrade.Value;
+    //     toGrade.Description = actionSubmit ? fromGrade.Description?.Trim() : fromGrade.Description;
+    //     toGrade.Date = fromGrade.Date;
+    //     toGrade.Weight = fromGrade.Weight ?? new Weight();
+    //     toGrade.Subject = fromGrade.Subject ?? new Subject();
+    // }
 
     #endregion
 }

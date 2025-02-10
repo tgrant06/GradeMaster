@@ -1,6 +1,8 @@
 ﻿using GradeMaster.DataAccess;
 using GradeMaster.DataAccess.Repositories;
 using GradeMaster.DataAccess.Interfaces.IRepositories;
+using GradeMaster.Logic.Interfaces.IServices;
+using GradeMaster.Logic.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -75,6 +77,14 @@ public static class MauiProgram
         builder.Services.AddScoped<ISubjectRepository, SubjectRepository>();
         builder.Services.AddScoped<IGradeRepository, GradeRepository>();
         builder.Services.AddScoped<IWeightRepository, WeightRepository>();
+
+        #endregion
+
+        #region Services
+
+        builder.Services.AddTransient<IEducationService, EducationService>();
+        builder.Services.AddTransient<ISubjectService, SubjectService>();
+        builder.Services.AddTransient<IGradeService, GradeService>();
 
         #endregion
 

@@ -117,6 +117,8 @@ else
     [Inject] private IJSRuntime JSRuntime { get; set; }
     [Inject] private NavigationManager Navigation { get; set; }
 
+    [Inject] private IEducationService _educationService { get; set; }
+
     [Inject] protected ToastService ToastService { get; set; } = default!;
 
     private EditContext? _editContext;
@@ -144,8 +146,8 @@ else
         {
             FormTitle = "Edit Education";
         }
-
-        PassEducationAttributes(NewEducation, Education);
+        _educationService.PassObjectAttributes(NewEducation, Education);
+        //PassEducationAttributes(NewEducation, Education);
 
         _editContext = new EditContext(NewEducation);
     }
@@ -160,7 +162,8 @@ else
 
         if (OnSave.HasDelegate)
         {
-            PassEducationAttributes(Education, NewEducation, true);
+            _educationService.PassObjectAttributes(Education, NewEducation, true);
+            //PassEducationAttributes(Education, NewEducation, true);
             await OnSave.InvokeAsync(Education);
         }
         else
@@ -177,31 +180,23 @@ else
         await JSRuntime.InvokeVoidAsync("window.history.back");
     }
 
-    private async Task HandleInvalidSubmit()
+    private void HandleInvalidSubmit()
     {
         ToastService.Notify(new ToastMessage(ToastType.Warning, $"Education form is not valid."));
     }
 
     #region Logic
 
-    private void PassEducationAttributes(Education toEducation, Education fromEducation, bool actionSubmit = false)
-    {
-        toEducation.Name = actionSubmit ? fromEducation.Name.Trim() : fromEducation.Name;
-        toEducation.Description = actionSubmit ? fromEducation.Description?.Trim() : fromEducation.Description;
-        toEducation.Institution = actionSubmit ? fromEducation.Institution?.Trim() : fromEducation.Institution;
-        toEducation.Completed = fromEducation.Completed;
-        toEducation.Semesters = fromEducation.Semesters;
-        toEducation.StartDate = fromEducation.StartDate;
-        toEducation.EndDate = fromEducation.EndDate;
-
-        // toEducation.Name = fromEducation.Name;
-        // toEducation.Completed = fromEducation.Completed;
-        // toEducation.Description = fromEducation.Description;
-        // toEducation.Semesters = fromEducation.Semesters;
-        // toEducation.Institution = fromEducation.Institution;
-        // toEducation.StartDate = fromEducation.StartDate;
-        // toEducation.EndDate = fromEducation.EndDate;
-    }
+    // private void PassEducationAttributes(Education toEducation, Education fromEducation, bool actionSubmit = false)
+    // {
+    //     toEducation.Name = actionSubmit ? fromEducation.Name.Trim() : fromEducation.Name;
+    //     toEducation.Description = actionSubmit ? fromEducation.Description?.Trim() : fromEducation.Description;
+    //     toEducation.Institution = actionSubmit ? fromEducation.Institution?.Trim() : fromEducation.Institution;
+    //     toEducation.Completed = fromEducation.Completed;
+    //     toEducation.Semesters = fromEducation.Semesters;
+    //     toEducation.StartDate = fromEducation.StartDate;
+    //     toEducation.EndDate = fromEducation.EndDate;
+    // }
 
     #endregion
 
