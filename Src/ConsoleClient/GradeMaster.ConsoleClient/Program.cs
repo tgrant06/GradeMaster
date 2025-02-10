@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
-using GradeMaster.DataAccess.Core;
-using GradeMaster.DataAccess.Core.Repositories;
-using GradeMaster.Shared.Core.Entities;
+using GradeMaster.DataAccess;
+using GradeMaster.DataAccess.Repositories;
+using GradeMaster.Common.Entities;
 
 namespace GradeMaster.ConsoleClient;
 

@@ -1,6 +1,6 @@
-﻿using GradeMaster.DataAccess.Core;
-using GradeMaster.DataAccess.Core.Repositories;
-using GradeMaster.Shared.Core.Interfaces;
+﻿using GradeMaster.DataAccess;
+using GradeMaster.DataAccess.Repositories;
+using GradeMaster.DataAccess.Interfaces.IRepositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;

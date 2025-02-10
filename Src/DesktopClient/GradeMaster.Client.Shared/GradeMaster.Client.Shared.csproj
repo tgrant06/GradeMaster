@@ -15,8 +15,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\DataAccess\GradeMaster.DataAccess.Core\GradeMaster.DataAccess.Core.csproj" />
-    <ProjectReference Include="..\..\Shared\GradeMaster.Shared.Core\GradeMaster.Shared.Core.csproj" />
+    <ProjectReference Include="..\..\DataAccess\GradeMaster.DataAccess\GradeMaster.DataAccess.csproj" />
+    <ProjectReference Include="..\..\Interfaces\GradeMaster.DataAccess.Interfaces\GradeMaster.DataAccess.Interfaces.csproj" />
+    <ProjectReference Include="..\..\Common\GradeMaster.Common\GradeMaster.Common.csproj" />
   </ItemGroup>
 
 </Project>
