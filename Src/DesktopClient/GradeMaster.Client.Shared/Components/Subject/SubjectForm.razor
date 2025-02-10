@@ -58,9 +58,9 @@ else
                 </label>
                 <div class="form-check">
                     <InputCheckbox @bind-Value="NewSubject.Completed" Id="completionState" class="form-check-input"/>
-                    <Label class="form-check-label" for="completionState">
+                    <label class="form-check-label" for="completionState">
                         @(NewSubject.Completed ? "Completed" : "In Progress")
-                    </Label>
+                    </label>
                 </div>
                 <ValidationMessage For="@(() => NewSubject.Completed)"/>
             </div>

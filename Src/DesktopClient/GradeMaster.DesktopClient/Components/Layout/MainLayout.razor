@@ -19,7 +19,7 @@
     </main>
 </div>
 
-<Offcanvas @ref="offcanvas"
+<Offcanvas @ref="_offcanvas"
            title="Options">
     <BodyTemplate>
         <NavLink class="btn btn-translucient offcanvas-button-link border-dark-subtle" style="margin-top: 0" href="info" @onclick="OnHideOffcanvasClick"><Icon Name="IconName.InfoCircle" /> Info</NavLink>
@@ -36,9 +36,9 @@
 <Toasts class="p-3" Placement="ToastsPlacement.TopRight" StackLength="2" AutoHide="true" />
 
 @code {
-     private Offcanvas offcanvas = default!;
+     private Offcanvas _offcanvas = default!;
 
-     private async Task OnShowOffcanvasClick() => await offcanvas.ShowAsync();
+     private async Task OnShowOffcanvasClick() => await _offcanvas.ShowAsync();
 
-     private async Task OnHideOffcanvasClick() => await offcanvas.HideAsync();
+     private async Task OnHideOffcanvasClick() => await _offcanvas.HideAsync();
 }
