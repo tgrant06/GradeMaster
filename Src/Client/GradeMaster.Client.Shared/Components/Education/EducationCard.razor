@@ -62,7 +62,7 @@
 
     private decimal _educationAverage;
 
-
+    // maybe change to OnInitialized()
     protected override void OnParametersSet()
     {
         _educationAverage = EducationUtils.CalculateEducationAverage(Education.Subjects);

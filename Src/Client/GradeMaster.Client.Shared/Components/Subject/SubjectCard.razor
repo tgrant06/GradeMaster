@@ -61,7 +61,7 @@
 
     private decimal _subjectAverage;
 
-
+    // maybe change to OnInitialized()
     protected override void OnParametersSet()
     {
         _subjectAverage = SubjectUtils.CalculateWeightedAverage(Subject.Grades);
