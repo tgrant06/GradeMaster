@@ -13,7 +13,6 @@
                 <b>@Grade.Value.ToString("0.##")</b>
             }
         </CardTitle>
-        @*Maybe remove Weight: before @Grade.Weight.Name*@
         <CardSubTitle Class="mb-2 text-muted">W: @Grade.Weight.Name / @Grade.Weight.Value.ToString("0.0##")</CardSubTitle>
     </CardHeader>
     <CardBody>
@@ -53,23 +52,6 @@
     [Inject] private NavigationManager Navigation { get; set; }
 
     [Inject] protected ToastService ToastService { get; set; } = default!;
-
-    // if OnParametersSetAsync is used, then OnInitializedAsync is redundant?
-    // maybe later use OnParametersSetAsync
-    // protected override Task OnInitializedAsync()
-    // {
-    //     return base.OnInitializedAsync();
-    // }
-
-    // private string TruncateString(string name, int maxLength)
-    // {
-    //     if (string.IsNullOrEmpty(name) || name.Length <= maxLength)
-    //     {
-    //         return name;
-    //     }
-
-    //     return name.Substring(0, maxLength) + "...";
-    // }
 
 
     private void GradeDetail()

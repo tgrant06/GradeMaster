@@ -238,16 +238,6 @@ else
         }
     }
 
-    // private string TruncateString(string name, int maxLength)
-    // {
-    //     if (string.IsNullOrEmpty(name) || name.Length <= maxLength)
-    //     {
-    //         return name;
-    //     }
-
-    //     return name.Substring(0, maxLength) + "...";
-    // }
-
     private async Task Cancel()
     {
         await JSRuntime.InvokeVoidAsync("window.history.back");
@@ -257,17 +247,4 @@ else
     {
         ToastService.Notify(new ToastMessage(ToastType.Warning, $"Grade form is not valid."));
     }
-
-    #region Logic
-
-    // private void PassGradeAttributes(Grade toGrade, Grade fromGrade, bool actionSubmit = false)
-    // {
-    //     toGrade.Value = fromGrade.Value;
-    //     toGrade.Description = actionSubmit ? fromGrade.Description?.Trim() : fromGrade.Description;
-    //     toGrade.Date = fromGrade.Date;
-    //     toGrade.Weight = fromGrade.Weight ?? new Weight();
-    //     toGrade.Subject = fromGrade.Subject ?? new Subject();
-    // }
-
-    #endregion
 }

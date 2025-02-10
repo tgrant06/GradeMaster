@@ -61,55 +61,11 @@
 
     private decimal _subjectAverage;
 
-    // maybe remove if not used or redundant
-    // if OnParametersSetAsync is used, then OnInitializedAsync is redundant?
-    // protected override async Task OnInitializedAsync()
-    // {
-    //     await CalculateSubjectAverage();
-    // }
 
     protected override void OnParametersSet()
     {
         _subjectAverage = SubjectUtils.CalculateWeightedAverage(Subject.Grades);
     }
-
-    // private string TruncateString(string name, int maxLength)
-    // {
-    //     if (string.IsNullOrEmpty(name) || name.Length <= maxLength)
-    //     {
-    //         return name;
-    //     }
-
-    //     return name.Substring(0, maxLength) + "...";
-    // }
-
-    #region Averages
-
-    //private async Task CalculateSubjectAverage()
-    //{
-        // get all grades outside of card to save queries? too many queries!?
-        //var grades = await _gradeRepository.GetBySubjectIdAsync(Subject.Id);
-        //_subjectAverage = CalculateWeightedAverage(Subject.Grades);
-    //}
-
-    // private decimal CalculateWeightedAverage(ICollection<Grade> grades)
-    // {
-    //     if (grades == null || !grades.Any())
-    //     {
-    //         return 0;
-    //     }
-
-    //     decimal totalWeight = grades.Sum(g => g.Weight?.Value ?? 1); // Default weight to 1 if null
-    //     if (totalWeight == 0)
-    //     {
-    //         return 0;
-    //     }
-
-    //     decimal weightedSum = grades.Sum(g => g.Value * (g.Weight?.Value ?? 1)); // Default weight to 1 if null
-    //     return weightedSum / totalWeight;
-    // }
-
-    #endregion
 
     private void SubjectDetail()
     {

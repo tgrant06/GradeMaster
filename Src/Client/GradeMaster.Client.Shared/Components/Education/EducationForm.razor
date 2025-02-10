@@ -184,20 +184,4 @@ else
     {
         ToastService.Notify(new ToastMessage(ToastType.Warning, $"Education form is not valid."));
     }
-
-    #region Logic
-
-    // private void PassEducationAttributes(Education toEducation, Education fromEducation, bool actionSubmit = false)
-    // {
-    //     toEducation.Name = actionSubmit ? fromEducation.Name.Trim() : fromEducation.Name;
-    //     toEducation.Description = actionSubmit ? fromEducation.Description?.Trim() : fromEducation.Description;
-    //     toEducation.Institution = actionSubmit ? fromEducation.Institution?.Trim() : fromEducation.Institution;
-    //     toEducation.Completed = fromEducation.Completed;
-    //     toEducation.Semesters = fromEducation.Semesters;
-    //     toEducation.StartDate = fromEducation.StartDate;
-    //     toEducation.EndDate = fromEducation.EndDate;
-    // }
-
-    #endregion
-
 }
