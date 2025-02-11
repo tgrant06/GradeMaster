@@ -1,6 +1,6 @@
 ﻿namespace GradeMaster.Common.Enums;
 
-public enum Semester
+public enum FilterType
 {
     // for later maybe?
 }
