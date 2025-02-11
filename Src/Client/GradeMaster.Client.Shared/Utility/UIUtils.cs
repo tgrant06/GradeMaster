@@ -1,5 +1,8 @@
 ﻿namespace GradeMaster.Client.Shared.Utility;
 
+/// <summary>
+/// General utility class for UI.
+/// </summary>
 public static class UIUtils
 {
     /// <summary>
@@ -7,7 +10,7 @@ public static class UIUtils
     /// </summary>
     /// <param name="name"></param>
     /// <param name="maxLength"></param>
-    /// <returns>string</returns>
+    /// <returns>truncated string</returns>
     public static string TruncateString(string name, int maxLength)
     {
         if (string.IsNullOrEmpty(name) || name.Length <= maxLength)
