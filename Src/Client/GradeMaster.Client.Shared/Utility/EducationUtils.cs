@@ -4,6 +4,11 @@ namespace GradeMaster.Client.Shared.Utility;
 
 public static class EducationUtils
 {
+    /// <summary>
+    /// Calculates the weighted average of the given grades.
+    /// </summary>
+    /// <param name="grades"></param>
+    /// <returns>decimal</returns>
     public static decimal CalculateWeightedAverage(ICollection<Grade> grades)
     {
         if (grades == null || !grades.Any())
@@ -21,6 +26,11 @@ public static class EducationUtils
         return weightedSum / totalWeight;
     }
 
+    /// <summary>
+    /// Calculates the Education average with the given subjects.
+    /// </summary>
+    /// <param name="subjects"></param>
+    /// <returns>decimal</returns>
     public static decimal CalculateEducationAverage(List<Subject> subjects)
     {
         if (subjects == null || !subjects.Any())
