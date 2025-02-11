@@ -114,7 +114,6 @@
         await _weightRepository.GetAllAsync();
         _existsAnyEducationInProgress = await _educationRepository.ExistsAnyIsCompletedAsync(false);
         // await LoadSubjects();
-        // await _gradeRepository.GetAllWithWeightAsync();
     }
 
     private async Task RefreshSubjectData()
