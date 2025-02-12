@@ -1,0 +1,82 @@
+﻿@page "/subjects"
+
+<HeadContent>
+    <style>
+        html, body {
+        overflow-y: scroll
+        }
+    </style>
+</HeadContent>
+
+<TopPageHeader>Subjects</TopPageHeader>
+
+<div class="row py-3 mx-0">
+    <!--had classes: bd-navbar sticky-top-->
+    <div class="col-8 col-md-8 px-0 mb-3" style="max-width: 400px">
+        <b>Search:</b>
+        <EditForm Model="_searchValue" OnValidSubmit="RefreshSubjectData">
+            <InputText id="searchFieldSubject" class="form-control" placeholder="Search for Subject" @bind-Value="_searchValue" />
+        </EditForm>
+    </div>
+    <!--Add edit and detail button later-->
+    <div class="col-1 col-md-1 mb-3 mt-4" style="width: 38px; margin-right: 6px; padding-left: 9px;">
+        <Button Color="ButtonColor.Primary" class="px-2" style="height: 38px; padding-top: 3px;" @onclick="RefreshSubjectData">
+            <Icon Name="IconName.Search" Size="IconSize.x5" />
+        </Button>
+    </div>
+    <div class="col-1 col-md-1 mb-3 mt-4" style="width: 38px">
+        <Button Color="ButtonColor.Secondary" class="px-2" style="height: 38px; padding-top: 3px;" @onclick="LoadAllSubjects">
+            <Icon Name="IconName.ArrowRepeat" Size="IconSize.x5" />
+        </Button>
+    </div>
+    <div class="col-4 col-md-4 text-end ms-auto mb-3 mt-4" style="width: 150px;">
+        @if (_existsAnyEducationInProgress)
+        {
+            <Button Color="ButtonColor.Success" @onclick="CreateSubject" Size="ButtonSize.Medium" Style="height: 38px;">
+                New <Icon Name="IconName.PlusSquare" />
+            </Button>
+        }
+        else
+        {
+            <Tooltip Title="Create Education first" Style="padding-top: 6px">
+                <Button Color="ButtonColor.Success" @onclick="CreateSubject" Disabled="true" Size="ButtonSize.Medium" Style="height: 38px;">
+                    New <Icon Name="IconName.PlusSquare" />
+                </Button>
+            </Tooltip>
+        }
+    </div>
+</div>
+
+<ConfirmDialog @ref="_dialog" />
+
+<div class="container align-content-center" style="margin-bottom: 25px;">
+    <div class="component-card-grid py-4">
+        <Virtualize TItem="Subject" ItemsProvider="GetSubjectsProvider" Context="subject" OverscanCount="12" @ref="_virtualizeComponent">
+            <ItemContent>
+                <SubjectCard @key="subject.Id" Subject="@subject" OnSubjectDeleted="RefreshSubjectData" Dialog="_dialog" />
+            </ItemContent>
+            <EmptyContent>
+                <div></div>
+                <div class="text-center py-4" style="grid-column: 1/-1;">
+                    <p>No subjects found. Try adjusting your search or add a new subject.</p>
+                </div>
+                <div></div>
+            </EmptyContent>
+            @* <Placeholder>
+                <div class="text-center">
+                    <Spinner Type="SpinnerType.Dots" Class="me-3" Color="SpinnerColor.Secondary"/>
+                </div>
+            </Placeholder> *@
+        </Virtualize>
+
+        @*Was*@
+        @* @foreach (Subject subject in _filteredSubjects.OrderByDescending(e => e.Id))
+        {
+            <SubjectCard Subject="@subject" OnSubjectDeleted="HandleSubjectDeleted"/>
+        } *@
+    </div>
+</div>
+
+@code {
+
+}

@@ -1,0 +1,187 @@
+﻿<div class="border-top" style="width: 100%; max-width: 1008px; margin-top: 15px"></div>
+@if (FormType == FormType.Edit)
+{
+    <h4 style="margin-bottom: 25px; margin-top: 10px; max-width: 1100px;">@FormTitle: @Education.Name</h4>
+}
+else
+{
+    <div style="margin-top: 25px;"></div>
+}
+<EditForm OnValidSubmit="HandleValidSubmit" OnInvalidSubmit="HandleInvalidSubmit" EditContext="_editContext">
+    <DataAnnotationsValidator/>
+    <Card Style="max-width: 1008px; border: none;">
+
+        <!-- Name Field -->
+        <div class="form-group row mb-3">
+            <label class="col-md-2 col-form-label nowrap" for="educationName">
+                <strong>Name: <span class="text-danger">*</span></strong>
+            </label>
+            <div class="col-md-10">
+                <InputText @bind-Value="NewEducation.Name" Id="educationName" class="form-control" Placeholder="Enter the education name"/>
+                <ValidationMessage For="@(() => NewEducation.Name)"/>
+            </div>
+        </div>
+
+        <!-- Institution Field -->
+        <div class="form-group row mb-3">
+            <label class="col-md-2 col-form-label nowrap" for="institutionName">Institution:</label>
+            <div class="col-md-10">
+                <InputText @bind-Value="NewEducation.Institution" Id="institutionName" class="form-control" Placeholder="Enter the institution name"/>
+                <ValidationMessage For="@(() => NewEducation.Institution)"/>
+            </div>
+        </div>
+
+        <!-- Start to End Date Fields -->
+        <div class="mb-3 d-flex align-items-center" style="gap: 4px;">
+            <!-- Start Date -->
+            <label class="col-md-2 col-form-label nowrap"></label>
+
+            <div style="display: flex; flex-direction: column; align-items: start;">
+                <label for="startDate">
+                    <strong>Start Date: <span class="text-danger">*</span></strong>
+                </label>
+                <InputDate TValue="DateOnly" @bind-Value="NewEducation.StartDate" Id="startDate" class="form-control" style="width: auto; max-width: 200px;" />
+                @* <ValidationMessage For="@(() => NewEducation.StartDate)" /> *@
+            </div>
+
+            <p style="margin-top: 35px; margin-right: 9px; margin-left: 9px; font-weight: bold;">-</p>
+
+            <!-- End Date -->
+            <div style="display: flex; flex-direction: column; align-items: start;">
+                <label for="endDate">
+                    <strong>End Date: <span class="text-danger">*</span></strong>
+                </label>
+                <InputDate TValue="DateOnly" @bind-Value="NewEducation.EndDate" Id="endDate" class="form-control" style="width: auto; max-width: 200px" />
+                @* <ValidationMessage For="@(() => NewEducation.EndDate)" /> *@
+            </div>
+        </div>
+
+        <!-- Total Semesters Field -->
+        <div class="form-group row mb-3">
+            <label class="col-md-2 col-form-label nowrap"></label>
+            <div class="col-md-10">
+                <label class="col-form-label nowrap" for="totalSemesters">
+                    <strong>Total Semesters: <span class="text-danger">*</span></strong>
+                </label>
+                <NumberInput TValue="int" @bind-Value="NewEducation.Semesters" EnableMinMax="true" Max="256" Min="1" Id="totalSemesters" class="form-control" Placeholder="Enter total semesters" style="width: 155px;"/>
+                <ValidationMessage For="@(() => NewEducation.Semesters)"/>
+            </div>
+        </div>
+
+        <!-- Completion State Field -->
+        <div class="form-group row mb-3">
+            <label class="col-md-2 col-form-label nowrap"></label>
+            <div class="col-md-10">
+                <label class="col-form-label nowrap" for="completionState">
+                    <strong>Completion State: <span class="text-danger">*</span></strong>
+                </label>
+                <div class="form-check">
+                    <InputCheckbox @bind-Value="NewEducation.Completed" Id="completionState" class="form-check-input"/>
+                    <label class="form-check-label" for="completionState">
+                        @(NewEducation.Completed ? "Completed" : "In Progress")
+                    </label>
+                </div>
+                <ValidationMessage For="@(() => NewEducation.Completed)"/>
+            </div>
+        </div>
+        <!--Disable Completion State when FormType.Create-->
+
+        <!-- Description Field -->
+        <div class="form-group row mb-3">
+            <label class="col-md-2 col-form-label nowrap" for="description">Description:</label>
+            <div class="col-md-10">
+                <InputTextArea @bind-Value="NewEducation.Description" Id="description" class="form-control" Rows="4" Placeholder="Enter a description" style="max-height: 256px"/>
+                <ValidationMessage For="@(() => NewEducation.Description)"/>
+            </div>
+        </div>
+
+        <div class="border-top" style="width: 100%; margin-top: 15px"></div>
+
+        <!-- Buttons -->
+        <div class="d-flex justify-content-between my-3">
+            <Button Type="ButtonType.Button" Color="ButtonColor.Primary" @onclick="Cancel"><Icon Name="IconName.ArrowLeft"/> Cancel</Button>
+            <Button Type="ButtonType.Submit" Color="ButtonColor.Success">Save <Icon Name="IconName.Floppy"/></Button>
+        </div>
+    </Card>
+</EditForm>
+
+<style>
+    .nowrap { white-space: nowrap; }
+</style>
+
+@code {
+    [Parameter] public FormType FormType { get; set; }
+    [Parameter] public Education? Education { get; set; }
+    [Parameter] public EventCallback<Education> OnSave { get; set; }
+
+    [Inject] private IJSRuntime JSRuntime { get; set; }
+    [Inject] private NavigationManager Navigation { get; set; }
+
+    [Inject] private IEducationService _educationService { get; set; }
+
+    [Inject] protected ToastService ToastService { get; set; } = default!;
+
+    private EditContext? _editContext;
+
+    private string FormTitle { get; set; } = "Education Form";
+
+    public Education NewEducation { get; set; } = new();
+
+    protected override void OnInitialized()
+    {
+        if (Education == null)
+        {
+            // Initialize Education for creation
+            Education = new Education
+            {
+                StartDate = DateOnly.FromDateTime(DateTime.Today),
+                EndDate = DateOnly.FromDateTime(DateTime.Today.AddYears(1)),
+                Semesters = 2,
+                Completed = false
+            };
+
+            FormTitle = "Create New Education";
+        }
+        else
+        {
+            FormTitle = "Edit Education";
+        }
+        _educationService.PassObjectAttributes(NewEducation, Education);
+        //PassEducationAttributes(NewEducation, Education);
+
+        _editContext = new EditContext(NewEducation);
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        if (NewEducation.EndDate < NewEducation.StartDate)
+        {
+            ToastService.Notify(new ToastMessage(ToastType.Warning, $"End Date cannot be before Start Date."));
+            return;
+        }
+
+        if (OnSave.HasDelegate)
+        {
+            _educationService.PassObjectAttributes(Education, NewEducation, true);
+            //PassEducationAttributes(Education, NewEducation, true);
+            await OnSave.InvokeAsync(Education);
+        }
+        else
+        {
+            // Optional fallback logic
+            // show error
+            ToastService.Notify(new ToastMessage(ToastType.Danger, $"Education could not be saved."));
+        }
+    }
+
+    private async Task Cancel()
+    {
+        //ToastService.Notify(new ToastMessage(ToastType.Info, $"Edit Action canceled."));
+        await JSRuntime.InvokeVoidAsync("window.history.back");
+    }
+
+    private void HandleInvalidSubmit()
+    {
+        ToastService.Notify(new ToastMessage(ToastType.Warning, $"Education form is not valid."));
+    }
+}

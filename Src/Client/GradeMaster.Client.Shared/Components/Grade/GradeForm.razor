@@ -1,0 +1,250 @@
+﻿<div class="border-top" style="width: 100%; max-width: 1008px; margin-top: 15px"></div>
+@if (FormType == FormType.Edit)
+{
+    <h4 style="margin-bottom: 25px; margin-top: 10px; max-width: 1100px;">@FormTitle: @Grade.Value | Weight: @Grade.Weight.Name / @Grade.Weight.Value.ToString("0.00")</h4>
+}
+else
+{
+    <div style="margin-top: 25px;"></div>
+}
+<EditForm OnValidSubmit="HandleValidSubmit" OnInvalidSubmit="HandleInvalidSubmit" EditContext="_editContext">
+    <DataAnnotationsValidator/>
+    <Card Style="max-width: 1008px; border: none;">
+
+        <!-- Value Field -->
+        <div class="form-group row mb-3">
+            <label class="col-md-2 col-form-label nowrap" for="gradeValue">
+                <strong>Value: <span class="text-danger">*</span></strong>
+            </label>
+            <div class="col-md-10">
+                <NumberInput TValue="decimal" @bind-Value="NewGrade.Value" Step="0.01" EnableMinMax="true" Max="6" Min="1" Id="gradeValue" class="form-control" Placeholder="Enter the grade value" Style="width: 155px;"/>
+                <ValidationMessage For="@(() => NewGrade.Value)"/>
+            </div>
+        </div>
+
+        <!-- Weight Field -->
+        <div class="form-group row mb-3">
+            <label class="col-md-2 col-form-label nowrap"><strong>Weight: <span class="text-danger">*</span></strong></label>
+            <div class="col-md-10">
+                <select class="form-select" style="max-width: 155px" aria-label="Default select example" name="selectFieldWeight" id="selectFieldWeight"
+                        @bind="SelectedWeightId">
+                    <option value="0" style="background-color: #eeeeee; color: black; border: solid 1px">Select Weight</option>
+                    @foreach (var weight in Weights)
+                    {
+                        <option value="@weight.Id" style="background-color: #eeeeee; color: black;">@weight.Name / @weight.Value.ToString("0.0##")</option>
+                    }
+                </select>
+                <ValidationMessage For="@(() => NewGrade.Weight)"/>
+            </div>
+        </div>
+
+        <!-- Subject Field -->
+        <div class="form-group row mb-3">
+            <label class="col-md-2 col-form-label nowrap"><strong>Subject: <span class="text-danger">*</span></strong></label>
+            <div class="col-md-10">
+                <select class="form-select" style="max-width: 600px" aria-label="Default select example" name="selectFieldSubject" id="selectFieldSubject"
+                @bind="SelectedSubjectId">
+                    <option value="0" style="background-color: #eeeeee; color: black; border: solid 1px">Select Subject</option>
+                    @foreach (var subject in Subjects)
+                    {
+                        <option value="@subject.Id" style="background-color: #eeeeee; color: black;">@UIUtils.TruncateString(@subject.Name, 60) - @subject.Semester | @UIUtils.TruncateString(subject.Education.Name, 60)</option>
+                    }
+                </select>
+                <ValidationMessage For="@(() => NewGrade.Subject)"/>
+            </div>
+        </div>
+
+        <!-- Total Created At Field -->
+        <div class="form-group row mb-3">
+            <label class="col-md-2 col-form-label nowrap" for="date">
+                <strong>Date: <span class="text-danger">*</span></strong>
+            </label>
+            <div class="col-md-10">
+                <InputDate TValue="DateOnly" @bind-Value="NewGrade.Date" Id="date" class="form-control" style="width: auto; max-width: 200px;" />
+                <ValidationMessage For="@(() => NewGrade.Date)" />
+            </div>
+        </div>
+
+        <!-- Completion State Field -->
+        @* <div class="form-group row mb-3">
+            <label class="col-md-2 col-form-label nowrap"></label>
+            <div class="col-md-10">
+                <label class="col-form-label nowrap" for="completionState">
+                    <strong>Completion State: <span class="text-danger">*</span></strong>
+                </label>
+                <div class="form-check">
+                    <InputCheckbox @bind-Value="NewSubject.Completed" Id="completionState" class="form-check-input"/>
+                    <Label class="form-check-label" for="completionState">
+                        @(NewSubject.Completed ? "Completed" : "In Progress")
+                    </Label>
+                </div>
+                <ValidationMessage For="@(() => NewSubject.Completed)"/>
+            </div>
+        </div> *@
+
+        <!-- Description Field -->
+        <div class="form-group row mb-3">
+            <label class="col-md-2 col-form-label nowrap" for="description">Description:</label>
+            <div class="col-md-10">
+                <InputTextArea @bind-Value="NewGrade.Description" Id="description" class="form-control" Rows="4" Placeholder="Enter a description" style="max-height: 256px"/>
+                <ValidationMessage For="@(() => NewGrade.Description)"/>
+            </div>
+        </div>
+
+        <div class="border-top" style="width: 100%; margin-top: 15px"></div>
+
+        <!-- Buttons -->
+        <div class="d-flex justify-content-between my-3">
+            <Button Type="ButtonType.Button" Color="ButtonColor.Primary" @onclick="Cancel"><Icon Name="IconName.ArrowLeft"/> Cancel</Button>
+            <Button Type="ButtonType.Submit" Color="ButtonColor.Success">Save <Icon Name="IconName.Floppy"/></Button>
+        </div>
+    </Card>
+</EditForm>
+
+<style>
+    .nowrap { white-space: nowrap; }
+</style>
+
+@code {
+    [Parameter] public FormType FormType { get; set; }
+    [Parameter] public Grade? Grade { get; set; }
+    [Parameter] public EventCallback<Grade> OnSave { get; set; }
+
+    [Inject] private IJSRuntime JSRuntime { get; set; }
+    [Inject] private NavigationManager Navigation { get; set; }
+
+    [Inject] private IGradeService _gradeService { get; set; }
+
+    [Inject] protected ToastService ToastService { get; set; } = default!;
+
+    [Inject] private IEducationRepository _educationRepository { get; set; }
+    [Inject] private ISubjectRepository _subjectRepository { get; set; }
+    [Inject] private IWeightRepository _weightRepository { get; set; }
+
+    private EditContext? _editContext;
+
+    private string FormTitle { get; set; } = "Subject Form";
+
+    public Grade NewGrade { get; set; } = new();
+
+    public List<Weight> Weights { get; set; }
+    private int SelectedWeightId
+    {
+        get => NewGrade.Weight?.Id ?? 0;
+        set
+        {
+            if (Weights != null)
+            {
+                NewGrade.Weight = Weights.FirstOrDefault(e => e.Id == value);
+            }
+        }
+    }
+
+    public List<Subject> Subjects { get; set; } = new();
+    private int SelectedSubjectId
+    {
+        get => NewGrade.Subject?.Id ?? 0;
+        set
+        {
+            if (Subjects != null)
+            {
+                NewGrade.Subject = Subjects.FirstOrDefault(e => e.Id == value);
+            }
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            Weights = await _weightRepository.GetAllAsync();
+
+            if (Weights == null || !Weights.Any())
+            {
+                throw new InvalidOperationException("No weights found.");
+            }
+
+            Subjects = await _subjectRepository.GetByCompletedAsync(false);
+            Subjects = Subjects.OrderByDescending(e => e.Id).ToList();
+            if (FormType == FormType.Edit && Grade != null)
+            {
+                // can never be null
+                var subject = await _subjectRepository.GetByGradeIdAsync(Grade.Id);
+
+                if (!Subjects.Exists(e => e.Id == subject.Id))
+                {
+                    Subjects.Insert(0, subject);
+                }
+            }
+
+            if (Subjects == null || !Subjects.Any())
+            {
+                throw new InvalidOperationException("No subjects found.");
+            }
+
+            if (Grade == null)
+            {
+                // Initialize Education for creation
+                Grade = new Grade
+                    {
+                        Date = DateOnly.FromDateTime(DateTime.Today),
+                        Weight = new Weight(),
+                        Subject = new Subject()
+                    };
+
+                FormTitle = "Create New Grade";
+            }
+            else
+            {
+                FormTitle = "Edit Grade";
+            }
+
+            //PassGradeAttributes(NewGrade, Grade);
+            _gradeService.PassObjectAttributes(NewGrade, Grade);
+
+            _editContext = new EditContext(NewGrade);
+        }
+        catch (Exception ex)
+        {
+            ToastService.Notify(new ToastMessage(ToastType.Warning, $"Error during initialization: {ex.Message}"));
+            throw;
+        }
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        if (NewGrade.Weight == null || NewGrade.Weight.Id == 0)
+        {
+            ToastService.Notify(new ToastMessage(ToastType.Warning, "Please select a valid weight."));
+            return;
+        }
+
+        if (NewGrade.Subject == null || NewGrade.Subject.Id == 0)
+        {
+            ToastService.Notify(new ToastMessage(ToastType.Warning, "Please select a valid subject."));
+            return;
+        }
+
+        if (OnSave.HasDelegate)
+        {
+            //PassGradeAttributes(Grade, NewGrade, true);
+            _gradeService.PassObjectAttributes(Grade, NewGrade, true);
+            await OnSave.InvokeAsync(Grade);
+        }
+        else
+        {
+            // Optional fallback logic
+            ToastService.Notify(new ToastMessage(ToastType.Danger, $"Grade could not be saved."));
+        }
+    }
+
+    private async Task Cancel()
+    {
+        await JSRuntime.InvokeVoidAsync("window.history.back");
+    }
+
+    private void HandleInvalidSubmit()
+    {
+        ToastService.Notify(new ToastMessage(ToastType.Warning, $"Grade form is not valid."));
+    }
+}

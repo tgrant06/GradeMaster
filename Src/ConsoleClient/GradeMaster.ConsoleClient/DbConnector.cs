@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
-using GradeMaster.DataAccess.Core;
+using GradeMaster.DataAccess;
 
 namespace GradeMaster.ConsoleClient;
 

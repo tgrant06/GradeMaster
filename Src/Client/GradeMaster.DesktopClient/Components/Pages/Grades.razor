@@ -1,0 +1,82 @@
+﻿@page "/grades"
+
+<HeadContent>
+    <style>
+        html, body {
+        overflow-y: scroll
+        }
+    </style>
+</HeadContent>
+
+<TopPageHeader>Grades</TopPageHeader>
+
+<div class="row py-3 mx-0">
+    <!--had classes: bd-navbar sticky-top-->
+    <div class="col-8 col-md-8 px-0 mb-3" style="max-width: 400px">
+        <b>Search:</b>
+        <EditForm Model="_searchValue" OnValidSubmit="RefreshGradeData">
+            <InputText id="searchFieldGrade" class="form-control" placeholder="Search for Grade" @bind-Value="_searchValue" />
+        </EditForm>
+    </div>
+    <!--Add edit and detail button later-->
+    <div class="col-1 col-md-1 mb-3 mt-4" style="width: 38px; margin-right: 6px; padding-left: 9px;">
+        <Button Color="ButtonColor.Primary" class="px-2" style="height: 38px; padding-top: 3px;" @onclick="RefreshGradeData">
+            <Icon Name="IconName.Search" Size="IconSize.x5" />
+        </Button>
+    </div>
+    <div class="col-1 col-md-1 mb-3 mt-4" style="width: 38px">
+        <Button Color="ButtonColor.Secondary" class="px-2" style="height: 38px; padding-top: 3px;" @onclick="LoadAllGrades">
+            <Icon Name="IconName.ArrowRepeat" Size="IconSize.x5" />
+        </Button>
+    </div>
+    <div class="col-4 col-md-4 text-end ms-auto mb-3 mt-4" style="width: 150px;">
+        @if (_existsAnySubjectInProgress)
+        {
+            <Button Color="ButtonColor.Success" @onclick="CreateGrade" Size="ButtonSize.Medium" Style="height: 38px;">
+                New <Icon Name="IconName.BookmarkPlus" />
+            </Button>
+        }
+        else
+        {
+            <Tooltip Title="Create Subject first" Style="padding-top: 6px">
+                <Button Color="ButtonColor.Success" @onclick="CreateGrade" Disabled="true" Size="ButtonSize.Medium" Style="height: 38px;">
+                    New <Icon Name="IconName.BookmarkPlus" />
+                </Button>
+            </Tooltip>
+        }
+    </div>
+</div>
+
+<ConfirmDialog @ref="_dialog" />
+
+<div class="container align-content-center" style="margin-bottom: 25px;">
+    <div class="component-card-grid py-4">
+        <Virtualize TItem="Grade" ItemsProvider="GetGradesProvider" Context="grade" OverscanCount="12" @ref="_virtualizeComponent">
+            <ItemContent>
+                <GradeCard @key="grade.Id" Grade="@grade" OnGradeDeleted="RefreshGradeData" Dialog="_dialog" />
+            </ItemContent>
+            <EmptyContent>
+                <div></div>
+                <div class="text-center py-4" style="grid-column: 1/-1;">
+                    <p>No grades found. Try adjusting your search or add a new grade.</p>
+                </div>
+                <div></div>
+            </EmptyContent>
+            @* <Placeholder>
+                <div class="text-center">
+                    <Spinner Type="SpinnerType.Dots" Class="me-3" Color="SpinnerColor.Secondary" />
+                </div>
+            </Placeholder> *@
+        </Virtualize>
+
+        @*Was *@
+        @* @foreach (Grade grade in _filteredGrades.OrderByDescending(g => g.Date).ThenByDescending(g => g.Id))
+        {
+            <GradeCard Grade="@grade" OnGradeDeleted="HandleGradeDeleted"/>
+        } *@
+    </div>
+</div>
+
+@code {
+
+}

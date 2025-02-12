@@ -39,6 +39,8 @@ GradeMaster is a Desktop based grade management tool. It allows you to manage yo
 1. Make shure you delete the `C:\Program Files\GradeMaster` directory. (It is recommended you make a backup of your Data by copying your GradeMaster.db file located in `C:\Users\YourUser\AppData\Local\GradeMaster\Data`. The database should remain compatible with the newer versions of the app and no data should be lost)
 2. Then follow the same steps from the Instalation Guide for personal use. (You do not have to copy the shortcut again. You can skip this step. Only do this step if the shortcut doesnt work anymore.)
 
+#### Disclaimer: [Updating from Version 1.x.x to v2.x.x](Docs/Update_from_version_v1.x.x_to_v2.x.x.md)
+
 ### Uninstalling the App for Users (Windows)
 1. Delete the directory `C:\Program Files\GradeMaster`.
 2. You can also delete the application data directory if you want to delete your data (not recommended). To do this delete the directory `C:\Users\YourUser\AppData\Local\GradeMaster`.

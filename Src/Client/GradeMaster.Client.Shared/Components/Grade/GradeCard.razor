@@ -1,0 +1,95 @@
+﻿<Card Class="px-0 mx-3 my-3 animated-card" Style="user-select: text; max-width: 100%;">
+    @*Later set id of card (also Education and Subject) => Id="@("g" + Grade.Id.ToString())" for navigation right scrollposition for Example: /Grades#g1*@
+    <CardHeader>
+        <CardTitle Style="padding-top: 6px">
+            @if (Grade.Value < 4)
+            {
+                <Badge Color="BadgeColor.Danger" IndicatorType="BadgeIndicatorType.RoundedPill" Style="font-size: 17px; font-weight: initial;">
+                    <b>@Grade.Value.ToString("0.##")</b>
+                </Badge>
+            }
+            else
+            {
+                <b>@Grade.Value.ToString("0.##")</b>
+            }
+        </CardTitle>
+        <CardSubTitle Class="mb-2 text-muted">W: @Grade.Weight.Name / @Grade.Weight.Value.ToString("0.0##")</CardSubTitle>
+    </CardHeader>
+    <CardBody>
+        <CardText>
+            <b>Description:</b> <br /> @UIUtils.TruncateString(string.IsNullOrEmpty(Grade.Description) ? "-" : Grade.Description, 150)
+        </CardText>
+    </CardBody>
+    <CardBody Class="border-top">
+        <CardText Class="border-bottom" Style="padding-bottom: 11px; margin-bottom: 11px;">
+            <b>Education: </b> @UIUtils.TruncateString(Grade.Subject.Education.Name, 50) @(!string.IsNullOrEmpty(Grade.Subject.Education.Institution) ? " | " + Grade.Subject.Education.Institution.Split(",")[0] : "")
+        </CardText>
+        <CardText Class="border-bottom" Style="padding-bottom: 11px; margin-bottom: 11px;">
+            <b>Subject: </b> @UIUtils.TruncateString(Grade.Subject.Name, 50) - @Grade.Subject.Semester
+        </CardText>
+        <CardText>
+            <b>Date: </b> @Grade.Date.ToShortDateString()
+        </CardText>
+    </CardBody>
+    <CardFooter Style="text-align: end">
+        <Button Size="ButtonSize.Small" Color="ButtonColor.Primary" @onclick="GradeDetail">
+            Detail <Icon Name="IconName.ArrowRight" Size="IconSize.x6" />
+        </Button>
+        <Button Size="ButtonSize.Small" Color="ButtonColor.Danger" Style="margin-left: 6px" TooltipTitle="Delete Grade" @onclick="DeleteGradeAsync">
+            <Icon Name="IconName.Trash" Size="IconSize.x6" />
+        </Button>
+    </CardFooter>
+</Card>
+
+@* <ConfirmDialog @ref="_dialog" /> *@
+
+@code {
+    [Parameter] public Grade Grade { get; set; }
+    [Parameter] public EventCallback OnGradeDeleted { get; set; } // was EventCallback<int> OnGradeDeleted { get; set; }
+    [Parameter] public ConfirmDialog Dialog { get; set; } = default!;
+
+    [Inject] private IGradeRepository _gradeRepository { get; set; }
+    [Inject] private NavigationManager Navigation { get; set; }
+
+    [Inject] protected ToastService ToastService { get; set; } = default!;
+
+
+    private void GradeDetail()
+    {
+        Navigation.NavigateTo($"/grades/{Grade.Id}");
+    }
+
+    #region Delete Grade
+
+    //private ConfirmDialog _dialog = default!;
+
+    private async Task DeleteGradeAsync()
+    {
+        var options = new ConfirmDialogOptions
+            {
+                YesButtonColor = ButtonColor.Danger,
+            };
+
+        var confirmation = await Dialog.ShowAsync(
+            title: "Are you sure you want to delete this Grade?",
+            message1: $"Grade from Subject: {Grade.Subject.Name} - {Grade.Subject.Semester} and Education: {Grade.Subject.Education.Name} with Value: {Grade.Value}, Weight: {Grade.Weight.Name}, Date: {Grade.Date.ToShortDateString()} and Description: {UIUtils.TruncateString(Grade.Description ?? "-", 35)} will be deleted.",
+            message2: "Do you want to proceed?",
+            confirmDialogOptions: options);
+
+        if (confirmation)
+        {
+            try
+            {
+                await _gradeRepository.DeleteByIdAsync(Grade.Id);
+                await OnGradeDeleted.InvokeAsync(); // was await OnGradeDeleted.InvokeAsync(Grade.Id);
+                ToastService.Notify(new ToastMessage(ToastType.Success, $"Grade deleted successfully.")); // maybe add Name of deleted object
+            }
+            catch (Exception e)
+            {
+                ToastService.Notify(new ToastMessage(ToastType.Danger, $"Error deleting grade: {e.Message}"));
+            }
+        }
+    }
+
+    #endregion
+}

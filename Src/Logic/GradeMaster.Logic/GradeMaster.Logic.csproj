@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+	<FileVersion>2.0.0.0</FileVersion>
+	<InformationalVersion>2.0.0</InformationalVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="IServices\**" />
+    <EmbeddedResource Remove="IServices\**" />
+    <None Remove="IServices\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Common\GradeMaster.Common\GradeMaster.Common.csproj" />
+    <ProjectReference Include="..\..\Interfaces\GradeMaster.Logic.Interfaces\GradeMaster.Logic.Interfaces.csproj" />
+  </ItemGroup>
+
+</Project>
