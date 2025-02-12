@@ -1,6 +1,4 @@
-﻿
-
-using Microsoft.AspNetCore.Components.WebView.Maui;
+﻿using Microsoft.AspNetCore.Components.WebView.Maui;
 using Microsoft.Web.WebView2.Core;
 
 namespace GradeMaster.DesktopClient;

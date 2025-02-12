@@ -1,8 +1,6 @@
-﻿using SQLitePCL;
-using GradeMaster.Common.Entities;
+﻿using GradeMaster.Common.Entities;
 using GradeMaster.DataAccess.Interfaces.IRepositories;
 using Microsoft.EntityFrameworkCore;
-using System.Buffers;
 
 namespace GradeMaster.DataAccess.Repositories;
 
