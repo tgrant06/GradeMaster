@@ -109,7 +109,7 @@ The WinClient (based on WinUi 3) is discontinued and removed from the main branc
 
 
 ## License
-This project is licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) License. For commercial use, please contact **[timothygmaurer@outlook.com](mailto:timothygmaurer@outlook.com)**.
+This project is licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) License. For commercial use or information, please create an Issue.
 
 [License: CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)
 
