@@ -53,8 +53,8 @@
                 </div> *@
                 <!-- Second Column -->
                 <div class="col mb-3">
-                    <CardText Class="border-bottom" Style="padding-bottom: 20px; margin-bottom: 6px;">
-                        <b>Education:</b> @Grade.Subject.Education.Name
+                    <CardText Class="border-bottom" Style="padding-bottom: 17px; margin-bottom: 6px;">
+                        <b>Education:</b> <Button @onclick="GoToEducation" class="btn btn-translucient border-0" style="padding: 3px; padding-left: 6px;padding-right: 6px;font-size: initial;margin-top: -5px;">@Grade.Subject.Education.Name <Icon Name="IconName.ArrowUpRightCircle" /></Button>
                     </CardText>
                 </div>
                 <div class="col mb-3">
@@ -63,8 +63,8 @@
                     </CardText>
                 </div>
                 <div class="col mb-3">
-                    <CardText Class="border-bottom" Style="padding-bottom: 20px; margin-bottom: 6px;">
-                        <b>Subject:</b> @Grade.Subject.Name - @Grade.Subject.Semester
+                    <CardText Class="border-bottom" Style="padding-bottom: 17px; margin-bottom: 6px;">
+                        <b>Subject:</b> <Button @onclick="GoToSubject" class="btn btn-translucient border-0" style="padding: 3px; padding-left: 6px;padding-right: 6px;font-size: initial;margin-top: -5px;"> @Grade.Subject.Name - @Grade.Subject.Semester <Icon Name="IconName.ArrowUpRightCircle" /></Button>
                     </CardText>
                 </div>
                 <div class="col mb-3">
@@ -117,10 +117,24 @@
         await JSRuntime.InvokeVoidAsync("window.history.back");
     }
 
+    #region Navigation
+
     private void EditGrade()
     {
         Navigation.NavigateTo($"/grades/{Grade.Id}/edit");
     }
+
+    private void GoToEducation()
+    {
+        Navigation.NavigateTo($"/educations/{Grade.Subject.Education.Id}");
+    }
+
+    private void GoToSubject()
+    {
+        Navigation.NavigateTo($"/subjects/{Grade.Subject.Id}");
+    }
+
+    #endregion
 
     #region Averages Currently Not Used
 
