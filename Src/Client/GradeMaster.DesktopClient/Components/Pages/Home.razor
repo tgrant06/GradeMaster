@@ -44,7 +44,8 @@
 
         <GridColumns>
             <GridColumn TItem="Subject" HeaderText="Subject" PropertyName="Name" Class="name-column">
-                @UIUtils.TruncateString(context.Name, 21) - @context.Semester
+                <Button @onclick="() => GoToSubject(context.Id)" class="btn btn-translucient border-0" style="padding: 3px;font-size: initial;margin-top: 0px;">@UIUtils.TruncateString(context.Name, 21) - @context.Semester</Button>
+                @* @UIUtils.TruncateString(context.Name, 21) - @context.Semester *@
             </GridColumn>
             <GridColumn TItem="Subject" HeaderText="Grades" SortKeySelector="item => item.Grades != null ? item.Grades.Count : 0" Class="grades-column">
                 @if (context.Grades != null && context.Grades.Any())
@@ -87,7 +88,7 @@
 </div>
 
 <style>
-    .name-column { width: 225px; }
+    .name-column { width: 232px; }
 
     .average-grade-column { width: 100px; }
 
@@ -97,5 +98,5 @@
 </style>
 
 @code {
-   
+    
 }

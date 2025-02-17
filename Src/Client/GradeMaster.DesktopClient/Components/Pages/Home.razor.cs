@@ -96,6 +96,11 @@ public partial class Home
         _educationAverage = EducationUtils.CalculateEducationAverage(_subjects);
     }
 
+    private void GoToSubject(int subjectId)
+    {
+        Navigation.NavigateTo($"/subjects/{subjectId}");
+    }
+
     #region Averages
 
     private string GetAverageGrade(ICollection<Grade> grades)
