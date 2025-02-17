@@ -52,4 +52,14 @@ public static class EducationUtils
 
         return subjectAverages.Average();
     }
+
+    ///// <summary>
+    ///// Returns the completion state of the given boolean.
+    ///// </summary>
+    ///// <param name="completed"></param>
+    ///// <returns>Completion state as a string</returns>
+    //public static string CompletionState(bool completed)
+    //{
+    //    return completed ? "Completed" : "In Progress";
+    //}
 }
