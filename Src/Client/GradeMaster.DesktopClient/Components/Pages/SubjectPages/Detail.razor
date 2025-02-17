@@ -5,11 +5,18 @@
 <div class="border-top" style="width: 100%; max-width: 1008px; margin-top: 15px"></div>
 
 <div class="col-12 col-md-12 py-3 px-2" style="max-width: 1100px;">
-    <h2>
+    <h2 style="margin-bottom: 6px;">
         <b>@Subject.Name - @Subject.Semester</b>
     </h2>
-    <CardSubTitle Style="margin-top: 6px;">@Subject.Education.Name | @Subject.Education.StartDate.Year - @Subject.Education.EndDate.Year</CardSubTitle>
-    <CardSubTitle Style="margin-top: 6px;">@Subject.Education.Institution</CardSubTitle>
+    @* <CardSubTitle Style="margin-top: 6px;">@Subject.Education.Name | @Subject.Education.StartDate.Year - @Subject.Education.EndDate.Year</CardSubTitle> *@
+    @* <span style="display: inline-flex;">
+        <CardSubTitle Style="margin-top: 6px;">
+            @Subject.Education.Name | @Subject.Education.StartDate.Year - @Subject.Education.EndDate.Year</CardSubTitle>
+        <Button class="btn btn-translucient" style="padding: 5px;padding-top: 0;padding-bottom: 1px;margin-top: 2px;"><Icon Name="IconName.ArrowUpRightCircle"/></Button>
+    </span> *@
+    <Button @onclick="GoToEducation" class="btn btn-translucient border-0" style="margin-left: -5px; padding: 5px;"><CardSubTitle>@Subject.Education.Name, @Subject.Education.StartDate.Year - @Subject.Education.EndDate.Year <Icon Name="IconName.ArrowUpRightCircle" /></CardSubTitle></Button>
+    <CardSubTitle Style="margin-top: 2px;">@Subject.Education.Institution</CardSubTitle>
+    @* <CardSubTitle Style="margin-top: 6px;">@Subject.Education.Institution</CardSubTitle> *@
 </div>
 
 <div class="py-2 px-2">
@@ -109,6 +116,11 @@
     private void EditSubject()
     {
         Navigation.NavigateTo($"/subjects/{Subject.Id}/edit");
+    }
+
+    private void GoToEducation()
+    {
+        Navigation.NavigateTo($"/educations/{Subject.Education.Id}");
     }
 
     #region Averages
