@@ -116,6 +116,18 @@ h1:focus {
         background-color: rgba(0, 0, 0, 0.30)
     }
 
+.btn-translucient-v2 {
+    background-color: light-dark(rgba(0, 0, 0, 0.00), rgba(255, 255, 255, 0.00));
+}
+
+    .btn-translucient-v2:hover {
+        background-color: light-dark(rgba(0, 0, 0, 0.15), rgba(255, 255, 255, 0.15));
+    }
+
+    .btn-translucient-v2:hover:active {
+        background-color: light-dark(rgba(0, 0, 0, 0.25), rgba(255, 255, 255, 0.25));
+    }
+
 .list-item-bottom-spacer {
     margin-bottom: 50px;
 }
