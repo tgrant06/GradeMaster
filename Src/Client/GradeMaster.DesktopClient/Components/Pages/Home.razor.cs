@@ -101,6 +101,10 @@ public partial class Home
         Navigation.NavigateTo($"/subjects/{subjectId}");
     }
 
+    private void GoToGrade(int gradeId) => Navigation.NavigateTo($"/grades/{gradeId}");
+
+    private void GoToEducation(int educationId) => Navigation.NavigateTo($"/educations/{educationId}");
+
     #region Averages
 
     private string GetAverageGrade(ICollection<Grade> grades)

@@ -28,9 +28,12 @@
             <Icon Name="IconName.ArrowRepeat" Size="IconSize.x5"/>
         </Button>
     </div>
-    <div class="col-12 col-lg-5 text-end ms-auto mb-3 mt-4">
+    <div class="col-12 col-lg-5 text-end ms-auto mb-3 mt-4" style="max-width: 340px;">
         <h3 class="nowrap">Education Average: @(_educationAverage == 0 ? "N/A" : _educationAverage.ToString("0.##"))</h3>
     </div>
+@*     <div>
+        <Button @onclick="() => GoToEducation(_currentEducationId)" TooltipTitle="Detail Education" Disabled="@(_selectedEducationId != 0)" Color="ButtonColor.Secondary">Detail <Icon Name="IconName.ArrowUpRightCircle" /></Button>
+    </div> *@
 </div>
 
 <!--Enable paging for large data-->
@@ -52,8 +55,15 @@
             <GridColumn TItem="Subject" HeaderText="Grades" SortKeySelector="item => item.Grades != null ? item.Grades.Count : 0" Class="grades-column">
                 @if (context.Grades != null && context.Grades.Any())
                 {
-                    @string.Join(" | ", context.Grades.Select(grade =>
-                        $"{grade.Value} ({grade.Weight.Name}) "))
+                    foreach (var grade in context.Grades)
+                    {
+                        <Tooltip Title="@grade.Date.ToShortDateString()" Style="padding-top: 1px;">
+                            <Button @onclick="() => GoToGrade(grade.Id)" class="btn-translucient-v2 border-0" style="padding: 3px; font-size: initial; margin-top: 0px;">@grade.Value (@grade.Weight.Name)</Button>
+                        </Tooltip>
+                    }
+
+                    @* @string.Join(" | ", context.Grades.Select(grade =>
+                        $"{grade.Value} ({grade.Weight.Name}) ")) *@
                 }
                 else
                 {
@@ -95,7 +105,7 @@
 <style>
     .name-column { width: 232px; }
 
-    .average-grade-column { width: 100px; }
+    .average-grade-column { width: 95px; }
 
     .grades-column { width: auto; }
 
