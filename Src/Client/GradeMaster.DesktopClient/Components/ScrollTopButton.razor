@@ -1,6 +1,6 @@
 ﻿@inject IJSRuntime JSRuntime
 
-<Button Id="scrollToTopButton" @onclick="ScrollToTop" Class="btn-scroll-top btn-translucient-v2 border-dark-subtle">
+<Button Id="scrollToTopButton" @onclick="ScrollToTop" Class="btn-scroll-top btn-translucient-v3 border-dark-subtle">
     <Icon Name="IconName.ArrowUpCircle" Size="IconSize.x4"/>
 </Button>
 
@@ -17,5 +17,10 @@
     private async Task ScrollToTop()
     {
         await JSRuntime.InvokeVoidAsync("scrollToTop");
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        await JSRuntime.InvokeVoidAsync("removeMainScrollListener");
     }
 }

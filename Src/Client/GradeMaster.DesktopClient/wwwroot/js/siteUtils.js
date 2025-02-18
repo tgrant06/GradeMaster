@@ -6,6 +6,22 @@ window.scrollToTopInstant = () => {
     window.scrollTo({ top: 0, behavior: 'auto' }); // Instant scroll
 };
 
+const scrollListener = () => {
+    let contentElement = document.querySelector(".content");
+    let scrollButton = document.getElementById("scrollToTopButton");
+
+    let rect = contentElement.getBoundingClientRect();
+    let isAtTop = rect.top >= -10; // Checks if the element is at the top
+
+    if (scrollButton === null) return;
+
+    if (isAtTop) {
+            scrollButton.classList.remove("show"); // Smoothly fades out
+    } else {
+        scrollButton.classList.add("show"); // Smoothly fades in
+    }
+};
+
 window.initializeScrollButton = function () {
     let mainScrollElement = document.querySelector("main");
     let contentElement = document.querySelector(".content");
@@ -19,22 +35,12 @@ window.initializeScrollButton = function () {
         return;
     }
 
-    mainScrollElement.addEventListener("scroll", function () {
-        let rect = contentElement.getBoundingClientRect();
-        let isAtTop = rect.top >= -10; // Checks if the element is at the top
 
-        if (isAtTop) {
-            scrollButton.classList.remove("show"); // Smoothly fades out
-        } else {
-            scrollButton.classList.add("show"); // Smoothly fades in
-        }
+    mainScrollElement.addEventListener("scroll", scrollListener);
+};
 
-        //if (isAtTop) {
-        //    scrollButton.style.display = "none"; // Hide button when at top
-        //} else {
-        //    scrollButton.style.display = "block"; // Show button when scrolled
-        //}
-    });
+window.removeMainScrollListener = function() {
+    document.querySelector("main").removeEventListener("scroll", scrollListener);
 };
 
 window.scrollToTop = function () {

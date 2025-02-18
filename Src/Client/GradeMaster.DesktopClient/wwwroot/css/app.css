@@ -128,6 +128,18 @@ h1:focus {
         background-color: light-dark(rgba(0, 0, 0, 0.25), rgba(255, 255, 255, 0.25));
     }
 
+.btn-translucient-v3 {
+    background-color: light-dark(rgba(0, 0, 0, 0.075), rgba(255, 255, 255, 0.075));
+}
+
+    .btn-translucient-v3:hover {
+        background-color: light-dark(rgba(0, 0, 0, 0.15), rgba(255, 255, 255, 0.15));
+    }
+
+    .btn-translucient-v3:hover:active {
+        background-color: light-dark(rgba(0, 0, 0, 0.25), rgba(255, 255, 255, 0.25));
+    }
+    /* maybe later for different color: light 245, 245, 245, ... | dark: 38, 42, 46, ...*/
 .list-item-bottom-spacer {
     margin-bottom: 50px;
 }
