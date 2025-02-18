@@ -78,48 +78,5 @@
 </div>
 
 @code {
-    [Parameter] public int Id { get; set; }
-
-    [Inject] private IEducationRepository _educationRepository { get; set; }
-    [Inject] private ISubjectRepository _subjectRepository { get; set; }
-
-    [Inject] protected ToastService ToastService { get; set; } = default!;
-    [Inject] private NavigationManager Navigation { get; set; }
-    [Inject] private IJSRuntime JSRuntime { get; set; }
-
-    public Education Education { get; set; }
-    private decimal _educationAverage;
-
-    protected override async Task OnInitializedAsync()
-    {
-        // Load the education details
-        Education = await _educationRepository.GetByIdAsync(Id);
-
-        // Calculate the average only after loading the education data
-        await CalculateEducationAverage();
-    }
-
-    private string DescriptionString() => string.IsNullOrEmpty(Education.Description) ? "-" : Education.Description;
-
-    private async Task GoBack()
-    {
-        await JSRuntime.InvokeVoidAsync("window.history.back");
-    }
-
-    private void EditEducation()
-    {
-        Navigation.NavigateTo($"/educations/{Education.Id}/edit");
-    }
-
-    #region Averages
-
-    private async Task CalculateEducationAverage()
-    {
-        // var grades
-        //await _gradeRepository.GetBySubjectIdsAsync(Education.Subjects.Select(s => s.Id).ToList());
-        await _subjectRepository.GetByEducationIdAsync(Education.Id);
-        _educationAverage = EducationUtils.CalculateEducationAverage(Education.Subjects);
-    }
-
-    #endregion
+    
 }

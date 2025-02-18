@@ -85,51 +85,5 @@
 </div>
 
 @code {
-    [Parameter] public int Id { get; set; }
 
-    [Inject] private IGradeRepository _gradeRepository { get; set; }
-    [Inject] private ISubjectRepository _subjectRepository { get; set; }
-
-    [Inject] protected ToastService ToastService { get; set; } = default!;
-    [Inject] private NavigationManager Navigation { get; set; }
-    [Inject] private IJSRuntime JSRuntime { get; set; }
-
-    public Subject Subject { get; set; }
-    private decimal _subjectAverage;
-
-    protected override async Task OnInitializedAsync()
-    {
-        // Load the education details
-        Subject = await _subjectRepository.GetByIdDetailAsync(Id);
-        // await _educationRepository.GetBySubjectIdAsync(Subject.Id);
-        // Calculate the average only after loading the education data
-        await CalculateSubjectAverage();
-    }
-
-    private string DescriptionString() => string.IsNullOrEmpty(Subject.Description) ? "-" : Subject.Description;
-
-    private async Task GoBack()
-    {
-        await JSRuntime.InvokeVoidAsync("window.history.back");
-    }
-
-    private void EditSubject()
-    {
-        Navigation.NavigateTo($"/subjects/{Subject.Id}/edit");
-    }
-
-    private void GoToEducation()
-    {
-        Navigation.NavigateTo($"/educations/{Subject.Education.Id}");
-    }
-
-    #region Averages
-
-    private async Task CalculateSubjectAverage()
-    {
-        var grades = await _gradeRepository.GetBySubjectIdAsync(Subject.Id);
-        _subjectAverage = SubjectUtils.CalculateWeightedAverage(grades);
-    }
-
-    #endregion
 }

@@ -94,9 +94,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Components\Pages\EducationPages\" />
       <Folder Include="Components\Pages\SubjectPages\" />
-      <Folder Include="Components\Pages\GradePages\" />
     </ItemGroup>
 
 </Project>
