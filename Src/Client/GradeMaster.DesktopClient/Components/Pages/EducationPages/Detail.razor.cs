@@ -60,6 +60,14 @@ public partial class Detail
         // Calculate the average only after loading the education data
         await CalculateEducationAverage();
     }
+    //invoke js function to scroll to top
+    //protected async override Task OnAfterRenderAsync(bool firstRender)
+    //{
+    //    if (firstRender)
+    //    {
+    //        await JSRuntime.InvokeVoidAsync("scrollToTop");
+    //    }
+    //}
 
     private string DescriptionString() => string.IsNullOrEmpty(Education.Description) ? "-" : Education.Description;
 
