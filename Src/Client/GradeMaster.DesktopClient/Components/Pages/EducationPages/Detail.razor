@@ -16,7 +16,7 @@
     <Card Style="max-width: 1000px">
         <CardBody>
             <CardText Class="enabled-text-selection">
-                <b class="enabled-text-selection">Description:</b> <br style="user-select: text;" /> @DescriptionString()
+                <b class="enabled-text-selection">Description:</b> <br class="enabled-text-selection" /> @DescriptionString()
             </CardText>
         </CardBody>
     </Card>
@@ -31,7 +31,7 @@
                         <strong class="enabled-text-selection">Education Average: </strong>
                         @if (_educationAverage < 4 && _educationAverage != 0)
                         {
-                            <Badge Color="BadgeColor.Danger" IndicatorType="BadgeIndicatorType.RoundedPill" Style="font-size: 14px; user-select: text;">
+                            <Badge Class="enabled-text-selection" Color="BadgeColor.Danger" IndicatorType="BadgeIndicatorType.RoundedPill" Style="font-size: 14px;">
                                 @(_educationAverage == 0 ? "N/A" : _educationAverage.ToString("0.##"))
                             </Badge>
                         }

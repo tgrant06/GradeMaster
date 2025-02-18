@@ -10,23 +10,23 @@
         {
            
             <Badge Color="BadgeColor.Danger" Style="font-weight: initial;">
-                <b>@Grade.Value.ToString("0.##")</b>
+                <b class="enabled-text-selection">@Grade.Value.ToString("0.##")</b>
             </Badge>
         }
         else
         {
-            <b>@Grade.Value.ToString("0.##")</b>
+            <b class="enabled-text-selection">@Grade.Value.ToString("0.##")</b>
         }
     </h2>
-    <CardSubTitle Style="margin-top: 6px;">Weight: @Grade.Weight.Name / @Grade.Weight.Value.ToString("0.0##")</CardSubTitle>
+    <CardSubTitle Class="enabled-text-selection" Style="margin-top: 6px;">Weight: @Grade.Weight.Name / @Grade.Weight.Value.ToString("0.0##")</CardSubTitle>
     @* <CardSubTitle Style="margin-top: 6px;">@Grade.Subject.Name | @Grade.Subject.Education.Name | @Grade.Subject.Education.StartDate.Year - @Grade.Subject.Education.EndDate.Year @(String.IsNullOrEmpty(Grade.Subject.Education.Institution) ? "" : "| " + Grade.Subject.Education.Institution.Split(",")[0])</CardSubTitle> *@
 </div>
 
 <div class="py-2 px-2">
     <Card Style="max-width: 1000px">
         <CardBody>
-            <CardText>
-                <b>Description:</b> <br /> @DescriptionString()
+            <CardText Class="enabled-text-selection">
+                <b class="enabled-text-selection">Description:</b> <br style="user-select: text;"/> @DescriptionString()
             </CardText>
         </CardBody>
     </Card>
@@ -53,23 +53,23 @@
                 </div> *@
                 <!-- Second Column -->
                 <div class="col mb-3">
-                    <CardText Class="border-bottom" Style="padding-bottom: 17px; margin-bottom: 6px;">
-                        <b>Education:</b> <Button @onclick="GoToEducation" class="btn-translucient-v2 border-0" style="padding: 3px; padding-left: 6px;padding-right: 6px;font-size: initial; margin-top: -5px; margin-left: -5px;">@Grade.Subject.Education.Name <Icon Name="IconName.ArrowUpRightCircle" /></Button>
+                    <CardText Class="border-bottom enabled-text-selection" Style="padding-bottom: 17px; margin-bottom: 6px;">
+                        <b class="enabled-text-selection">Education:</b> <Button @onclick="GoToEducation" class="btn-translucient-v2 border-0 enabled-text-selection" style="padding: 3px; padding-left: 6px;padding-right: 6px;font-size: initial; margin-top: -5px; margin-left: -5px;">@Grade.Subject.Education.Name <Icon Name="IconName.ArrowUpRightCircle" /></Button>
                     </CardText>
                 </div>
                 <div class="col mb-3">
-                    <CardText Class="border-bottom" Style="padding-bottom: 20px; margin-bottom: 6px;">
-                        <b>Institution:</b> @(string.IsNullOrWhiteSpace(Grade.Subject.Education.Institution) ? "-" : Grade.Subject.Education.Institution)
+                    <CardText Class="border-bottom enabled-text-selection" Style="padding-bottom: 20px; margin-bottom: 6px;">
+                        <b class="enabled-text-selection">Institution:</b> @(string.IsNullOrWhiteSpace(Grade.Subject.Education.Institution) ? "-" : Grade.Subject.Education.Institution)
                     </CardText>
                 </div>
                 <div class="col mb-3">
-                    <CardText Class="border-bottom" Style="padding-bottom: 17px; margin-bottom: 6px;">
-                        <b>Subject:</b> <Button @onclick="GoToSubject" class="btn-translucient-v2 border-0" style="padding: 3px; padding-left: 6px;padding-right: 6px;font-size: initial; margin-top: -5px; margin-left: -5px;"> @Grade.Subject.Name - @Grade.Subject.Semester <Icon Name="IconName.ArrowUpRightCircle" /></Button>
+                    <CardText Class="border-bottom enabled-text-selection" Style="padding-bottom: 17px; margin-bottom: 6px;">
+                        <b class="enabled-text-selection">Subject:</b> <Button @onclick="GoToSubject" class="btn-translucient-v2 border-0 enabled-text-selection" style="padding: 3px; padding-left: 6px;padding-right: 6px;font-size: initial; margin-top: -5px; margin-left: -5px;"> @Grade.Subject.Name - @Grade.Subject.Semester <Icon Name="IconName.ArrowUpRightCircle" /></Button>
                     </CardText>
                 </div>
                 <div class="col mb-3">
-                    <CardText Class="border-bottom" Style="padding-bottom: 20px; margin-bottom: 6px;">
-                        <b>Date:</b> @Grade.Date.ToShortDateString()
+                    <CardText Class="border-bottom enabled-text-selection" Style="padding-bottom: 20px; margin-bottom: 6px;">
+                        <b class="enabled-text-selection">Date:</b> @Grade.Date.ToShortDateString()
                     </CardText>
                 </div>
             </div>
