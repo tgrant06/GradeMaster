@@ -58,7 +58,7 @@
                     foreach (var grade in context.Grades)
                     {
                         <Tooltip Title="@grade.Date.ToShortDateString()" Style="padding-top: 1px;">
-                            <Button @onclick="() => GoToGrade(grade.Id)" class="btn-translucient-v2 border-0" style="padding: 3px; font-size: initial; margin-top: 0px;">@grade.Value (@grade.Weight.Name)</Button>
+                            <Button @onclick="() => GoToGrade(grade.Id)" class="btn-translucient-v2 border-0" style="padding: 3px; font-size: initial; margin-top: 0px; margin-right: 2px">@grade.Value (@grade.Weight.Name)</Button>
                         </Tooltip>
                     }
 
@@ -103,11 +103,11 @@
 </div>
 
 <style>
-    .name-column { width: 232px; }
+    .name-column { width: 230px; }
 
     .average-grade-column { width: 95px; }
 
-    .grades-column { width: auto; }
+    .grades-column { width: auto; min-width: 107px; }
 
     .nowrap { white-space: nowrap; }
 </style>

@@ -62,7 +62,11 @@
         font-size: 2.25rem;
         top: 5px;
         position: sticky;
-        z-index: 20;
+        z-index: 1200;
         max-width: 250px;
     }
+}
+
+.offcanvas-backdrop {
+    z-index: 1400 !important;
 }
