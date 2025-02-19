@@ -100,20 +100,18 @@ h1:focus {
     }
 }
 
+/* v here stands for variant*/
+
 .btn-translucient {
     background-color: rgba(0, 0, 0, 0.00)
 }
-
-    /*.btn-translucient:active {
-        background-color: rgba(0, 0, 0, 0.10)
-    }*/
 
     .btn-translucient:hover {
         background-color: rgba(0, 0, 0, 0.20); 
     }
 
-    .btn-translucient:hover:active {
-        background-color: rgba(0, 0, 0, 0.30)
+    .btn-translucient:hover:active, .btn-translucient:first-child:active, .btn-translucient:active  {
+        background-color: rgba(0, 0, 0, 0.30) !important;
     }
 
 .btn-translucient-v2 {
@@ -124,7 +122,7 @@ h1:focus {
         background-color: light-dark(rgba(0, 0, 0, 0.15), rgba(255, 255, 255, 0.15));
     }
 
-    .btn-translucient-v2:hover:active {
+    .btn-translucient-v2:hover:active, .btn-translucient-v2:first-child:active, .btn-translucient-v2:active {
         background-color: light-dark(rgba(0, 0, 0, 0.25), rgba(255, 255, 255, 0.25));
     }
 
@@ -136,7 +134,7 @@ h1:focus {
         background-color: light-dark(rgba(0, 0, 0, 0.125), rgba(255, 255, 255, 0.125)) !important;
     }
 
-    .btn-translucient-v3:hover:active {
+    .btn-translucient-v3:hover:active, .btn-translucient-v3:first-child:active, .btn-translucient-v3:active {
             background-color: light-dark(rgba(0, 0, 0, 0.20), rgba(255, 255, 255, 0.20)) !important;
     }
 
@@ -150,7 +148,7 @@ h1:focus {
         background-color: rgba(231, 42, 42, 0.40);
     }
 
-    .btn-translucient-red:hover:active {
+    .btn-translucient-red:hover:active, .btn-translucient-red:first-child:active, .btn-translucient-red:active {
         background-color: rgba(231, 42, 42, 0.50);
     }
 
