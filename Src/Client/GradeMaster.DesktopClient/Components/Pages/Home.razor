@@ -24,9 +24,20 @@
         </Tooltip>
     </div>
     <div class="col-1 col-md-1 mb-3 mt-4" style="width: 38px">
-        <Button Color="ButtonColor.Secondary" class="px-2" style="height: 38px; padding-top: 3px;" @onclick="ReloadData">
+        @* <Button Color="ButtonColor.Secondary" class="px-2" style="height: 38px; padding-top: 3px;" @onclick="ReloadData">
             <Icon Name="IconName.ArrowRepeat" Size="IconSize.x5"/>
-        </Button>
+        </Button> *@
+        <Dropdown Color="DropdownColor.Secondary" style="height: 38px; padding: 0;" >
+            @* <DropdownActionButton @onclick="ReloadData" class="px-2" style="padding-top: 3px;"><Icon Name="IconName.ArrowRepeat" Size="IconSize.x5" /></DropdownActionButton> *@
+            <DropdownToggleButton Id="menuDropdown" class="px-1" style="width: 38px; padding-top: 3px;"><Icon Name="IconName.List" Size="IconSize.x5" /></DropdownToggleButton>
+            <DropdownMenu Position="DropdownMenuPosition.End" Style="width: 100px">
+                <DropdownItem @onclick="ReloadData" Type="DropdownItemType.Button">Reload <Icon Name="IconName.ArrowRepeat" /></DropdownItem>
+                <DropdownItem @onclick="() => GoToEducation(_selectedEducationId.Value)" Disabled="@(!_selectedEducationId.HasValue)" Type="DropdownItemType.Button">Detail <Icon Name="IconName.Journal" /></DropdownItem>
+                @* <DropdownItem To="#" Type="DropdownItemType.Link">Another action</DropdownItem>
+                <DropdownItem To="#" Type="DropdownItemType.Link">Something else here</DropdownItem> *@
+            </DropdownMenu>
+        </Dropdown>
+
     </div>
     <div class="col-12 col-lg-5 text-end ms-auto mb-3 mt-4" style="max-width: 335px; padding: 0; z-index: -10;">
         <h3 class="nowrap">Education Average: @(_educationAverage == 0 ? "N/A" : _educationAverage.ToString("0.##"))</h3>
