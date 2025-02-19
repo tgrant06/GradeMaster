@@ -151,3 +151,12 @@ h1:focus {
 .content {
     scroll-margin-top: 60px;
 }
+
+@media (max-width: 640.98px) {
+    main {
+        overflow-x: visible;
+    }
+    .content {
+        scroll-margin-top: 120px;
+    }
+}
