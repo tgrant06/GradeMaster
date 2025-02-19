@@ -28,7 +28,7 @@
             <Icon Name="IconName.ArrowRepeat" Size="IconSize.x5"/>
         </Button>
     </div>
-    <div class="col-12 col-lg-5 text-end ms-auto mb-3 mt-4" style="max-width: 335px;">
+    <div class="col-12 col-lg-5 text-end ms-auto mb-3 mt-4" style="max-width: 335px; padding: 0; z-index: -10;">
         <h3 class="nowrap">Education Average: @(_educationAverage == 0 ? "N/A" : _educationAverage.ToString("0.##"))</h3>
     </div>
 @*     <div>
@@ -57,9 +57,18 @@
                 {
                     foreach (var grade in context.Grades)
                     {
-                        <Tooltip Title="@grade.Date.ToShortDateString()" Style="padding-top: 1px;">
-                            <Button @onclick="() => GoToGrade(grade.Id)" class="btn-translucient-v2 border-0" style="padding: 3px; font-size: initial; margin-top: 0px; margin-right: 2px">@grade.Value (@grade.Weight.Name)</Button>
-                        </Tooltip>
+                        if (grade.Value < 4)
+                        {
+                            <Tooltip Title="@grade.Date.ToShortDateString()" Style="padding-top: 1px;">
+                                <Button @onclick="() => GoToGrade(grade.Id)" class="btn-translucient-red border-0" style="padding: 3px; font-size: initial; margin-top: 0px; margin-right: 2px">@grade.Value (@grade.Weight.Name)</Button>
+                            </Tooltip>
+                        }
+                        else
+                        {
+                            <Tooltip Title="@grade.Date.ToShortDateString()" Style="padding-top: 1px;">
+                                <Button @onclick="() => GoToGrade(grade.Id)" class="btn-translucient-v2 border-0" style="padding: 3px; font-size: initial; margin-top: 0px; margin-right: 2px">@grade.Value (@grade.Weight.Name)</Button>
+                            </Tooltip>
+                        }
                     }
 
                     @* @string.Join(" | ", context.Grades.Select(grade =>
