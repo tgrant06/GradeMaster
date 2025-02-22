@@ -1,10 +1,12 @@
 ﻿@page "/grades/{id:int}/edit"
 
-<TopPageHeader>Edit Subject</TopPageHeader>
+<TopPageHeader>Edit Grade</TopPageHeader>
 
 <GradeForm Grade="_grade" OnSave="HandleSave" FormType="FormType.Edit" />
 
-
+<script>
+    window.scrollTo({ top: 0, behavior: 'auto' });
+</script>
 
 @code {
     [Parameter] public int Id { get; set; }

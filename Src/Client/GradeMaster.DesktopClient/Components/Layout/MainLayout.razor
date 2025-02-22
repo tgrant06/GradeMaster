@@ -6,7 +6,7 @@
     </div>
 
     <main>
-        <div class="top-row px-4" style="z-index: 10;">
+        <div class="top-row px-4" style="z-index: 1100;">
             @* <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">Options</a> *@
             <!--for loading initially-->
             <ThemeSwitcher Style="visibility: hidden;" />
@@ -20,7 +20,8 @@
 </div>
 
 <Offcanvas @ref="_offcanvas"
-           title="Options">
+           title="Options"
+           Style="z-index: 1500">
     <BodyTemplate>
         <NavLink class="btn btn-translucient offcanvas-button-link border-dark-subtle" style="margin-top: 0" href="info" @onclick="OnHideOffcanvasClick"><Icon Name="IconName.InfoCircle" /> Info</NavLink>
         @* <div class="border-top" style="width: 100%;"></div> *@
@@ -33,7 +34,7 @@
     </FooterTemplate>
 </Offcanvas>
 
-<Toasts class="p-3" Placement="ToastsPlacement.TopRight" StackLength="2" AutoHide="true" />
+<Toasts class="p-3" Placement="ToastsPlacement.TopRight" StackLength="2" AutoHide="true" Style="z-index: 1600"/>
 
 @code {
      private Offcanvas _offcanvas = default!;

@@ -5,18 +5,18 @@
 <div class="border-top" style="width: 100%; max-width: 1008px; margin-top: 15px"></div>
 
 <div class="col-12 col-md-12 py-3 px-2" style="max-width: 1100px;">
-    <h2>
-        <b>@Education.Name</b>
+    <h2 style="margin-bottom: 11px;">
+        <b class="enabled-text-selection">@Education.Name</b>
     </h2>
-    <CardSubTitle Style="font-size: 17px">@Education.StartDate.ToShortDateString() - @Education.EndDate.ToShortDateString()</CardSubTitle>
-    <CardSubTitle Style="margin-top: 6px;">@Education.Institution</CardSubTitle>
+    <CardSubTitle Class="enabled-text-selection" Style="font-size: 17px">@Education.StartDate.ToShortDateString() - @Education.EndDate.ToShortDateString()</CardSubTitle>
+    <CardSubTitle Class="enabled-text-selection" Style="margin-top: 6px;">@Education.Institution</CardSubTitle>
 </div>
 
 <div class="py-2 px-2">
     <Card Style="max-width: 1000px">
         <CardBody>
-            <CardText>
-                <b>Description:</b> <br/> @DescriptionString()
+            <CardText Class="enabled-text-selection">
+                <b class="enabled-text-selection">Description:</b> <br class="enabled-text-selection" /> @DescriptionString()
             </CardText>
         </CardBody>
     </Card>
@@ -27,11 +27,11 @@
             <div class="row row-cols-1 row-cols-sm-1 row-cols-md-1 row-cols-lg-2">
                 <!-- First Column -->
                 <div class="col mb-3">
-                    <CardText Class="border-bottom" Style="padding-bottom: 20px; margin-bottom: 6px;">
-                        <strong>Education Average: </strong>
+                    <CardText Class="border-bottom enabled-text-selection" Style="padding-bottom: 20px; margin-bottom: 6px;">
+                        <strong class="enabled-text-selection">Education Average: </strong>
                         @if (_educationAverage < 4 && _educationAverage != 0)
                         {
-                            <Badge Color="BadgeColor.Danger" IndicatorType="BadgeIndicatorType.RoundedPill" Style="font-size: 14px;">
+                            <Badge Class="enabled-text-selection" Color="BadgeColor.Danger" IndicatorType="BadgeIndicatorType.RoundedPill" Style="font-size: 14px;">
                                 @(_educationAverage == 0 ? "N/A" : _educationAverage.ToString("0.##"))
                             </Badge>
                         }
@@ -43,21 +43,21 @@
                 </div>
                 <!-- Second Column -->
                 <div class="col mb-3">
-                    <CardText Class="border-bottom" Style="padding-bottom: 20px; margin-bottom: 6px;">
-                        <b>Total Semesters:</b> @Education.Semesters
+                    <CardText Class="border-bottom enabled-text-selection" Style="padding-bottom: 20px; margin-bottom: 6px;">
+                        <b class="enabled-text-selection">Total Semesters:</b> @Education.Semesters
                     </CardText>
                 </div>
                 <div class="col mb-3">
-                    <CardText Class="border-bottom" Style="padding-bottom: 20px; margin-bottom: 6px;">
-                        <b>Completion State:</b>
-                        <Badge Color="@(Education.Completed ? BadgeColor.Success : BadgeColor.Warning)" IndicatorType="BadgeIndicatorType.RoundedPill">
+                    <CardText Class="border-bottom enabled-text-selection" Style="padding-bottom: 20px; margin-bottom: 6px;">
+                        <b class="enabled-text-selection">Completion State:</b>
+                        <Badge Class="enabled-text-selection" Color="@(Education.Completed ? BadgeColor.Success : BadgeColor.Warning)" IndicatorType="BadgeIndicatorType.RoundedPill">
                             @(Education.Completed ? "Completed" : "In Progress")
                         </Badge>
                     </CardText>
                 </div>
                 <div class="col mb-3">
-                    <CardText Class="border-bottom" Style="padding-bottom: 20px;">
-                        <b>Subject Amount:</b> @Education.Subjects.Count()
+                    <CardText Class="border-bottom enabled-text-selection" Style="padding-bottom: 20px;">
+                        <b class="enabled-text-selection">Subject Amount:</b> @Education.Subjects.Count()
                     </CardText>
                 </div>
             </div>
@@ -77,49 +77,10 @@
     </Button>
 </div>
 
+<script>
+        window.scrollTo({ top: 0, behavior: 'auto' });
+</script>
+
 @code {
-    [Parameter] public int Id { get; set; }
-
-    [Inject] private IEducationRepository _educationRepository { get; set; }
-    [Inject] private ISubjectRepository _subjectRepository { get; set; }
-
-    [Inject] protected ToastService ToastService { get; set; } = default!;
-    [Inject] private NavigationManager Navigation { get; set; }
-    [Inject] private IJSRuntime JSRuntime { get; set; }
-
-    public Education Education { get; set; }
-    private decimal _educationAverage;
-
-    protected override async Task OnInitializedAsync()
-    {
-        // Load the education details
-        Education = await _educationRepository.GetByIdAsync(Id);
-
-        // Calculate the average only after loading the education data
-        await CalculateEducationAverage();
-    }
-
-    private string DescriptionString() => string.IsNullOrEmpty(Education.Description) ? "-" : Education.Description;
-
-    private async Task GoBack()
-    {
-        await JSRuntime.InvokeVoidAsync("window.history.back");
-    }
-
-    private void EditEducation()
-    {
-        Navigation.NavigateTo($"/educations/{Education.Id}/edit");
-    }
-
-    #region Averages
-
-    private async Task CalculateEducationAverage()
-    {
-        // var grades
-        //await _gradeRepository.GetBySubjectIdsAsync(Education.Subjects.Select(s => s.Id).ToList());
-        await _subjectRepository.GetByEducationIdAsync(Education.Id);
-        _educationAverage = EducationUtils.CalculateEducationAverage(Education.Subjects);
-    }
-
-    #endregion
+    
 }

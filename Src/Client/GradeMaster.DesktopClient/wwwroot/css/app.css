@@ -100,22 +100,94 @@ h1:focus {
     }
 }
 
+/* v here stands for variant*/
+
 .btn-translucient {
     background-color: rgba(0, 0, 0, 0.00)
 }
-
-    /*.btn-translucient:active {
-        background-color: rgba(0, 0, 0, 0.10)
-    }*/
 
     .btn-translucient:hover {
         background-color: rgba(0, 0, 0, 0.20); 
     }
 
-    .btn-translucient:hover:active {
-        background-color: rgba(0, 0, 0, 0.30)
+    .btn-translucient:hover:active, .btn-translucient:first-child:active, .btn-translucient:active  {
+        background-color: rgba(0, 0, 0, 0.30) !important;
+    }
+
+.btn-translucient-v2 {
+    background-color: light-dark(rgba(0, 0, 0, 0.00), rgba(255, 255, 255, 0.00));
+}
+
+    .btn-translucient-v2:hover {
+        background-color: light-dark(rgba(0, 0, 0, 0.15), rgba(255, 255, 255, 0.15));
+    }
+
+    .btn-translucient-v2:hover:active, .btn-translucient-v2:first-child:active, .btn-translucient-v2:active {
+        background-color: light-dark(rgba(0, 0, 0, 0.25), rgba(255, 255, 255, 0.25));
+    }
+
+.btn-translucient-v3 {
+    background-color: light-dark(rgba(0, 0, 0, 0.03), rgba(255, 255, 255, 0.03)) !important;
+}
+
+    .btn-translucient-v3:hover {
+        background-color: light-dark(rgba(0, 0, 0, 0.125), rgba(255, 255, 255, 0.125)) !important;
+    }
+
+    .btn-translucient-v3:hover:active, .btn-translucient-v3:first-child:active, .btn-translucient-v3:active {
+            background-color: light-dark(rgba(0, 0, 0, 0.20), rgba(255, 255, 255, 0.20)) !important;
+    }
+
+/* maybe later for different color: light 245, 245, 245, ... | dark: 38, 42, 46, ...     background-color: #e72a2a40;*/
+
+.btn-translucient-red {
+    background-color: rgba(231, 42, 42, 0.25);
+}
+
+    .btn-translucient-red:hover {
+        background-color: rgba(231, 42, 42, 0.40);
+    }
+
+    .btn-translucient-red:hover:active, .btn-translucient-red:first-child:active, .btn-translucient-red:active {
+        background-color: rgba(231, 42, 42, 0.50);
     }
 
 .list-item-bottom-spacer {
     margin-bottom: 50px;
+}
+
+.enabled-text-selection {
+    user-select: text;
+}
+
+.content {
+    scroll-margin-top: 60px;
+}
+
+@media (max-width: 640.98px) {
+    main {
+        overflow-x: visible;
+    }
+    .content {
+        scroll-margin-top: 385px;
+    }
+}
+
+#menuDropdown::after {
+    content: "";
+    display: none;
+}
+
+.dropdown-menu {
+    /*--bs-dropdown-min-width: 150px;*/
+    background-color: light-dark(#f5f5f5b0, #262A2ECC);
+    backdrop-filter: blur(16px);
+}
+
+.dropdown-item:hover {
+    background-color: light-dark(#cdcdcdb0, #3b4044cc); /*#cdcdcdb0 | was: #dfdfdfb0, #3b4044cc | was: #34373acc*/
+}
+
+.dropdown-item.active, .dropdown-item:active {
+    background-color: var(--bs-dropdown-link-active-bg) !important;
 }

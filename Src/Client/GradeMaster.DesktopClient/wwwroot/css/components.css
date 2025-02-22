@@ -62,7 +62,38 @@
         font-size: 2.25rem;
         top: 5px;
         position: sticky;
-        z-index: 20;
+        z-index: 1200;
         max-width: 250px;
+    }
+}
+
+.offcanvas-backdrop {
+    z-index: 1400 !important;
+}
+
+.btn-scroll-top {
+    position: fixed;
+    bottom: 20px;
+    right: 35px;
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out, opacity 0.25s ease-in-out, visibility 0.25s ease-in-out;
+    opacity: 0; /* Initially invisible */
+    visibility: hidden; /* Prevents clicking when hidden */
+    backdrop-filter: blur(16px);
+}
+
+.btn-scroll-top.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+@media (max-width: 640.98px) {
+    .btn-scroll-top {
+        visibility: visible;
+        opacity: 1;
+        right: 20px;
     }
 }

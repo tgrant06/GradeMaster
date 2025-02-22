@@ -28,4 +28,14 @@ public static class SubjectUtils
         decimal weightedSum = grades.Sum(g => g.Value * (g.Weight?.Value ?? 1)); // Default weight to 1 if null
         return weightedSum / totalWeight;
     }
+
+    ///// <summary>
+    ///// Returns the completion state of the given boolean.
+    ///// </summary>
+    ///// <param name="completed"></param>
+    ///// <returns>Completion state as a string</returns>
+    //public static string CompletionState(bool completed)
+    //{
+    //    return completed ? "Completed" : "In Progress";
+    //}
 }

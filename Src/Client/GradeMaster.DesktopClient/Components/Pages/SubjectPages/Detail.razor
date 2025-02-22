@@ -5,18 +5,25 @@
 <div class="border-top" style="width: 100%; max-width: 1008px; margin-top: 15px"></div>
 
 <div class="col-12 col-md-12 py-3 px-2" style="max-width: 1100px;">
-    <h2>
-        <b>@Subject.Name - @Subject.Semester</b>
+    <h2 style="margin-bottom: 6px;">
+        <b class="enabled-text-selection">@Subject.Name - @Subject.Semester</b>
     </h2>
-    <CardSubTitle Style="margin-top: 6px;">@Subject.Education.Name | @Subject.Education.StartDate.Year - @Subject.Education.EndDate.Year</CardSubTitle>
-    <CardSubTitle Style="margin-top: 6px;">@Subject.Education.Institution</CardSubTitle>
+    @* <CardSubTitle Style="margin-top: 6px;">@Subject.Education.Name | @Subject.Education.StartDate.Year - @Subject.Education.EndDate.Year</CardSubTitle> *@
+    @* <span style="display: inline-flex;">
+        <CardSubTitle Style="margin-top: 6px;">
+            @Subject.Education.Name | @Subject.Education.StartDate.Year - @Subject.Education.EndDate.Year</CardSubTitle>
+        <Button class="btn btn-translucient" style="padding: 5px;padding-top: 0;padding-bottom: 1px;margin-top: 2px;"><Icon Name="IconName.ArrowUpRightCircle"/></Button>
+    </span> *@
+    <Button @onclick="GoToEducation" class="btn-translucient-v2 border-0" style="margin-left: -6px; padding: 5px; padding-left: 6px; padding-right: 6px;"><CardSubTitle Class="enabled-text-selection">@Subject.Education.Name, @Subject.Education.StartDate.Year - @Subject.Education.EndDate.Year <Icon Name="IconName.ArrowUpRightCircle" /></CardSubTitle></Button>
+    <CardSubTitle Class="enabled-text-selection" Style="margin-top: 2px;">@Subject.Education.Institution</CardSubTitle>
+    @* <CardSubTitle Style="margin-top: 6px;">@Subject.Education.Institution</CardSubTitle> *@
 </div>
 
 <div class="py-2 px-2">
     <Card Style="max-width: 1000px">
         <CardBody>
-            <CardText>
-                <b>Description:</b> <br /> @DescriptionString()
+            <CardText Class="enabled-text-selection">
+                <b class="enabled-text-selection">Description:</b> <br class="enabled-text-selection" /> @DescriptionString()
             </CardText>
         </CardBody>
     </Card>
@@ -27,11 +34,11 @@
             <div class="row row-cols-1 row-cols-sm-1 row-cols-md-1 row-cols-lg-2">
                 <!-- First Column -->
                 <div class="col mb-3">
-                    <CardText Class="border-bottom" Style="padding-bottom: 20px; margin-bottom: 6px;">
-                        <strong>Subject Average: </strong>
+                    <CardText Class="border-bottom enabled-text-selection" Style="padding-bottom: 20px; margin-bottom: 6px;">
+                        <strong class="enabled-text-selection">Subject Average: </strong>
                         @if (_subjectAverage < 4 && _subjectAverage != 0)
                         {
-                            <Badge Color="BadgeColor.Danger" IndicatorType="BadgeIndicatorType.RoundedPill" Style="font-size: 14px;">
+                            <Badge Class="enabled-text-selection" Color="BadgeColor.Danger" IndicatorType="BadgeIndicatorType.RoundedPill" Style="font-size: 14px;">
                                 @(_subjectAverage == 0 ? "N/A" : _subjectAverage.ToString("0.##"))
                             </Badge>
                         }
@@ -43,21 +50,21 @@
                 </div>
                 <!-- Second Column -->
                 <div class="col mb-3">
-                    <CardText Class="border-bottom" Style="padding-bottom: 20px; margin-bottom: 6px;">
-                        <b>Semester:</b> @Subject.Semester of @Subject.Education.Semesters
+                    <CardText Class="border-bottom enabled-text-selection" Style="padding-bottom: 20px; margin-bottom: 6px;">
+                        <b class="enabled-text-selection">Semester:</b> @Subject.Semester of @Subject.Education.Semesters
                     </CardText>
                 </div>
                 <div class="col mb-3">
-                    <CardText Class="border-bottom" Style="padding-bottom: 20px; margin-bottom: 6px;">
-                        <b>Completion State:</b>
-                        <Badge Color="@(Subject.Completed ? BadgeColor.Success : BadgeColor.Warning)" IndicatorType="BadgeIndicatorType.RoundedPill">
+                    <CardText Class="border-bottom enabled-text-selection" Style="padding-bottom: 20px; margin-bottom: 6px;">
+                        <b class="enabled-text-selection">Completion State:</b>
+                        <Badge Class="enabled-text-selection" Color="@(Subject.Completed ? BadgeColor.Success : BadgeColor.Warning)" IndicatorType="BadgeIndicatorType.RoundedPill">
                             @(Subject.Completed ? "Completed" : "In Progress")
                         </Badge>
                     </CardText>
                 </div>
                 <div class="col mb-3">
-                    <CardText Class="border-bottom" Style="padding-bottom: 20px;">
-                        <b>Grade Amount:</b> @Subject.Grades.Count()
+                    <CardText Class="border-bottom enabled-text-selection" Style="padding-bottom: 20px;">
+                        <b class="enabled-text-selection">Grade Amount:</b> @Subject.Grades.Count()
                     </CardText>
                 </div>
             </div>
@@ -77,47 +84,10 @@
     </Button>
 </div>
 
+<script>
+    window.scrollTo({ top: 0, behavior: 'auto' });
+</script>
+
 @code {
-    [Parameter] public int Id { get; set; }
 
-    [Inject] private IGradeRepository _gradeRepository { get; set; }
-    [Inject] private ISubjectRepository _subjectRepository { get; set; }
-
-    [Inject] protected ToastService ToastService { get; set; } = default!;
-    [Inject] private NavigationManager Navigation { get; set; }
-    [Inject] private IJSRuntime JSRuntime { get; set; }
-
-    public Subject Subject { get; set; }
-    private decimal _subjectAverage;
-
-    protected override async Task OnInitializedAsync()
-    {
-        // Load the education details
-        Subject = await _subjectRepository.GetByIdDetailAsync(Id);
-        // await _educationRepository.GetBySubjectIdAsync(Subject.Id);
-        // Calculate the average only after loading the education data
-        await CalculateSubjectAverage();
-    }
-
-    private string DescriptionString() => string.IsNullOrEmpty(Subject.Description) ? "-" : Subject.Description;
-
-    private async Task GoBack()
-    {
-        await JSRuntime.InvokeVoidAsync("window.history.back");
-    }
-
-    private void EditSubject()
-    {
-        Navigation.NavigateTo($"/subjects/{Subject.Id}/edit");
-    }
-
-    #region Averages
-
-    private async Task CalculateSubjectAverage()
-    {
-        var grades = await _gradeRepository.GetBySubjectIdAsync(Subject.Id);
-        _subjectAverage = SubjectUtils.CalculateWeightedAverage(grades);
-    }
-
-    #endregion
 }

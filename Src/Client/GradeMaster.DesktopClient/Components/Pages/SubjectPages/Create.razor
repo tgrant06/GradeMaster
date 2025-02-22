@@ -4,6 +4,10 @@
 
 <SubjectForm OnSave="HandleSave" FormType="FormType.Create" />
 
+<script>
+    window.scrollTo({ top: 0, behavior: 'auto' });
+</script>
+
 @code {
     [Inject] private ISubjectRepository _subjectRepository { get; set; }
 
