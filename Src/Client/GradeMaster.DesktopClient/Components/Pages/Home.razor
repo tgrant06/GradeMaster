@@ -39,7 +39,7 @@
         </Dropdown>
 
     </div>
-    <div class="col-12 col-lg-5 text-end ms-auto mb-3 mt-4" style="max-width: 320px; padding: 0; z-index: -10;">
+    <div class="col-12 col-lg-5 text-end ms-auto mb-3 mt-4" style="max-width: 320px; padding: 0; z-index: -10; margin-bottom: 0 !important;">
         <h3 class="nowrap">Education Average: @(_educationAverage == 0 ? "N/A" : _educationAverage.ToString("0.##"))</h3>
     </div>
 @*     <div>
@@ -127,7 +127,10 @@
 <style>
     .name-column { width: 230px; }
 
-    .average-grade-column { width: 95px; }
+    .average-grade-column {
+        width: 95px;
+        padding-top: 10px !important;
+    }
 
     .grades-column { width: auto; min-width: 107px; }
 
