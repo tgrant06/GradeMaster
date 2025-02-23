@@ -59,7 +59,7 @@
         <GridColumns>
             <GridColumn TItem="Subject" HeaderText="Subject" PropertyName="Name" Class="name-column">
                 <Tooltip Title="@(context.Completed ? "Completed" : "In Progress")" Style="padding-top: 1px;">
-                    <Button @onclick="() => GoToSubject(context.Id)" class="btn-translucient-v2 border-0" style="padding: 3px; font-size: initial; margin-top: 0px;">@UIUtils.TruncateString(context.Name, 21) - @context.Semester</Button>
+                    <Button @onclick="() => GoToSubject(context.Id)" class="btn-translucient-v2 border-0" style="padding: 3px; font-size: initial; margin-top: 1px; margin-bottom: 1px;">@UIUtils.TruncateString(context.Name, 21) - @context.Semester</Button>
                 </Tooltip>
                 @* @UIUtils.TruncateString(context.Name, 21) - @context.Semester *@
             </GridColumn>
@@ -71,13 +71,13 @@
                         if (grade.Value < 4)
                         {
                             <Tooltip Title="@grade.Date.ToShortDateString()" Style="padding-top: 1px;">
-                                <Button @onclick="() => GoToGrade(grade.Id)" class="btn-translucient-red border-0" style="padding: 3px; font-size: initial; margin-top: 0px; margin-right: 2px">@grade.Value (@grade.Weight.Name)</Button>
+                                <Button @onclick="() => GoToGrade(grade.Id)" class="btn-translucient-red border-0" style="padding: 3px; font-size: initial; margin-top: 1px; margin-bottom: 1px; margin-right: 2px;">@grade.Value (@grade.Weight.Name)</Button>
                             </Tooltip>
                         }
                         else
                         {
                             <Tooltip Title="@grade.Date.ToShortDateString()" Style="padding-top: 1px;">
-                                <Button @onclick="() => GoToGrade(grade.Id)" class="btn-translucient-v2 border-0" style="padding: 3px; font-size: initial; margin-top: 0px; margin-right: 2px">@grade.Value (@grade.Weight.Name)</Button>
+                                <Button @onclick="() => GoToGrade(grade.Id)" class="btn-translucient-v2 border-0" style="padding: 3px; font-size: initial; margin-top: 1px; margin-bottom: 1px; margin-right: 2px;">@grade.Value (@grade.Weight.Name)</Button>
                             </Tooltip>
                         }
                     }
@@ -87,13 +87,15 @@
                 }
                 else
                 {
-                    <span>No Grades </span>
+                    @* <span>No Grades </span> *@
+
+                    <div style="display: inline-block; padding: 2px; font-size: initial; margin-top: 0; margin-bottom: 0; margin-right: 3px;">No Grades</div>
                 }
                 @if (!context.Completed)
                 {
-                    <Tooltip Title="New Grade" Style="padding-top: 1px;">
-                        <NavLink href="/grades/create" class="btn btn-secondary" style="height: 29px; width: 29px; padding-top: 2px; padding-left: 4pt;">
-                            <Icon Name="IconName.PlusCircle" Size="IconSize.x6"/>
+                    <Tooltip Title="New Grade" Style="padding-top: 1px;"><!--was height: 29px; and width: 29px; padding-left: 4pt;-->
+                        <NavLink href="/grades/create" class="btn btn-secondary" style="height: 30px; width: 30px; padding-top: 2px; padding-left: 4.55pt; margin-top: 1px; margin-bottom: 1px;">
+                            <Icon Name="IconName.PlusCircle" Size="IconSize.x6"/><!--maybe change font-size to fixed amount for example to 16px-->
                         </NavLink>
                     </Tooltip>
                 }
@@ -129,7 +131,7 @@
 
     .average-grade-column {
         width: 95px;
-        padding-top: 10px !important;
+        padding-top: 11px !important;
     }
 
     .grades-column { width: auto; min-width: 107px; }
