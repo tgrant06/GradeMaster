@@ -173,6 +173,12 @@ h1:focus {
     }
 }
 
+@media (min-width: 641px) {
+    html {
+        overflow: hidden;
+    }
+}
+
 #menuDropdown::after {
     content: "";
     display: none;
