@@ -39,7 +39,7 @@
         </Dropdown>
 
     </div>
-    <div class="col-12 col-lg-5 text-end ms-auto mb-3 mt-4" style="max-width: 320px; padding: 0; z-index: -10; margin-bottom: 0 !important;">
+    <div class="col-12 col-lg-5 text-end ms-auto mb-3 mt-4" style="max-width: 320px; padding: 0; z-index: -10;"> <!--maybe add later: margin-bottom: 0 !important; again-->
         <h3 class="nowrap">Education Average: @(_educationAverage == 0 ? "N/A" : _educationAverage.ToString("0.##"))</h3>
     </div>
 @*     <div>
@@ -48,7 +48,7 @@
 </div>
 
 <!--Enable paging for large data-->
-<div class="row py-4">
+<div class="row py-4" style="padding-top: 1.4rem !important;">
     <Grid TItem="Subject"
           Class="table table-hover"
           Data="@_subjects.OrderByDescending(s => s.Semester).ThenBy(s => s.Name)"
