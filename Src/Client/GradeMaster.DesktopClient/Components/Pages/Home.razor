@@ -53,7 +53,7 @@
         <GridColumns>
             <GridColumn TItem="Subject" HeaderText="Subject" PropertyName="Name" Class="name-column">
                 <Tooltip Title="@(context.Completed ? "Completed" : "In Progress")" Style="padding-top: 1px;">
-                    <Button @onclick="() => GoToSubject(context.Id)" class="btn-translucient-v2 border-0" style="padding: 3px; font-size: initial; margin-top: 1px; margin-bottom: 1px;">@UIUtils.TruncateString(context.Name, 26) - @context.Semester</Button>
+                    <Button @onclick="() => GoToSubject(context.Id)" class="btn-translucient-v2 border-0" style="padding: 3px; font-size: initial; margin-top: 1px; margin-bottom: 1px;">@UIUtils.TruncateString(context.Name, 25) - @context.Semester</Button>
                 </Tooltip>
                 @* @UIUtils.TruncateString(context.Name, 21) - @context.Semester *@
             </GridColumn>
