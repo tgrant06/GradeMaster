@@ -141,7 +141,7 @@ public class EducationRepository : IEducationRepository
 
     public async Task<List<Education>> GetAllSimpleAsync()
     {
-        return await _context.Educations.ToListAsync(); // maybe change ordering
+        return await _context.Educations.OrderByDescending(e => e.Id).ToListAsync(); // maybe change ordering
     }
 
     public async Task<bool> ExistsAnyAsync()
