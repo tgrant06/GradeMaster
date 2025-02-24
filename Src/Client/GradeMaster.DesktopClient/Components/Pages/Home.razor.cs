@@ -119,6 +119,8 @@ public partial class Home
 
     #endregion
 
+    // maybe reload entire page? (soft reload)
+    // if selectedEducationId has no value then reload page (soft reload) for example
     private async Task ReloadData()
     {
         if (_selectedEducationId.HasValue)
