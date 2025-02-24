@@ -28,7 +28,7 @@ GradeMaster is a Desktop based grade management tool. It allows you to manage yo
 ## Installation and Setup Guide
 
 ### For personal usage (Windows)
-1. Install the Zip-File (GradeMaster_[win-x64/win-arm64].zip depending on your System) from the Release Section. Make sure you install the newest available version.
+1. Install the Zip-File (GradeMaster_[win-x64/win-arm64].zip depending on your System architecture) from the Release Section. Make sure you install the newest available version.
 2. Unpack the Zip-File in the `C:\Program Files\` directory.
 3. After the installation you will see the folder containing the app. There you can copy the shortcut and paste it to the Desktop.
 4. You can now launch the app from the shortcut.
