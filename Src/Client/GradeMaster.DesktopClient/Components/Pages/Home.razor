@@ -33,18 +33,12 @@
             <DropdownMenu Position="DropdownMenuPosition.End" Style="width: 100px">
                 <DropdownItem @onclick="ReloadData" Type="DropdownItemType.Button">Reload <Icon Name="IconName.ArrowRepeat" /></DropdownItem>
                 <DropdownItem @onclick="() => GoToEducation(_selectedEducationId.Value)" Disabled="@(!_selectedEducationId.HasValue)" Type="DropdownItemType.Button">Detail <Icon Name="IconName.Journal" /></DropdownItem>
-                @* <DropdownItem To="#" Type="DropdownItemType.Link">Another action</DropdownItem>
-                <DropdownItem To="#" Type="DropdownItemType.Link">Something else here</DropdownItem> *@
             </DropdownMenu>
         </Dropdown>
-
     </div>
     <div class="col-12 col-lg-5 text-end ms-auto mb-3 mt-4" style="max-width: 320px; padding: 0; z-index: -10;"> <!--maybe add later: margin-bottom: 0 !important; again-->
         <h3 class="nowrap">Education Average: @(_educationAverage == 0 ? "N/A" : _educationAverage.ToString("0.##"))</h3>
     </div>
-@*     <div>
-        <Button @onclick="() => GoToEducation(_currentEducationId)" TooltipTitle="Detail Education" Disabled="@(_selectedEducationId != 0)" Color="ButtonColor.Secondary">Detail <Icon Name="IconName.ArrowUpRightCircle" /></Button>
-    </div> *@
 </div>
 
 <!--Enable paging for large data-->
@@ -115,7 +109,7 @@
             </GridColumn>
         </GridColumns>
     </Grid>
-    <!--Later add detail of every row-->
+    <!--Later add detail of every row maybe us _selectedEducationId instead-->
     @if (_currentEducationId != 0)
     {
         <NavLink href="/subjects/create" class="btn btn-success px-1" style="margin-left: 12px; width: 135px">

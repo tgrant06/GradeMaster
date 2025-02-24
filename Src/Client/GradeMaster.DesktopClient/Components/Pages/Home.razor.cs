@@ -127,5 +127,9 @@ public partial class Home
         {
             await LoadEducationData(_selectedEducationId.Value);
         }
+        else
+        {
+            _educations = await _educationRepository.GetAllSimpleAsync();
+        }
     }
 }
