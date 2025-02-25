@@ -86,6 +86,8 @@ public partial class Home
             _currentEducationId = 0;
             _subjects = new List<Subject>();
             _educationAverage = 0;
+
+            Navigation.NavigateTo($"?", false);
         }
     }
 
