@@ -1,21 +1,33 @@
 ﻿@page "/grades/create"
+@using Microsoft.AspNetCore.WebUtilities
 
 <TopPageHeader>New Grade</TopPageHeader>
 
-<GradeForm OnSave="HandleSave" FormType="FormType.Create" />
+<GradeForm OnSave="HandleSave" FormType="FormType.Create" SubjectId="_subjectId" />
 
 <script>
     window.scrollTo({ top: 0, behavior: 'auto' });
 </script>
 
 @code {
+    private int? _subjectId;
+
     [Inject] private IGradeRepository _gradeRepository { get; set; }
 
     [Inject] protected ToastService ToastService { get; set; } = default!;
 
-    // [Inject] private NavigationManager Navigation { get; set; }
+    [Inject] private NavigationManager Navigation { get; set; }
     [Inject] private IJSRuntime JSRuntime { get; set; }
 
+    protected override void OnInitialized()
+    {
+        var uri = new Uri(Navigation.Uri);
+        var queryParams = QueryHelpers.ParseQuery(uri.Query);
+        if (queryParams.TryGetValue("subjectId", out var subjectIdString) && int.TryParse(subjectIdString, out var subjectId))
+        {
+            _subjectId = subjectId;
+        }
+    }
 
     private async Task HandleSave(Grade grade)
     {

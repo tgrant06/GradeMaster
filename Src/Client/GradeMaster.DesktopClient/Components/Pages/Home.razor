@@ -88,9 +88,9 @@
                 @if (!context.Completed)
                 {
                     <Tooltip Title="New Grade" Style="padding-top: 1px;"><!--was height: 29px; and width: 29px; padding-left: 4pt;-->
-                        <NavLink href="/grades/create" class="btn btn-secondary" style="height: 30px; width: 30px; padding-top: 2px; padding-left: 4.55pt; margin-top: 1px; margin-bottom: 1px;">
+                        <Button @onclick="() => GoToNewGrade(context.Id)" class="btn-secondary" style="height: 30px; width: 30px; padding-top: 2px; padding-left: 4.55pt; margin-top: 1px; margin-bottom: 1px;">
                             <Icon Name="IconName.PlusCircle" Size="IconSize.x6"/><!--maybe change font-size to fixed amount for example to 16px-->
-                        </NavLink>
+                        </Button>
                     </Tooltip>
                 }
                 <!--Later add detail navigation to every grade-->
@@ -115,14 +115,14 @@
         if (_educations.Find(e => e.Id.Equals(_currentEducationId)).Completed)
         {
             <Tooltip Title="This Education is completed" Style="width: 185px;">
-                <Button Disabled="true" @onclick="() => GoToNewSubject(_currentEducationId)" class="btn btn-success px-1" style="margin-left: 12px; width: 135px">
+                <Button Disabled="true" @onclick="() => GoToNewSubject(_currentEducationId)" class="btn-success px-1" style="margin-left: 12px; width: 135px">
                     New Subject <i class="bi bi-plus-circle"></i>
                 </Button>
             </Tooltip>
         }
         else
         {
-            <Button @onclick="() => GoToNewSubject(_currentEducationId)" class="btn btn-success px-1" style="margin-left: 12px; width: 135px">
+            <Button @onclick="() => GoToNewSubject(_currentEducationId)" class="btn-success px-1" style="margin-left: 12px; width: 135px">
                 New Subject <i class="bi bi-plus-circle"></i>
             </Button>
         }

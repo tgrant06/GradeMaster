@@ -109,6 +109,7 @@ else
     [Parameter] public FormType FormType { get; set; }
     [Parameter] public Grade? Grade { get; set; }
     [Parameter] public EventCallback<Grade> OnSave { get; set; }
+    [Parameter] public int? SubjectId { get; set; }
 
     [Inject] private IJSRuntime JSRuntime { get; set; }
     [Inject] private NavigationManager Navigation { get; set; }
@@ -164,17 +165,25 @@ else
                 throw new InvalidOperationException("No weights found.");
             }
 
-            Subjects = await _subjectRepository.GetByCompletedAsync(false);
-            Subjects = Subjects.OrderByDescending(e => e.Id).ToList();
-            if (FormType == FormType.Edit && Grade != null)
+            if (!SubjectId.HasValue)
             {
-                // can never be null
-                var subject = await _subjectRepository.GetByGradeIdAsync(Grade.Id);
 
-                if (!Subjects.Exists(e => e.Id == subject.Id))
+                Subjects = await _subjectRepository.GetByCompletedAsync(false);
+                Subjects = Subjects.OrderByDescending(e => e.Id).ToList();
+                if (FormType == FormType.Edit && Grade != null)
                 {
-                    Subjects.Insert(0, subject);
+                    // can never be null
+                    var subject = await _subjectRepository.GetByGradeIdAsync(Grade.Id);
+
+                    if (!Subjects.Exists(e => e.Id == subject.Id))
+                    {
+                        Subjects.Insert(0, subject);
+                    }
                 }
+            }
+            else
+            {
+                Subjects.Add(await _subjectRepository.GetByIdAsync(SubjectId.Value));
             }
 
             if (Subjects == null || !Subjects.Any())
@@ -186,11 +195,11 @@ else
             {
                 // Initialize Education for creation
                 Grade = new Grade
-                    {
-                        Date = DateOnly.FromDateTime(DateTime.Today),
-                        Weight = new Weight(),
-                        Subject = new Subject()
-                    };
+                {
+                    Date = DateOnly.FromDateTime(DateTime.Today),
+                    Weight = new Weight(),
+                    Subject = SubjectId.HasValue ? Subjects.First() : new Subject()
+                };
 
                 FormTitle = "Create New Grade";
             }

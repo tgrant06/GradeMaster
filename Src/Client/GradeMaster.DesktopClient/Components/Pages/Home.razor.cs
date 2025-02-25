@@ -111,6 +111,8 @@ public partial class Home
 
     private void GoToNewSubject(int educationId) => Navigation.NavigateTo($"/subjects/create?educationId={educationId}");
 
+    private void GoToNewGrade(int subjectId) => Navigation.NavigateTo($"/grades/create?subjectId={subjectId}");
+
     #endregion
 
     #region Averages
