@@ -183,7 +183,7 @@ else
             }
             else
             {
-                Subjects.Add(await _subjectRepository.GetByIdAsync(SubjectId.Value));
+                Subjects.Add(await _subjectRepository.GetByIdDetailAsync(SubjectId.Value));
             }
 
             if (Subjects == null || !Subjects.Any())
