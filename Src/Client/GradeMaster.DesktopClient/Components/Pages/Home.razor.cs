@@ -98,6 +98,8 @@ public partial class Home
         _educationAverage = EducationUtils.CalculateEducationAverage(_subjects);
     }
 
+    #region Navigation
+
     private void GoToSubject(int subjectId)
     {
         Navigation.NavigateTo($"/subjects/{subjectId}");
@@ -106,6 +108,10 @@ public partial class Home
     private void GoToGrade(int gradeId) => Navigation.NavigateTo($"/grades/{gradeId}");
 
     private void GoToEducation(int educationId) => Navigation.NavigateTo($"/educations/{educationId}");
+
+    private void GoToNewSubject(int educationId) => Navigation.NavigateTo($"/subjects/create?educationId={educationId}");
+
+    #endregion
 
     #region Averages
 

@@ -112,9 +112,20 @@
     <!--Later add detail of every row maybe us _selectedEducationId instead-->
     @if (_currentEducationId != 0)
     {
-        <NavLink href="/subjects/create" class="btn btn-success px-1" style="margin-left: 12px; width: 135px">
-            New Subject <i class="bi bi-plus-circle"></i>
-        </NavLink>
+        if (_educations.Find(e => e.Id.Equals(_currentEducationId)).Completed)
+        {
+            <Tooltip Title="This Education is completed" Style="width: 185px;">
+                <Button Disabled="true" @onclick="() => GoToNewSubject(_currentEducationId)" class="btn btn-success px-1" style="margin-left: 12px; width: 135px">
+                    New Subject <i class="bi bi-plus-circle"></i>
+                </Button>
+            </Tooltip>
+        }
+        else
+        {
+            <Button @onclick="() => GoToNewSubject(_currentEducationId)" class="btn btn-success px-1" style="margin-left: 12px; width: 135px">
+                New Subject <i class="bi bi-plus-circle"></i>
+            </Button>
+        }
     }
 </div>
 

@@ -100,6 +100,7 @@ else
     [Parameter] public FormType FormType { get; set; }
     [Parameter] public Subject? Subject { get; set; }
     [Parameter] public EventCallback<Subject> OnSave { get; set; }
+    [Parameter] public int? EducationId { get; set; }
 
     [Inject] private IJSRuntime JSRuntime { get; set; }
     [Inject] private NavigationManager Navigation { get; set; }
@@ -145,17 +146,24 @@ else
     {
         try
         {
-            Educations = await _educationRepository.GetByCompletedAsync(false);
-            Educations = Educations.OrderByDescending(e => e.Id).ToList();
-            if (FormType == FormType.Edit && Subject != null)
+            if (!EducationId.HasValue)
             {
-                // can never be null
-                var education = await _educationRepository.GetBySubjectIdAsync(Subject.Id);
-
-                if (!Educations.Exists(e => e.Id == education.Id))
+                Educations = await _educationRepository.GetByCompletedAsync(false);
+                Educations = Educations.OrderByDescending(e => e.Id).ToList();
+                if (FormType == FormType.Edit && Subject != null)
                 {
-                    Educations.Insert(0, education);
+                    // can never be null
+                    var education = await _educationRepository.GetBySubjectIdAsync(Subject.Id);
+
+                    if (!Educations.Exists(e => e.Id == education.Id))
+                    {
+                        Educations.Insert(0, education);
+                    }
                 }
+            }
+            else
+            {
+                Educations.Add(await _educationRepository.GetByIdAsync(EducationId.Value));
             }
 
             if (Educations == null || !Educations.Any())
@@ -170,7 +178,7 @@ else
                 {
                     Completed = false,
                     Semester = 1,
-                    Education = new Education()
+                    Education = EducationId.HasValue ? Educations.First() : new Education()
                 };
 
                 FormTitle = "Create New Subject";
