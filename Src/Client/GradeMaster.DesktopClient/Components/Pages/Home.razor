@@ -11,9 +11,10 @@
             <option value="" style="background-color: #eeeeee; color: black; border: solid 1px">Select Education</option>
             @foreach (var education in _educations)
             {
-                <option value="@education.Id" style="background-color: #eeeeee; color: black;">@UIUtils.TruncateString(education.Name, 65)</option>
+                <option value="@education.Id" style="background-color: #eeeeee; color: black;">@UIUtils.TruncateString(education.Name, 65) @(education.Completed ? "🟢" : "🟡")</option>
             }
         </select>
+        <!--these two rectangles are: green circle and yellow circle emojis respectfully-->
     </div>
     <!--Add edit and detail button later-->
     <div class="col-1 col-md-1 mb-3 mt-4" style="width: 38px; margin-right: 6px; padding-left: 9px;">
