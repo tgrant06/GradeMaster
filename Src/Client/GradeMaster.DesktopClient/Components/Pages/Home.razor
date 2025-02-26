@@ -114,7 +114,7 @@
     {
         if (_educations.Find(e => e.Id.Equals(_currentEducationId)).Completed)
         {
-            <Tooltip Title="This Education is completed" Style="width: 185px;">
+            <Tooltip Title="This Education is completed" Style="width: 162px; padding-left: 0;">
                 <Button Disabled="true" @onclick="() => GoToNewSubject(_currentEducationId)" class="btn-success px-1" style="margin-left: 12px; width: 135px">
                     New Subject <i class="bi bi-plus-circle"></i>
                 </Button>
