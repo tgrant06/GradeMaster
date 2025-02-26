@@ -1,0 +1,18 @@
+﻿<Badge VisuallyHiddenText="Completion State" Style="@StyleString" Color="Completed ? BadgeColor.Success : BadgeColor.Warning"></Badge>
+
+@code {
+    [Parameter]
+    public bool Completed { get; set; }
+
+    [Parameter]
+    public int MarginBottom { get; set; }
+
+    private string _styleString;
+
+    protected override void OnParametersSet()
+    {
+        _styleString = $"padding: .25rem !important; margin-bottom: {MarginBottom}px;";
+    }
+
+    public string StyleString => _styleString;
+}

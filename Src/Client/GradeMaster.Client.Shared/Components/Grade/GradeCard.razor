@@ -23,11 +23,11 @@
     <CardBody Class="border-top">
         <CardText Class="border-bottom" Style="padding-bottom: 11px; margin-bottom: 11px;">
             <b>Education: </b> @UIUtils.TruncateString(Grade.Subject.Education.Name, 50) @(!string.IsNullOrEmpty(Grade.Subject.Education.Institution) ? " | " + Grade.Subject.Education.Institution.Split(",")[0] : "") 
-            <Badge VisuallyHiddenText="Completion State" Style="padding: .25rem !important; margin-bottom: 1px;" Color="Grade.Subject.Education.Completed ? BadgeColor.Success : BadgeColor.Warning"></Badge>
+            <CompletionStateBadge Completed="Grade.Subject.Education.Completed" MarginBottom="1" />
         </CardText>
         <CardText Class="border-bottom" Style="padding-bottom: 11px; margin-bottom: 11px;">
             <b>Subject: </b> @UIUtils.TruncateString(Grade.Subject.Name, 50) - @Grade.Subject.Semester 
-            <Badge VisuallyHiddenText="Completion State" Style="padding: .25rem !important; margin-bottom: 1px;" Color="Grade.Subject.Education.Completed ? BadgeColor.Success : BadgeColor.Warning"></Badge>
+            <CompletionStateBadge Completed="Grade.Subject.Completed" MarginBottom="1" />
         </CardText>
         <CardText>
             <b>Date: </b> @Grade.Date.ToShortDateString()

@@ -55,7 +55,7 @@
                 <div class="col mb-3">
                     <CardText Class="border-bottom enabled-text-selection" Style="padding-bottom: 17px; margin-bottom: 6px;">
                         <b class="enabled-text-selection">Education:</b> <Button @onclick="GoToEducation" class="btn-translucient-v2 border-0 enabled-text-selection" style="padding: 3px; padding-left: 6px; padding-right: 6px; font-size: initial; margin-top: -4px; margin-left: -5px;">@Grade.Subject.Education.Name <Icon Name="IconName.ArrowUpRightCircle" /></Button>
-                        <Badge VisuallyHiddenText="Completion State" Style="padding: .25rem !important; margin-bottom: 2px;" Color="Grade.Subject.Education.Completed ? BadgeColor.Success : BadgeColor.Warning"></Badge>
+                        <CompletionStateBadge Completed="Grade.Subject.Education.Completed" MarginBottom="2" />
                     </CardText>
                 </div>
                 <div class="col mb-3">
@@ -66,7 +66,7 @@
                 <div class="col mb-3">
                     <CardText Class="border-bottom enabled-text-selection" Style="padding-bottom: 17px; margin-bottom: 6px;">
                         <b class="enabled-text-selection">Subject:</b> <Button @onclick="GoToSubject" class="btn-translucient-v2 border-0 enabled-text-selection" style="padding: 3px; padding-left: 6px; padding-right: 6px; font-size: initial; margin-top: -4px; margin-left: -5px;"> @Grade.Subject.Name - @Grade.Subject.Semester <Icon Name="IconName.ArrowUpRightCircle" /></Button>
-                        <Badge VisuallyHiddenText="Completion State" Style="padding: .25rem !important; margin-bottom: 2px;" Color="Grade.Subject.Education.Completed ? BadgeColor.Success : BadgeColor.Warning"></Badge>
+                        <CompletionStateBadge Completed="Grade.Subject.Completed" MarginBottom="2" />
                     </CardText>
                 </div>
                 <div class="col mb-3">

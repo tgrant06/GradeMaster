@@ -4,7 +4,7 @@
             <b>@Subject.Name - @Subject.Semester</b>
         </CardTitle>
         <CardSubTitle Class="mb-2 text-muted">@UIUtils.TruncateString(Subject.Education.Name, 60) @UIUtils.TruncateString(string.IsNullOrEmpty(Subject.Education.Institution) ? " " : "| " + Subject.Education.Institution.Split(",")[0], 15) 
-            <Badge VisuallyHiddenText="Completion State" Style="padding: .25rem !important; margin-bottom: 1px;" Color="Subject.Education.Completed ? BadgeColor.Success : BadgeColor.Warning"></Badge>
+            <CompletionStateBadge Completed="Subject.Education.Completed" MarginBottom="1" />
         </CardSubTitle>
     </CardHeader>
     <CardBody>

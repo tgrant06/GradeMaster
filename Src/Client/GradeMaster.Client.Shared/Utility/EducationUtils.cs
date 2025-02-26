@@ -53,6 +53,13 @@ public static class EducationUtils
         return subjectAverages.Average();
     }
 
+    // maybe use or add later
+    //public static string GetCompletionStateIcon(bool completed)
+    //{
+
+    //    return "";
+    //}
+
     ///// <summary>
     ///// Returns the completion state of the given boolean.
     ///// </summary>
