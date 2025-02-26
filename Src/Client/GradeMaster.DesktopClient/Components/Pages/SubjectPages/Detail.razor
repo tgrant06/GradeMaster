@@ -15,6 +15,7 @@
         <Button class="btn btn-translucient" style="padding: 5px;padding-top: 0;padding-bottom: 1px;margin-top: 2px;"><Icon Name="IconName.ArrowUpRightCircle"/></Button>
     </span> *@
     <Button @onclick="GoToEducation" class="btn-translucient-v2 border-0" style="margin-left: -6px; padding: 5px; padding-left: 6px; padding-right: 6px;"><CardSubTitle Class="enabled-text-selection">@Subject.Education.Name, @Subject.Education.StartDate.Year - @Subject.Education.EndDate.Year <Icon Name="IconName.ArrowUpRightCircle" /></CardSubTitle></Button>
+    <Badge VisuallyHiddenText="Completion State" Style="padding: .25rem !important; margin-bottom: -1px;" Color="Subject.Education.Completed ? BadgeColor.Success : BadgeColor.Warning"></Badge>
     <CardSubTitle Class="enabled-text-selection" Style="margin-top: 2px;">@Subject.Education.Institution</CardSubTitle>
     @* <CardSubTitle Style="margin-top: 6px;">@Subject.Education.Institution</CardSubTitle> *@
 </div>
