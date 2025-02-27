@@ -10,7 +10,7 @@
 html, body {
     /*font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;*/
     font-family: 'Segoe UI', sans-serif;
-    touch-action: none;
+    touch-action: pan-y; /*was none*/
     -ms-content-zooming: none;
     /*background-color: light-dark(#ffffff, #212529);*/
 }

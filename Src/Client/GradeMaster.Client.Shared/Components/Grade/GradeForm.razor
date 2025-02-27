@@ -47,7 +47,7 @@ else
                     <option value="0" style="background-color: #eeeeee; color: black; border: solid 1px">Select Subject</option>
                     @foreach (var subject in Subjects)
                     {
-                        <option value="@subject.Id" style="background-color: #eeeeee; color: black;">@UIUtils.TruncateString(@subject.Name, 60) - @subject.Semester | @UIUtils.TruncateString(subject.Education.Name, 60)</option>
+                        <option @key="@($"sub_{subject.Id}")" value="@subject.Id" style="background-color: #eeeeee; color: black;">@UIUtils.TruncateString(@subject.Name, 60) - @subject.Semester @(subject.Completed ? "🟢" : "") | @UIUtils.TruncateString(subject.Education.Name, 60) @(subject.Education.Completed ? "🟢" : "")</option>
                     }
                 </select>
                 <ValidationMessage For="@(() => NewGrade.Subject)"/>
