@@ -2,8 +2,11 @@
 @using Microsoft.AspNetCore.WebUtilities
 
 <TopPageHeader>New Grade</TopPageHeader>
+<div class="border-top" style="width: 100%; max-width: 50%; margin-top: 15px"></div>
 
-<GradeForm OnSave="HandleSave" FormType="FormType.Create" SubjectId="_subjectId" />
+<div class="container">
+    <GradeForm OnSave="HandleSave" FormType="FormType.Create" SubjectId="_subjectId" />
+</div>
 
 <script>
     window.scrollTo({ top: 0, behavior: 'auto' });

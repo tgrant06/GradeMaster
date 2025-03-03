@@ -1,8 +1,11 @@
 ﻿@page "/grades/{Id:int}/edit"
 
 <TopPageHeader>Edit Grade</TopPageHeader>
+<div class="border-top" style="width: 100%; max-width: 50%; margin-top: 15px"></div>
 
-<GradeForm Grade="_grade" OnSave="HandleSave" FormType="FormType.Edit" />
+<div class="container">
+    <GradeForm Grade="_grade" OnSave="HandleSave" FormType="FormType.Edit" />
+</div>
 
 <script>
     window.scrollTo({ top: 0, behavior: 'auto' });
