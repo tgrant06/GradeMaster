@@ -5,7 +5,7 @@
 <div class="border-top" style="width: 100%; max-width: 50%; margin-top: 15px"></div>
 
 <div class="container align-content-center">
-    <div class="border-top" style="width: 100%; max-width: 1050px; margin-top: -1px"></div>
+    <div class="border-top" style="max-width: 1074px; margin-right: -12px; margin-left: -12px; margin-top: -1px;"></div>
     <div class="col-12 col-md-12 py-3" style="max-width: 1200px;">
         <h2 style="margin-bottom: 11px;">
             <b class="enabled-text-selection">@Education.Name</b>
@@ -67,7 +67,7 @@
         </Card>
     </div>
 
-    <div class="border-top" style="width: 100%; max-width: 1050px; margin-top: 15px"></div>
+    <div class="border-top" style="max-width: 1074px; margin-right: -12px; margin-left: -12px; margin-top: 15px"></div>
 
     <!-- Buttons -->
     <div class="d-flex justify-content-between my-3" style="max-width: 1050px">
@@ -79,11 +79,11 @@
         </Button>
     </div>
 
-    <div class="border-top" style="width: 100%; max-width: 1050px; opacity: 0.5;"></div>
+    <div class="border-top" style="max-width: 1074px; margin-right: -12px; margin-left: -12px; opacity: 0.5;"></div>
 
     @if (Education.Subjects.Any()) 
     {
-        <div class="topPageSubHeader border-bottom" style="max-width: 1050px;">
+        <div class="topPageSubHeader border-bottom" style="max-width: 1074px; margin-right: -12px; margin-left: -12px;">
             <h5>@Education.Name</h5>
         </div>
     }
@@ -92,14 +92,14 @@
         @if (Education.Completed)
         {
             <Tooltip Title="This Education is completed" Placement="TooltipPlacement.Left" Style="padding-bottom: 4px;">
-                <Button Disabled="true" @onclick="() => GoToNewSubject(Education.Id)" class="btn-secondary btn-sm px-1" style="width: 115px; margin-right: 32px;">
+                <Button Disabled="true" @onclick="() => GoToNewSubject(Education.Id)" class="btn-secondary btn-sm px-1" style="width: 115px; margin-right: 20px;">
                     New Subject <i class="bi bi-plus-circle"></i>
                 </Button>
             </Tooltip>
         }
         else
         {
-            <Button @onclick="() => GoToNewSubject(Education.Id)" class="btn-secondary btn-sm px-1" style="width: 115px; margin-right: 32px;">
+            <Button @onclick="() => GoToNewSubject(Education.Id)" class="btn-secondary btn-sm px-1" style="width: 115px; margin-right: 20px;">
                 New Subject <i class="bi bi-plus-circle"></i>
             </Button>
         }
@@ -110,7 +110,7 @@
     <div class="component-card-grid min-component-card-grid py-4" style="max-width: 1050px; padding-top: 0 !important;">
         <!--set overflow to hidden maybe-->
         @* <Virtualize TItem="Education" Items="@(_filteredEducations.OrderByDescending(e => e.Id).ToList())" Context="education" OverscanCount="12"> *@
-        <Virtualize TItem="Subject" Items="Education.Subjects.OrderByDescending(s => s.Id).ToList()" Context="subject" OverscanCount="12" @ref="_virtualizeComponent">
+        <Virtualize TItem="Subject" Items="Subjects" Context="subject" OverscanCount="12" @ref="_virtualizeComponent">
             <ItemContent>
                 <SubjectCard @key="@subject.Id" Subject="@subject" OnSubjectDeleted="RefreshSubjectData" Dialog="_dialog" />
             </ItemContent>
