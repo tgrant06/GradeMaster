@@ -3,8 +3,11 @@
 @using Microsoft.AspNetCore.WebUtilities;
 
 <TopPageHeader>New Subject</TopPageHeader>
+<div class="border-top" style="width: 100%; max-width: 50%; margin-top: 15px"></div>
 
-<SubjectForm OnSave="HandleSave" FormType="FormType.Create" EducationId="_educationId"/>
+<div class="container">
+    <SubjectForm OnSave="HandleSave" FormType="FormType.Create" EducationId="_educationId"/>
+</div>
 
 <script>
     window.scrollTo({ top: 0, behavior: 'auto' });
