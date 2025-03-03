@@ -4,7 +4,7 @@
 
 <div class="border-top" style="width: 100%; max-width: 50%; margin-top: 15px"></div>
 
-<div class="container">
+<div class="container align-content-center">
     <div class="border-top" style="width: 100%; max-width: 1050px; margin-top: -1px"></div>
     <div class="col-12 col-md-12 py-3" style="max-width: 1200px;">
         <h2 style="margin-bottom: 11px;">
@@ -78,12 +78,54 @@
             Edit <Icon Name="IconName.PencilSquare"/>
         </Button>
     </div>
+
+    <div class="border-top" style="width: 100%; max-width: 1050px; opacity: 0.5;"></div>
+
+    @if (Education.Subjects.Any()) 
+    {
+        <div class="topPageSubHeader border-bottom" style="max-width: 1050px;">
+            <h5>@Education.Name</h5>
+        </div>
+    }
+
+    <ConfirmDialog @ref="_dialog" />
+
+    <div class="component-card-grid min-component-card-grid py-4" style="max-width: 1050px; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));">
+        <!--set overflow to hidden maybe-->
+        @* <Virtualize TItem="Education" Items="@(_filteredEducations.OrderByDescending(e => e.Id).ToList())" Context="education" OverscanCount="12"> *@
+        <Virtualize TItem="Subject" Items="Education.Subjects" Context="subject" OverscanCount="12" @ref="_virtualizeComponent">
+            <ItemContent>
+                <SubjectCard @key="@subject.Id" Subject="@subject" OnSubjectDeleted="RefreshSubjectData" Dialog="_dialog" />
+            </ItemContent>
+            <EmptyContent>
+                <div></div>
+                <div class="text-center py-4" style="grid-column: 1/-1;">
+                    <p>No subjects found. Create new subject?</p><!--was: Try adjusting your search or add a new education.-->
+                </div>
+                <div></div>
+            </EmptyContent>
+            @* <Placeholder>
+                <div class="text-center">
+                    <Spinner Type="SpinnerType.Dots" Class="me-3" Color="SpinnerColor.Secondary" />
+                </div>
+            </Placeholder> *@
+        </Virtualize>
+    </div>
 </div>
+
+<ScrollTopButton />
 
 <script>
         window.scrollTo({ top: 0, behavior: 'auto' });
 </script>
 
 @code {
-    
+    private Virtualize<Subject>? _virtualizeComponent;
+
+    private ConfirmDialog _dialog = default!;
+
+    private async Task RefreshSubjectData()
+    {
+        await _virtualizeComponent?.RefreshDataAsync();
+    }
 }

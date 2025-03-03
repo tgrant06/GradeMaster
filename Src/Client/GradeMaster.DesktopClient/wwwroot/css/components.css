@@ -57,6 +57,17 @@
 .topPageHeader {
 }
 
+.topPageSubHeader {
+    padding-top: 7px; /*was 6 and 5 px*/
+    background-color: light-dark(#ffffffb0, #212529cc);
+    backdrop-filter: blur(16px);
+    text-align: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: light-dark(#dfdfdfde, #0000004f) 0px 10px 11px -10px;
+}
+
 @media (min-width: 641px) {
     .topPageHeader {
         font-size: 2.25rem;
@@ -64,6 +75,10 @@
         position: sticky;
         z-index: 1200;
         max-width: 250px;
+    }
+
+    .topPageSubHeader {
+        top: 55px;
     }
 }
 
@@ -83,6 +98,7 @@
     opacity: 0; /* Initially invisible */
     visibility: hidden; /* Prevents clicking when hidden */
     backdrop-filter: blur(16px);
+    z-index: 200;
 }
 
 .btn-scroll-top.show {
@@ -95,5 +111,15 @@
         visibility: visible;
         opacity: 1;
         right: 20px;
+    }
+}
+.min-component-card-grid {
+    grid-template-columns: repeat(2, minmax(305px, 1fr)) !important;
+}
+
+@media (max-width: 1000px) {
+    /* Important use with pre existing grid*/
+    .min-component-card-grid {
+        grid-template-columns: repeat(1, minmax(305px, 1fr)) !important;
     }
 }
