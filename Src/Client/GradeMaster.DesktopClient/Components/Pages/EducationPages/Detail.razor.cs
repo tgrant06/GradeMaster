@@ -3,6 +3,7 @@ using GradeMaster.Client.Shared.Utility;
 using GradeMaster.Common.Entities;
 using GradeMaster.DataAccess.Interfaces.IRepositories;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web.Virtualization;
 using Microsoft.JSInterop;
 
 namespace GradeMaster.DesktopClient.Components.Pages.EducationPages;
@@ -29,6 +30,12 @@ public partial class Detail
         get; set;
     }
 
+    [Inject]
+    private IWeightRepository _weightRepository
+    {
+        get; set;
+    }
+
     [Inject] protected ToastService ToastService { get; set; } = default!;
 
     [Inject]
@@ -50,12 +57,25 @@ public partial class Detail
         get; set;
     }
 
+    public List<Subject> Subjects
+    {
+        get; set;
+    }
+
     private decimal _educationAverage;
+
+    private Virtualize<Subject>? _virtualizeComponent;
+
+    private ConfirmDialog _dialog = default!;
 
     protected async override Task OnInitializedAsync()
     {
         // Load the education details
+        await _weightRepository.GetAllAsync();
+
         Education = await _educationRepository.GetByIdAsync(Id);
+
+        Subjects = await _subjectRepository.GetByEducationIdOrderedAsync(Education.Id);
 
         // Calculate the average only after loading the education data
         await CalculateEducationAverage();
@@ -68,6 +88,11 @@ public partial class Detail
     //        await JSRuntime.InvokeVoidAsync("scrollToTop");
     //    }
     //}
+
+    private async Task RefreshSubjectData()
+    {
+        await _virtualizeComponent?.RefreshDataAsync();
+    }
 
     private string DescriptionString() => string.IsNullOrEmpty(Education.Description) ? "-" : Education.Description;
 
@@ -83,6 +108,8 @@ public partial class Detail
         Navigation.NavigateTo($"/educations/{Education.Id}/edit");
     }
 
+    private void GoToNewSubject(int educationId) => Navigation.NavigateTo($"/subjects/create?educationId={educationId}");
+
     #endregion
 
     #region Averages
@@ -91,8 +118,8 @@ public partial class Detail
     {
         // var grades
         //await _gradeRepository.GetBySubjectIdsAsync(Education.Subjects.Select(s => s.Id).ToList());
-        await _subjectRepository.GetByEducationIdAsync(Education.Id);
-        _educationAverage = EducationUtils.CalculateEducationAverage(Education.Subjects);
+        //await _subjectRepository.GetByEducationIdOrderedAsync(Education.Id);
+        _educationAverage = EducationUtils.CalculateEducationAverage(Subjects);
     }
 
     #endregion

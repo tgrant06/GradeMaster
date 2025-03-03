@@ -67,6 +67,14 @@ public class SubjectRepository : ISubjectRepository
             .ToListAsync();
     }
 
+    public async Task<List<Subject>> GetByEducationIdOrderedAsync(int id)
+    {
+        return await _context.Subjects.Where(s => s.Education.Id == id)
+            .Include(s => s.Grades)
+            .OrderByDescending(s => s.Id)
+            .ToListAsync();
+    }
+
     public async Task<List<Subject>> GetAllWithGradesAsync()
     {
         return await _context.Subjects.Where(s => s.Grades.Any()).Include(s => s.Education).ToListAsync();

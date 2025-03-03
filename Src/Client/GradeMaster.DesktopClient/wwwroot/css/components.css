@@ -64,7 +64,7 @@
     text-align: center;
     position: sticky;
     top: 0;
-    z-index: 100;
+    z-index: 1090;
     box-shadow: light-dark(#dfdfdfde, #0000004f) 0px 10px 11px -10px;
 }
 
@@ -98,7 +98,7 @@
     opacity: 0; /* Initially invisible */
     visibility: hidden; /* Prevents clicking when hidden */
     backdrop-filter: blur(16px);
-    z-index: 200;
+    z-index: 1095;
 }
 
 .btn-scroll-top.show {

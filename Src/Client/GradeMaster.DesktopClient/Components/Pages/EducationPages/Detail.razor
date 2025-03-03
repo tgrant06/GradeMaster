@@ -87,13 +87,30 @@
             <h5>@Education.Name</h5>
         </div>
     }
+    
+    <div class="text-end" style="max-width: 1050px; padding-top: 30px;">
+        @if (Education.Completed)
+        {
+            <Tooltip Title="This Education is completed" Placement="TooltipPlacement.Left" Style="padding-bottom: 4px;">
+                <Button Disabled="true" @onclick="() => GoToNewSubject(Education.Id)" class="btn-secondary btn-sm px-1" style="width: 115px; margin-right: 32px;">
+                    New Subject <i class="bi bi-plus-circle"></i>
+                </Button>
+            </Tooltip>
+        }
+        else
+        {
+            <Button @onclick="() => GoToNewSubject(Education.Id)" class="btn-secondary btn-sm px-1" style="width: 115px; margin-right: 32px;">
+                New Subject <i class="bi bi-plus-circle"></i>
+            </Button>
+        }
+    </div>
 
     <ConfirmDialog @ref="_dialog" />
 
-    <div class="component-card-grid min-component-card-grid py-4" style="max-width: 1050px; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));">
+    <div class="component-card-grid min-component-card-grid py-4" style="max-width: 1050px; padding-top: 0 !important;">
         <!--set overflow to hidden maybe-->
         @* <Virtualize TItem="Education" Items="@(_filteredEducations.OrderByDescending(e => e.Id).ToList())" Context="education" OverscanCount="12"> *@
-        <Virtualize TItem="Subject" Items="Education.Subjects" Context="subject" OverscanCount="12" @ref="_virtualizeComponent">
+        <Virtualize TItem="Subject" Items="Education.Subjects.OrderByDescending(s => s.Id).ToList()" Context="subject" OverscanCount="12" @ref="_virtualizeComponent">
             <ItemContent>
                 <SubjectCard @key="@subject.Id" Subject="@subject" OnSubjectDeleted="RefreshSubjectData" Dialog="_dialog" />
             </ItemContent>
@@ -120,12 +137,5 @@
 </script>
 
 @code {
-    private Virtualize<Subject>? _virtualizeComponent;
 
-    private ConfirmDialog _dialog = default!;
-
-    private async Task RefreshSubjectData()
-    {
-        await _virtualizeComponent?.RefreshDataAsync();
-    }
 }
