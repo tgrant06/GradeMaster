@@ -1,8 +1,11 @@
 ﻿@page "/educations/create"
 
 <TopPageHeader>New Education</TopPageHeader>
+<div class="border-top" style="width: 100%; max-width: 50%; margin-top: 15px"></div>
 
-<EducationForm OnSave="HandleSave" FormType="FormType.Create"/>
+<div class="container">
+    <EducationForm OnSave="HandleSave" FormType="FormType.Create"/>
+</div>
 
 <script>
     window.scrollTo({ top: 0, behavior: 'auto' });
