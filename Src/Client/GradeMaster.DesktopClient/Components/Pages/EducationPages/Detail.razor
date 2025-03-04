@@ -94,15 +94,15 @@
         @if (Education.Completed)
         {
             <Tooltip Title="This Education is completed" Placement="TooltipPlacement.Left" Style="padding-bottom: 5px;">
-                <Button Disabled="true" @onclick="() => GoToNewSubject(Education.Id)" class="btn-secondary btn-sm px-1" style="width: 115px; margin-right: 16px;">
-                    New Subject <i class="bi bi-plus-circle"></i>
+                <Button Disabled="true" @onclick="() => GoToNewSubject(Education.Id)" Color="ButtonColor.Secondary" Size="ButtonSize.Small" Style="margin-right: 16px;">
+                    New <Icon Name="IconName.PlusSquare" Size="IconSize.x6" />
                 </Button>
             </Tooltip>
         }
         else
         {
-            <Button @onclick="() => GoToNewSubject(Education.Id)" class="btn-secondary btn-sm px-1" style="width: 115px; margin-right: 16px;">
-                New Subject <i class="bi bi-plus-circle"></i>
+            <Button @onclick="() => GoToNewSubject(Education.Id)" Color="ButtonColor.Secondary" Size="ButtonSize.Small" Style="margin-right: 16px;">
+                New <Icon Name="IconName.PlusSquare" Size="IconSize.x6" />
             </Button>
         }
     </div>
