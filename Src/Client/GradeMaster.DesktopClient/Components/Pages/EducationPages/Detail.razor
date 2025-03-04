@@ -67,7 +67,7 @@
         </Card>
     </div>
 
-    <div class="border-top generic-devider-line" style="margin-top: 15px"></div>
+    <div class="border-top generic-devider-line" style="margin-top: 15px; opacity: 0.5;"></div>
 
     <!-- Buttons -->
     <div class="d-flex justify-content-between my-3" style="max-width: 1050px">
@@ -79,14 +79,17 @@
         </Button>
     </div>
 
-    <div class="border-top generic-devider-line" style="opacity: 0.5;"></div>
-
     @if (Education.Subjects.Any()) 
     {
+        <div class="border-top generic-devider-line" style="opacity: 0.5;"></div>
         <div class="topPageSubHeader border-bottom" style="max-width: 1074px; margin-right: -12px; margin-left: -12px;">
             <h5>@Education.Name</h5>
             <div class="topPageSubHeaderSideBlock"></div>
         </div>
+    }
+    else
+    {
+        <div class="border-top generic-devider-line"></div>
     }
     
     <div class="text-end" style="max-width: 1050px; padding-top: 30px;">
