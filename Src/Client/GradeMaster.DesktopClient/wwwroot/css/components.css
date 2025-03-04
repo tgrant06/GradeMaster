@@ -68,6 +68,10 @@
     box-shadow: light-dark(#dfdfdfde, #0000004f) 0px 10px 11px -10px;
 }
 
+.topPageSubHeaderSideBlock {
+    display: none;
+}
+
 @media (min-width: 641px) {
     .topPageHeader {
         font-size: 2.25rem;
@@ -79,6 +83,18 @@
 
     .topPageSubHeader {
         top: 55px;
+    }
+
+    .topPageSubHeaderSideBlock {
+        display: initial;
+        position: fixed;
+        top: 0;
+        right: 0;
+        background-color: light-dark(#ffffff, #212529);
+        backdrop-filter: blur(16px);
+        width: 75px;
+        height: 100%;
+        margin-right: -75px;
     }
 }
 
