@@ -90,9 +90,10 @@
     }
     
     <div class="text-end" style="max-width: 1050px; padding-top: 30px;">
+        <h4 style="text-align: center; margin-bottom: -30px;">Subjects</h4>
         @if (Education.Completed)
         {
-            <Tooltip Title="This Education is completed" Placement="TooltipPlacement.Left" Style="padding-bottom: 4px;">
+            <Tooltip Title="This Education is completed" Placement="TooltipPlacement.Left" Style="padding-bottom: 5px;">
                 <Button Disabled="true" @onclick="() => GoToNewSubject(Education.Id)" class="btn-secondary btn-sm px-1" style="width: 115px; margin-right: 16px;">
                     New Subject <i class="bi bi-plus-circle"></i>
                 </Button>
