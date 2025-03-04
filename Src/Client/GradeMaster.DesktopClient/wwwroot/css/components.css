@@ -139,3 +139,10 @@
         grid-template-columns: repeat(1, minmax(305px, 1fr)) !important;
     }
 }
+
+/*For Detail, Create and Edit Pages or Components*/
+.generic-devider-line {
+    max-width: 1074px;
+    margin-right: -12px;
+    margin-left: -12px;
+}
