@@ -20,4 +20,11 @@ public static class UIUtils
 
         return name.Substring(0, maxLength) + "...";
     }
+
+    /// <summary>
+    /// Returns the string of a descriptioon or a dash if empty
+    /// </summary>
+    /// <param name="descriptionString"></param>
+    /// <returns>string</returns>
+    public static string DescriptionString(string descriptionString) => string.IsNullOrEmpty(descriptionString) ? "-" : descriptionString;
 }
