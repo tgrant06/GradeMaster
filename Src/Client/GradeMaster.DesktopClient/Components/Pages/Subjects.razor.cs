@@ -8,7 +8,7 @@ namespace GradeMaster.DesktopClient.Components.Pages;
 
 public partial class Subjects
 {
-    #region Dependancy Injection
+    #region Dependency Injection
 
     [Inject]
     private IEducationRepository _educationRepository

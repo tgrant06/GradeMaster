@@ -8,7 +8,7 @@ namespace GradeMaster.DesktopClient.Components.Pages;
 
 public partial class Grades
 {
-    #region Dependancy Injection
+    #region Dependency Injection
 
     [Inject]
     private IGradeRepository _gradeRepository

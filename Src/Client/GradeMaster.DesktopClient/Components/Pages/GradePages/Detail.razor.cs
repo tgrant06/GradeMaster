@@ -14,7 +14,7 @@ public partial class Detail
         get; set;
     }
 
-    #region Dependancy Injection
+    #region Dependency Injection
 
     [Inject]
     private IGradeRepository _gradeRepository

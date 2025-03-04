@@ -16,7 +16,7 @@ public partial class Detail
         get; set;
     }
 
-    #region Dependancy Injection
+    #region Dependency Injection
 
     [Inject]
     private IEducationRepository _educationRepository

@@ -15,7 +15,7 @@ public partial class Home
     private decimal _educationAverage = new();
     private int? _selectedEducationId;
 
-    #region Dependancy Injection
+    #region Dependency Injection
 
     [Inject]
     private IEducationRepository _educationRepository
