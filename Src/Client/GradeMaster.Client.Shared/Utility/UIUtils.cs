@@ -24,7 +24,8 @@ public static class UIUtils
     /// <summary>
     /// Returns the string of a descriptioon or a dash if empty
     /// </summary>
-    /// <param name="descriptionString"></param>
+    /// <param name="input"></param>
+    /// <param name="fallback"></param>
     /// <returns>string</returns>
-    public static string DescriptionString(string descriptionString) => string.IsNullOrEmpty(descriptionString) ? "-" : descriptionString;
+    public static string FallbackIfEmpty(string input, string fallback) => string.IsNullOrEmpty(input) ? fallback : input;
 }
