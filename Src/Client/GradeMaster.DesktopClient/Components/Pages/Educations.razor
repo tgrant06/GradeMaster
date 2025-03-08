@@ -39,7 +39,6 @@
 <div class="container align-content-center" style="margin-bottom: 25px;">
     <!--set overflow to hidden maybe-->
     <div class="component-card-grid py-4">
-        <!--set overflow to hidden maybe-->
         <Virtualize TItem="Education" ItemsProvider="GetEducationsProvider" Context="education" OverscanCount="12" @ref="_virtualizeComponent">
             <ItemContent>
                 <EducationCard @key="@education.Id" Education="@education" OnEducationDeleted="RefreshEducationData" Dialog="_dialog" />
