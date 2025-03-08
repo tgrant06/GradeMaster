@@ -100,7 +100,7 @@ h1:focus {
     }
 }
 
-/* v here stands for variant*/
+/*Info: v here stands for variant*/
 
 .btn-translucient {
     background-color: rgba(0, 0, 0, 0.00)
@@ -138,7 +138,7 @@ h1:focus {
             background-color: light-dark(rgba(0, 0, 0, 0.20), rgba(255, 255, 255, 0.20)) !important;
     }
 
-/* maybe later for different color: light 245, 245, 245, ... | dark: 38, 42, 46, ...     background-color: #e72a2a40;*/
+/* maybe later for different color: light 245, 245, 245, ... | dark: 38, 42, 46, ... background-color: #e72a2a40;*/
 
 .btn-translucient-red {
     background-color: rgba(231, 42, 42, 0.25);

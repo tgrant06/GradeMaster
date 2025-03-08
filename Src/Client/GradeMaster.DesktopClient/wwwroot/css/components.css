@@ -15,11 +15,6 @@
     height: auto; /* Retain the height set by Virtualize */
 }
 
-    /*.component-card-grid > * {*/
-        /*transition: transform 0.3s ease, opacity 0.3s ease;*/  /*Smooth transition for position and opacity changes */
-        /*will-change: transform, opacity;*/  /*Hint the browser for better animation performance */
-    /*}*/
-
 /* Keyframe animation for a smooth "appear" effect */
 @keyframes fadeIn {
     from {
@@ -32,14 +27,6 @@
         transform: scale(1);
     }
 }
-
-/*.component-card-grid > *:enter {
-    animation: fadeIn 0.15s ease-out;
-}*/
-
-/*.component-card-grid > *:leave {
-    animation: fadeOut 0.3s ease;
-}*/
 
 .animated-card {
     animation: fadeIn 0.155s ease; /*Maybe change to max 0.175*/
