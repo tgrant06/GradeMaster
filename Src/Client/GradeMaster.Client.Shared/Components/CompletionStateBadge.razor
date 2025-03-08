@@ -7,12 +7,10 @@
     [Parameter]
     public int MarginBottom { get; set; }
 
-    private string _styleString;
+    public string StyleString { get; private set; }
 
     protected override void OnParametersSet()
     {
-        _styleString = $"padding: .25rem !important; margin-bottom: {MarginBottom}px;";
+        StyleString = $"padding: .25rem !important; margin-bottom: {MarginBottom}px;";
     }
-
-    public string StyleString => _styleString;
 }
