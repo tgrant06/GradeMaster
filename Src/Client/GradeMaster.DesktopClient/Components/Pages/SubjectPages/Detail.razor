@@ -10,23 +10,18 @@
         <h2 style="margin-bottom: 6px;">
             <b class="enabled-text-selection">@Subject.Name - @Subject.Semester</b>
         </h2>
-        @* <CardSubTitle Style="margin-top: 6px;">@Subject.Education.Name | @Subject.Education.StartDate.Year - @Subject.Education.EndDate.Year</CardSubTitle> *@
-        @* <span style="display: inline-flex;">
-            <CardSubTitle Style="margin-top: 6px;">
-                @Subject.Education.Name | @Subject.Education.StartDate.Year - @Subject.Education.EndDate.Year</CardSubTitle>
-            <Button class="btn btn-translucient" style="padding: 5px;padding-top: 0;padding-bottom: 1px;margin-top: 2px;"><Icon Name="IconName.ArrowUpRightCircle"/></Button>
-        </span> *@
-        <Button @onclick="GoToEducation" class="btn-translucient-v2 border-0" style="margin-left: -6px; padding: 5px; padding-left: 6px; padding-right: 6px;"><CardSubTitle Class="enabled-text-selection">@Subject.Education.Name, @Subject.Education.StartDate.Year - @Subject.Education.EndDate.Year <Icon Name="IconName.ArrowUpRightCircle" /></CardSubTitle></Button>
+        <Button @onclick="GoToEducation" class="btn-translucient-v2 border-0" style="margin-left: -6px; padding: 5px; padding-left: 6px; padding-right: 6px;">
+            <CardSubTitle Class="enabled-text-selection">@Subject.Education.Name, @Subject.Education.StartDate.Year - @Subject.Education.EndDate.Year <Icon Name="IconName.ArrowUpRightCircle"/></CardSubTitle>
+        </Button>
         <CompletionStateBadge Completed="Subject.Education.Completed" MarginBottom="-1" />
         <CardSubTitle Class="enabled-text-selection" Style="margin-top: 2px;">@Subject.Education.Institution</CardSubTitle>
-        @* <CardSubTitle Style="margin-top: 6px;">@Subject.Education.Institution</CardSubTitle> *@
     </div>
 
     <div class="py-2">
         <Card Style="max-width: 1050px">
             <CardBody>
                 <CardText Class="enabled-text-selection">
-                    <b class="enabled-text-selection">Description:</b> <br class="enabled-text-selection" /> @DescriptionString()
+                    <b class="enabled-text-selection">Description:</b> <br class="enabled-text-selection" /> @UIUtils.FallbackIfEmpty(Subject.Description, "-")
                 </CardText>
             </CardBody>
         </Card>
@@ -35,7 +30,6 @@
         <Card Style="max-width: 1050px">
             <CardBody>
                 <div class="row row-cols-1 row-cols-sm-1 row-cols-md-1 row-cols-lg-2">
-                    <!-- First Column -->
                     <div class="col mb-3">
                         <CardText Class="border-bottom enabled-text-selection" Style="padding-bottom: 20px; margin-bottom: 6px;">
                             <strong class="enabled-text-selection">Subject Average: </strong>
@@ -51,7 +45,6 @@
                             }
                         </CardText>
                     </div>
-                    <!-- Second Column -->
                     <div class="col mb-3">
                         <CardText Class="border-bottom enabled-text-selection" Style="padding-bottom: 20px; margin-bottom: 6px;">
                             <b class="enabled-text-selection">Semester:</b> @Subject.Semester of @Subject.Education.Semesters
@@ -77,7 +70,6 @@
 
     <div class="border-top generic-devider-line" style="margin-top: 15px"></div>
 
-    <!-- Buttons -->
     <div class="d-flex justify-content-between my-3" style="max-width: 1050px">
         <Button Color="ButtonColor.Primary" @onclick="GoBack" Size="ButtonSize.Medium">
             <Icon Name="IconName.ArrowLeft" /> Back
