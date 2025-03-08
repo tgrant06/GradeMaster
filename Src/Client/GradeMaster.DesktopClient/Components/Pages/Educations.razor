@@ -40,7 +40,6 @@
     <!--set overflow to hidden maybe-->
     <div class="component-card-grid py-4">
         <!--set overflow to hidden maybe-->
-        @* <Virtualize TItem="Education" Items="@(_filteredEducations.OrderByDescending(e => e.Id).ToList())" Context="education" OverscanCount="12"> *@
         <Virtualize TItem="Education" ItemsProvider="GetEducationsProvider" Context="education" OverscanCount="12" @ref="_virtualizeComponent">
             <ItemContent>
                 <EducationCard @key="@education.Id" Education="@education" OnEducationDeleted="RefreshEducationData" Dialog="_dialog" />
@@ -60,13 +59,6 @@
         </Virtualize>
     </div>
 </div>
-@*was <div class="component-card-grid py-4">
-@foreach (Education education in _filteredEducations.OrderByDescending(e => e.Id))
-{
-            <EducationCard Education="@education" OnEducationDeleted="HandleEducationDeleted"/>
-}
-    </div>*@
-<!--Later move style block to components.css file-->
 
 <ScrollTopButton />
 

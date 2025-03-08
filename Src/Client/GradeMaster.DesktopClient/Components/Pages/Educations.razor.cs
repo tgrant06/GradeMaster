@@ -8,6 +8,16 @@ namespace GradeMaster.DesktopClient.Components.Pages;
 
 public partial class Educations
 {
+    #region Fields / Properties
+
+    private string _searchValue = string.Empty;
+
+    private Virtualize<Education>? _virtualizeComponent;
+
+    private ConfirmDialog _dialog = default!;
+
+    #endregion
+
     #region Dependency Injection
 
     [Inject]
@@ -15,8 +25,8 @@ public partial class Educations
     {
         get; set;
     }
-    [Inject]
 
+    [Inject]
     private IWeightRepository _weightRepository
     {
         get; set;
@@ -30,14 +40,10 @@ public partial class Educations
 
     #endregion
 
-    private string _searchValue = string.Empty;
-
-    private Virtualize<Education>? _virtualizeComponent;
-
-    private ConfirmDialog _dialog = default!;
-
-    //private List<Education> _educations = new();
-    //private List<Education> _filteredEducations = new();
+    protected async override Task OnInitializedAsync()
+    {
+        await _weightRepository.GetAllAsync();
+    }
 
     private async ValueTask<ItemsProviderResult<Education>> GetEducationsProvider(ItemsProviderRequest request)
     {
@@ -54,12 +60,6 @@ public partial class Educations
         return new ItemsProviderResult<Education>(fetchedEducations, totalItemCount);
     }
 
-    protected async override Task OnInitializedAsync()
-    {
-        await _weightRepository.GetAllAsync();
-        //await LoadEducations();
-    }
-
     private async Task RefreshEducationData()
     {
         await _virtualizeComponent?.RefreshDataAsync();
@@ -68,8 +68,7 @@ public partial class Educations
     private async Task LoadAllEducations()
     {
         _searchValue = string.Empty;
-        await _virtualizeComponent?.RefreshDataAsync();
-        //await LoadEducations();
+        await RefreshEducationData();
     }
 
     #region Not Used
@@ -127,8 +126,9 @@ public partial class Educations
 
     #endregion
 
-    private void CreateEducation()
-    {
-        Navigation.NavigateTo("/educations/create");
-    }
+    #region Navigation
+
+    private void CreateEducation() => Navigation.NavigateTo("/educations/create");
+
+    #endregion
 }
