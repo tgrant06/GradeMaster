@@ -8,12 +8,29 @@ namespace GradeMaster.DesktopClient.Components.Pages;
 
 public partial class Home
 {
+    #region Fields / Properties
+
     private int _currentEducationId;
     private List<Education> _educations = new();
     private List<Subject> _subjects = new();
 
     private decimal _educationAverage = new();
     private int? _selectedEducationId;
+
+    private int? SelectedEducationId
+    {
+        get => _selectedEducationId;
+        set
+        {
+            if (_selectedEducationId != value)
+            {
+                _selectedEducationId = value;
+                ChangeEducation(value);
+            }
+        }
+    }
+
+    #endregion
 
     #region Dependency Injection
 
@@ -61,19 +78,6 @@ public partial class Home
         }
     }
 
-    private int? SelectedEducationId
-    {
-        get => _selectedEducationId;
-        set
-        {
-            if (_selectedEducationId != value)
-            {
-                _selectedEducationId = value;
-                ChangeEducation(value);
-            }
-        }
-    }
-
     private async void ChangeEducation(int? educationId)
     {
         if (educationId.HasValue)
@@ -94,16 +98,27 @@ public partial class Home
     private async Task LoadEducationData(int educationId)
     {
         _currentEducationId = educationId;
-        _subjects = await _subjectRepository.GetByEducationIdAsync(educationId); // get weight separately
+        _subjects = await _subjectRepository.GetByEducationIdAsync(educationId);
         _educationAverage = EducationUtils.CalculateEducationAverage(_subjects);
+    }
+
+    // maybe reload entire page? (soft reload)
+    // if selectedEducationId has no value then reload page (soft reload) for example
+    private async Task ReloadData()
+    {
+        if (_selectedEducationId.HasValue)
+        {
+            await LoadEducationData(_selectedEducationId.Value);
+        }
+        else
+        {
+            _educations = await _educationRepository.GetAllSimpleAsync();
+        }
     }
 
     #region Navigation
 
-    private void GoToSubject(int subjectId)
-    {
-        Navigation.NavigateTo($"/subjects/{subjectId}");
-    }
+    private void GoToSubject(int subjectId) => Navigation.NavigateTo($"/subjects/{subjectId}");
 
     private void GoToGrade(int gradeId) => Navigation.NavigateTo($"/grades/{gradeId}");
 
@@ -128,18 +143,4 @@ public partial class Home
     }
 
     #endregion
-
-    // maybe reload entire page? (soft reload)
-    // if selectedEducationId has no value then reload page (soft reload) for example
-    private async Task ReloadData()
-    {
-        if (_selectedEducationId.HasValue)
-        {
-            await LoadEducationData(_selectedEducationId.Value);
-        }
-        else
-        {
-            _educations = await _educationRepository.GetAllSimpleAsync();
-        }
-    }
 }
