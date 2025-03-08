@@ -78,7 +78,7 @@ public partial class Detail
         Education = await _educationRepository.GetByIdAsync(Id);
         Subjects = await _subjectRepository.GetByEducationIdOrderedAsync(Education.Id);
 
-        // Calculate the average only after loading the education data
+        // Calculate the average only after loading the data
         CalculateEducationAverage();
     }
 

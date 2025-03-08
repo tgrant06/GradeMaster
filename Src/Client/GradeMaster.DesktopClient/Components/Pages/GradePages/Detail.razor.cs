@@ -51,10 +51,9 @@ public partial class Detail
 
     protected async override Task OnInitializedAsync()
     {
-        // Load the education details
         Grade = await _gradeRepository.GetByIdDetailAsync(Id);
 
-        // Calculate the average only after loading the education data
+        // Calculate the average only after loading the data
         //await CalculateSubjectAverage();
     }
 
