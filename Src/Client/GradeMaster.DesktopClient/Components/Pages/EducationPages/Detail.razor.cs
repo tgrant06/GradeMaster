@@ -104,15 +104,9 @@ public partial class Detail
 
     #region Navigation
 
-    private async Task GoBack()
-    {
-        await JSRuntime.InvokeVoidAsync("window.history.back");
-    }
+    private async Task GoBack() => await JSRuntime.InvokeVoidAsync("window.history.back");
 
-    private void EditEducation()
-    {
-        Navigation.NavigateTo($"/educations/{Education.Id}/edit");
-    }
+    private void EditEducation() => Navigation.NavigateTo($"/educations/{Education.Id}/edit");
 
     private void GoToNewSubject(int educationId) => Navigation.NavigateTo($"/subjects/create?educationId={educationId}");
 
