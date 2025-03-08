@@ -10,11 +10,31 @@ namespace GradeMaster.DesktopClient.Components.Pages.EducationPages;
 
 public partial class Detail
 {
+    #region Fields / Properties
+
     [Parameter]
     public int Id
     {
         get; set;
     }
+
+    public Education Education
+    {
+        get; set;
+    }
+
+    public List<Subject> Subjects
+    {
+        get; set;
+    }
+
+    private decimal _educationAverage;
+
+    private Virtualize<Subject>? _virtualizeComponent;
+
+    private ConfirmDialog _dialog = default!;
+
+    #endregion
 
     #region Dependency Injection
 
@@ -52,25 +72,8 @@ public partial class Detail
 
     #endregion
 
-    public Education Education
-    {
-        get; set;
-    }
-
-    public List<Subject> Subjects
-    {
-        get; set;
-    }
-
-    private decimal _educationAverage;
-
-    private Virtualize<Subject>? _virtualizeComponent;
-
-    private ConfirmDialog _dialog = default!;
-
     protected async override Task OnInitializedAsync()
     {
-        // Load the education details
         await _weightRepository.GetAllAsync();
 
         Education = await _educationRepository.GetByIdAsync(Id);
@@ -78,8 +81,11 @@ public partial class Detail
         Subjects = await _subjectRepository.GetByEducationIdOrderedAsync(Education.Id);
 
         // Calculate the average only after loading the education data
-        await CalculateEducationAverage();
+        CalculateEducationAverage();
     }
+
+    #region Not used
+
     //invoke js function to scroll to top
     //protected async override Task OnAfterRenderAsync(bool firstRender)
     //{
@@ -89,12 +95,12 @@ public partial class Detail
     //    }
     //}
 
-    private async Task RefreshSubjectData()
+    #endregion
+
+    private async Task RefreshEducationData()
     {
         await _virtualizeComponent?.RefreshDataAsync();
     }
-
-    private string DescriptionString() => string.IsNullOrEmpty(Education.Description) ? "-" : Education.Description;
 
     #region Navigation
 
@@ -114,11 +120,9 @@ public partial class Detail
 
     #region Averages
 
-    private async Task CalculateEducationAverage()
+    private void CalculateEducationAverage()
     {
-        // var grades
-        //await _gradeRepository.GetBySubjectIdsAsync(Education.Subjects.Select(s => s.Id).ToList());
-        //await _subjectRepository.GetByEducationIdOrderedAsync(Education.Id);
+        // Maybe if needed add more logic here
         _educationAverage = EducationUtils.CalculateEducationAverage(Subjects);
     }
 

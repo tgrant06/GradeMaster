@@ -18,7 +18,7 @@
         <Card Style="max-width: 1050px">
             <CardBody>
                 <CardText Class="enabled-text-selection">
-                    <b class="enabled-text-selection">Description:</b> <br class="enabled-text-selection" /> @DescriptionString()
+                    <b class="enabled-text-selection">Description:</b> <br class="enabled-text-selection" /> @UIUtils.FallbackIfEmpty(Education.Description, "-")
                 </CardText>
             </CardBody>
         </Card>
@@ -116,7 +116,7 @@
         <!--set overflow to hidden maybe-->
         <Virtualize TItem="Subject" Items="Subjects" Context="subject" OverscanCount="12" @ref="_virtualizeComponent">
             <ItemContent>
-                <SubjectCard @key="@subject.Id" Subject="@subject" OnSubjectDeleted="RefreshSubjectData" Dialog="_dialog" />
+                <SubjectCard @key="@subject.Id" Subject="@subject" OnSubjectDeleted="RefreshEducationData" Dialog="_dialog" />
             </ItemContent>
             <EmptyContent>
                 <div></div>

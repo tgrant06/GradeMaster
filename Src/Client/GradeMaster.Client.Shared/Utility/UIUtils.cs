@@ -8,24 +8,46 @@ public static class UIUtils
     /// <summary>
     /// Truncates the given string to the given length.
     /// </summary>
-    /// <param name="name"></param>
+    /// <param name="input"></param>
     /// <param name="maxLength"></param>
     /// <returns>truncated string</returns>
-    public static string TruncateString(string name, int maxLength)
+    public static string TruncateString(string input, int maxLength)
     {
-        if (string.IsNullOrEmpty(name) || name.Length <= maxLength)
+        if (string.IsNullOrEmpty(input) || input.Length <= maxLength)
         {
-            return name;
+            return input;
         }
 
-        return name.Substring(0, maxLength) + "...";
+        return input[..maxLength] + "...";
     }
 
     /// <summary>
-    /// Returns the string of a descriptioon or a dash if empty
+    /// Truncates the given string to the given length.
+    /// </summary>
+    /// <param name="input"></param>
+    /// <param name="maxLength"></param>
+    /// <param name="fallback"></param>
+    /// <returns>truncated string or fallback</returns>
+    public static string TruncateStringWithFallback(string input, int maxLength, string fallback)
+    {
+        if (string.IsNullOrEmpty(input))
+        {
+            return fallback;
+        }
+
+        if (input.Length <= maxLength)
+        {
+            return input;
+        }
+
+        return input[..maxLength] + "...";
+    }
+
+    /// <summary>
+    /// Returns the string or a dash if empty
     /// </summary>
     /// <param name="input"></param>
     /// <param name="fallback"></param>
     /// <returns>string</returns>
-    public static string FallbackIfEmpty(string input, string fallback) => string.IsNullOrEmpty(input) ? fallback : input;
+    public static string FallbackIfEmpty(string? input, string fallback) => string.IsNullOrWhiteSpace(input) ? fallback : input;
 }
