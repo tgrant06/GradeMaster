@@ -75,9 +75,7 @@ public partial class Detail
     protected async override Task OnInitializedAsync()
     {
         await _weightRepository.GetAllAsync();
-
         Education = await _educationRepository.GetByIdAsync(Id);
-
         Subjects = await _subjectRepository.GetByEducationIdOrderedAsync(Education.Id);
 
         // Calculate the average only after loading the education data
