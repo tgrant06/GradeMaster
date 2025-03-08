@@ -8,6 +8,17 @@ namespace GradeMaster.DesktopClient.Components.Pages;
 
 public partial class Grades
 {
+    #region Fields / Properties
+
+    private string _searchValue = string.Empty;
+    private bool _existsAnySubjectInProgress;
+
+    private Virtualize<Grade>? _virtualizeComponent;
+
+    private ConfirmDialog _dialog = default!;
+
+    #endregion
+
     #region Dependency Injection
 
     [Inject]
@@ -36,12 +47,11 @@ public partial class Grades
 
     #endregion
 
-    private string _searchValue = string.Empty;
-    private bool _existsAnySubjectInProgress;
-
-    private Virtualize<Grade>? _virtualizeComponent;
-
-    private ConfirmDialog _dialog = default!;
+    protected async override Task OnInitializedAsync()
+    {
+        await _weightRepository.GetAllAsync();
+        _existsAnySubjectInProgress = await _subjectRepository.ExistsAnyIsCompletedAsync(false);
+    }
 
     private async ValueTask<ItemsProviderResult<Grade>> GetGradesProvider(ItemsProviderRequest request)
     {
@@ -58,13 +68,6 @@ public partial class Grades
         return new ItemsProviderResult<Grade>(fetchedGrades, totalItemCount);
     }
 
-    protected async override Task OnInitializedAsync()
-    {
-        await _weightRepository.GetAllAsync();
-        _existsAnySubjectInProgress = await _subjectRepository.ExistsAnyIsCompletedAsync(false);
-        // await LoadGrades();
-    }
-
     private async Task RefreshGradeData()
     {
         await _virtualizeComponent?.RefreshDataAsync();
@@ -73,8 +76,7 @@ public partial class Grades
     private async Task LoadAllGrades()
     {
         _searchValue = string.Empty;
-        await _virtualizeComponent?.RefreshDataAsync();
-        //await LoadGrades();
+        await RefreshGradeData();
     }
 
     #region Not Used
@@ -127,8 +129,9 @@ public partial class Grades
 
     #endregion
 
-    private void CreateGrade()
-    {
-        Navigation.NavigateTo("/grades/create");
-    }
+    #region Navigation
+
+    private void CreateGrade() => Navigation.NavigateTo("/grades/create");
+
+    #endregion
 }

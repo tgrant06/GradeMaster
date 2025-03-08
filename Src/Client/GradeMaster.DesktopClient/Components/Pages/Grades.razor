@@ -68,12 +68,6 @@
                 </div>
             </Placeholder> *@
         </Virtualize>
-
-        @*Was *@
-        @* @foreach (Grade grade in _filteredGrades.OrderByDescending(g => g.Date).ThenByDescending(g => g.Id))
-        {
-            <GradeCard Grade="@grade" OnGradeDeleted="HandleGradeDeleted"/>
-        } *@
     </div>
 </div>
 
