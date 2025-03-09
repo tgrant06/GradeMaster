@@ -25,10 +25,10 @@ public static class UIUtils
     /// Truncates the given string to the given length.
     /// </summary>
     /// <param name="input"></param>
-    /// <param name="maxLength"></param>
     /// <param name="fallback"></param>
+    /// <param name="maxLength"></param>
     /// <returns>truncated string or fallback</returns>
-    public static string TruncateStringWithFallback(string input, int maxLength, string fallback)
+    public static string TruncateStringWithFallback(string? input, string fallback, int maxLength)
     {
         if (string.IsNullOrEmpty(input))
         {
@@ -49,5 +49,5 @@ public static class UIUtils
     /// <param name="input"></param>
     /// <param name="fallback"></param>
     /// <returns>string</returns>
-    public static string FallbackIfEmpty(string? input, string fallback) => string.IsNullOrWhiteSpace(input) ? fallback : input;
+    public static string FallbackIfEmpty(string? input, string fallback) => string.IsNullOrEmpty(input) ? fallback : input;
 }

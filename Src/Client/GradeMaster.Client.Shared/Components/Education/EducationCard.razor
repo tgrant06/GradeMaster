@@ -7,7 +7,7 @@
     </CardHeader>
     <CardBody>
         <CardText>
-            <b>Description:</b> <br/> @UIUtils.TruncateString(string.IsNullOrEmpty(Education.Description) ? "-" : Education.Description, 150)
+            <b>Description:</b> <br /> @UIUtils.TruncateStringWithFallback(Education.Description, "-", 150)
         </CardText>
     </CardBody>
     <CardBody Class="border-top">
@@ -47,8 +47,6 @@
     </CardFooter>
 </Card>
 
-@* <ConfirmDialog @ref="_dialog"/> *@
-
 @code {
     [Parameter] public Education Education { get; set; }
     [Parameter] public EventCallback OnEducationDeleted { get; set; } // was EventCallback<int> OnEducationDeleted { get; set; }
@@ -74,8 +72,6 @@
     }
 
     #region Delete Education
-
-    //private ConfirmDialog _dialog = default!;
 
     private async Task DeleteEducationAsync()
     {
@@ -110,5 +106,4 @@
     }
 
     #endregion
-
 }
