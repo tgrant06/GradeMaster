@@ -14,7 +14,7 @@ public static class EducationUtils
     /// <returns>calculated average as decimal</returns>
     public static decimal CalculateWeightedAverage(ICollection<Grade> grades)
     {
-        if (grades == null || !grades.Any())
+        if (grades == null || grades.Count == 0)
         {
             return 0;
         }
@@ -34,18 +34,18 @@ public static class EducationUtils
     /// </summary>
     /// <param name="subjects"></param>
     /// <returns>calculated education average as decimal</returns>
-    public static decimal CalculateEducationAverage(List<Subject> subjects)
+    public static decimal CalculateEducationAverage(ICollection<Subject> subjects)
     {
-        if (subjects == null || !subjects.Any())
+        if (subjects == null || subjects.Count == 0)
         {
             return 0;
         }
 
         var subjectAverages = subjects
-            .Where(s => s.Grades != null && s.Grades.Any())
-            .Select(s => CalculateWeightedAverage(s.Grades));
+            .Where(s => s.Grades != null && s.Grades.Count != 0)
+            .Select(s => CalculateWeightedAverage(s.Grades)).ToArray();
 
-        if (!subjectAverages.Any())
+        if (subjectAverages.Length == 0)
         {
             return 0;
         }

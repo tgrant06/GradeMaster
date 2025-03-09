@@ -27,7 +27,7 @@ public class Subject
     public Education Education { get; set; }
     public int EducationId { get; set; }
 
-    public ICollection<Grade> Grades
+    public List<Grade> Grades
     {
         get; set;
     }

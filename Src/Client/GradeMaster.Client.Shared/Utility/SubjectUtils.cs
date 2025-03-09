@@ -14,7 +14,7 @@ public static class SubjectUtils
     /// <returns>weighted average as decimal</returns>
     public static decimal CalculateWeightedAverage(ICollection<Grade> grades)
     {
-        if (grades == null || !grades.Any())
+        if (grades == null || grades.Count == 0)
         {
             return 0;
         }
