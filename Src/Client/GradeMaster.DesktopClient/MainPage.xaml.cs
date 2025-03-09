@@ -30,9 +30,9 @@ public partial class MainPage : ContentPage
     private void ConfigureWebView2()
     {
         #if DEBUG
-            var appName = "GradeMasterDev";
+            const string appName = "GradeMasterDev";
         #elif RELEASE
-            var appName = "GradeMaster";
+            const string appName = "GradeMaster";
         #endif
 
         try
