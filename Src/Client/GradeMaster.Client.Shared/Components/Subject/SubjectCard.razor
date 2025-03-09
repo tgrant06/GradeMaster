@@ -9,7 +9,7 @@
     </CardHeader>
     <CardBody>
         <CardText>
-            <b>Description:</b> <br /> @UIUtils.TruncateString(string.IsNullOrEmpty(Subject.Description) ? "-" : Subject.Description, 150)
+            <b>Description:</b> <br /> @UIUtils.TruncateStringWithFallback(Subject.Description, "-", 150)
         </CardText>
     </CardBody>
     <CardBody Class="border-top">
@@ -49,8 +49,6 @@
     </CardFooter>
 </Card>
 
-@* <ConfirmDialog @ref="_dialog" /> *@
-
 @code {
     [Parameter] public Subject Subject { get; set; }
     [Parameter] public EventCallback OnSubjectDeleted { get; set; } // was EventCallback<int> OnSubjectDeleted { get; set; }
@@ -69,14 +67,9 @@
         _subjectAverage = SubjectUtils.CalculateWeightedAverage(Subject.Grades);
     }
 
-    private void SubjectDetail()
-    {
-        Navigation.NavigateTo($"/subjects/{Subject.Id}");
-    }
+    private void SubjectDetail() => Navigation.NavigateTo($"/subjects/{Subject.Id}");
 
     #region Delete Subject
-
-    //private ConfirmDialog _dialog = default!;
 
     private async Task DeleteSubjectAsync()
     {
