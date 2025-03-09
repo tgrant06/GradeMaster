@@ -215,7 +215,7 @@ else
         }
         catch (Exception ex)
         {
-            ToastService.Notify(new ToastMessage(ToastType.Warning, $"Error during initialization: {ex.Message}"));
+            ToastService.Notify(new ToastMessage(ToastType.Danger, $"Error during initialization: {ex.Message}"));
             throw;
         }
     }
