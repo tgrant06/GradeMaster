@@ -53,7 +53,6 @@
     [Parameter] public ConfirmDialog Dialog { get; set; } = default!;
 
     [Inject] private IEducationRepository _educationRepository { get; set; }
-
     [Inject] private NavigationManager Navigation { get; set; }
 
     [Inject] protected ToastService ToastService { get; set; } = default!;
@@ -66,10 +65,7 @@
         _educationAverage = EducationUtils.CalculateEducationAverage(Education.Subjects);
     }
 
-    private void EducationDetail()
-    {
-        Navigation.NavigateTo($"/educations/{Education.Id}");
-    }
+    private void EducationDetail() => Navigation.NavigateTo($"/educations/{Education.Id}");
 
     #region Delete Education
 
@@ -98,10 +94,6 @@
             {
                 ToastService.Notify(new ToastMessage(ToastType.Danger, $"Error deleting education: {e.Message}"));
             }
-        }
-        else
-        {
-            //ToastService.Notify(new ToastMessage(ToastType.Info, $"Delete action canceled."));
         }
     }
 
