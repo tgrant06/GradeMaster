@@ -1,7 +1,7 @@
 ﻿<div class="border-top generic-devider-line" style="margin-top: -1px"></div>
 @if (FormType == FormType.Edit)
 {
-    <h4 style="margin-bottom: 25px; margin-top: 10px;  max-width: 1100px;">@FormTitle: @Subject.Name - @Subject.Semester</h4>
+    <h4 style="margin-bottom: 25px; margin-top: 10px;  max-width: 1100px;">@FormTitle: @Subject?.Name - @Subject?.Semester</h4>
 }
 else
 {
@@ -10,7 +10,6 @@ else
 <EditForm OnValidSubmit="HandleValidSubmit" OnInvalidSubmit="HandleInvalidSubmit" EditContext="_editContext">
     <DataAnnotationsValidator/>
     <Card Style="max-width: 1050px; border: none;">
-
         <!-- Name Field -->
         <div class="form-group row mb-3">
             <label class="col-md-2 col-form-label nowrap" for="subjectName">
@@ -97,137 +96,5 @@ else
 </style>
 
 @code {
-    [Parameter] public FormType FormType { get; set; }
-    [Parameter] public Subject? Subject { get; set; }
-    [Parameter] public EventCallback<Subject> OnSave { get; set; }
-    [Parameter] public int? EducationId { get; set; }
-
-    [Inject] private IJSRuntime JSRuntime { get; set; }
-    [Inject] private NavigationManager Navigation { get; set; }
-
-    [Inject] private ISubjectService _subjectService { get; set; }
-
-    [Inject] protected ToastService ToastService { get; set; } = default!;
-
-    [Inject] private IEducationRepository _educationRepository { get; set; }
-
-    private EditContext? _editContext;
-
-    private string FormTitle { get; set; } = "Subject Form";
-
-    public Subject NewSubject { get; set; } = new();
-
-    public List<Education> Educations { get; set; } = new();
-    private int SelectedEducationId
-    {
-        get => NewSubject.Education?.Id ?? 0;
-        set
-        {
-            if (Educations != null)
-            {
-                NewSubject.Education = Educations.FirstOrDefault(e => e.Id == value);
-            }
-        }
-    }
-
-    private int GetMaxSemesterNumber()
-    {
-        var education = Educations.FirstOrDefault(e => e.Id == SelectedEducationId);
-
-        if (education == null)
-        {
-            return 256;
-        }
-
-        return education.Semesters;
-    }
-
-    protected override async Task OnInitializedAsync()
-    {
-        try
-        {
-            if (!EducationId.HasValue)
-            {
-                Educations = await _educationRepository.GetByCompletedAsync(false);
-                Educations = Educations.OrderByDescending(e => e.Id).ToList();
-                if (FormType == FormType.Edit && Subject != null)
-                {
-                    // can never be null
-                    var education = await _educationRepository.GetBySubjectIdAsync(Subject.Id);
-
-                    if (!Educations.Exists(e => e.Id == education.Id))
-                    {
-                        Educations.Insert(0, education);
-                    }
-                }
-            }
-            else
-            {
-                Educations.Add(await _educationRepository.GetByIdAsync(EducationId.Value));
-            }
-
-            if (Educations == null || !Educations.Any())
-            {
-                throw new InvalidOperationException("No educations found.");
-            }
-
-            if (Subject == null)
-            {
-                // Initialize Education for creation
-                Subject = new Subject
-                {
-                    Completed = false,
-                    Semester = 1,
-                    Education = EducationId.HasValue ? Educations.First() : new Education()
-                };
-
-                FormTitle = "Create New Subject";
-            }
-            else
-            {
-                FormTitle = "Edit Subject";
-            }
-
-            //PassSubjectAttributes(NewSubject, Subject);
-            _subjectService.PassObjectAttributes(NewSubject, Subject);
-
-            _editContext = new EditContext(NewSubject);
-        }
-        catch (Exception ex)
-        {
-            ToastService.Notify(new ToastMessage(ToastType.Danger, $"Error during initialization: {ex.Message}"));
-            throw;
-        }
-    }
-
-    private async Task HandleValidSubmit()
-    {
-        if (NewSubject.Education == null || NewSubject.Education.Id == 0)
-        {
-            ToastService.Notify(new ToastMessage(ToastType.Warning, "Please select a valid education."));
-            return;
-        }
-
-        if (OnSave.HasDelegate)
-        {
-            //PassSubjectAttributes(Subject, NewSubject, true);
-            _subjectService.PassObjectAttributes(Subject, NewSubject, true);
-            await OnSave.InvokeAsync(Subject);
-        }
-        else
-        {   
-            // Optional fallback logic
-            ToastService.Notify(new ToastMessage(ToastType.Danger, $"Subject could not be saved."));
-        }
-    }
-
-    private async Task Cancel()
-    {
-        await JSRuntime.InvokeVoidAsync("window.history.back");
-    }
-
-    private void HandleInvalidSubmit()
-    {
-        ToastService.Notify(new ToastMessage(ToastType.Warning, $"Subject form is not valid."));
-    }
+    
 }

@@ -117,6 +117,5 @@ public partial class EducationForm
 
     #endregion
 
-
     private async Task Cancel() => await JSRuntime.InvokeVoidAsync("window.history.back");
 }
