@@ -26,6 +26,7 @@ public class Education
 
     [Required]
     public DateOnly EndDate { get; set; } // end date of education
+
     // public string Duration { get; set; } //start date and end date? optional
 
     // maybe implement duration / length?
@@ -34,10 +35,5 @@ public class Education
     [MaxLength(255, ErrorMessage = "Institution may not exceed 255 characters.")]
     public string? Institution { get; set; } // optional
 
-    public List<Subject> Subjects { get; set; }
-
-    public Education()
-    {
-        Subjects = new List<Subject>();
-    }
+    public List<Subject> Subjects { get; set; } = [];
 }

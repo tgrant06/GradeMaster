@@ -8,7 +8,7 @@ public class Grade
 
     [Required]
     [Range(1, 6, ErrorMessage = "Value must be between 1 and 6.")]
-    public decimal Value { get; set; } // 1 - 6
+    public decimal Value { get; set; }
 
     [MaxLength(2500, ErrorMessage = "Description may not exceed 2500 characters.")]
     public string? Description { get; set; }
