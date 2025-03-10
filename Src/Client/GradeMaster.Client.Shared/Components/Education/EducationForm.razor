@@ -10,7 +10,6 @@ else
 <EditForm OnValidSubmit="HandleValidSubmit" OnInvalidSubmit="HandleInvalidSubmit" EditContext="_editContext">
     <DataAnnotationsValidator/>
     <Card Style="max-width: 1050px; border: none;">
-
         <!-- Name Field -->
         <div class="form-group row mb-3">
             <label class="col-md-2 col-form-label nowrap" for="educationName">
@@ -110,78 +109,5 @@ else
 </style>
 
 @code {
-    [Parameter] public FormType FormType { get; set; }
-    [Parameter] public Education? Education { get; set; }
-    [Parameter] public EventCallback<Education> OnSave { get; set; }
 
-    [Inject] private IJSRuntime JSRuntime { get; set; }
-    [Inject] private NavigationManager Navigation { get; set; }
-
-    [Inject] private IEducationService _educationService { get; set; }
-
-    [Inject] protected ToastService ToastService { get; set; } = default!;
-
-    private EditContext? _editContext;
-
-    private string FormTitle { get; set; } = "Education Form";
-
-    public Education NewEducation { get; set; } = new();
-
-    protected override void OnInitialized()
-    {
-        if (Education == null)
-        {
-            // Initialize Education for creation
-            Education = new Education
-            {
-                StartDate = DateOnly.FromDateTime(DateTime.Today),
-                EndDate = DateOnly.FromDateTime(DateTime.Today.AddYears(1)),
-                Semesters = 2,
-                Completed = false
-            };
-
-            FormTitle = "Create New Education";
-        }
-        else
-        {
-            FormTitle = "Edit Education";
-        }
-        _educationService.PassObjectAttributes(NewEducation, Education);
-        //PassEducationAttributes(NewEducation, Education);
-
-        _editContext = new EditContext(NewEducation);
-    }
-
-    private async Task HandleValidSubmit()
-    {
-        if (NewEducation.EndDate < NewEducation.StartDate)
-        {
-            ToastService.Notify(new ToastMessage(ToastType.Warning, $"End Date cannot be before Start Date."));
-            return;
-        }
-
-        if (OnSave.HasDelegate)
-        {
-            _educationService.PassObjectAttributes(Education, NewEducation, true);
-            //PassEducationAttributes(Education, NewEducation, true);
-            await OnSave.InvokeAsync(Education);
-        }
-        else
-        {
-            // Optional fallback logic
-            // show error
-            ToastService.Notify(new ToastMessage(ToastType.Danger, $"Education could not be saved."));
-        }
-    }
-
-    private async Task Cancel()
-    {
-        //ToastService.Notify(new ToastMessage(ToastType.Info, $"Edit Action canceled."));
-        await JSRuntime.InvokeVoidAsync("window.history.back");
-    }
-
-    private void HandleInvalidSubmit()
-    {
-        ToastService.Notify(new ToastMessage(ToastType.Warning, $"Education form is not valid."));
-    }
 }
