@@ -1,7 +1,7 @@
 ﻿<div class="border-top generic-devider-line" style="margin-top: -1px"></div>
 @if (FormType == FormType.Edit)
 {
-    <h4 style="margin-bottom: 25px; margin-top: 10px; max-width: 1100px;">@FormTitle: @Grade.Value | Weight: @Grade.Weight.Name / @Grade.Weight.Value.ToString("0.00")</h4>
+    <h4 style="margin-bottom: 25px; margin-top: 10px; max-width: 1100px;">@FormTitle: @Grade?.Value | Weight: @Grade?.Weight.Name / @Grade?.Weight.Value.ToString("0.00")</h4>
 }
 else
 {
@@ -10,7 +10,6 @@ else
 <EditForm OnValidSubmit="HandleValidSubmit" OnInvalidSubmit="HandleInvalidSubmit" EditContext="_editContext">
     <DataAnnotationsValidator/>
     <Card Style="max-width: 1050px; border: none;">
-
         <!-- Value Field -->
         <div class="form-group row mb-3">
             <label class="col-md-2 col-form-label nowrap" for="gradeValue">
@@ -31,7 +30,7 @@ else
                     <option value="0" style="background-color: #eeeeee; color: black; border: solid 1px">Select Weight</option>
                     @foreach (var weight in Weights)
                     {
-                        <option value="@weight.Id" style="background-color: #eeeeee; color: black;">@weight.Name / @weight.Value.ToString("0.0##")</option>
+                        <option @key="@($"$wgt_{weight.Id}")" value="@weight.Id" style="background-color: #eeeeee; color: black;">@weight.Name / @weight.Value.ToString("0.0##")</option>
                     }
                 </select>
                 <ValidationMessage For="@(() => NewGrade.Weight)"/>
@@ -65,23 +64,6 @@ else
             </div>
         </div>
 
-        <!-- Completion State Field -->
-        @* <div class="form-group row mb-3">
-            <label class="col-md-2 col-form-label nowrap"></label>
-            <div class="col-md-10">
-                <label class="col-form-label nowrap" for="completionState">
-                    <strong>Completion State: <span class="text-danger">*</span></strong>
-                </label>
-                <div class="form-check">
-                    <InputCheckbox @bind-Value="NewSubject.Completed" Id="completionState" class="form-check-input"/>
-                    <Label class="form-check-label" for="completionState">
-                        @(NewSubject.Completed ? "Completed" : "In Progress")
-                    </Label>
-                </div>
-                <ValidationMessage For="@(() => NewSubject.Completed)"/>
-            </div>
-        </div> *@
-
         <!-- Description Field -->
         <div class="form-group row mb-3">
             <label class="col-md-2 col-form-label nowrap" for="description">Description:</label>
@@ -106,154 +88,5 @@ else
 </style>
 
 @code {
-    [Parameter] public FormType FormType { get; set; }
-    [Parameter] public Grade? Grade { get; set; }
-    [Parameter] public EventCallback<Grade> OnSave { get; set; }
-    [Parameter] public int? SubjectId { get; set; }
-
-    [Inject] private IJSRuntime JSRuntime { get; set; }
-    [Inject] private NavigationManager Navigation { get; set; }
-
-    [Inject] private IGradeService _gradeService { get; set; }
-
-    [Inject] protected ToastService ToastService { get; set; } = default!;
-
-    [Inject] private IEducationRepository _educationRepository { get; set; }
-    [Inject] private ISubjectRepository _subjectRepository { get; set; }
-    [Inject] private IWeightRepository _weightRepository { get; set; }
-
-    private EditContext? _editContext;
-
-    private string FormTitle { get; set; } = "Grade Form";
-
-    public Grade NewGrade { get; set; } = new();
-
-    public List<Weight> Weights { get; set; }
-    private int SelectedWeightId
-    {
-        get => NewGrade.Weight?.Id ?? 0;
-        set
-        {
-            if (Weights != null)
-            {
-                NewGrade.Weight = Weights.FirstOrDefault(e => e.Id == value);
-            }
-        }
-    }
-
-    public List<Subject> Subjects { get; set; } = new();
-    private int SelectedSubjectId
-    {
-        get => NewGrade.Subject?.Id ?? 0;
-        set
-        {
-            if (Subjects != null)
-            {
-                NewGrade.Subject = Subjects.FirstOrDefault(e => e.Id == value);
-            }
-        }
-    }
-
-    protected override async Task OnInitializedAsync()
-    {
-        try
-        {
-            Weights = await _weightRepository.GetAllAsync();
-
-            if (Weights == null || !Weights.Any())
-            {
-                throw new InvalidOperationException("No weights found.");
-            }
-
-            if (!SubjectId.HasValue)
-            {
-
-                Subjects = await _subjectRepository.GetByCompletedAsync(false);
-                Subjects = Subjects.OrderByDescending(e => e.Id).ToList();
-                if (FormType == FormType.Edit && Grade != null)
-                {
-                    // can never be null
-                    var subject = await _subjectRepository.GetByGradeIdAsync(Grade.Id);
-
-                    if (!Subjects.Exists(e => e.Id == subject.Id))
-                    {
-                        Subjects.Insert(0, subject);
-                    }
-                }
-            }
-            else
-            {
-                Subjects.Add(await _subjectRepository.GetByIdDetailAsync(SubjectId.Value));
-            }
-
-            if (Subjects == null || !Subjects.Any())
-            {
-                throw new InvalidOperationException("No subjects found.");
-            }
-
-            if (Grade == null)
-            {
-                // Initialize Education for creation
-                Grade = new Grade
-                {
-                    Date = DateOnly.FromDateTime(DateTime.Today),
-                    Weight = new Weight(),
-                    Subject = SubjectId.HasValue ? Subjects.First() : new Subject()
-                };
-
-                FormTitle = "Create New Grade";
-            }
-            else
-            {
-                FormTitle = "Edit Grade";
-            }
-
-            //PassGradeAttributes(NewGrade, Grade);
-            _gradeService.PassObjectAttributes(NewGrade, Grade);
-
-            _editContext = new EditContext(NewGrade);
-        }
-        catch (Exception ex)
-        {
-            ToastService.Notify(new ToastMessage(ToastType.Danger, $"Error during initialization: {ex.Message}"));
-            throw;
-        }
-    }
-
-    private async Task HandleValidSubmit()
-    {
-        if (NewGrade.Weight == null || NewGrade.Weight.Id == 0)
-        {
-            ToastService.Notify(new ToastMessage(ToastType.Warning, "Please select a valid weight."));
-            return;
-        }
-
-        if (NewGrade.Subject == null || NewGrade.Subject.Id == 0)
-        {
-            ToastService.Notify(new ToastMessage(ToastType.Warning, "Please select a valid subject."));
-            return;
-        }
-
-        if (OnSave.HasDelegate)
-        {
-            //PassGradeAttributes(Grade, NewGrade, true);
-            _gradeService.PassObjectAttributes(Grade, NewGrade, true);
-            await OnSave.InvokeAsync(Grade);
-        }
-        else
-        {
-            // Optional fallback logic
-            ToastService.Notify(new ToastMessage(ToastType.Danger, $"Grade could not be saved."));
-        }
-    }
-
-    private async Task Cancel()
-    {
-        await JSRuntime.InvokeVoidAsync("window.history.back");
-    }
-
-    private void HandleInvalidSubmit()
-    {
-        ToastService.Notify(new ToastMessage(ToastType.Warning, $"Grade form is not valid."));
-    }
+    
 }
