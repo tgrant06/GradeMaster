@@ -13,6 +13,8 @@ public partial class MainPage : ContentPage
             ConfigureWebView2();
         #endif
 
+        #region Not used
+
         //string userDataFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "GradeMaster", "WebView2");
 
         //if (!Directory.Exists(userDataFolder))
@@ -25,6 +27,8 @@ public partial class MainPage : ContentPage
         //    var env = await CoreWebView2Environment.CreateAsync(userDataFolder);
         //    await e.WebView.EnsureCoreWebView2Async(env);
         //};
+
+        #endregion
     }
 
     private void ConfigureWebView2()
