@@ -59,7 +59,7 @@ public partial class Subjects
         var count = request.Count;
 
         // Fetch only the required slice of data
-        var fetchedSubjects = await _subjectRepository.GetBySearchWithLimitAsync(_searchValue, startIndex, count);
+        var fetchedSubjects = await _subjectRepository.GetBySearchWithRangeAsync(_searchValue, startIndex, count);
 
         // Calculate the total number of items (if known or needed)
         var totalItemCount = await _subjectRepository.GetTotalCountAsync(_searchValue);

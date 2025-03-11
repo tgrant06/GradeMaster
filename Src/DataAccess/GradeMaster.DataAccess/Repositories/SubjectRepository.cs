@@ -94,7 +94,7 @@ public class SubjectRepository : ISubjectRepository
             .FirstOrDefaultAsync();
     }
 
-    public async Task<List<Subject>> GetBySearchWithLimitAsync(string searchValue, int startIndex, int amount)
+    public async Task<List<Subject>> GetBySearchWithRangeAsync(string searchValue, int startIndex, int amount)
     {
         if (string.IsNullOrWhiteSpace(searchValue))
         {

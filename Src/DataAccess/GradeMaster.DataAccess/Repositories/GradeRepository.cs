@@ -85,7 +85,7 @@ public class GradeRepository : IGradeRepository
         return await _context.Grades.Include(g => g.Weight).ToListAsync();
     }
 
-    public async Task<List<Grade>> GetBySearchWithLimitAsync(string searchValue, int startIndex, int amount)
+    public async Task<List<Grade>> GetBySearchWithRangeAsync(string searchValue, int startIndex, int amount)
     {
         if (string.IsNullOrWhiteSpace(searchValue))
         {

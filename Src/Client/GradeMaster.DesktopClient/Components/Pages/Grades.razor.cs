@@ -59,7 +59,7 @@ public partial class Grades
         var count = request.Count;
 
         // Fetch only the required slice of data
-        var fetchedGrades = await _gradeRepository.GetBySearchWithLimitAsync(_searchValue, startIndex, count);
+        var fetchedGrades = await _gradeRepository.GetBySearchWithRangeAsync(_searchValue, startIndex, count);
 
         // Calculate the total number of items (if known or needed)
         var totalItemCount = await _gradeRepository.GetTotalCountAsync(_searchValue);

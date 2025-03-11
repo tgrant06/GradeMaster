@@ -69,7 +69,7 @@ public class EducationRepository : IEducationRepository
     }
 
     // later add order type enum
-    public async Task<List<Education>> GetBySearchWithLimitAsync(string searchValue, int startIndex, int amount)
+    public async Task<List<Education>> GetBySearchWithRangeAsync(string searchValue, int startIndex, int amount)
     {
         if (string.IsNullOrWhiteSpace(searchValue))
         {

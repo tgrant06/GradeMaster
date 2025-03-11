@@ -51,7 +51,7 @@ public partial class Educations
         var count = request.Count;
 
         // Fetch only the required slice of data
-        var fetchedEducations = await _educationRepository.GetBySearchWithLimitAsync(_searchValue, startIndex, count);
+        var fetchedEducations = await _educationRepository.GetBySearchWithRangeAsync(_searchValue, startIndex, count);
 
         // Calculate the total number of items (if known or needed)
         var totalItemCount = await _educationRepository.GetTotalCountAsync(_searchValue);
