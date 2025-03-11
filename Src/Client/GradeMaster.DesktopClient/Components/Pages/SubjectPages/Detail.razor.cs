@@ -3,6 +3,7 @@ using GradeMaster.Client.Shared.Utility;
 using GradeMaster.Common.Entities;
 using GradeMaster.DataAccess.Interfaces.IRepositories;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web.Virtualization;
 using Microsoft.JSInterop;
 
 namespace GradeMaster.DesktopClient.Components.Pages.SubjectPages;
@@ -28,6 +29,10 @@ public partial class Detail
     }
 
     private decimal _subjectAverage;
+
+    private Virtualize<Grade>? _virtualizeComponent;
+
+    private ConfirmDialog _dialog = default!;
 
     #endregion
 
@@ -75,6 +80,11 @@ public partial class Detail
 
         // Calculate the average only after loading the education data
         CalculateSubjectAverage();
+    }
+
+    private async Task RefreshGradeData()
+    {
+        await _virtualizeComponent?.RefreshDataAsync();
     }
 
     #region Navigation

@@ -95,7 +95,7 @@ public partial class Detail
 
     #endregion
 
-    private async Task RefreshEducationData()
+    private async Task RefreshSubjectData()
     {
         await _virtualizeComponent?.RefreshDataAsync();
     }

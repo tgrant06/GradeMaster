@@ -76,7 +76,7 @@
         </Button>
     </div>
 
-    @if (Education.Subjects.Any()) 
+    @if (Education.Subjects.Count > 0) 
     {
         <div class="border-top generic-devider-line" style="opacity: 0.5;"></div>
         <div class="topPageSubHeader border-bottom" style="max-width: 1074px; margin-right: -12px; margin-left: -12px;">
@@ -113,12 +113,12 @@
         <!--set overflow to hidden maybe-->
         <Virtualize TItem="Subject" Items="Subjects" Context="subject" OverscanCount="12" @ref="_virtualizeComponent">
             <ItemContent>
-                <SubjectCard @key="@subject.Id" Subject="@subject" OnSubjectDeleted="RefreshEducationData" Dialog="_dialog" />
+                <SubjectCard @key="@subject.Id" Subject="@subject" OnSubjectDeleted="RefreshSubjectData" Dialog="_dialog" />
             </ItemContent>
             <EmptyContent>
                 <div></div>
                 <div class="text-center" style="grid-column: 1/-1;">
-                    <p>No subjects found. Create new subject?</p><!--was: Try adjusting your search or add a new education.-->
+                    <p>No subjects found. Create new subject?</p><!--was: Try adjusting your search or add a new subject.-->
                 </div>
                 <div></div>
             </EmptyContent>

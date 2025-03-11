@@ -78,7 +78,58 @@
             Edit <Icon Name="IconName.PencilSquare" />
         </Button>
     </div>
+
+    @if (Subject.Grades.Count > 0)
+    {
+        <div class="border-top generic-devider-line" style="opacity: 0.5;"></div>
+        <div class="topPageSubHeader border-bottom" style="max-width: 1074px; margin-right: -12px; margin-left: -12px;">
+            <h5>@Subject.Name - @Subject.Semester</h5>
+            <div class="topPageSubHeaderSideBlock"></div>
+        </div>
+    }
+    else
+    {
+        <div class="border-top generic-devider-line"></div>
+    }
+
+    <div class="text-end" style="max-width: 1050px; padding-top: 30px;">
+        <h4 style="text-align: center; margin-bottom: -30px;">Grades</h4>
+        @if (Subject.Completed)
+        {
+            <Tooltip Title="This Subject is completed" Placement="TooltipPlacement.Left" Style="padding-bottom: 5px;">
+                <Button Disabled="true" @onclick="() => GoToNewGrade(Subject.Id)" Color="ButtonColor.Secondary" Size="ButtonSize.Small" Style="margin-right: 16px;">
+                    New <Icon Name="IconName.BookmarkPlus" Size="IconSize.x6" />
+                </Button>
+            </Tooltip>
+        }
+        else
+        {
+            <Button @onclick="() => GoToNewGrade(Subject.Id)" Color="ButtonColor.Secondary" Size="ButtonSize.Small" Style="margin-right: 16px;">
+                New <Icon Name="IconName.BookmarkPlus" Size="IconSize.x6" />
+            </Button>
+        }
+    </div>
+
+    <ConfirmDialog @ref="_dialog" />
+
+    <div class="component-card-grid min-component-card-grid py-4" style="max-width: 1050px; padding-top: 0 !important; margin-bottom: 25px;">
+        <!--set overflow to hidden maybe-->
+        <Virtualize TItem="Grade" Items="Grades" Context="grade" OverscanCount="12" @ref="_virtualizeComponent">
+            <ItemContent>
+                <GradeCard @key="@grade.Id" Grade="@grade" OnGradeDeleted="RefreshGradeData" Dialog="_dialog" />
+            </ItemContent>
+            <EmptyContent>
+                <div></div>
+                <div class="text-center" style="grid-column: 1/-1;">
+                    <p>No grades found. Create new grade?</p><!--was: Try adjusting your search or add a new grade.-->
+                </div>
+                <div></div>
+            </EmptyContent>
+        </Virtualize>
+    </div>
 </div>
+
+<ScrollTopButton />
 
 <script>
     window.scrollTo({ top: 0, behavior: 'auto' });
