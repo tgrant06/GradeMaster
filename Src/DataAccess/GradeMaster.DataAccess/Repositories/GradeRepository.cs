@@ -76,7 +76,7 @@ public class GradeRepository : IGradeRepository
         return await _context.Grades
             .Include(g => g.Weight)
             .Include(g => g.Subject)
-            .ThenInclude(s => s.Education)
+                .ThenInclude(s => s.Education)
             .FirstOrDefaultAsync(g => g.Id == id);
     }
 
@@ -87,22 +87,9 @@ public class GradeRepository : IGradeRepository
 
     public async Task<List<Grade>> GetBySearchWithLimitAsync(string searchValue, int startIndex, int amount)
     {
-        if (!string.IsNullOrWhiteSpace(searchValue))
+        if (string.IsNullOrWhiteSpace(searchValue))
         {
-            var newSearchValue = $"%{searchValue}%";
-
-            bool isNumericSearch = decimal.TryParse(searchValue, out decimal searchValueAsDecimal);
-
             return await _context.Grades
-                // maybe add search by weight
-                // maybe add search by Subject.Semester
-                .Where(grade =>
-                    EF.Functions.Like(grade.Subject.Name, newSearchValue) ||
-                    (grade.Description != null && EF.Functions.Like(grade.Description, newSearchValue)) ||
-                    (isNumericSearch && grade.Value == searchValueAsDecimal) ||
-                    EF.Functions.Like(grade.Subject.Education.Name, newSearchValue) ||
-                    EF.Functions.Like(grade.Date.ToString(), newSearchValue) ||
-                    (grade.Subject.Education.Institution != null && EF.Functions.Like(grade.Subject.Education.Institution, newSearchValue)))
                 .Include(g => g.Subject)
                     .ThenInclude(s => s.Education)
                 .OrderByDescending(g => g.Date)
@@ -112,7 +99,19 @@ public class GradeRepository : IGradeRepository
                 .ToListAsync();
         }
 
+        var newSearchValue = $"%{searchValue}%";
+        bool isNumericSearch = decimal.TryParse(searchValue, out decimal searchValueAsDecimal);
+
         return await _context.Grades
+            // maybe add search by weight
+            // maybe add search by Subject.Semester
+            .Where(grade =>
+                EF.Functions.Like(grade.Subject.Name, newSearchValue) ||
+                (grade.Description != null && EF.Functions.Like(grade.Description, newSearchValue)) ||
+                (isNumericSearch && grade.Value == searchValueAsDecimal) ||
+                EF.Functions.Like(grade.Subject.Education.Name, newSearchValue) ||
+                EF.Functions.Like(grade.Date.ToString(), newSearchValue) ||
+                (grade.Subject.Education.Institution != null && EF.Functions.Like(grade.Subject.Education.Institution, newSearchValue)))
             .Include(g => g.Subject)
                 .ThenInclude(s => s.Education)
             .OrderByDescending(g => g.Date)
@@ -124,24 +123,23 @@ public class GradeRepository : IGradeRepository
 
     public async Task<int> GetTotalCountAsync(string searchValue)
     {
-        if (!string.IsNullOrWhiteSpace(searchValue))
+        if (string.IsNullOrWhiteSpace(searchValue))
         {
-            var newSearchValue = $"%{searchValue}%";
-
-            bool isNumericSearch = decimal.TryParse(searchValue, out decimal searchValueAsDecimal);
-
-            return await _context.Grades
-                .Where(grade =>
-                    EF.Functions.Like(grade.Subject.Name, newSearchValue) ||
-                    (grade.Description != null && EF.Functions.Like(grade.Description, newSearchValue)) ||
-                    (isNumericSearch && grade.Value == searchValueAsDecimal) ||
-                    EF.Functions.Like(grade.Subject.Education.Name, newSearchValue) ||
-                    EF.Functions.Like(grade.Date.ToString(), newSearchValue) ||
-                    (grade.Subject.Education.Institution != null && EF.Functions.Like(grade.Subject.Education.Institution, newSearchValue)))
-                .CountAsync();
+            return await _context.Grades.CountAsync();
         }
 
-        return await _context.Grades.CountAsync();
+        var newSearchValue = $"%{searchValue}%";
+        bool isNumericSearch = decimal.TryParse(searchValue, out decimal searchValueAsDecimal);
+
+        return await _context.Grades
+            .Where(grade =>
+                EF.Functions.Like(grade.Subject.Name, newSearchValue) ||
+                (grade.Description != null && EF.Functions.Like(grade.Description, newSearchValue)) ||
+                (isNumericSearch && grade.Value == searchValueAsDecimal) ||
+                EF.Functions.Like(grade.Subject.Education.Name, newSearchValue) ||
+                EF.Functions.Like(grade.Date.ToString(), newSearchValue) ||
+                (grade.Subject.Education.Institution != null && EF.Functions.Like(grade.Subject.Education.Institution, newSearchValue)))
+            .CountAsync();
     }
 
     public async Task<bool> ExistsAnyAsync()

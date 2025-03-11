@@ -68,37 +68,12 @@ public class EducationRepository : IEducationRepository
         return _context.Educations.Where(e => e.Completed == completed).ToListAsync();
     }
 
-
     // later add order type enum
     public async Task<List<Education>> GetBySearchWithLimitAsync(string searchValue, int startIndex, int amount)
     {
-        if (!string.IsNullOrWhiteSpace(searchValue))
+        if (string.IsNullOrWhiteSpace(searchValue))
         {
-            var newSearchValue = $"%{searchValue}%";
-
-            bool isNumericSearch = int.TryParse(searchValue, out int searchValueAsInt);
-
             return await _context.Educations
-                //.Where(education =>
-                //    education.Name.Contains(searchValue, StringComparison.OrdinalIgnoreCase) ||
-                //    (education.Description != null && education.Description.Contains(searchValue, StringComparison.OrdinalIgnoreCase)) ||
-                //    education.Semesters.ToString().Contains(searchValue, StringComparison.OrdinalIgnoreCase) ||
-                //    (education.Institution != null && education.Institution.Contains(searchValue, StringComparison.OrdinalIgnoreCase)))
-                //.Where(education =>
-                //    EF.Functions.Like(education.Name, newSearchValue) ||
-                //    (education.Description != null && EF.Functions.Like(education.Description, newSearchValue)) ||
-                //    EF.Functions.Like(education.Semesters.ToString(), newSearchValue) ||
-                //    (education.Institution != null && EF.Functions.Like(education.Institution, newSearchValue)) ||
-                //    EF.Functions.Like(education.StartDate.Year.ToString(), newSearchValue) || // Search in StartDate
-                //    EF.Functions.Like(education.EndDate.Year.ToString(), newSearchValue))
-                .Where(education =>
-                    EF.Functions.Like(education.Name, newSearchValue) ||
-                    (education.Description != null && EF.Functions.Like(education.Description, newSearchValue)) ||
-                    (education.Institution != null && EF.Functions.Like(education.Institution, newSearchValue)) ||
-                    (isNumericSearch && education.Semesters == searchValueAsInt) || // Direct integer comparison
-                    (isNumericSearch && education.StartDate.Year == searchValueAsInt) || // Compare Year as an int
-                    (isNumericSearch && education.EndDate.Year == searchValueAsInt)
-                )
                 .Include(e => e.Subjects)
                     .ThenInclude(s => s.Grades)
                 .OrderByDescending(e => e.Id)
@@ -107,7 +82,18 @@ public class EducationRepository : IEducationRepository
                 .ToListAsync();
         }
 
+        var newSearchValue = $"%{searchValue}%";
+        bool isNumericSearch = int.TryParse(searchValue, out int searchValueAsInt);
+
         return await _context.Educations
+            .Where(education =>
+                EF.Functions.Like(education.Name, newSearchValue) ||
+                (education.Description != null && EF.Functions.Like(education.Description, newSearchValue)) ||
+                (education.Institution != null && EF.Functions.Like(education.Institution, newSearchValue)) ||
+                (isNumericSearch && education.Semesters == searchValueAsInt) || // Direct integer comparison
+                (isNumericSearch && education.StartDate.Year == searchValueAsInt) || // Compare Year as an int
+                (isNumericSearch && education.EndDate.Year == searchValueAsInt)
+            )
             .Include(e => e.Subjects)
                 .ThenInclude(s => s.Grades)
             .OrderByDescending(e => e.Id)
@@ -118,25 +104,24 @@ public class EducationRepository : IEducationRepository
 
     public async Task<int> GetTotalCountAsync(string searchValue)
     {
-        if (!string.IsNullOrWhiteSpace(searchValue))
+        if (string.IsNullOrWhiteSpace(searchValue))
         {
-            var newSearchValue = $"%{searchValue}%";
-
-            bool isNumericSearch = int.TryParse(searchValue, out int searchValueAsInt);
-
-            return await _context.Educations
-                .Where(education =>
-                    EF.Functions.Like(education.Name, newSearchValue) ||
-                    (education.Description != null && EF.Functions.Like(education.Description, newSearchValue)) ||
-                    (education.Institution != null && EF.Functions.Like(education.Institution, newSearchValue)) ||
-                    (isNumericSearch && education.Semesters == searchValueAsInt) || // Direct integer comparison
-                    (isNumericSearch && education.StartDate.Year == searchValueAsInt) || // Compare Year as an int
-                    (isNumericSearch && education.EndDate.Year == searchValueAsInt)
-                )
-                .CountAsync();
+            return await _context.Educations.CountAsync();
         }
 
-        return await _context.Educations.CountAsync();
+        var newSearchValue = $"%{searchValue}%";
+        bool isNumericSearch = int.TryParse(searchValue, out int searchValueAsInt);
+
+        return await _context.Educations
+            .Where(education =>
+                EF.Functions.Like(education.Name, newSearchValue) ||
+                (education.Description != null && EF.Functions.Like(education.Description, newSearchValue)) ||
+                (education.Institution != null && EF.Functions.Like(education.Institution, newSearchValue)) ||
+                (isNumericSearch && education.Semesters == searchValueAsInt) || // Direct integer comparison
+                (isNumericSearch && education.StartDate.Year == searchValueAsInt) || // Compare Year as an int
+                (isNumericSearch && education.EndDate.Year == searchValueAsInt)
+            )
+            .CountAsync();
     }
 
     public async Task<List<Education>> GetAllSimpleAsync()

@@ -13,7 +13,6 @@ public class SubjectRepository : ISubjectRepository
         _context = context;
     }
 
-
     public async Task<Subject?> GetByIdAsync(int id)
     {
         return await _context.Subjects.FindAsync(id);
@@ -63,7 +62,6 @@ public class SubjectRepository : ISubjectRepository
     {
         return await _context.Subjects.Where(s => s.Education.Id == id)
             .Include(s => s.Grades)
-            //.ThenInclude(g => g.Weight)
             .ToListAsync();
     }
 
@@ -98,33 +96,32 @@ public class SubjectRepository : ISubjectRepository
 
     public async Task<List<Subject>> GetBySearchWithLimitAsync(string searchValue, int startIndex, int amount)
     {
-        if (!string.IsNullOrWhiteSpace(searchValue))
+        if (string.IsNullOrWhiteSpace(searchValue))
         {
-            var newSearchValue = $"%{searchValue}%";
-
-            bool isNumericSearch = int.TryParse(searchValue, out int searchValueAsInt);
-
             return await _context.Subjects
-                .Where(subject =>
-                    EF.Functions.Like(subject.Name, newSearchValue) ||
-                    (subject.Description != null && EF.Functions.Like(subject.Description, newSearchValue)) ||
-                    (isNumericSearch && subject.Semester == searchValueAsInt) ||
-                    EF.Functions.Like(subject.Education.Name, newSearchValue) ||
-                    (subject.Education.Institution != null && EF.Functions.Like(subject.Education.Institution, newSearchValue)))
                 .Include(s => s.Education)
                 .Include(s => s.Grades)
                 .OrderByDescending(s => s.Id)
-                    //.ThenByDescending(s => s.Semester)
+                //.ThenByDescending(s => s.Semester)
                 .Skip(startIndex)
                 .Take(amount)
                 .ToListAsync();
         }
 
+        var newSearchValue = $"%{searchValue}%";
+        bool isNumericSearch = int.TryParse(searchValue, out int searchValueAsInt);
+
         return await _context.Subjects
+            .Where(subject =>
+                EF.Functions.Like(subject.Name, newSearchValue) ||
+                (subject.Description != null && EF.Functions.Like(subject.Description, newSearchValue)) ||
+                (isNumericSearch && subject.Semester == searchValueAsInt) ||
+                EF.Functions.Like(subject.Education.Name, newSearchValue) ||
+                (subject.Education.Institution != null && EF.Functions.Like(subject.Education.Institution, newSearchValue)))
             .Include(s => s.Education)
             .Include(s => s.Grades)
             .OrderByDescending(s => s.Id)
-                //.ThenByDescending(s => s.Semester)
+            //.ThenByDescending(s => s.Semester)
             .Skip(startIndex)
             .Take(amount)
             .ToListAsync();
@@ -132,23 +129,22 @@ public class SubjectRepository : ISubjectRepository
 
     public async Task<int> GetTotalCountAsync(string searchValue)
     {
-        if (!string.IsNullOrWhiteSpace(searchValue))
+        if (string.IsNullOrWhiteSpace(searchValue))
         {
-            var newSearchValue = $"%{searchValue}%";
-
-            bool isNumericSearch = int.TryParse(searchValue, out int searchValueAsInt);
-
-            return await _context.Subjects
-                .Where(subject =>
-                    EF.Functions.Like(subject.Name, newSearchValue) ||
-                    (subject.Description != null && EF.Functions.Like(subject.Description, newSearchValue)) ||
-                    (isNumericSearch && subject.Semester == searchValueAsInt) ||
-                    EF.Functions.Like(subject.Education.Name, newSearchValue) ||
-                    (subject.Education.Institution != null && EF.Functions.Like(subject.Education.Institution, newSearchValue)))
-                .CountAsync();
+            return await _context.Subjects.CountAsync();
         }
 
-        return await _context.Subjects.CountAsync();
+        var newSearchValue = $"%{searchValue}%";
+        bool isNumericSearch = int.TryParse(searchValue, out int searchValueAsInt);
+
+        return await _context.Subjects
+            .Where(subject =>
+                EF.Functions.Like(subject.Name, newSearchValue) ||
+                (subject.Description != null && EF.Functions.Like(subject.Description, newSearchValue)) ||
+                (isNumericSearch && subject.Semester == searchValueAsInt) ||
+                EF.Functions.Like(subject.Education.Name, newSearchValue) ||
+                (subject.Education.Institution != null && EF.Functions.Like(subject.Education.Institution, newSearchValue)))
+            .CountAsync();
     }
 
     public async Task<bool> ExistsAnyAsync()
