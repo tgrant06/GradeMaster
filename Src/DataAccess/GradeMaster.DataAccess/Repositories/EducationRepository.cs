@@ -83,7 +83,7 @@ public class EducationRepository : IEducationRepository
         }
 
         var newSearchValue = $"%{searchValue}%";
-        bool isNumericSearch = int.TryParse(searchValue, out int searchValueAsInt);
+        var isNumericSearch = int.TryParse(searchValue, out var searchValueAsInt);
 
         return await _context.Educations
             .Where(education =>
@@ -110,7 +110,7 @@ public class EducationRepository : IEducationRepository
         }
 
         var newSearchValue = $"%{searchValue}%";
-        bool isNumericSearch = int.TryParse(searchValue, out int searchValueAsInt);
+        var isNumericSearch = int.TryParse(searchValue, out var searchValueAsInt);
 
         return await _context.Educations
             .Where(education =>

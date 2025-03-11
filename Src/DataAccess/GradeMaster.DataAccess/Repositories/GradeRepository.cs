@@ -100,7 +100,7 @@ public class GradeRepository : IGradeRepository
         }
 
         var newSearchValue = $"%{searchValue}%";
-        bool isNumericSearch = decimal.TryParse(searchValue, out decimal searchValueAsDecimal);
+        var isNumericSearch = decimal.TryParse(searchValue, out var searchValueAsDecimal);
 
         return await _context.Grades
             // maybe add search by weight
@@ -129,7 +129,7 @@ public class GradeRepository : IGradeRepository
         }
 
         var newSearchValue = $"%{searchValue}%";
-        bool isNumericSearch = decimal.TryParse(searchValue, out decimal searchValueAsDecimal);
+        var isNumericSearch = decimal.TryParse(searchValue, out var searchValueAsDecimal);
 
         return await _context.Grades
             .Where(grade =>
