@@ -34,7 +34,7 @@
             </Badge>
         </CardText>
         <CardText>
-            <b>Subject Amount:</b> @Education.Subjects.Count()
+            <b>Subject Amount:</b> @Education.Subjects.Count
         </CardText>
     </CardBody>
     <CardFooter Style="text-align: end">
@@ -78,7 +78,7 @@
 
         var confirmation = await Dialog.ShowAsync(
             title: "Are you sure you want to delete this Education?",
-            message1: $"Education: {Education.Name}, {Education.Subjects.Count()} Subject(s) and all related Objects will be deleted.",
+            message1: $"Education: {Education.Name}, {Education.Subjects.Count} Subject(s) and all related Objects will be deleted.",
             message2: "Do you want to proceed?",
             confirmDialogOptions: options);
 
