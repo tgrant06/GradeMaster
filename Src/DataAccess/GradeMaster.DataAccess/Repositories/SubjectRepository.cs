@@ -69,7 +69,8 @@ public class SubjectRepository : ISubjectRepository
     {
         return await _context.Subjects.Where(s => s.Education.Id == id)
             .Include(s => s.Grades)
-            .OrderByDescending(s => s.Id)
+            .OrderByDescending(s => s.Semester)
+                .ThenByDescending(s => s.Id)
             .ToListAsync();
     }
 
