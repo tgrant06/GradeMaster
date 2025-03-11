@@ -132,9 +132,9 @@ public partial class Home
 
     #region Averages
 
-    private string GetAverageGrade(ICollection<Grade> grades)
+    private static string GetAverageGrade(ICollection<Grade> grades)
     {
-        if (grades != null && grades.Any())
+        if (grades != null && grades.Count != 0)
         {
             return SubjectUtils.CalculateWeightedAverage(grades).ToString("0.##");
         }

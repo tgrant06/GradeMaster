@@ -42,17 +42,23 @@
 }
 
 .topPageHeader {
+    /*Maybe add animation later, maybe add new animation*/
+    /*Then also increase the max-width and make shure the options button is still clickable ((increase) z-index)*/
+/*    animation: fadeIn 0.1s ease;
+    will-change: transform, opacity;*/
 }
 
 .topPageSubHeader {
     padding-top: 7px; /*was 6 and 5 px*/
     background-color: light-dark(#ffffffb0, #212529cc);
     backdrop-filter: blur(16px);
+    box-shadow: light-dark(#dfdfdfde, #0000004f) 0 10px 11px -10px;
     text-align: center;
     position: sticky;
     top: 0;
     z-index: 1090;
-    box-shadow: light-dark(#dfdfdfde, #0000004f) 0px 10px 11px -10px;
+    transform: translateZ(0);
+    will-change: transform;
 }
 
 .topPageSubHeaderSideBlock {
