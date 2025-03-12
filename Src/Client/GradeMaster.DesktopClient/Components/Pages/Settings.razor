@@ -18,17 +18,25 @@
 
 <h3>About this Application</h3>
 <!--later add "feature rich"-->
-<p>
+<p style="margin-bottom: 0.5rem;">
     <strong>Grade Master</strong> is a grade management tool that helps you manage your education, subjects, and grades.
     <br /><br />
     <strong>Version Information:</strong>
-    <br />
-    - <strong>Installed Version:</strong> 2.1.1
-    <br />
-    - <strong>Latest Available Version:</strong>
-    <a href="https://github.com/DevT06/GradeMaster/releases" target="_blank">
+</p>
+<p style="margin-bottom: 0.6rem;">
+    - <strong>Installed Version:</strong> <span id="installedVersion">2.1.1</span>
+    <span id="currentInstalledVersion" class="alert alert-secondary" style="padding: 3px 8px">
+        Checking...
+    </span>
+</p> 
+<p>
+- <strong>Latest Available Version:</strong>
+    @*     <a href="https://github.com/DevT06/GradeMaster/releases" target="_blank">
         <img src="https://img.shields.io/github/v/release/devt06/GradeMaster" alt="Release Version Badge">
-    </a>
+    </a> *@
+        <a id="latestAvailableVersion" class="alert alert-primary" style="padding: 3px 8px; text-decoration: none;" href="https://github.com/DevT06/GradeMaster/releases" target="_blank">
+            Checking...
+        </a>
 </p>
 
 <NavLink class="btn btn-translucient border-dark-subtle" href="info" Match="NavLinkMatch.Prefix">
@@ -54,6 +62,53 @@
 <script>
     window.scrollTo({ top: 0, behavior: 'auto' });
 </script>
+
+<script>
+    async function checkForUpdates() {
+        const installedVersion = document.getElementById("installedVersion").innerText.trim();
+        const latestVersionElement = document.getElementById("latestAvailableVersion");
+        const updateStatusElement = document.getElementById("currentInstalledVersion");
+
+        try {
+            const response = await fetch("https://img.shields.io/github/v/release/devt06/GradeMaster");
+            const svgText = await response.text();
+
+            const parser = new DOMParser();
+            const svgDoc = parser.parseFromString(svgText, "image/svg+xml");
+            const titleElement = svgDoc.querySelector("title");
+
+            if (titleElement) {
+                const latestVersion = titleElement.textContent.replace("release: v", "").trim();
+                
+                // Update latest version UI
+                latestVersionElement.innerText = latestVersion;
+
+                latestVersionElement.innerHTML = `<span style="text-decoration: underline;">${latestVersion}</span> <i class="bi bi-box-arrow-up-right" style="text-decoration: none;"></i>`;
+
+                // Compare versions
+                if (installedVersion === latestVersion) {
+                    updateStatusElement.innerHTML = "<i class=\"bi bi-check-circle\"></i> Up to Date";
+                    // updateStatusElement.innerText = " Up to Date";
+                    updateStatusElement.classList.remove("alert-warning");
+                    updateStatusElement.classList.add("alert-success");
+                } else {
+                    updateStatusElement.innerHTML = "<i class=\"bi bi-info-circle\"></i> Update Available";
+                    // updateStatusElement.innerText = "<i class=\"bi bi-exclamation-triangle-fill\"></i> Update Available";
+                    updateStatusElement.classList.remove("alert-success");
+                    updateStatusElement.classList.add("alert-warning");
+                }
+            } else {
+                latestVersionElement.innerText = "Error fetching version";
+            }
+        } catch (error) {
+            latestVersionElement.innerText = "Error fetching version";
+            console.error("Error fetching latest version:", error);
+        }
+    }
+
+    checkForUpdates();
+</script>
+
 
 @code {
 
