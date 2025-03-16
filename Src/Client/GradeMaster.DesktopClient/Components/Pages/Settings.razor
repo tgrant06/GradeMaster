@@ -1,63 +1,68 @@
 ﻿@page "/settings"
 
 <TopPageHeader>Settings</TopPageHeader>
-<br/>
+@* <br/> *@
+<div class="border-top" style="width: 100%; max-width: 50%; margin-top: 15px"></div>
 
-<h3>Settings</h3>
-<h5 style="margin-left: 20px;">Personalization</h5>
-<div style="margin-left: 30px;">
-    <label>Theme: </label>
-    <ThemeSwitcher />
+<div class="container">
+    <div class="border-top generic-devider-line" style="margin-top: -1px;"></div>
+    <div class="py-2"></div>
+    <h3>Settings</h3>
+    <h5 style="margin-left: 10px;">Personalization</h5>
+    <div style="margin-left: 15px;">
+        <label>Theme: </label>
+        <ThemeSwitcher/>
+    </div>
+
+    <br/>
+    <div class="border-top generic-devider-line"></div>
+    <br/>
+
+    <h3>About this Application</h3>
+    <!--later add "feature rich"-->
+    <p style="margin-bottom: 0.4rem;">
+        <strong>Grade Master</strong> is a grade management tool that helps you manage your education, subjects, and grades.
+        <br/><br/>
+        <strong>Version Information:</strong>
+    </p>
+    <p style="margin-bottom: 0.5rem;">
+        - <strong>Installed Version:</strong> <span id="installedVersion">2.1.1</span>
+        <span id="currentInstalledVersion" class="alert alert-secondary" style="padding: 2px 5px">
+            Checking...
+        </span>
+    </p>
+    <p>
+        - <strong>Latest Available Version:</strong>
+        <a id="latestAvailableVersion" class="alert alert-primary" style="padding: 2px 5px; text-decoration: none;" href="https://github.com/DevT06/GradeMaster/releases" target="_blank">
+            Checking...
+        </a>
+        @*  <a href="https://github.com/DevT06/GradeMaster/releases" target="_blank">
+            <img src="https://img.shields.io/github/v/release/devt06/GradeMaster" alt="Release Version Badge">
+        </a> *@
+    </p>
+
+    <NavLink class="btn btn-translucient border-dark-subtle" href="info" Match="NavLinkMatch.Prefix">
+        <Icon Name="IconName.InfoCircle"/> Info
+    </NavLink>
+
+    <NavLink style="margin-left: 10px;" class="btn btn-translucient border-dark-subtle" href="licenses" Match="NavLinkMatch.Prefix">
+        <Icon Name="IconName.FileEarmarkText"/> Licenses
+    </NavLink>
+
+    <div style="margin-bottom: 40px;"></div>
+    <div class="border-top generic-devider-line"></div>
+    <br/>
+
+    <h3>Help</h3>
+    <p>If you have any questions or need help, refer to the page below.</p>
+    <NavLink class="btn btn-translucient border-dark-subtle" href="faq" Match="NavLinkMatch.Prefix">
+        <Icon Name="IconName.QuestionCircle"/> FAQ
+    </NavLink>
+
+    <div style="margin-bottom: 100px;"></div>
+
+    @* <div class="border-top" style="width: 100%;"></div> *@
 </div>
-
-<br />
-
-<div class="border-top" style="max-width: 800px;"></div>
-
-<br/>
-
-<h3>About this Application</h3>
-<!--later add "feature rich"-->
-<p style="margin-bottom: 0.4rem;">
-    <strong>Grade Master</strong> is a grade management tool that helps you manage your education, subjects, and grades.
-    <br /><br />
-    <strong>Version Information:</strong>
-</p>
-<p style="margin-bottom: 0.5rem;">
-    - <strong>Installed Version:</strong> <span id="installedVersion">2.1.1</span>
-    <span id="currentInstalledVersion" class="alert alert-secondary" style="padding: 2px 5px">
-        Checking...
-    </span>
-</p> 
-<p>
-    - <strong>Latest Available Version:</strong>
-    <a id="latestAvailableVersion" class="alert alert-primary" style="padding: 2px 5px; text-decoration: none;" href="https://github.com/DevT06/GradeMaster/releases" target="_blank">
-        Checking...
-    </a>
-    @*  <a href="https://github.com/DevT06/GradeMaster/releases" target="_blank">
-        <img src="https://img.shields.io/github/v/release/devt06/GradeMaster" alt="Release Version Badge">
-    </a> *@
-</p>
-
-<NavLink class="btn btn-translucient border-dark-subtle" href="info" Match="NavLinkMatch.Prefix">
-    <Icon Name="IconName.InfoCircle" /> Info
-</NavLink>
-
-<NavLink style="margin-left: 10px;" class="btn btn-translucient border-dark-subtle" href="licenses" Match="NavLinkMatch.Prefix">
-    <Icon Name="IconName.FileEarmarkText" /> Licenses
-</NavLink>
-
-<div style="margin-bottom: 40px;"></div>
-
-<h3>Help</h3>
-<p>If you have any questions or need help, refer to the page below.</p>
-<NavLink class="btn btn-translucient border-dark-subtle" href="faq" Match="NavLinkMatch.Prefix">
-    <Icon Name="IconName.QuestionCircle" /> FAQ
-</NavLink>
-
-<div style="margin-bottom: 100px;"></div>
-
-@* <div class="border-top" style="width: 100%;"></div> *@
 
 <script>
     //window.scrollTo({ top: 0, behavior: 'auto' });
