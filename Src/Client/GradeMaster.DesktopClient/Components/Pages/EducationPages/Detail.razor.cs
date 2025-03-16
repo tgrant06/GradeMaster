@@ -3,19 +3,40 @@ using GradeMaster.Client.Shared.Utility;
 using GradeMaster.Common.Entities;
 using GradeMaster.DataAccess.Interfaces.IRepositories;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web.Virtualization;
 using Microsoft.JSInterop;
 
 namespace GradeMaster.DesktopClient.Components.Pages.EducationPages;
 
 public partial class Detail
 {
+    #region Fields / Properties
+
     [Parameter]
     public int Id
     {
         get; set;
     }
 
-    #region Dependancy Injection
+    public Education Education
+    {
+        get; set;
+    }
+
+    public List<Subject> Subjects
+    {
+        get; set;
+    }
+
+    private decimal _educationAverage;
+
+    private Virtualize<Subject>? _virtualizeComponent;
+
+    private ConfirmDialog _dialog = default!;
+
+    #endregion
+
+    #region Dependency Injection
 
     [Inject]
     private IEducationRepository _educationRepository
@@ -25,6 +46,12 @@ public partial class Detail
 
     [Inject]
     private ISubjectRepository _subjectRepository
+    {
+        get; set;
+    }
+
+    [Inject]
+    private IWeightRepository _weightRepository
     {
         get; set;
     }
@@ -45,21 +72,18 @@ public partial class Detail
 
     #endregion
 
-    public Education Education
-    {
-        get; set;
-    }
-
-    private decimal _educationAverage;
-
     protected async override Task OnInitializedAsync()
     {
-        // Load the education details
+        await _weightRepository.GetAllAsync();
         Education = await _educationRepository.GetByIdAsync(Id);
+        Subjects = await _subjectRepository.GetByEducationIdOrderedAsync(Education.Id);
 
-        // Calculate the average only after loading the education data
-        await CalculateEducationAverage();
+        // Calculate the average only after loading the data
+        CalculateEducationAverage();
     }
+
+    #region Not used
+
     //invoke js function to scroll to top
     //protected async override Task OnAfterRenderAsync(bool firstRender)
     //{
@@ -69,30 +93,29 @@ public partial class Detail
     //    }
     //}
 
-    private string DescriptionString() => string.IsNullOrEmpty(Education.Description) ? "-" : Education.Description;
+    #endregion
+
+    private async Task RefreshSubjectData()
+    {
+        await _virtualizeComponent?.RefreshDataAsync();
+    }
 
     #region Navigation
 
-    private async Task GoBack()
-    {
-        await JSRuntime.InvokeVoidAsync("window.history.back");
-    }
+    private async Task GoBack() => await JSRuntime.InvokeVoidAsync("window.history.back");
 
-    private void EditEducation()
-    {
-        Navigation.NavigateTo($"/educations/{Education.Id}/edit");
-    }
+    private void EditEducation() => Navigation.NavigateTo($"/educations/{Education.Id}/edit");
+
+    private void GoToNewSubject(int educationId) => Navigation.NavigateTo($"/subjects/create?educationId={educationId}");
 
     #endregion
 
     #region Averages
 
-    private async Task CalculateEducationAverage()
+    private void CalculateEducationAverage()
     {
-        // var grades
-        //await _gradeRepository.GetBySubjectIdsAsync(Education.Subjects.Select(s => s.Id).ToList());
-        await _subjectRepository.GetByEducationIdAsync(Education.Id);
-        _educationAverage = EducationUtils.CalculateEducationAverage(Education.Subjects);
+        // Maybe if needed add more logic here
+        _educationAverage = EducationUtils.CalculateEducationAverage(Subjects);
     }
 
     #endregion

@@ -8,15 +8,25 @@ namespace GradeMaster.DesktopClient.Components.Pages;
 
 public partial class Educations
 {
-    #region Dependancy Injection
+    #region Fields / Properties
+
+    private string _searchValue = string.Empty;
+
+    private Virtualize<Education>? _virtualizeComponent;
+
+    private ConfirmDialog _dialog = default!;
+
+    #endregion
+
+    #region Dependency Injection
 
     [Inject]
     private IEducationRepository _educationRepository
     {
         get; set;
     }
-    [Inject]
 
+    [Inject]
     private IWeightRepository _weightRepository
     {
         get; set;
@@ -30,14 +40,10 @@ public partial class Educations
 
     #endregion
 
-    private string _searchValue = string.Empty;
-
-    private Virtualize<Education>? _virtualizeComponent;
-
-    private ConfirmDialog _dialog = default!;
-
-    //private List<Education> _educations = new();
-    //private List<Education> _filteredEducations = new();
+    protected async override Task OnInitializedAsync()
+    {
+        await _weightRepository.GetAllAsync();
+    }
 
     private async ValueTask<ItemsProviderResult<Education>> GetEducationsProvider(ItemsProviderRequest request)
     {
@@ -45,19 +51,13 @@ public partial class Educations
         var count = request.Count;
 
         // Fetch only the required slice of data
-        var fetchedEducations = await _educationRepository.GetBySearchWithLimitAsync(_searchValue, startIndex, count);
+        var fetchedEducations = await _educationRepository.GetBySearchWithRangeAsync(_searchValue, startIndex, count);
 
         // Calculate the total number of items (if known or needed)
         var totalItemCount = await _educationRepository.GetTotalCountAsync(_searchValue);
 
         // Return the result to the Virtualize component
         return new ItemsProviderResult<Education>(fetchedEducations, totalItemCount);
-    }
-
-    protected async override Task OnInitializedAsync()
-    {
-        await _weightRepository.GetAllAsync();
-        //await LoadEducations();
     }
 
     private async Task RefreshEducationData()
@@ -68,8 +68,7 @@ public partial class Educations
     private async Task LoadAllEducations()
     {
         _searchValue = string.Empty;
-        await _virtualizeComponent?.RefreshDataAsync();
-        //await LoadEducations();
+        await RefreshEducationData();
     }
 
     #region Not Used
@@ -127,8 +126,9 @@ public partial class Educations
 
     #endregion
 
-    private void CreateEducation()
-    {
-        Navigation.NavigateTo("/educations/create");
-    }
+    #region Navigation
+
+    private void CreateEducation() => Navigation.NavigateTo("/educations/create");
+
+    #endregion
 }

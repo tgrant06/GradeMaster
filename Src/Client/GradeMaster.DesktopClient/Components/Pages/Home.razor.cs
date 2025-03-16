@@ -8,6 +8,8 @@ namespace GradeMaster.DesktopClient.Components.Pages;
 
 public partial class Home
 {
+    #region Fields / Properties
+
     private int _currentEducationId;
     private List<Education> _educations = new();
     private List<Subject> _subjects = new();
@@ -15,7 +17,22 @@ public partial class Home
     private decimal _educationAverage = new();
     private int? _selectedEducationId;
 
-    #region Dependancy Injection
+    private int? SelectedEducationId
+    {
+        get => _selectedEducationId;
+        set
+        {
+            if (_selectedEducationId != value)
+            {
+                _selectedEducationId = value;
+                ChangeEducation(value);
+            }
+        }
+    }
+
+    #endregion
+
+    #region Dependency Injection
 
     [Inject]
     private IEducationRepository _educationRepository
@@ -61,19 +78,6 @@ public partial class Home
         }
     }
 
-    private int? SelectedEducationId
-    {
-        get => _selectedEducationId;
-        set
-        {
-            if (_selectedEducationId != value)
-            {
-                _selectedEducationId = value;
-                ChangeEducation(value);
-            }
-        }
-    }
-
     private async void ChangeEducation(int? educationId)
     {
         if (educationId.HasValue)
@@ -94,32 +98,9 @@ public partial class Home
     private async Task LoadEducationData(int educationId)
     {
         _currentEducationId = educationId;
-        _subjects = await _subjectRepository.GetByEducationIdAsync(educationId); // get weight separately
+        _subjects = await _subjectRepository.GetByEducationIdAsync(educationId);
         _educationAverage = EducationUtils.CalculateEducationAverage(_subjects);
     }
-
-    private void GoToSubject(int subjectId)
-    {
-        Navigation.NavigateTo($"/subjects/{subjectId}");
-    }
-
-    private void GoToGrade(int gradeId) => Navigation.NavigateTo($"/grades/{gradeId}");
-
-    private void GoToEducation(int educationId) => Navigation.NavigateTo($"/educations/{educationId}");
-
-    #region Averages
-
-    private string GetAverageGrade(ICollection<Grade> grades)
-    {
-        if (grades != null && grades.Any())
-        {
-            return SubjectUtils.CalculateWeightedAverage(grades).ToString("0.##");
-        }
-
-        return "N/A";
-    }
-
-    #endregion
 
     // maybe reload entire page? (soft reload)
     // if selectedEducationId has no value then reload page (soft reload) for example
@@ -134,4 +115,32 @@ public partial class Home
             _educations = await _educationRepository.GetAllSimpleAsync();
         }
     }
+
+    #region Navigation
+
+    private void GoToSubject(int subjectId) => Navigation.NavigateTo($"/subjects/{subjectId}");
+
+    private void GoToGrade(int gradeId) => Navigation.NavigateTo($"/grades/{gradeId}");
+
+    private void GoToEducation(int educationId) => Navigation.NavigateTo($"/educations/{educationId}");
+
+    private void GoToNewSubject(int educationId) => Navigation.NavigateTo($"/subjects/create?educationId={educationId}");
+
+    private void GoToNewGrade(int subjectId) => Navigation.NavigateTo($"/grades/create?subjectId={subjectId}");
+
+    #endregion
+
+    #region Averages
+
+    private static string GetAverageGrade(ICollection<Grade> grades)
+    {
+        if (grades != null && grades.Count != 0)
+        {
+            return SubjectUtils.CalculateWeightedAverage(grades).ToString("0.##");
+        }
+
+        return "N/A";
+    }
+
+    #endregion
 }

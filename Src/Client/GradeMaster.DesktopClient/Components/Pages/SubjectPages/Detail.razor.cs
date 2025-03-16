@@ -3,19 +3,40 @@ using GradeMaster.Client.Shared.Utility;
 using GradeMaster.Common.Entities;
 using GradeMaster.DataAccess.Interfaces.IRepositories;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web.Virtualization;
 using Microsoft.JSInterop;
 
 namespace GradeMaster.DesktopClient.Components.Pages.SubjectPages;
 
 public partial class Detail
 {
+    #region Fields / Properties
+
     [Parameter]
     public int Id
     {
         get; set;
     }
 
-    #region Dependancy Injection
+    public Subject Subject
+    {
+        get; set;
+    }
+
+    public List<Grade> Grades
+    {
+        get; set;
+    }
+
+    private decimal _subjectAverage;
+
+    private Virtualize<Grade>? _virtualizeComponent;
+
+    private ConfirmDialog _dialog = default!;
+
+    #endregion
+
+    #region Dependency Injection
 
     [Inject]
     private IGradeRepository _gradeRepository
@@ -25,6 +46,12 @@ public partial class Detail
 
     [Inject]
     private ISubjectRepository _subjectRepository
+    {
+        get; set;
+    }
+
+    [Inject]
+    private IWeightRepository _weightRepository
     {
         get; set;
     }
@@ -45,49 +72,39 @@ public partial class Detail
 
     #endregion
 
-    public Subject Subject
-    {
-        get; set;
-    }
-
-    private decimal _subjectAverage;
-
     protected async override Task OnInitializedAsync()
     {
-        // Load the education details
+        await _weightRepository.GetAllAsync();
         Subject = await _subjectRepository.GetByIdDetailAsync(Id);
-        // await _educationRepository.GetBySubjectIdAsync(Subject.Id);
+        Grades = await _gradeRepository.GetBySubjectIdAsync(Subject.Id);
+
         // Calculate the average only after loading the education data
-        await CalculateSubjectAverage();
+        CalculateSubjectAverage();
     }
 
-    private string DescriptionString() => string.IsNullOrEmpty(Subject.Description) ? "-" : Subject.Description;
+    private async Task RefreshGradeData()
+    {
+        await _virtualizeComponent?.RefreshDataAsync();
+    }
 
     #region Navigation
 
-    private async Task GoBack()
-    {
-        await JSRuntime.InvokeVoidAsync("window.history.back");
-    }
+    private async Task GoBack() => await JSRuntime.InvokeVoidAsync("window.history.back");
 
-    private void EditSubject()
-    {
-        Navigation.NavigateTo($"/subjects/{Subject.Id}/edit");
-    }
+    private void EditSubject() => Navigation.NavigateTo($"/subjects/{Subject.Id}/edit");
 
-    private void GoToEducation()
-    {
-        Navigation.NavigateTo($"/educations/{Subject.Education.Id}");
-    }
+    private void GoToEducation() => Navigation.NavigateTo($"/educations/{Subject.Education.Id}");
+
+    private void GoToNewGrade(int subjectId) => Navigation.NavigateTo($"/grades/create?subjectId={subjectId}");
 
     #endregion
 
     #region Averages
 
-    private async Task CalculateSubjectAverage()
+    private void CalculateSubjectAverage()
     {
-        var grades = await _gradeRepository.GetBySubjectIdAsync(Subject.Id);
-        _subjectAverage = SubjectUtils.CalculateWeightedAverage(grades);
+        // Maybe if needed add more logic here
+        _subjectAverage = SubjectUtils.CalculateWeightedAverage(Grades);
     }
 
     #endregion

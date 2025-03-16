@@ -8,13 +8,24 @@ namespace GradeMaster.DesktopClient.Components.Pages.GradePages;
 
 public partial class Detail
 {
+    #region Fields / Properties
+    
     [Parameter]
     public int Id
     {
         get; set;
     }
 
-    #region Dependancy Injection
+    public Grade Grade
+    {
+        get; set;
+    }
+
+    //private decimal _subjectAverage;
+
+    #endregion
+
+    #region Dependency Injection
 
     [Inject]
     private IGradeRepository _gradeRepository
@@ -38,45 +49,23 @@ public partial class Detail
 
     #endregion
 
-    public Grade Grade
-    {
-        get; set;
-    }
-
-    //private decimal _subjectAverage;
-
     protected async override Task OnInitializedAsync()
     {
-        // Load the education details
         Grade = await _gradeRepository.GetByIdDetailAsync(Id);
 
-        // Calculate the average only after loading the education data
+        // Calculate the average only after loading the data
         //await CalculateSubjectAverage();
     }
 
-    private string DescriptionString() => string.IsNullOrEmpty(Grade.Description) ? "-" : Grade.Description;
-
     #region Navigation
 
-    private async Task GoBack()
-    {
-        await JSRuntime.InvokeVoidAsync("window.history.back");
-    }
+    private async Task GoBack() => await JSRuntime.InvokeVoidAsync("window.history.back");
 
-    private void EditGrade()
-    {
-        Navigation.NavigateTo($"/grades/{Grade.Id}/edit");
-    }
+    private void EditGrade() => Navigation.NavigateTo($"/grades/{Grade.Id}/edit");
 
-    private void GoToEducation()
-    {
-        Navigation.NavigateTo($"/educations/{Grade.Subject.Education.Id}");
-    }
+    private void GoToEducation() => Navigation.NavigateTo($"/educations/{Grade.Subject.Education.Id}");
 
-    private void GoToSubject()
-    {
-        Navigation.NavigateTo($"/subjects/{Grade.Subject.Id}");
-    }
+    private void GoToSubject() => Navigation.NavigateTo($"/subjects/{Grade.Subject.Id}");
 
     #endregion
 

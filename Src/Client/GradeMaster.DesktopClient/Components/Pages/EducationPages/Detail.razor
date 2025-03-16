@@ -2,85 +2,136 @@
 
 <TopPageHeader Style="font-size: 28px; top: 10px">Detail Education</TopPageHeader>
 
-<div class="border-top" style="width: 100%; max-width: 1008px; margin-top: 15px"></div>
+<div class="border-top" style="width: 100%; max-width: 50%; margin-top: 15px"></div>
 
-<div class="col-12 col-md-12 py-3 px-2" style="max-width: 1100px;">
-    <h2 style="margin-bottom: 11px;">
-        <b class="enabled-text-selection">@Education.Name</b>
-    </h2>
-    <CardSubTitle Class="enabled-text-selection" Style="font-size: 17px">@Education.StartDate.ToShortDateString() - @Education.EndDate.ToShortDateString()</CardSubTitle>
-    <CardSubTitle Class="enabled-text-selection" Style="margin-top: 6px;">@Education.Institution</CardSubTitle>
-</div>
+<div class="container align-content-center">
+    <div class="border-top generic-devider-line" style="margin-top: -1px;"></div>
+    <div class="col-12 col-md-12 py-3" style="max-width: 1200px;">
+        <h2 style="margin-bottom: 11px;">
+            <b class="enabled-text-selection">@Education.Name</b>
+        </h2>
+        <CardSubTitle Class="enabled-text-selection" Style="font-size: 17px">@Education.StartDate.ToShortDateString() - @Education.EndDate.ToShortDateString()</CardSubTitle>
+        <CardSubTitle Class="enabled-text-selection" Style="margin-top: 6px;">@Education.Institution</CardSubTitle>
+    </div>
 
-<div class="py-2 px-2">
-    <Card Style="max-width: 1000px">
-        <CardBody>
-            <CardText Class="enabled-text-selection">
-                <b class="enabled-text-selection">Description:</b> <br class="enabled-text-selection" /> @DescriptionString()
-            </CardText>
-        </CardBody>
-    </Card>
-</div>
-<div class="py-3 px-2" style="margin-bottom: 50px">
-    <Card Style="max-width: 1000px">
-        <CardBody>
-            <div class="row row-cols-1 row-cols-sm-1 row-cols-md-1 row-cols-lg-2">
-                <!-- First Column -->
-                <div class="col mb-3">
-                    <CardText Class="border-bottom enabled-text-selection" Style="padding-bottom: 20px; margin-bottom: 6px;">
-                        <strong class="enabled-text-selection">Education Average: </strong>
-                        @if (_educationAverage < 4 && _educationAverage != 0)
-                        {
-                            <Badge Class="enabled-text-selection" Color="BadgeColor.Danger" IndicatorType="BadgeIndicatorType.RoundedPill" Style="font-size: 14px;">
+    <div class="py-2">
+        <Card Style="max-width: 1050px">
+            <CardBody>
+                <CardText Class="enabled-text-selection">
+                    <b class="enabled-text-selection">Description:</b> <br class="enabled-text-selection" /> @UIUtils.FallbackIfEmpty(Education.Description, "-")
+                </CardText>
+            </CardBody>
+        </Card>
+    </div>
+    <div class="py-3" style="margin-bottom: 50px">
+        <Card Style="max-width: 1050px">
+            <CardBody>
+                <div class="row row-cols-1 row-cols-sm-1 row-cols-md-1 row-cols-lg-2">
+                    <div class="col mb-3">
+                        <CardText Class="border-bottom enabled-text-selection" Style="padding-bottom: 20px; margin-bottom: 6px;">
+                            <strong class="enabled-text-selection">Education Average: </strong>
+                            @if (_educationAverage < 4 && _educationAverage != 0)
+                            {
+                                <Badge Class="enabled-text-selection" Color="BadgeColor.Danger" IndicatorType="BadgeIndicatorType.RoundedPill" Style="font-size: 14px;">
+                                    @(_educationAverage == 0 ? "N/A" : _educationAverage.ToString("0.##"))
+                                </Badge>
+                            }
+                            else
+                            {
                                 @(_educationAverage == 0 ? "N/A" : _educationAverage.ToString("0.##"))
+                            }
+                        </CardText>
+                    </div>
+                    <div class="col mb-3">
+                        <CardText Class="border-bottom enabled-text-selection" Style="padding-bottom: 20px; margin-bottom: 6px;">
+                            <b class="enabled-text-selection">Total Semesters:</b> @Education.Semesters
+                        </CardText>
+                    </div>
+                    <div class="col mb-3">
+                        <CardText Class="border-bottom enabled-text-selection" Style="padding-bottom: 20px; margin-bottom: 6px;">
+                            <b class="enabled-text-selection">Completion State:</b>
+                            <Badge Class="enabled-text-selection" Color="@(Education.Completed ? BadgeColor.Success : BadgeColor.Warning)" IndicatorType="BadgeIndicatorType.RoundedPill">
+                                @(Education.Completed ? "Completed" : "In Progress")
                             </Badge>
-                        }
-                        else
-                        {
-                            @(_educationAverage == 0 ? "N/A" : _educationAverage.ToString("0.##"))
-                        }
-                    </CardText>
+                        </CardText>
+                    </div>
+                    <div class="col mb-3">
+                        <CardText Class="border-bottom enabled-text-selection" Style="padding-bottom: 20px;">
+                            <b class="enabled-text-selection">Subject Amount:</b> @Education.Subjects.Count
+                        </CardText>
+                    </div>
                 </div>
-                <!-- Second Column -->
-                <div class="col mb-3">
-                    <CardText Class="border-bottom enabled-text-selection" Style="padding-bottom: 20px; margin-bottom: 6px;">
-                        <b class="enabled-text-selection">Total Semesters:</b> @Education.Semesters
-                    </CardText>
+            </CardBody>
+        </Card>
+    </div>
+
+    <div class="border-top generic-devider-line" style="margin-top: 15px; opacity: 0.5;"></div>
+
+    <div class="d-flex justify-content-between my-3" style="max-width: 1050px">
+        <Button Color="ButtonColor.Primary" @onclick="GoBack" Size="ButtonSize.Medium">
+            <Icon Name="IconName.ArrowLeft"/> Back
+        </Button>
+        <Button Color="ButtonColor.Success" @onclick="EditEducation" Size="ButtonSize.Medium">
+            Edit <Icon Name="IconName.PencilSquare"/>
+        </Button>
+    </div>
+
+    @if (Education.Subjects.Count != 0) 
+    {
+        <div class="border-top generic-devider-line" style="opacity: 0.5;"></div>
+        <div class="topPageSubHeader border-bottom" style="max-width: 1074px; margin-right: -12px; margin-left: -12px;">
+            <h5>@Education.Name @UIUtils.TruncateString(string.IsNullOrEmpty(Education.Institution) ? "" : "| " + Education.Institution.Split(",")[0], 15)</h5>
+            <div class="topPageSubHeaderSideBlock"></div>
+        </div>
+    }
+    else
+    {
+        <div class="border-top generic-devider-line"></div>
+    }
+    
+    <div class="text-end" style="max-width: 1050px; padding-top: 30px;">
+        <h4 style="text-align: center; margin-bottom: -30px;">Subjects</h4>
+        @if (Education.Completed)
+        {
+            <Tooltip Title="This Education is completed" Placement="TooltipPlacement.Left" Style="padding-bottom: 5px;">
+                <Button Disabled="true" @onclick="() => GoToNewSubject(Education.Id)" Color="ButtonColor.Secondary" Size="ButtonSize.Small" Style="margin-right: 16px;">
+                    New <Icon Name="IconName.PlusSquare" Size="IconSize.x6" />
+                </Button>
+            </Tooltip>
+        }
+        else
+        {
+            <Button @onclick="() => GoToNewSubject(Education.Id)" Color="ButtonColor.Secondary" Size="ButtonSize.Small" Style="margin-right: 16px;">
+                New <Icon Name="IconName.PlusSquare" Size="IconSize.x6" />
+            </Button>
+        }
+    </div>
+
+    <ConfirmDialog @ref="_dialog" />
+
+    <div class="component-card-grid min-component-card-grid py-4" style="max-width: 1050px; padding-top: 0 !important; margin-bottom: 25px;">
+        <!--set overflow to hidden maybe-->
+        <Virtualize TItem="Subject" Items="Subjects" Context="subject" OverscanCount="12" @ref="_virtualizeComponent">
+            <ItemContent>
+                <SubjectCard @key="@subject.Id" Subject="@subject" OnSubjectDeleted="RefreshSubjectData" Dialog="_dialog" />
+            </ItemContent>
+            <EmptyContent>
+                <div></div>
+                <div class="text-center" style="grid-column: 1/-1;">
+                    <p>No subjects found. Create new subject?</p><!--was: Try adjusting your search or add a new subject.-->
                 </div>
-                <div class="col mb-3">
-                    <CardText Class="border-bottom enabled-text-selection" Style="padding-bottom: 20px; margin-bottom: 6px;">
-                        <b class="enabled-text-selection">Completion State:</b>
-                        <Badge Class="enabled-text-selection" Color="@(Education.Completed ? BadgeColor.Success : BadgeColor.Warning)" IndicatorType="BadgeIndicatorType.RoundedPill">
-                            @(Education.Completed ? "Completed" : "In Progress")
-                        </Badge>
-                    </CardText>
-                </div>
-                <div class="col mb-3">
-                    <CardText Class="border-bottom enabled-text-selection" Style="padding-bottom: 20px;">
-                        <b class="enabled-text-selection">Subject Amount:</b> @Education.Subjects.Count()
-                    </CardText>
-                </div>
-            </div>
-        </CardBody>
-    </Card>
+                <div></div>
+            </EmptyContent>
+        </Virtualize>
+    </div>
 </div>
 
-<div class="border-top" style="width: 100%; max-width: 1008px; margin-top: 15px"></div>
-
-<!-- Buttons -->
-<div class="d-flex justify-content-between my-3" style="max-width: 1008px">
-    <Button Color="ButtonColor.Primary" @onclick="GoBack" Size="ButtonSize.Medium">
-        <Icon Name="IconName.ArrowLeft"/> Back
-    </Button>
-    <Button Color="ButtonColor.Success" @onclick="EditEducation" Size="ButtonSize.Medium">
-        Edit <Icon Name="IconName.PencilSquare"/>
-    </Button>
-</div>
+<ScrollTopButton />
 
 <script>
         window.scrollTo({ top: 0, behavior: 'auto' });
 </script>
 
 @code {
-    
+
 }

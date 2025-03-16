@@ -1,8 +1,11 @@
 ﻿@page "/subjects/{Id:int}/edit"
 
 <TopPageHeader>Edit Subject</TopPageHeader>
+<div class="border-top" style="width: 100%; max-width: 50%; margin-top: 15px"></div>
 
-<SubjectForm Subject="_subject" OnSave="HandleSave" FormType="FormType.Edit" />
+<div class="container">
+    <SubjectForm Subject="_subject" OnSave="HandleSave" FormType="FormType.Edit" />
+</div>
 
 <script>
     window.scrollTo({ top: 0, behavior: 'auto' });
@@ -16,6 +19,7 @@
     [Inject] protected ToastService ToastService { get; set; } = default!;
 
     // [Inject] private NavigationManager Navigation { get; set; }
+
     [Inject] private IJSRuntime JSRuntime { get; set; }
 
     private Subject _subject = new();
@@ -38,5 +42,4 @@
             ToastService.Notify(new ToastMessage(ToastType.Danger, $"Subject could not be saved."));
         }
     }
-
 }

@@ -7,15 +7,9 @@ public class GradeService : IGradeService
 {
     public void PassObjectAttributes(Grade toGrade, Grade fromGrade, bool actionSubmit = false)
     {
-        if (fromGrade is null)
-        {
-            throw new ArgumentNullException(nameof(fromGrade));
-        }
+        ArgumentNullException.ThrowIfNull(fromGrade);
 
-        if (toGrade is null)
-        {
-            throw new ArgumentNullException(nameof(toGrade));
-        }
+        ArgumentNullException.ThrowIfNull(toGrade);
 
         toGrade.Value = fromGrade.Value;
         toGrade.Description = actionSubmit ? fromGrade.Description?.Trim() : fromGrade.Description;

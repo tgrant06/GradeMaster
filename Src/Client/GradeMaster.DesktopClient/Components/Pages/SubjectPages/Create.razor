@@ -1,21 +1,37 @@
 ﻿@page "/subjects/create"
 
-<TopPageHeader>New Subject</TopPageHeader>
+@using Microsoft.AspNetCore.WebUtilities;
 
-<SubjectForm OnSave="HandleSave" FormType="FormType.Create" />
+<TopPageHeader>New Subject</TopPageHeader>
+<div class="border-top" style="width: 100%; max-width: 50%; margin-top: 15px"></div>
+
+<div class="container">
+    <SubjectForm OnSave="HandleSave" FormType="FormType.Create" EducationId="_educationId"/>
+</div>
 
 <script>
     window.scrollTo({ top: 0, behavior: 'auto' });
 </script>
 
 @code {
+    private int? _educationId;
+
     [Inject] private ISubjectRepository _subjectRepository { get; set; }
 
     [Inject] protected ToastService ToastService { get; set; } = default!;
 
-    // [Inject] private NavigationManager Navigation { get; set; }
+    [Inject] private NavigationManager Navigation { get; set; }
     [Inject] private IJSRuntime JSRuntime { get; set; }
 
+    protected override void OnInitialized()
+    {
+        var uri = new Uri(Navigation.Uri);
+        var queryParams = QueryHelpers.ParseQuery(uri.Query);
+        if (queryParams.TryGetValue("educationId", out var educationIdString) && int.TryParse(educationIdString, out var educationId))
+        {
+            _educationId = educationId;
+        }
+    }
 
     private async Task HandleSave(Subject subject)
     {
@@ -30,5 +46,4 @@
             ToastService.Notify(new ToastMessage(ToastType.Danger, $"Subject could not be saved."));
         }
     }
-
 }

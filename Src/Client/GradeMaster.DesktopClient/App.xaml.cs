@@ -10,11 +10,15 @@ public partial class App : Application
         InitializeComponent();
     }
 
+    #region Not used
+
     // was like this before
     //protected override Window CreateWindow(IActivationState? activationState)
     //{
     //    return new Window(new MainPage()) { Title = "GradeMaster", MinimumHeight = 640, MinimumWidth = 500 };
     //}
+
+    #endregion
 
     // new implementation
     protected override Window CreateWindow(IActivationState? activationState)

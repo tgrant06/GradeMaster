@@ -9,11 +9,13 @@ public interface IGradeRepository : IGenericEntityRepository<Grade>
 
     Task<List<Grade>> GetBySubjectIdAsync(int id);
 
+    Task<List<Grade>> GetBySubjectIdSimpleAsync(int id);
+
     Task<Grade?> GetByIdDetailAsync(int id);
 
     Task<List<Grade>> GetAllWithWeightAsync();
 
-    Task<List<Grade>> GetBySearchWithLimitAsync(string searchValue, int startIndex, int amount);
+    Task<List<Grade>> GetBySearchWithRangeAsync(string searchValue, int startIndex, int amount);
 
     Task<int> GetTotalCountAsync(string searchValue);
 }

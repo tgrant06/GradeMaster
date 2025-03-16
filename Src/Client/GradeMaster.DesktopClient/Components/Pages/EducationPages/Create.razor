@@ -1,8 +1,11 @@
 ﻿@page "/educations/create"
 
 <TopPageHeader>New Education</TopPageHeader>
+<div class="border-top" style="width: 100%; max-width: 50%; margin-top: 15px"></div>
 
-<EducationForm OnSave="HandleSave" FormType="FormType.Create"/>
+<div class="container">
+    <EducationForm OnSave="HandleSave" FormType="FormType.Create"/>
+</div>
 
 <script>
     window.scrollTo({ top: 0, behavior: 'auto' });
@@ -14,6 +17,7 @@
     [Inject] protected ToastService ToastService { get; set; } = default!;
 
     // [Inject] private NavigationManager Navigation { get; set; }
+
     [Inject] private IJSRuntime JSRuntime { get; set; }
 
 
@@ -30,5 +34,4 @@
             ToastService.Notify(new ToastMessage(ToastType.Danger, $"Education could not be saved."));
         }
     }
-
 }

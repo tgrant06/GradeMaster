@@ -3,11 +3,13 @@
         <CardTitle Style="padding-top: 6px">
             <b>@Subject.Name - @Subject.Semester</b>
         </CardTitle>
-        <CardSubTitle Class="mb-2 text-muted">@UIUtils.TruncateString(Subject.Education.Name, 60) @UIUtils.TruncateString(string.IsNullOrEmpty(Subject.Education.Institution) ? " " : "| " + Subject.Education.Institution.Split(",")[0], 15)</CardSubTitle>
+        <CardSubTitle Class="mb-2 text-muted">@UIUtils.TruncateString(Subject.Education.Name, 60) @UIUtils.TruncateString(string.IsNullOrEmpty(Subject.Education.Institution) ? " " : "| " + Subject.Education.Institution.Split(",")[0], 15) 
+            <CompletionStateBadge Completed="Subject.Education.Completed" MarginBottom="1" />
+        </CardSubTitle>
     </CardHeader>
     <CardBody>
         <CardText>
-            <b>Description:</b> <br /> @UIUtils.TruncateString(string.IsNullOrEmpty(Subject.Description) ? "-" : Subject.Description, 150)
+            <b>Description:</b> <br /> @UIUtils.TruncateStringWithFallback(Subject.Description, "-", 125)
         </CardText>
     </CardBody>
     <CardBody Class="border-top">
@@ -34,7 +36,7 @@
             </Badge>
         </CardText>
         <CardText>
-            <b>Grade Amount:</b> @Subject.Grades.Count()
+            <b>Grade Amount:</b> @Subject.Grades.Count
         </CardText>
     </CardBody>
     <CardFooter Style="text-align: end">
@@ -46,8 +48,6 @@
         </Button>
     </CardFooter>
 </Card>
-
-@* <ConfirmDialog @ref="_dialog" /> *@
 
 @code {
     [Parameter] public Subject Subject { get; set; }
@@ -67,14 +67,9 @@
         _subjectAverage = SubjectUtils.CalculateWeightedAverage(Subject.Grades);
     }
 
-    private void SubjectDetail()
-    {
-        Navigation.NavigateTo($"/subjects/{Subject.Id}");
-    }
+    private void SubjectDetail() => Navigation.NavigateTo($"/subjects/{Subject.Id}");
 
     #region Delete Subject
-
-    //private ConfirmDialog _dialog = default!;
 
     private async Task DeleteSubjectAsync()
     {
@@ -85,7 +80,7 @@
 
         var confirmation = await Dialog.ShowAsync(
             title: "Are you sure you want to delete this Subject?",
-            message1: $"Subject: {Subject.Name} - {Subject.Semester} of Education: {Subject.Education.Name} and all of its {Subject.Grades.Count()} Grade(s) will be deleted.",
+            message1: $"Subject: {Subject.Name} - {Subject.Semester} of Education: {Subject.Education.Name} and all of its {Subject.Grades.Count} Grade(s) will be deleted.",
             message2: "Do you want to proceed?",
             confirmDialogOptions: options);
 

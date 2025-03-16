@@ -8,7 +8,18 @@ namespace GradeMaster.DesktopClient.Components.Pages;
 
 public partial class Subjects
 {
-    #region Dependancy Injection
+    #region Fields / Properties
+
+    private string _searchValue = string.Empty;
+    private bool _existsAnyEducationInProgress;
+
+    private Virtualize<Subject>? _virtualizeComponent;
+
+    private ConfirmDialog _dialog = default!;
+
+    #endregion
+
+    #region Dependency Injection
 
     [Inject]
     private IEducationRepository _educationRepository
@@ -36,15 +47,11 @@ public partial class Subjects
 
     #endregion
 
-    private string _searchValue = string.Empty;
-    private bool _existsAnyEducationInProgress;
-
-    private Virtualize<Subject>? _virtualizeComponent;
-
-    private ConfirmDialog _dialog = default!;
-
-    // private List<Subject> _subjects = new();
-    // private List<Subject> _filteredSubjects = new();
+    protected async override Task OnInitializedAsync()
+    {
+        await _weightRepository.GetAllAsync();
+        _existsAnyEducationInProgress = await _educationRepository.ExistsAnyIsCompletedAsync(false);
+    }
 
     private async ValueTask<ItemsProviderResult<Subject>> GetSubjectsProvider(ItemsProviderRequest request)
     {
@@ -52,20 +59,13 @@ public partial class Subjects
         var count = request.Count;
 
         // Fetch only the required slice of data
-        var fetchedSubjects = await _subjectRepository.GetBySearchWithLimitAsync(_searchValue, startIndex, count);
+        var fetchedSubjects = await _subjectRepository.GetBySearchWithRangeAsync(_searchValue, startIndex, count);
 
         // Calculate the total number of items (if known or needed)
         var totalItemCount = await _subjectRepository.GetTotalCountAsync(_searchValue);
 
         // Return the result to the Virtualize component
         return new ItemsProviderResult<Subject>(fetchedSubjects, totalItemCount);
-    }
-
-    protected async override Task OnInitializedAsync()
-    {
-        await _weightRepository.GetAllAsync();
-        _existsAnyEducationInProgress = await _educationRepository.ExistsAnyIsCompletedAsync(false);
-        // await LoadSubjects();
     }
 
     private async Task RefreshSubjectData()
@@ -76,8 +76,7 @@ public partial class Subjects
     private async Task LoadAllSubjects()
     {
         _searchValue = string.Empty;
-        await _virtualizeComponent?.RefreshDataAsync();
-        //await LoadSubjects();
+        await RefreshSubjectData();
     }
 
     #region Not Used
@@ -122,8 +121,9 @@ public partial class Subjects
 
     #endregion
 
-    private void CreateSubject()
-    {
-        Navigation.NavigateTo("/subjects/create");
-    }
+    #region Navigation
+
+    private void CreateSubject() => Navigation.NavigateTo("/subjects/create");
+
+    #endregion
 }

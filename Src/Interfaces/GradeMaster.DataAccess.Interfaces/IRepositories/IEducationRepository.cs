@@ -12,7 +12,7 @@ public interface IEducationRepository : IGenericEntityRepository<Education>
 
     Task<List<Education>> GetByCompletedAsync(bool completed);
 
-    Task<List<Education>> GetBySearchWithLimitAsync(string searchValue, int startIndex, int amount);
+    Task<List<Education>> GetBySearchWithRangeAsync(string searchValue, int startIndex, int amount);
 
     Task<int> GetTotalCountAsync(string searchValue);
 

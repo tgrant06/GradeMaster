@@ -68,12 +68,6 @@
                 </div>
             </Placeholder> *@
         </Virtualize>
-
-        @*Was*@
-        @* @foreach (Subject subject in _filteredSubjects.OrderByDescending(e => e.Id))
-        {
-            <SubjectCard Subject="@subject" OnSubjectDeleted="HandleSubjectDeleted"/>
-        } *@
     </div>
 </div>
 

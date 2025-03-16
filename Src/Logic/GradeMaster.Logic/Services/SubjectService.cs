@@ -7,15 +7,9 @@ public class SubjectService : ISubjectService
 {
     public void PassObjectAttributes(Subject toSubject, Subject fromSubject, bool actionSubmit = false)
     {
-        if (fromSubject is null)
-        {
-            throw new ArgumentNullException(nameof(fromSubject));
-        }
+        ArgumentNullException.ThrowIfNull(fromSubject);
 
-        if (toSubject is null)
-        {
-            throw new ArgumentNullException(nameof(toSubject));
-        }
+        ArgumentNullException.ThrowIfNull(toSubject);
 
         toSubject.Name = actionSubmit ? fromSubject.Name.Trim() : fromSubject.Name;
         toSubject.Description = actionSubmit ? fromSubject.Description?.Trim() : fromSubject.Description;

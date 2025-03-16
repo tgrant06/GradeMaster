@@ -3,7 +3,6 @@
 <TopPageHeader>Home</TopPageHeader>
 
 <div class="row py-3 mx-0">
-    <!--had classes: bd-navbar sticky-top / maybe reverse order (.OrderByDescending(e => e.Id)-->
     <div class="col-8 col-md-8 px-0 mb-3" style="max-width: 400px">
         <b>Education: </b>
         <select class="form-select" style="min-width: 200px; max-width: 400px" aria-label="Default select example" name="selectFieldEducation" id="selectFieldEducation"
@@ -11,11 +10,12 @@
             <option value="" style="background-color: #eeeeee; color: black; border: solid 1px">Select Education</option>
             @foreach (var education in _educations)
             {
-                <option value="@education.Id" style="background-color: #eeeeee; color: black;">@UIUtils.TruncateString(education.Name, 65)</option>
+                <option @key="@($"edu_{education.Id}")" value="@education.Id" style="background-color: #eeeeee; color: black;">@UIUtils.TruncateString(education.Name, 65) @(education.Completed ? "🟢" : "🟡")</option>
             }
         </select>
+        <!--these two rectangles are: green circle and yellow circle emojis respectfully-->
     </div>
-    <!--Add edit and detail button later-->
+    <!--Maybe add edit button later-->
     <div class="col-1 col-md-1 mb-3 mt-4" style="width: 38px; margin-right: 6px; padding-left: 9px;">
         <Tooltip Title="New Education" Style="padding-top: 6px;">
             <NavLink href="/educations/create" class="btn btn-primary px-2" style="height: 38px; padding-top: 3px;">
@@ -28,7 +28,6 @@
             <Icon Name="IconName.ArrowRepeat" Size="IconSize.x5"/>
         </Button> *@
         <Dropdown Color="DropdownColor.Secondary" style="height: 38px; padding: 0;" >
-            @* <DropdownActionButton @onclick="ReloadData" class="px-2" style="padding-top: 3px;"><Icon Name="IconName.ArrowRepeat" Size="IconSize.x5" /></DropdownActionButton> *@
             <DropdownToggleButton Id="menuDropdown" class="px-1" style="width: 38px; padding-top: 3px;"><Icon Name="IconName.List" Size="IconSize.x5" /></DropdownToggleButton>
             <DropdownMenu Position="DropdownMenuPosition.End" Style="width: 100px">
                 <DropdownItem @onclick="ReloadData" Type="DropdownItemType.Button">Reload <Icon Name="IconName.ArrowRepeat" /></DropdownItem>
@@ -52,10 +51,9 @@
 
         <GridColumns>
             <GridColumn TItem="Subject" HeaderText="Subject" PropertyName="Name" Class="name-column">
-                <Tooltip Title="@(context.Completed ? "Completed" : "In Progress")" Style="padding-top: 1px;">
+                <Tooltip Title="@(context.Completed ? "Completed 🟢" : "In Progress 🟡")" Style="padding-top: 1px;">
                     <Button @onclick="() => GoToSubject(context.Id)" class="btn-translucient-v2 border-0" style="padding: 3px; font-size: initial; margin-top: 1px; margin-bottom: 1px;">@UIUtils.TruncateString(context.Name, 25) - @context.Semester</Button>
                 </Tooltip>
-                @* @UIUtils.TruncateString(context.Name, 21) - @context.Semester *@
             </GridColumn>
             <GridColumn TItem="Subject" HeaderText="Grades" SortKeySelector="item => item.Grades != null ? item.Grades.Count : 0" Class="grades-column">
                 @if (context.Grades != null && context.Grades.Any())
@@ -88,12 +86,11 @@
                 @if (!context.Completed)
                 {
                     <Tooltip Title="New Grade" Style="padding-top: 1px;"><!--was height: 29px; and width: 29px; padding-left: 4pt;-->
-                        <NavLink href="/grades/create" class="btn btn-secondary" style="height: 30px; width: 30px; padding-top: 2px; padding-left: 4.55pt; margin-top: 1px; margin-bottom: 1px;">
+                        <Button @onclick="() => GoToNewGrade(context.Id)" class="btn-secondary" style="height: 30px; width: 30px; padding-top: 2px; padding-left: 4.55pt; margin-top: 1px; margin-bottom: 1px;">
                             <Icon Name="IconName.PlusCircle" Size="IconSize.x6"/><!--maybe change font-size to fixed amount for example to 16px-->
-                        </NavLink>
+                        </Button>
                     </Tooltip>
                 }
-                <!--Later add detail navigation to every grade-->
             </GridColumn>
             <GridColumn TItem="Subject" HeaderText="Average" SortKeySelector="item => item.Grades != null ? item.Grades.Average(g => g.Value) : 0" HeaderTextAlignment="Alignment.End" TextAlignment="Alignment.Center" Class="average-grade-column">
                 @if (SubjectUtils.CalculateWeightedAverage(context.Grades) < 4 && SubjectUtils.CalculateWeightedAverage(context.Grades) != 0)
@@ -112,9 +109,20 @@
     <!--Later add detail of every row maybe us _selectedEducationId instead-->
     @if (_currentEducationId != 0)
     {
-        <NavLink href="/subjects/create" class="btn btn-success px-1" style="margin-left: 12px; width: 135px">
-            New Subject <i class="bi bi-plus-circle"></i>
-        </NavLink>
+        if (_educations.Find(e => e.Id.Equals(_currentEducationId)).Completed)
+        {
+            <Tooltip Title="This Education is completed" Style="width: 162px; padding-left: 0;">
+                <Button Disabled="true" @onclick="() => GoToNewSubject(_currentEducationId)" class="btn-success px-1" style="margin-left: 12px; width: 135px">
+                    New Subject <i class="bi bi-plus-circle"></i>
+                </Button>
+            </Tooltip>
+        }
+        else
+        {
+            <Button @onclick="() => GoToNewSubject(_currentEducationId)" class="btn-success px-1" style="margin-left: 12px; width: 135px">
+                New Subject <i class="bi bi-plus-circle"></i>
+            </Button>
+        }
     }
 </div>
 
