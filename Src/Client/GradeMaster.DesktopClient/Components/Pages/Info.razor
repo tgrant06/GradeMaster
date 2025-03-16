@@ -4,21 +4,28 @@
 
 <div style="margin-top: 50px;"></div>
 
-<p>
+<p style="margin-bottom: 0.4rem;">
     <strong>Grade Master</strong> is a grade management tool that helps you manage your education, subjects, and grades.
     <br /><br />
     <strong>Official Repository:</strong>
     <a class="btn-link" href="https://github.com/DevT06/GradeMaster" target="_blank">GitHub - DevT06/GradeMaster</a>
     <br /><br />
     <strong>Version Information:</strong>
-    <br />
-    - <strong>Installed Version:</strong> 2.1.1
-    <br />
+</p>
+
+<p style="margin-bottom: 0.5rem;">
+    - <strong>Installed Version:</strong> <span id="installedVersion">2.1.1</span>
+    <span id="currentInstalledVersion" class="alert alert-secondary" style="padding: 2px 5px">
+        Checking...
+    </span>
+</p> 
+<p style="margin-bottom: 0.5rem;">
     - <strong>Latest Available Version:</strong>
-    <a href="https://github.com/DevT06/GradeMaster/releases" target="_blank">
-        <img src="https://img.shields.io/github/v/release/devt06/GradeMaster" alt="Release Version Badge">
+    <a id="latestAvailableVersion" class="alert alert-primary" style="padding: 2px 5px; text-decoration: none;" href="https://github.com/DevT06/GradeMaster/releases" target="_blank">
+        Checking...
     </a>
-    <br />
+</p>
+<p>
     - <strong>Client Version:</strong> GradeMaster.DesktopClient - 2.1.1.0
 </p>
 
@@ -29,6 +36,7 @@
 
 <script>
     window.scrollTo({ top: 0, behavior: 'auto' });
+    window.checkForUpdates();
 </script>
 
 @code {
