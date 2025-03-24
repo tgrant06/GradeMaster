@@ -83,8 +83,8 @@ GradeMaster is in active development. <br>
 | Android | arm64        | No        |
 
 #### Info
-- You also have to make shure you have the WebView2 installed on your System. [WebView2](https://developer.microsoft.com/en-us/microsoft-edge/webview2)
-- The WebView2 should already be pre installed on all Windows 11 and most Windows 10 devices.
+- You also have to make shure you have the [WebView2](https://developer.microsoft.com/en-us/microsoft-edge/webview2) installed on your System.
+- The [WebView2](https://developer.microsoft.com/en-us/microsoft-edge/webview2) should already be pre installed on all Windows 11 and most Windows 10 devices.
 
 #### The Desktop GUI Client is currently limited to Windows only.
 - Windows versions that are supported and work (tested): Windows 11
