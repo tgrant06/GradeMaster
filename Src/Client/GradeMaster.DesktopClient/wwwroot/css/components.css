@@ -106,7 +106,7 @@
     transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out, opacity 0.25s ease-in-out, visibility 0.25s ease-in-out;
     opacity: 0; /* Initially invisible */
     visibility: hidden; /* Prevents clicking when hidden */
-    backdrop-filter: blur(16px);
+    backdrop-filter: saturate(90%) blur(16px);
     z-index: 1095;
 }
 
