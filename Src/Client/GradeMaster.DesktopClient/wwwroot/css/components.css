@@ -30,7 +30,7 @@
 
 .animated-card {
     animation: fadeIn 0.155s ease; /*Maybe change to max 0.175*/
-    will-change: transform, opacity;
+    will-change: transform, opacity, filter;
     /*transition: transform 0.3s ease, opacity 0.3s ease;*/
 }
 
@@ -41,10 +41,24 @@
     font-size: 20px;
 }
 
+@keyframes fadeInTopPageHeader {
+    from {
+        opacity: 0.25;
+        filter: blur(5px);
+    }
+
+    to {
+        opacity: 1;
+        filter: blur(0);
+    }
+}
+
 .topPageHeader {
+    animation: fadeInTopPageHeader 0.3s ease;
+    will-change: opacity, filter;
     /*Maybe add animation later, maybe add new animation*/
     /*Then also increase the max-width and make shure the options button is still clickable ((increase) z-index)*/
-/*    animation: fadeIn 0.1s ease;
+    /*    animation: fadeIn 0.1s ease;
     will-change: transform, opacity;*/
 }
 
