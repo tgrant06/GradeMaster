@@ -31,7 +31,7 @@
             <DropdownToggleButton Id="menuDropdown" class="px-1" style="width: 38px; padding-top: 3px;"><Icon Name="IconName.List" Size="IconSize.x5" /></DropdownToggleButton>
             <DropdownMenu Position="DropdownMenuPosition.End" Style="width: 100px">
                 <DropdownItem @onclick="ReloadData" Type="DropdownItemType.Button">Reload <Icon Name="IconName.ArrowRepeat" /></DropdownItem>
-                <DropdownItem @onclick="() => GoToEducation(_selectedEducationId.Value)" Disabled="@(!_selectedEducationId.HasValue)" Type="DropdownItemType.Button">Detail <Icon Name="IconName.Journal" /></DropdownItem>
+                <DropdownItem @onclick="() => GoToEducation(_selectedEducationId!.Value)" Disabled="@(!_selectedEducationId.HasValue)" Type="DropdownItemType.Button">Detail <Icon Name="IconName.Journal" /></DropdownItem>
             </DropdownMenu>
         </Dropdown>
     </div>
@@ -109,7 +109,7 @@
     <!--Later add detail of every row maybe us _selectedEducationId instead-->
     @if (_currentEducationId != 0)
     {
-        if (_educations.Find(e => e.Id.Equals(_currentEducationId)).Completed)
+        if (_educations.Find(e => e.Id.Equals(_currentEducationId))!.Completed)
         {
             <Tooltip Title="This Education is completed" Style="width: 162px; padding-left: 0;">
                 <Button Disabled="true" @onclick="() => GoToNewSubject(_currentEducationId)" class="btn-success px-1" style="margin-left: 12px; width: 135px">
