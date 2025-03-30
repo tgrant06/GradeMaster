@@ -61,6 +61,7 @@
     }
 
     .nav-item ::deep .nav-link {
+        /*color: light-dark(#282828, #d7d7d7);*/
         color: #d7d7d7;
         background: none;
         border: none;
@@ -74,26 +75,31 @@
 
     .nav-item ::deep a.active:hover:active {
         background-color: light-dark(rgba(255,255,255,0.40), rgba(0,0,0,0.40)); /*was 0.37*/
+        /*color: light-dark(black, white);*/
         color: white;
     }
 
     .nav-item ::deep a.active:hover {
         background-color: light-dark(rgba(255,255,255,0.45), rgba(0,0,0,0.45)); /*was 0.37*/
+        /*color: light-dark(black, white);*/
         color: white;
     }
 
     .nav-item ::deep a.active {
         background-color: light-dark(rgba(255,255,255,0.37), rgba(0,0,0,0.37)); /*was 0.37*/
+        /*color: light-dark(black, white);*/
         color: white;
     }
 
     .nav-item ::deep .nav-link:hover {
         background-color: light-dark(rgba(255,255,255,0.2), rgba(0,0,0,0.2));
+        /*color: light-dark(black, white);*/
         color: white;
     }
 
         .nav-item ::deep .nav-link:hover:active {
             background-color: light-dark(rgba(255,255,255,0.15), rgba(0,0,0,0.15));
+            /*color: light-dark(black, white);*/
             color: white;
         }
 
