@@ -43,7 +43,7 @@
 
 @keyframes fadeInTopPageHeader {
     from {
-        opacity: 0.25;
+        opacity: 0.3;
         filter: blur(6px);
     }
 
@@ -54,7 +54,7 @@
 }
 
 .topPageHeader {
-    animation: fadeInTopPageHeader 0.3s ease;
+    animation: fadeInTopPageHeader 0.2s ease-in;
     will-change: opacity, filter;
     /*Maybe add animation later, maybe add new animation*/
     /*Then also increase the max-width and make shure the options button is still clickable ((increase) z-index)*/
