@@ -75,7 +75,7 @@ else
                     <strong>Completion State: <span class="text-danger">*</span></strong>
                 </label>
                 <div class="form-check">
-                    <InputCheckbox @bind-Value="NewEducation.Completed" Id="completionState" class="form-check-input"/>
+                    <InputCheckbox @bind-Value="NewEducation.Completed" id="completionState" class="form-check-input" disabled="@(FormType == FormType.Create)"/>
                     <label class="form-check-label" for="completionState">
                         @(NewEducation.Completed ? "Completed" : "In Progress")
                     </label>
