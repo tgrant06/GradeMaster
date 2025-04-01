@@ -25,7 +25,7 @@ else
         <div class="form-group row mb-3">
             <label class="col-md-2 col-form-label nowrap"><strong>Education: <span class="text-danger">*</span></strong></label>
             <div class="col-md-10">
-                <select class="form-select" style="max-width: 620px" aria-label="Default select example" name="selectFieldEducation" id="selectFieldEducation"
+                <select class="form-select" style="max-width: 620px" aria-label="Default select example" name="selectFieldEducation" id="selectFieldEducation" disabled="@(EducationId.HasValue)"
                 @bind="SelectedEducationId">
                     <option value="0" class="truncate" style="background-color: #eeeeee; color: black; border: solid 1px">Select Education</option>
                     @foreach (var education in Educations)

@@ -41,7 +41,7 @@ else
         <div class="form-group row mb-3">
             <label class="col-md-2 col-form-label nowrap"><strong>Subject: <span class="text-danger">*</span></strong></label>
             <div class="col-md-10">
-                <select class="form-select" style="max-width: 620px" aria-label="Default select example" name="selectFieldSubject" id="selectFieldSubject"
+                <select class="form-select" style="max-width: 620px" aria-label="Default select example" name="selectFieldSubject" id="selectFieldSubject" disabled="@(SubjectId.HasValue)"
                 @bind="SelectedSubjectId">
                     <option value="0" style="background-color: #eeeeee; color: black; border: solid 1px">Select Subject</option>
                     @foreach (var subject in Subjects)
