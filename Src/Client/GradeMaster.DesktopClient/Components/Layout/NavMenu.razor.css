@@ -61,8 +61,8 @@
     }
 
     .nav-item ::deep .nav-link {
-        /*color: light-dark(#282828, #d7d7d7);*/
-        color: #d7d7d7;
+        color: light-dark(#ebebeb, #d7d7d7); /*#ebebeb, #d7d7d7*/
+        /*color: #d7d7d7;*/
         background: none;
         border: none;
         border-radius: 5px; /*was 4px*/
@@ -71,23 +71,28 @@
         align-items: center;
         line-height: 3rem;
         width: 100%;
+        transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, text-shadow .15s ease-in-out;
+        will-change: color, background-color, border-color, text-shadow;
     }
 
     .nav-item ::deep a.active:hover:active {
         background-color: light-dark(rgba(255,255,255,0.40), rgba(0,0,0,0.40)); /*was 0.37*/
         /*color: light-dark(black, white);*/
+        text-shadow: 0 0 18px light-dark(black, transparent);
         color: white;
     }
 
     .nav-item ::deep a.active:hover {
         background-color: light-dark(rgba(255,255,255,0.45), rgba(0,0,0,0.45)); /*was 0.37*/
         /*color: light-dark(black, white);*/
+        text-shadow: 0 0 18px light-dark(black, transparent);
         color: white;
     }
 
     .nav-item ::deep a.active {
         background-color: light-dark(rgba(255,255,255,0.37), rgba(0,0,0,0.37)); /*was 0.37*/
         /*color: light-dark(black, white);*/
+        text-shadow: 0 0 18px light-dark(black, transparent);
         color: white;
     }
 

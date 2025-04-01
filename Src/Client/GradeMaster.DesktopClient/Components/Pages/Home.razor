@@ -41,7 +41,8 @@
 </div>
 
 <!--Enable paging for large data-->
-<div class="row py-4" style="padding-top: 1.4rem !important;">
+<!--Had animation style="animation: fadeInBlur 0.2s ease-in;"-->
+<div class="row py-4" style="padding-top: 1.4rem !important; animation: fadeInBlur .18s ease; will-change: opacity, filter;">
     <Grid TItem="Subject"
           Class="table table-hover"
           Data="@_subjects.OrderByDescending(s => s.Semester).ThenBy(s => s.Name)"

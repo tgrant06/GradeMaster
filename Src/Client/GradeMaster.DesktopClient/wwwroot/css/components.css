@@ -41,7 +41,7 @@
     font-size: 20px;
 }
 
-@keyframes fadeInTopPageHeader {
+@keyframes fadeInBlur {
     from {
         opacity: 0.3;
         filter: blur(6px);
@@ -54,7 +54,7 @@
 }
 
 .topPageHeader {
-    animation: fadeInTopPageHeader 0.2s ease-in;
+    animation: fadeInBlur 0.2s ease-in;
     will-change: opacity, filter;
     /*Maybe add animation later, maybe add new animation*/
     /*Then also increase the max-width and make shure the options button is still clickable ((increase) z-index)*/
@@ -117,7 +117,9 @@
     height: 50px;
     border-radius: 12px;
     box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
-    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out, opacity 0.25s ease-in-out, visibility 0.25s ease-in-out;
+    filter: blur(3px);
+    transition: filter .15s ease-in-out, color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out, opacity 0.25s ease-in-out, visibility 0.25s ease-in-out;
+    will-change: filter, color, background-color, border-color, box-shadow, opacity, visibility; 
     opacity: 0; /* Initially invisible */
     visibility: hidden; /* Prevents clicking when hidden */
     backdrop-filter: saturate(90%) blur(16px);
@@ -127,6 +129,7 @@
 .btn-scroll-top.show {
     opacity: 1;
     visibility: visible;
+    filter: blur(0);
 }
 
 @media (max-width: 640.98px) {
