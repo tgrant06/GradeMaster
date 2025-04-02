@@ -106,6 +106,9 @@ h1:focus {
 .btn-translucient {
     background-color: rgba(0, 0, 0, 0.00)
 }
+    .btn-translucient:focus-visible {
+        box-shadow: 0 0 0 .25rem rgba(0, 0, 0, .25) !important;
+    }
 
     .btn-translucient:hover, .btn-translucient:focus-visible {
         background-color: rgba(0, 0, 0, 0.20);
