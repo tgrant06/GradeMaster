@@ -4,7 +4,8 @@
     -webkit-user-select: none; /* Safari and WebKit browsers */
     user-select: none; /* Prevents text selection */
     /*pointer-events: auto;*/ /* Ensures normal interactions */
-    scrollbar-color: light-dark(#8B8B8B,#9F9F9F) transparent;
+    scrollbar-color: light-dark(#8B8B8B,#9F9F9F) #00000012; /*was: transparent*/
+    scrollbar-width: thin;
 }
 
 /*#if (SampleContent)*/
