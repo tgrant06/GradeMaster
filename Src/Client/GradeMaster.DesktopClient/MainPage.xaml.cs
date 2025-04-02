@@ -28,6 +28,29 @@ public partial class MainPage : ContentPage
         //    await e.WebView.EnsureCoreWebView2Async(env);
         //};
 
+        /* in the method:
+        public void ConfigureWebView2() 
+        {
+            ...
+           
+            // not necessary 
+            //Environment.SetEnvironmentVariable("WEBVIEW2_DEFAULT_BACKGROUND_COLOR", "0");
+
+                ...
+
+                try 
+                {
+                    ...
+                    
+                    //e.WebView.CanGoForward = false; not used (maybe add for more native feel)
+                } 
+                catch 
+                {
+                    ...
+                }
+                ...
+        }
+        */
         #endregion
     }
 
@@ -42,7 +65,7 @@ public partial class MainPage : ContentPage
         try
         {
             // Define a writable WebView2 User Data Folder
-            string userDataFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), appName, "WebView2");
+            var userDataFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), appName, "WebView2");
 
             if (!Directory.Exists(userDataFolder))
             {
@@ -57,6 +80,10 @@ public partial class MainPage : ContentPage
                 try
                 {
                     await e.WebView.EnsureCoreWebView2Async(); // No parameters needed
+
+                    // change the BackgroundColor of the WebView
+                    const byte zero = 0;
+                    e.WebView.DefaultBackgroundColor = Windows.UI.Color.FromArgb(zero, zero, zero, zero); // Change to any color (in this case Transparent)
                 }
                 catch (Exception ex)
                 {
