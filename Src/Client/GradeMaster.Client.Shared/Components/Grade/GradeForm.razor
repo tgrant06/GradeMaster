@@ -25,9 +25,9 @@ else
         <div class="form-group row mb-3">
             <label class="col-md-2 col-form-label nowrap"><strong>Weight: <span class="text-danger">*</span></strong></label>
             <div class="col-md-10">
-                <select class="form-select" style="max-width: 155px" aria-label="Default select example" name="selectFieldWeight" id="selectFieldWeight"
+                <select class="form-select" style="max-width: 155px" aria-label="Select Weight" name="selectFieldWeight" id="selectFieldWeight"
                         @bind="SelectedWeightId">
-                    <option value="0" style="background-color: #eeeeee; color: black; border: solid 1px">Select Weight</option>
+                    <option value="0" style="background-color: #eeeeee; color: black; display: none;">Select Weight</option>
                     @foreach (var weight in Weights)
                     {
                         <option @key="@($"$wgt_{weight.Id}")" value="@weight.Id" style="background-color: #eeeeee; color: black;">@weight.Name / @weight.Value.ToString("0.0##")</option>
@@ -41,12 +41,12 @@ else
         <div class="form-group row mb-3">
             <label class="col-md-2 col-form-label nowrap"><strong>Subject: <span class="text-danger">*</span></strong></label>
             <div class="col-md-10">
-                <select class="form-select" style="max-width: 620px" aria-label="Default select example" name="selectFieldSubject" id="selectFieldSubject" disabled="@(SubjectId.HasValue)"
+                <select class="form-select" style="max-width: 620px" aria-label="Select Subject" name="selectFieldSubject" id="selectFieldSubject" disabled="@(SubjectId.HasValue)"
                 @bind="SelectedSubjectId">
-                    <option value="0" style="background-color: #eeeeee; color: black; border: solid 1px">Select Subject</option>
+                    <option value="0" style="background-color: #eeeeee; color: black;">Select Subject</option>
                     @foreach (var subject in Subjects)
                     {
-                        <option @key="@($"sub_{subject.Id}")" value="@subject.Id" style="background-color: #eeeeee; color: black;">@UIUtils.TruncateString(@subject.Name, 60) - @subject.Semester @(subject.Completed ? "🟢" : "") | @UIUtils.TruncateString(subject.Education.Name, 60) @(subject.Education.Completed ? "🟢" : "")</option>
+                        <option @key="@($"sub_{subject.Id}")" value="@subject.Id" style="background-color: #eeeeee; color: black;">@UIUtils.TruncateString(subject.Name, 60) - @subject.Semester @(subject.Completed ? "🟢" : "") | @UIUtils.TruncateString(subject.Education.Name, 60) @(subject.Education.Completed ? "🟢" : "")</option>
                     }
                 </select>
                 <ValidationMessage For="@(() => NewGrade.Subject)"/>
@@ -59,7 +59,7 @@ else
                 <strong>Date: <span class="text-danger">*</span></strong>
             </label>
             <div class="col-md-10">
-                <InputDate TValue="DateOnly" @bind-Value="NewGrade.Date" Id="date" class="form-control" style="width: auto; max-width: 200px;" />
+                <InputDate TValue="DateOnly" @bind-Value="NewGrade.Date" id="date" class="form-control" style="width: auto; max-width: 200px;" />
                 <ValidationMessage For="@(() => NewGrade.Date)" />
             </div>
         </div>
@@ -68,7 +68,7 @@ else
         <div class="form-group row mb-3">
             <label class="col-md-2 col-form-label nowrap" for="description">Description:</label>
             <div class="col-md-10">
-                <InputTextArea @bind-Value="NewGrade.Description" Id="description" class="form-control" Rows="4" Placeholder="Enter a description" style="max-height: 256px"/>
+                <InputTextArea @bind-Value="NewGrade.Description" id="description" class="form-control" rows="4" placeholder="Enter a description" style="max-height: 256px"/>
                 <ValidationMessage For="@(() => NewGrade.Description)"/>
             </div>
         </div>
