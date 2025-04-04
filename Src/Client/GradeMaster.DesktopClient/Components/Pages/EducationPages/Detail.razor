@@ -20,10 +20,10 @@
                 <CardText Id="description-text" Class="enabled-text-selection" Style="white-space: pre-wrap; margin-bottom: 0;">
                     <b class="enabled-text-selection">Description:</b> <br class="enabled-text-selection" />@UIUtils.FallbackIfEmpty(Education.Description, "-")
                 </CardText>
-                <div style="position: absolute; left: 10px; bottom: 0; height: 16px; width: calc(100% - 20px); background-color: light-dark(#ffffff, #212529);"></div>
+                <div class="description-bottom-cover"></div>
                 @if (IsTruncated)
                 {
-                    <Button Type="ButtonType.Button" Color="ButtonColor.Link" Class="show-more-less-btn" Style="background-color: light-dark(#ffffff, #212529); box-shadow: -16px -3px 6px -6px light-dark(#ffffff, #212529);" @onclick="ToggleDescription">show @ButtonText</Button>
+                    <Button Type="ButtonType.Button" Color="ButtonColor.Link" Class="show-more-less-btn fw-bolder" @onclick="ToggleDescription">...@ButtonText</Button>
                 }
             </CardBody>
         </Card>
