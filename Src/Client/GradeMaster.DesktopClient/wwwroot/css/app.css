@@ -184,6 +184,27 @@ h1:focus {
     }
 }
 
+#description-area {
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+    will-change: max-height;
+}
+
+/*    .collapsed {
+        max-height: 175px;
+    }
+
+    .expanded {
+        max-height: 100%;
+    }*/
+
+.show-more-less-btn {
+    position: absolute;
+    right: 4px;
+    bottom: 7px;
+    padding-top: 0;
+}
+
 #menuDropdown::after {
     content: "";
     display: none;

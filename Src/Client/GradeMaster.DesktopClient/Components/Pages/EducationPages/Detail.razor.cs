@@ -27,6 +27,15 @@ public partial class Detail
     {
         get; set;
     }
+    private bool IsExpanded { get; set; } = false;
+    private bool IsTruncated { get; set; } = false;
+
+    private string ButtonText => IsExpanded ? "less" : "more";
+    //private string DescriptionClass => IsExpanded ? "expanded" : "collapsed";
+
+    private string DescriptionAreaDynamicHeight => IsExpanded ? $"max-height: {_descriptionAreaExpandedHeight}px;" : "max-height: 175px;";
+
+    private int _descriptionAreaExpandedHeight;
 
     private decimal _educationAverage;
 
@@ -81,6 +90,25 @@ public partial class Detail
         // Calculate the average only after loading the data
         CalculateEducationAverage();
     }
+
+    #region Description
+
+    protected async override Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            IsTruncated = await JSRuntime.InvokeAsync<bool>("checkDescriptionHeight", "description-area", 175);
+            _descriptionAreaExpandedHeight = await JSRuntime.InvokeAsync<int>("getMaxDescriptionHeight", "description-text");
+            StateHasChanged();
+        }
+    }
+
+    private void ToggleDescription()
+    {
+        IsExpanded = !IsExpanded;
+    }
+
+    #endregion
 
     #region Not used
 
