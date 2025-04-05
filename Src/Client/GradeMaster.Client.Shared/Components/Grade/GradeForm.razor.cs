@@ -195,6 +195,13 @@ public partial class GradeForm
             return;
         }
 
+        if (NewGrade.Value < 1)
+        {
+            NewGrade.Value = 1;
+            ToastService.Notify(new ToastMessage(ToastType.Warning, "Please enter a valid grade value (1 - 6)."));
+            return;
+        }
+
         if (OnSave.HasDelegate)
         {
             _gradeService.PassObjectAttributes(Grade, NewGrade, true);
