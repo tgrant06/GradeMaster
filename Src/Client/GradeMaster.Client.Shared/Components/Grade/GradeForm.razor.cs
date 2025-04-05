@@ -153,12 +153,12 @@ public partial class GradeForm
 
             if (Grade == null)
             {
-                // Initialize Education for creation
+                // Initialize Grade for creation
                 Grade = new Entities.Grade
                 {
                     Date = DateOnly.FromDateTime(DateTime.Today),
-                    Weight = new Weight(),
-                    Subject = SubjectId.HasValue ? Subjects.First() : new Entities.Subject()
+                    Weight = default!,
+                    Subject = SubjectId.HasValue ? Subjects.First() : default!
                 };
 
                 FormTitle = "Create New Grade";

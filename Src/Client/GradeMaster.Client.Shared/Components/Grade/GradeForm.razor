@@ -16,7 +16,7 @@ else
                 <strong>Value: <span class="text-danger">*</span></strong>
             </label>
             <div class="col-md-10">
-                <NumberInput TValue="decimal" @bind-Value="NewGrade.Value" Step="0.01" EnableMinMax="true" Max="6" Min="1" Id="gradeValue" class="form-control" Placeholder="Enter the grade value" Style="width: 155px;"/>
+                <NumberInput TValue="decimal" @bind-Value="NewGrade.Value" Step="0.01" EnableMinMax="true" Max="6" Min="0" Id="gradeValue" class="form-control" Placeholder="Enter the grade value" Style="width: 155px;"/>
                 <ValidationMessage For="@(() => NewGrade.Value)"/>
             </div>
         </div>
