@@ -6,7 +6,7 @@ using Microsoft.JSInterop;
 
 namespace GradeMaster.DesktopClient.Components.Pages.GradePages;
 
-public partial class Detail
+public partial class Detail : IAsyncDisposable
 {
     #region Fields / Properties
     
@@ -20,6 +20,16 @@ public partial class Detail
     {
         get; set;
     }
+
+    private bool IsExpanded { get; set; } = false;
+    private bool IsTruncated { get; set; } = false;
+
+    private string ButtonText => IsExpanded ? "less" : "more";
+    //private string DescriptionClass => IsExpanded ? "expanded" : "collapsed";
+
+    private string DescriptionAreaDynamicHeight => IsExpanded ? $"max-height: {_descriptionAreaExpandedHeight}px;" : "max-height: 175px;";
+
+    private int _descriptionAreaExpandedHeight;
 
     //private decimal _subjectAverage;
 
@@ -56,6 +66,49 @@ public partial class Detail
         // Calculate the average only after loading the data
         //await CalculateSubjectAverage();
     }
+
+    #region Description
+
+    protected async override Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            IsTruncated = await JSRuntime.InvokeAsync<bool>("checkDescriptionHeight", "description-area", 175);
+            await SetDescriptionAreaExpandedHeight();
+            StateHasChanged();
+        }
+    }
+
+    private async Task ToggleDescription()
+    {
+        if (!IsExpanded)
+        {
+            await SetDescriptionAreaExpandedHeight();
+        }
+
+        IsExpanded = !IsExpanded;
+
+        await DynamicDescriptionHeightActive(IsExpanded);
+    }
+
+    private async Task SetDescriptionAreaExpandedHeight()
+    {
+        _descriptionAreaExpandedHeight = await JSRuntime.InvokeAsync<int>("getMaxDescriptionHeight", "description-text");
+    }
+
+    private async Task DynamicDescriptionHeightActive(bool isActive)
+    {
+        if (isActive)
+        {
+            await JSRuntime.InvokeVoidAsync("addDescriptionAreaEventListener");
+        }
+        else
+        {
+            await JSRuntime.InvokeVoidAsync("removeDescriptionAreaEventListener");
+        }
+    }
+
+    #endregion
 
     #region Navigation
 
@@ -96,4 +149,8 @@ public partial class Detail
 
     #endregion
 
+    public async ValueTask DisposeAsync()
+    {
+        await JSRuntime.InvokeVoidAsync("removeDescriptionAreaEventListener");
+    }
 }

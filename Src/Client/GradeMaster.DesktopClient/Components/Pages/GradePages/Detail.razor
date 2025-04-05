@@ -24,10 +24,15 @@
 
     <div class="py-2">
         <Card Style="max-width: 1050px">
-            <CardBody>
-                <CardText Class="enabled-text-selection">
+            <CardBody Id="description-area" Style="@(DescriptionAreaDynamicHeight)">
+                <CardText Id="description-text" Class="enabled-text-selection" Style="white-space: pre-wrap; margin-bottom: 0;">
                     <b class="enabled-text-selection">Description:</b> <br style="user-select: text;"/> @UIUtils.FallbackIfEmpty(Grade.Description, "-")
                 </CardText>
+                <div class="description-bottom-cover"></div>
+                @if (IsTruncated)
+                {
+                    <Button Type="ButtonType.Button" Color="ButtonColor.Link" Class="show-more-less-btn fw-bolder" @onclick="ToggleDescription">...@ButtonText</Button>
+                }
             </CardBody>
         </Card>
     </div>

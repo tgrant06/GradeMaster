@@ -8,7 +8,7 @@ using Microsoft.JSInterop;
 
 namespace GradeMaster.DesktopClient.Components.Pages.EducationPages;
 
-public partial class Detail
+public partial class Detail : IAsyncDisposable
 {
     #region Fields / Properties
 
@@ -27,6 +27,7 @@ public partial class Detail
     {
         get; set;
     }
+
     private bool IsExpanded { get; set; } = false;
     private bool IsTruncated { get; set; } = false;
 
@@ -98,14 +99,38 @@ public partial class Detail
         if (firstRender)
         {
             IsTruncated = await JSRuntime.InvokeAsync<bool>("checkDescriptionHeight", "description-area", 175);
-            _descriptionAreaExpandedHeight = await JSRuntime.InvokeAsync<int>("getMaxDescriptionHeight", "description-text");
+            await SetDescriptionAreaExpandedHeight();
             StateHasChanged();
         }
     }
 
-    private void ToggleDescription()
+    private async Task ToggleDescription()
     {
+        if (!IsExpanded)
+        {
+            await SetDescriptionAreaExpandedHeight();
+        }
+        
         IsExpanded = !IsExpanded;
+
+        await DynamicDescriptionHeightActive(IsExpanded);
+    }
+
+    private async Task SetDescriptionAreaExpandedHeight()
+    {
+        _descriptionAreaExpandedHeight = await JSRuntime.InvokeAsync<int>("getMaxDescriptionHeight", "description-text");
+    }
+
+    private async Task DynamicDescriptionHeightActive(bool isActive)
+    {
+        if (isActive)
+        {
+            await JSRuntime.InvokeVoidAsync("addDescriptionAreaEventListener");
+        }
+        else
+        {
+            await JSRuntime.InvokeVoidAsync("removeDescriptionAreaEventListener");
+        }
     }
 
     #endregion
@@ -147,4 +172,9 @@ public partial class Detail
     }
 
     #endregion
+
+    public async ValueTask DisposeAsync()
+    {
+        await JSRuntime.InvokeVoidAsync("removeDescriptionAreaEventListener");
+    }
 }

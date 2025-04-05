@@ -19,11 +19,16 @@
 
     <div class="py-2">
         <Card Style="max-width: 1050px">
-            <CardBody>
-                <CardText Class="enabled-text-selection">
+            <CardBody Id="description-area" Style="@(DescriptionAreaDynamicHeight)">
+                <CardText Id="description-text" Class="enabled-text-selection" Style="white-space: pre-wrap; margin-bottom: 0;">
                     <b class="enabled-text-selection">Description:</b> <br class="enabled-text-selection" /> @UIUtils.FallbackIfEmpty(Subject.Description, "-")
                 </CardText>
             </CardBody>
+            <div class="description-bottom-cover"></div>
+            @if (IsTruncated)
+            {
+                <Button Type="ButtonType.Button" Color="ButtonColor.Link" Class="show-more-less-btn fw-bolder" @onclick="ToggleDescription">...@ButtonText</Button>
+            }
         </Card>
     </div>
     <div class="py-3" style="margin-bottom: 50px">
