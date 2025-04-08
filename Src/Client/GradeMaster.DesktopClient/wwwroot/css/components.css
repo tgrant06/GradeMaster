@@ -30,7 +30,7 @@
 
 .animated-card {
     animation: fadeIn 0.155s ease; /*Maybe change to max 0.175*/
-    will-change: transform, opacity, filter;
+    will-change: opacity, transform;
     /*transition: transform 0.3s ease, opacity 0.3s ease;*/
 }
 
