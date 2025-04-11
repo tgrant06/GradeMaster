@@ -2,9 +2,9 @@
 
 <TopPageHeader Style="font-size: 28px; top: 10px">Detail Education</TopPageHeader>
 
-<div class="border-top" style="width: 100%; max-width: 50%; margin-top: 15px"></div>
+<div class="border-top" style="width: 100%; max-width: 50%; margin-top: 15px; animation: fadeInBlur .2s ease; will-change: opacity, filter;"></div>
 
-<div class="container align-content-center">
+<div class="container align-content-center" style="animation: fadeInBlur .18s ease;">
     <div class="border-top generic-devider-line" style="margin-top: -1px;"></div>
     <div class="col-12 col-md-12 py-3" style="max-width: 1200px;">
         <h2 style="margin-bottom: 11px;">
@@ -76,9 +76,14 @@
         <Button Color="ButtonColor.Primary" @onclick="GoBack" Size="ButtonSize.Medium">
             <Icon Name="IconName.ArrowLeft"/> Back
         </Button>
-        <Button Color="ButtonColor.Success" @onclick="EditEducation" Size="ButtonSize.Medium">
-            Edit <Icon Name="IconName.PencilSquare"/>
-        </Button>
+        <div>
+            <Button Color="ButtonColor.Success" @onclick="EditEducation" Size="ButtonSize.Medium">
+                Edit <Icon Name="IconName.PencilSquare"/>
+            </Button>
+            <Button Color="ButtonColor.Danger" @onclick="DeleteEducationAsync" Size="ButtonSize.Medium" TooltipTitle="Delete" Style="margin-left: 8px;">
+                <Icon Name="IconName.Trash" />
+            </Button>
+        </div>
     </div>
 
     @if (Education.Subjects.Count != 0) 
@@ -116,7 +121,7 @@
 
     <div class="component-card-grid min-component-card-grid py-4" style="max-width: 1050px; padding-top: 0 !important; margin-bottom: 25px;">
         <!--set overflow to hidden maybe-->
-        <Virtualize TItem="Subject" Items="Subjects" Context="subject" OverscanCount="12" @ref="_virtualizeComponent">
+        <Virtualize TItem="Subject" Items="Subjects" Context="subject" OverscanCount="12">
             <ItemContent>
                 <SubjectCard @key="@subject.Id" Subject="@subject" OnSubjectDeleted="RefreshSubjectData" Dialog="_dialog" />
             </ItemContent>

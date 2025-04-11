@@ -18,29 +18,20 @@ public partial class Detail : IAsyncDisposable
         get; set;
     }
 
-    public Education Education
-    {
-        get; set;
-    }
+    public Education Education { get; set; } = new();
 
-    public List<Subject> Subjects
-    {
-        get; set;
-    }
+    public List<Subject> Subjects { get; set; } = [];
 
     private bool IsExpanded { get; set; } = false;
     private bool IsTruncated { get; set; } = false;
 
     private string ButtonText => IsExpanded ? "less" : "more";
-    //private string DescriptionClass => IsExpanded ? "expanded" : "collapsed";
 
     private string DescriptionAreaDynamicHeight => IsExpanded ? $"max-height: {_descriptionAreaExpandedHeight}px;" : "max-height: 175px;";
 
     private int _descriptionAreaExpandedHeight;
 
     private decimal _educationAverage;
-
-    private Virtualize<Subject>? _virtualizeComponent;
 
     private ConfirmDialog _dialog = default!;
 
@@ -84,12 +75,26 @@ public partial class Detail : IAsyncDisposable
 
     protected async override Task OnInitializedAsync()
     {
+        var educationExists = await _educationRepository.ExistsAsync(Id);
+
+        if (!educationExists)
+        {
+            ToastService.Notify(new ToastMessage(ToastType.Info, $"This education does no longer exist."));
+            await GoBack();
+            return;
+        }
+
         await _weightRepository.GetAllAsync();
         Education = await _educationRepository.GetByIdAsync(Id);
-        Subjects = await _subjectRepository.GetByEducationIdOrderedAsync(Education.Id);
+        await RefreshSubjectData();
 
         // Calculate the average only after loading the data
         CalculateEducationAverage();
+    }
+
+    private async Task RefreshSubjectData()
+    {
+        Subjects = await _subjectRepository.GetByEducationIdOrderedAsync(Education.Id);
     }
 
     #region Description
@@ -135,6 +140,38 @@ public partial class Detail : IAsyncDisposable
 
     #endregion
 
+    #region Delete Education
+
+    private async Task DeleteEducationAsync()
+    {
+        var options = new ConfirmDialogOptions
+        {
+            YesButtonColor = ButtonColor.Danger,
+        };
+
+        var confirmation = await _dialog.ShowAsync(
+            title: "Are you sure you want to delete this Education?",
+            message1: $"Education: {Education.Name}, {Education.Subjects.Count} Subject(s) and all related Objects will be deleted.",
+            message2: "Do you want to proceed?",
+            confirmDialogOptions: options);
+
+        if (confirmation)
+        {
+            try
+            {
+                await _educationRepository.DeleteByIdAsync(Education.Id);
+                await GoBack(); // was await OnEducationDeleted.InvokeAsync(Education.Id);
+                ToastService.Notify(new ToastMessage(ToastType.Success, $"Education deleted successfully.")); // maybe add Name of deleted object
+            }
+            catch (Exception e)
+            {
+                ToastService.Notify(new ToastMessage(ToastType.Danger, $"Error deleting education: {e.Message}"));
+            }
+        }
+    }
+
+    #endregion
+
     #region Not used
 
     //invoke js function to scroll to top
@@ -147,11 +184,6 @@ public partial class Detail : IAsyncDisposable
     //}
 
     #endregion
-
-    private async Task RefreshSubjectData()
-    {
-        await _virtualizeComponent?.RefreshDataAsync();
-    }
 
     #region Navigation
 

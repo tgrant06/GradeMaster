@@ -157,4 +157,9 @@ public class SubjectRepository : ISubjectRepository
     {
         return await _context.Subjects.AnyAsync(s => s.Completed == completed);
     }
+
+    public async Task<bool> ExistsAsync(int id)
+    {
+        return await _context.Subjects.AnyAsync(s => s.Id == id);
+    }
 }

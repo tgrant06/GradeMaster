@@ -12,6 +12,7 @@
 html, body {
     /*font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;*/
     font-family: 'Segoe UI', sans-serif;
+    /*remove font-family when other platforms are targeted*/
     touch-action: pan-y; /*was none*/
     -ms-content-zooming: none;
     /*background-color: light-dark(#ffffff, #212529);*/
