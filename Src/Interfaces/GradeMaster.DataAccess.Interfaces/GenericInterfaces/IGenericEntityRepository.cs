@@ -13,4 +13,6 @@ public interface IGenericEntityRepository<T>
     Task DeleteByIdAsync(int id);
 
     Task<bool> ExistsAnyAsync();
+
+    Task<bool> ExistsAsync(int id);
 }

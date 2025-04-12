@@ -2,9 +2,9 @@
 
 <TopPageHeader Style="font-size: 28px; top: 10px">Detail Subject</TopPageHeader>
 
-<div class="border-top" style="width: 100%; max-width: 50%; margin-top: 15px"></div>
+<div class="border-top animated-top-line" style="width: 100%; max-width: 50%; margin-top: 15px"></div>
 
-<div class="container">
+<div class="container animated-page-content">
     <div class="border-top generic-devider-line" style="margin-top: -1px"></div>
     <div class="col-12 col-md-12 py-3" style="max-width: 1200px;">
         <h2 style="margin-bottom: 6px;">
@@ -19,11 +19,16 @@
 
     <div class="py-2">
         <Card Style="max-width: 1050px">
-            <CardBody>
-                <CardText Class="enabled-text-selection">
-                    <b class="enabled-text-selection">Description:</b> <br class="enabled-text-selection" /> @UIUtils.FallbackIfEmpty(Subject.Description, "-")
+            <CardBody Id="description-area" Style="@(DescriptionAreaDynamicHeight)">
+                <CardText Id="description-text" Class="enabled-text-selection" Style="white-space: pre-wrap; margin-bottom: 0;">
+                    <b class="enabled-text-selection">Description:</b> <br class="enabled-text-selection" />@UIUtils.FallbackIfEmpty(Subject.Description, "-")
                 </CardText>
             </CardBody>
+            <div class="description-bottom-cover"></div>
+            @if (IsTruncated)
+            {
+                <Button Type="ButtonType.Button" Color="ButtonColor.Link" Class="show-more-less-btn fw-bolder" @onclick="ToggleDescription">...@ButtonText</Button>
+            }
         </Card>
     </div>
     <div class="py-3" style="margin-bottom: 50px">
@@ -74,9 +79,14 @@
         <Button Color="ButtonColor.Primary" @onclick="GoBack" Size="ButtonSize.Medium">
             <Icon Name="IconName.ArrowLeft" /> Back
         </Button>
-        <Button Color="ButtonColor.Success" @onclick="EditSubject" Size="ButtonSize.Medium">
-            Edit <Icon Name="IconName.PencilSquare" />
-        </Button>
+        <div>
+            <Button Color="ButtonColor.Success" @onclick="EditSubject" Size="ButtonSize.Medium">
+                Edit <Icon Name="IconName.PencilSquare" />
+            </Button>
+            <Button Color="ButtonColor.Danger" @onclick="DeleteSubjectAsync" Size="ButtonSize.Medium" TooltipTitle="Delete" Style="margin-left: 8px; padding-left: 10px; padding-right: 10px;">
+                <Icon Name="IconName.Trash" />
+            </Button>
+        </div>
     </div>
 
     @if (Subject.Grades.Count != 0)
@@ -114,7 +124,7 @@
 
     <div class="component-card-grid min-component-card-grid py-4" style="max-width: 1050px; padding-top: 0 !important; margin-bottom: 25px;">
         <!--set overflow to hidden maybe-->
-        <Virtualize TItem="Grade" Items="Grades" Context="grade" OverscanCount="12" @ref="_virtualizeComponent">
+        <Virtualize TItem="Grade" Items="Grades" Context="grade" OverscanCount="12">
             <ItemContent>
                 <GradeCard @key="@grade.Id" Grade="@grade" OnGradeDeleted="RefreshGradeData" Dialog="_dialog" />
             </ItemContent>

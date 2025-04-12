@@ -14,7 +14,7 @@ public class GradeService : IGradeService
         toGrade.Value = fromGrade.Value;
         toGrade.Description = actionSubmit ? fromGrade.Description?.Trim() : fromGrade.Description;
         toGrade.Date = fromGrade.Date;
-        toGrade.Weight = fromGrade.Weight ?? new Weight();
-        toGrade.Subject = fromGrade.Subject ?? new Subject();
+        toGrade.Weight = fromGrade.Weight ?? default!;
+        toGrade.Subject = fromGrade.Subject ?? default!;
     }
 }

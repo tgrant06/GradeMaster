@@ -1,12 +1,14 @@
 ﻿using BlazorBootstrap;
+using GradeMaster.Client.Shared.Utility;
 using GradeMaster.Common.Entities;
 using GradeMaster.DataAccess.Interfaces.IRepositories;
+using GradeMaster.DataAccess.Repositories;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
 namespace GradeMaster.DesktopClient.Components.Pages.GradePages;
 
-public partial class Detail
+public partial class Detail : IAsyncDisposable
 {
     #region Fields / Properties
     
@@ -16,10 +18,19 @@ public partial class Detail
         get; set;
     }
 
-    public Grade Grade
-    {
-        get; set;
-    }
+    public Grade Grade { get; set; } = new();
+
+    private bool IsExpanded { get; set; } = false;
+
+    private bool IsTruncated { get; set; } = false;
+
+    private string ButtonText => IsExpanded ? "less" : "more";
+
+    private string DescriptionAreaDynamicHeight => IsExpanded ? $"max-height: {_descriptionAreaExpandedHeight}px;" : "max-height: 175px;";
+
+    private int _descriptionAreaExpandedHeight;
+
+    private ConfirmDialog _dialog = default!;
 
     //private decimal _subjectAverage;
 
@@ -51,11 +62,99 @@ public partial class Detail
 
     protected async override Task OnInitializedAsync()
     {
+        // Initialize to avoid null reference
+        Grade.Subject = new Subject { Education = new Education() };
+        Grade.Weight = new Weight();
+
+        var educationExists = await _gradeRepository.ExistsAsync(Id);
+
+        if (!educationExists)
+        {
+            ToastService.Notify(new ToastMessage(ToastType.Info, $"This grade does no longer exist."));
+            await GoBack();
+            return;
+        }
+
         Grade = await _gradeRepository.GetByIdDetailAsync(Id);
 
         // Calculate the average only after loading the data
         //await CalculateSubjectAverage();
     }
+
+    #region Description
+
+    protected async override Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            IsTruncated = await JSRuntime.InvokeAsync<bool>("checkDescriptionHeight", "description-area", 175);
+            await SetDescriptionAreaExpandedHeight();
+            StateHasChanged();
+        }
+    }
+
+    private async Task ToggleDescription()
+    {
+        if (!IsExpanded)
+        {
+            await SetDescriptionAreaExpandedHeight();
+        }
+
+        IsExpanded = !IsExpanded;
+
+        await DynamicDescriptionHeightActive(IsExpanded);
+    }
+
+    private async Task SetDescriptionAreaExpandedHeight()
+    {
+        _descriptionAreaExpandedHeight = await JSRuntime.InvokeAsync<int>("getMaxDescriptionHeight", "description-text");
+    }
+
+    private async Task DynamicDescriptionHeightActive(bool isActive)
+    {
+        if (isActive)
+        {
+            await JSRuntime.InvokeVoidAsync("addDescriptionAreaEventListener");
+        }
+        else
+        {
+            await JSRuntime.InvokeVoidAsync("removeDescriptionAreaEventListener");
+        }
+    }
+
+    #endregion
+
+    #region Delete Grade
+
+    private async Task DeleteGradeAsync()
+    {
+        var options = new ConfirmDialogOptions
+        {
+            YesButtonColor = ButtonColor.Danger,
+        };
+
+        var confirmation = await _dialog.ShowAsync(
+            title: "Are you sure you want to delete this Grade?",
+            message1: $"Grade from Subject: {Grade.Subject.Name} - {Grade.Subject.Semester} and Education: {Grade.Subject.Education.Name} with Value: {Grade.Value}, Weight: {Grade.Weight.Name}, Date: {Grade.Date.ToShortDateString()} and Description: {UIUtils.TruncateString(Grade.Description ?? "-", 35)} will be deleted.",
+            message2: "Do you want to proceed?",
+            confirmDialogOptions: options);
+
+        if (confirmation)
+        {
+            try
+            {
+                await _gradeRepository.DeleteByIdAsync(Grade.Id);
+                await GoBack(); // was await OnGradeDeleted.InvokeAsync(Grade.Id);
+                ToastService.Notify(new ToastMessage(ToastType.Success, $"Grade deleted successfully.")); // maybe add Name of deleted object
+            }
+            catch (Exception e)
+            {
+                ToastService.Notify(new ToastMessage(ToastType.Danger, $"Error deleting grade: {e.Message}"));
+            }
+        }
+    }
+
+    #endregion
 
     #region Navigation
 
@@ -96,4 +195,8 @@ public partial class Detail
 
     #endregion
 
+    public async ValueTask DisposeAsync()
+    {
+        await JSRuntime.InvokeVoidAsync("removeDescriptionAreaEventListener");
+    }
 }

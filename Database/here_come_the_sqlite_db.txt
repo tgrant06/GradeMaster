@@ -1,4 +1,0 @@
-Replace this with your own Database.
-Adjust the DbPath to this.
-
-Database is now automatically created and configured when application is executed.

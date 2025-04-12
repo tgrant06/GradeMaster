@@ -30,21 +30,35 @@
 
 .animated-card {
     animation: fadeIn 0.155s ease; /*Maybe change to max 0.175*/
-    will-change: transform, opacity;
+    will-change: opacity, transform;
     /*transition: transform 0.3s ease, opacity 0.3s ease;*/
 }
 
 .offcanvas-button-link {
     width: 100%;
-    margin-bottom: 10px;
-    margin-top: 10px;
-    font-size: 20px;
+    margin-bottom: 9px;
+    margin-top: 9px;
+    font-size: 18px;
+}
+
+@keyframes fadeInBlur {
+    from {
+        opacity: 0.3;
+        filter: blur(6px);
+    }
+
+    to {
+        opacity: 1;
+        filter: blur(0);
+    }
 }
 
 .topPageHeader {
+    animation: fadeInBlur 0.2s ease-in;
+    will-change: opacity, filter;
     /*Maybe add animation later, maybe add new animation*/
     /*Then also increase the max-width and make shure the options button is still clickable ((increase) z-index)*/
-/*    animation: fadeIn 0.1s ease;
+    /*    animation: fadeIn 0.1s ease;
     will-change: transform, opacity;*/
 }
 
@@ -52,7 +66,7 @@
     padding-top: 7px; /*was 6 and 5 px*/
     background-color: light-dark(#ffffffb0, #212529cc);
     backdrop-filter: blur(16px);
-    box-shadow: light-dark(#dfdfdfde, #0000004f) 0 10px 11px -10px;
+    box-shadow: light-dark(#dbdbdbde, #0000004f) 0 10px 11px -10px; /*maybe change light to: #dbdbdbde | was: #dfdfdfde*/
     text-align: center;
     position: sticky;
     top: 0;
@@ -98,21 +112,24 @@
 .btn-scroll-top {
     position: fixed;
     bottom: 20px;
-    right: 35px;
+    right: 30px;
     width: 50px;
     height: 50px;
     border-radius: 12px;
     box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
-    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out, opacity 0.25s ease-in-out, visibility 0.25s ease-in-out;
+    filter: blur(3px);
+    transition: filter .15s ease-in-out, color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out, opacity 0.25s ease-in-out, visibility 0.25s ease-in-out;
+    will-change: filter, color, background-color, border-color, box-shadow, opacity, visibility; 
     opacity: 0; /* Initially invisible */
     visibility: hidden; /* Prevents clicking when hidden */
-    backdrop-filter: blur(16px);
+    backdrop-filter: saturate(90%) blur(16px);
     z-index: 1095;
 }
 
 .btn-scroll-top.show {
     opacity: 1;
     visibility: visible;
+    filter: blur(0);
 }
 
 @media (max-width: 640.98px) {
@@ -120,6 +137,7 @@
         visibility: visible;
         opacity: 1;
         right: 20px;
+        filter: blur(0);
     }
 }
 .min-component-card-grid {
@@ -141,4 +159,25 @@
 }
 
 .form-group {
+}
+
+.animated-page-content {
+    animation: fadeInBlur .18s ease;
+}
+
+.animated-top-line {
+    animation: fadeInBlur .2s ease;
+    will-change: opacity, filter;
+}
+
+@keyframes BlurIn {
+    from {
+        opacity: 0.6;
+        filter: blur(5px);
+    }
+
+    to {
+        opacity: 1;
+        filter: blur(0);
+    }
 }

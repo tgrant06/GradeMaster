@@ -153,12 +153,12 @@ public partial class GradeForm
 
             if (Grade == null)
             {
-                // Initialize Education for creation
+                // Initialize Grade for creation
                 Grade = new Entities.Grade
                 {
                     Date = DateOnly.FromDateTime(DateTime.Today),
-                    Weight = new Weight(),
-                    Subject = SubjectId.HasValue ? Subjects.First() : new Entities.Subject()
+                    Weight = default!,
+                    Subject = SubjectId.HasValue ? Subjects.First() : default!
                 };
 
                 FormTitle = "Create New Grade";
@@ -192,6 +192,13 @@ public partial class GradeForm
         if (NewGrade.Subject == null || NewGrade.Subject.Id == 0)
         {
             ToastService.Notify(new ToastMessage(ToastType.Warning, "Please select a valid subject."));
+            return;
+        }
+
+        if (NewGrade.Value < 1)
+        {
+            NewGrade.Value = 1;
+            ToastService.Notify(new ToastMessage(ToastType.Warning, "Please enter a valid grade value (1 - 6)."));
             return;
         }
 

@@ -15,6 +15,6 @@ public class SubjectService : ISubjectService
         toSubject.Description = actionSubmit ? fromSubject.Description?.Trim() : fromSubject.Description;
         toSubject.Semester = fromSubject.Semester;
         toSubject.Completed = fromSubject.Completed;
-        toSubject.Education = fromSubject.Education ?? new Education();
+        toSubject.Education = fromSubject.Education ?? default!;
     }
 }

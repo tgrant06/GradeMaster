@@ -9,21 +9,27 @@ main {
 }
 
 .sidebar {
-    background-image: linear-gradient(180deg, rgb(56, 132, 220) 0%, #204A7C 70%);
+    /*background-image: linear-gradient(180deg, rgb(56, 132, 220) 0%, #204A7C 70%);*/
+    /*background-color: todo;*/
+    background-color: light-dark(rgb(56, 132, 220), #204A7C);
+    transition: background-color .3s ease;
+    will-change: background-color;
 }
 
 .top-row {
     /*background-color: #f7f7f7;*/
     background-color: light-dark(#f5f5f5b0, #262A2ECC); /*was: #292c2f also was: #f7f7f7, #262A2E new make light mode darker new color suggestion: #f1f1f1b0, light was #f7f7f7B0 #f3f3f3b0,  and dark was #262A2ECC. maybe change dark to: #2b2f33cc or #2b2e31cc*/
-    backdrop-filter: blur(16px);
+    backdrop-filter: saturate(120%) blur(16px);
     /*border-bottom: light-dark(1px solid #d6d5d5, 1px solid #818181);*/
-    border-bottom-color: light-dark(#d6d5d5, #4b4b4b);
+    border-bottom-color: light-dark(#d6d5d5, #4b4b4b); /*maybe change dark to: #4c5159 | was: #4b4b4b*/
     border-bottom-width: 1px;
     border-bottom-style: solid;
     justify-content: flex-end;
     height: 3.5rem;
     display: flex;
     align-items: center;
+    transition: background-color .3s ease, border-bottom-color .3s ease;
+    will-change: background-color, border-bottom-color;
 }
 
 /*@media (prefers-color-scheme: light) {

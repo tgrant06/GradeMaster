@@ -68,14 +68,18 @@ public partial class Home
         var uri = Navigation.ToAbsoluteUri(Navigation.Uri);
         if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("educationId", out var educationIdString) && int.TryParse(educationIdString, out var educationId))
         {
-            _selectedEducationId = educationId;
-            await LoadEducationData(educationId);
+            var educationExists = await _educationRepository.ExistsAsync(educationId);
+
+            if (educationExists)
+            {
+                _selectedEducationId = educationId;
+                await LoadEducationData(educationId);
+                return;
+            }
         }
-        else
-        {
-            // Navigate to the URL with the default query parameter
-            Navigation.NavigateTo($"?", false);
-        }
+
+        // Navigate to the URL with the default query parameter
+        Navigation.NavigateTo($"?", false);
     }
 
     private async void ChangeEducation(int? educationId)

@@ -4,12 +4,15 @@
     -webkit-user-select: none; /* Safari and WebKit browsers */
     user-select: none; /* Prevents text selection */
     /*pointer-events: auto;*/ /* Ensures normal interactions */
+    scrollbar-color: light-dark(#8B8B8B,#9F9F9F) light-dark(#00000012, #00000015); /*was: transparent*/
+    scrollbar-width: thin;
 }
 
 /*#if (SampleContent)*/
 html, body {
     /*font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;*/
     font-family: 'Segoe UI', sans-serif;
+    /*remove font-family when other platforms are targeted*/
     touch-action: pan-y; /*was none*/
     -ms-content-zooming: none;
     /*background-color: light-dark(#ffffff, #212529);*/
@@ -105,9 +108,12 @@ h1:focus {
 .btn-translucient {
     background-color: rgba(0, 0, 0, 0.00)
 }
+    .btn-translucient:focus-visible {
+        box-shadow: 0 0 0 .25rem rgba(0, 0, 0, .25) !important;
+    }
 
-    .btn-translucient:hover {
-        background-color: rgba(0, 0, 0, 0.20); 
+    .btn-translucient:hover, .btn-translucient:focus-visible {
+        background-color: rgba(0, 0, 0, 0.20);
     }
 
     .btn-translucient:hover:active, .btn-translucient:first-child:active, .btn-translucient:active  {
@@ -118,7 +124,7 @@ h1:focus {
     background-color: light-dark(rgba(0, 0, 0, 0.00), rgba(255, 255, 255, 0.00));
 }
 
-    .btn-translucient-v2:hover {
+    .btn-translucient-v2:hover, .btn-translucient-v2:focus-visible {
         background-color: light-dark(rgba(0, 0, 0, 0.15), rgba(255, 255, 255, 0.15));
     }
 
@@ -130,7 +136,7 @@ h1:focus {
     background-color: light-dark(rgba(0, 0, 0, 0.03), rgba(255, 255, 255, 0.03)) !important;
 }
 
-    .btn-translucient-v3:hover {
+    .btn-translucient-v3:hover, .btn-translucient-v3:focus-visible {
         background-color: light-dark(rgba(0, 0, 0, 0.125), rgba(255, 255, 255, 0.125)) !important;
     }
 
@@ -144,7 +150,7 @@ h1:focus {
     background-color: rgba(231, 42, 42, 0.25);
 }
 
-    .btn-translucient-red:hover {
+    .btn-translucient-red:hover, .btn-translucient-red:focus-visible {
         background-color: rgba(231, 42, 42, 0.40);
     }
 
@@ -179,6 +185,44 @@ h1:focus {
     }
 }
 
+#description-area {
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+    will-change: max-height;
+}
+
+/*    .collapsed {
+        max-height: 175px;
+    }
+
+    .expanded {
+        max-height: 100%;
+    }*/
+
+.show-more-less-btn {
+    position: absolute;
+    right: 4px;
+    bottom: 7px;
+    padding-top: 1px;
+    color: light-dark(#2f2f2f, #e0e0e0);
+    text-decoration: none;
+    background-color: light-dark(#ffffff, #212529) !important;
+    box-shadow: -14px -1px 8px -1px light-dark(#ffffffe3, #212529f7);
+}
+
+    .show-more-less-btn:hover, .show-more-less-btn:active, .show-more-less-btn:active:hover {
+        color: light-dark(black, white)
+    }
+
+.description-bottom-cover {
+    position: absolute;
+    left: 10px;
+    bottom: 0;
+    height: 16px;
+    width: calc(100% - 20px);
+    background-color: light-dark(#ffffff, #212529);
+}
+
 #menuDropdown::after {
     content: "";
     display: none;
@@ -196,4 +240,9 @@ h1:focus {
 
 .dropdown-item.active, .dropdown-item:active {
     background-color: var(--bs-dropdown-link-active-bg) !important;
+}
+
+.nav-link:focus-visible {
+    outline: 0;
+    box-shadow: 0 0 0 .25rem light-dark(rgba(255, 255, 255, .25), rgba(0, 0, 0, .25));
 }

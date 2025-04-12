@@ -2,12 +2,12 @@
 
 <TopPageHeader>Home</TopPageHeader>
 
-<div class="row py-3 mx-0">
+<div class="row py-3 mx-0" style="animation: BlurIn .15s ease-in; will-change: opacity, filter;">@*Change animation later*@
     <div class="col-8 col-md-8 px-0 mb-3" style="max-width: 400px">
         <b>Education: </b>
-        <select class="form-select" style="min-width: 200px; max-width: 400px" aria-label="Default select example" name="selectFieldEducation" id="selectFieldEducation"
+        <select class="form-select" style="min-width: 200px; max-width: 400px" aria-label="Select Education" name="selectFieldEducation" id="selectFieldEducation"
                 @bind="SelectedEducationId" @bind:event="onchange">
-            <option value="" style="background-color: #eeeeee; color: black; border: solid 1px">Select Education</option>
+            <option value="" style="background-color: #eeeeee; color: black;">Select Education</option>
             @foreach (var education in _educations)
             {
                 <option @key="@($"edu_{education.Id}")" value="@education.Id" style="background-color: #eeeeee; color: black;">@UIUtils.TruncateString(education.Name, 65) @(education.Completed ? "🟢" : "🟡")</option>
@@ -31,7 +31,7 @@
             <DropdownToggleButton Id="menuDropdown" class="px-1" style="width: 38px; padding-top: 3px;"><Icon Name="IconName.List" Size="IconSize.x5" /></DropdownToggleButton>
             <DropdownMenu Position="DropdownMenuPosition.End" Style="width: 100px">
                 <DropdownItem @onclick="ReloadData" Type="DropdownItemType.Button">Reload <Icon Name="IconName.ArrowRepeat" /></DropdownItem>
-                <DropdownItem @onclick="() => GoToEducation(_selectedEducationId.Value)" Disabled="@(!_selectedEducationId.HasValue)" Type="DropdownItemType.Button">Detail <Icon Name="IconName.Journal" /></DropdownItem>
+                <DropdownItem @onclick="() => GoToEducation(_selectedEducationId!.Value)" Disabled="@(!_selectedEducationId.HasValue)" Type="DropdownItemType.Button">Detail <Icon Name="IconName.Journal" /></DropdownItem>
             </DropdownMenu>
         </Dropdown>
     </div>
@@ -41,7 +41,8 @@
 </div>
 
 <!--Enable paging for large data-->
-<div class="row py-4" style="padding-top: 1.4rem !important;">
+<!--Had animation style="animation: fadeInBlur 0.2s ease-in;"-->
+<div class="row py-4" style="padding-top: 1.4rem !important; animation: fadeInBlur .18s ease; will-change: opacity, filter;">
     <Grid TItem="Subject"
           Class="table table-hover"
           Data="@_subjects.OrderByDescending(s => s.Semester).ThenBy(s => s.Name)"
@@ -109,7 +110,7 @@
     <!--Later add detail of every row maybe us _selectedEducationId instead-->
     @if (_currentEducationId != 0)
     {
-        if (_educations.Find(e => e.Id.Equals(_currentEducationId)).Completed)
+        if (_educations.Find(e => e.Id.Equals(_currentEducationId))!.Completed)
         {
             <Tooltip Title="This Education is completed" Style="width: 162px; padding-left: 0;">
                 <Button Disabled="true" @onclick="() => GoToNewSubject(_currentEducationId)" class="btn-success px-1" style="margin-left: 12px; width: 135px">

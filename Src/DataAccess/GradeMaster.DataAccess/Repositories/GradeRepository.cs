@@ -150,4 +150,9 @@ public class GradeRepository : IGradeRepository
     {
         return await _context.Grades.AnyAsync();
     }
+
+    public async Task<bool> ExistsAsync(int id)
+    {
+        return await _context.Grades.AnyAsync(g => g.Id == id);
+    }
 }

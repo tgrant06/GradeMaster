@@ -58,4 +58,9 @@ public class WeightRepository : IWeightRepository
     {
         return await _context.Weights.AnyAsync();
     }
+
+    public async Task<bool> ExistsAsync(int id)
+    {
+        return await _context.Weights.AnyAsync(w => w.Id == id);
+    }
 }

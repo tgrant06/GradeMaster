@@ -39,8 +39,11 @@ window.initializeScrollButton = function () {
     mainScrollElement.addEventListener("scroll", scrollListener);
 };
 
-window.removeMainScrollListener = function() {
-    document.querySelector("main").removeEventListener("scroll", scrollListener);
+window.removeMainScrollListener = function () {
+    let mainScrollElement = document.querySelector("main");
+    if (mainScrollElement) {
+        mainScrollElement.removeEventListener("scroll", scrollListener);
+    }
 };
 
 window.scrollToTop = function () {

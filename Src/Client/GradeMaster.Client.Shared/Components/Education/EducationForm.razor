@@ -16,7 +16,7 @@ else
                 <strong>Name: <span class="text-danger">*</span></strong>
             </label>
             <div class="col-md-10">
-                <InputText @bind-Value="NewEducation.Name" Id="educationName" class="form-control" Placeholder="Enter the education name"/>
+                <InputText @bind-Value="NewEducation.Name" id="educationName" class="form-control" placeholder="Enter the education name"/>
                 <ValidationMessage For="@(() => NewEducation.Name)"/>
             </div>
         </div>
@@ -25,7 +25,7 @@ else
         <div class="form-group row mb-3">
             <label class="col-md-2 col-form-label nowrap" for="institutionName">Institution:</label>
             <div class="col-md-10">
-                <InputText @bind-Value="NewEducation.Institution" Id="institutionName" class="form-control" Placeholder="Enter the institution name"/>
+                <InputText @bind-Value="NewEducation.Institution" id="institutionName" class="form-control" placeholder="Enter the institution name"/>
                 <ValidationMessage For="@(() => NewEducation.Institution)"/>
             </div>
         </div>
@@ -39,7 +39,7 @@ else
                 <label for="startDate">
                     <strong>Start Date: <span class="text-danger">*</span></strong>
                 </label>
-                <InputDate TValue="DateOnly" @bind-Value="NewEducation.StartDate" Id="startDate" class="form-control" style="width: auto; max-width: 200px;" />
+                <InputDate TValue="DateOnly" @bind-Value="NewEducation.StartDate" id="startDate" class="form-control" style="width: auto; max-width: 200px;" />
                 @* <ValidationMessage For="@(() => NewEducation.StartDate)" /> *@
             </div>
 
@@ -50,7 +50,7 @@ else
                 <label for="endDate">
                     <strong>End Date: <span class="text-danger">*</span></strong>
                 </label>
-                <InputDate TValue="DateOnly" @bind-Value="NewEducation.EndDate" Id="endDate" class="form-control" style="width: auto; max-width: 200px" />
+                <InputDate TValue="DateOnly" @bind-Value="NewEducation.EndDate" id="endDate" class="form-control" style="width: auto; max-width: 200px" />
                 @* <ValidationMessage For="@(() => NewEducation.EndDate)" /> *@
             </div>
         </div>
@@ -62,7 +62,7 @@ else
                 <label class="col-form-label nowrap" for="totalSemesters">
                     <strong>Total Semesters: <span class="text-danger">*</span></strong>
                 </label>
-                <NumberInput TValue="int" @bind-Value="NewEducation.Semesters" EnableMinMax="true" Max="256" Min="1" Id="totalSemesters" class="form-control" Placeholder="Enter total semesters" style="width: 155px;"/>
+                <NumberInput TValue="int" @bind-Value="NewEducation.Semesters" EnableMinMax="true" Max="256" Min="1" Id="totalSemesters" class="form-control" Placeholder="Enter total semesters" Style="width: 155px;"/>
                 <ValidationMessage For="@(() => NewEducation.Semesters)"/>
             </div>
         </div>
@@ -75,7 +75,7 @@ else
                     <strong>Completion State: <span class="text-danger">*</span></strong>
                 </label>
                 <div class="form-check">
-                    <InputCheckbox @bind-Value="NewEducation.Completed" Id="completionState" class="form-check-input"/>
+                    <InputCheckbox @bind-Value="NewEducation.Completed" id="completionState" class="form-check-input" disabled="@(FormType == FormType.Create)"/>
                     <label class="form-check-label" for="completionState">
                         @(NewEducation.Completed ? "Completed" : "In Progress")
                     </label>
@@ -89,7 +89,7 @@ else
         <div class="form-group row mb-3">
             <label class="col-md-2 col-form-label nowrap" for="description">Description:</label>
             <div class="col-md-10">
-                <InputTextArea @bind-Value="NewEducation.Description" Id="description" class="form-control" Rows="4" Placeholder="Enter a description" style="max-height: 256px"/>
+                <InputTextArea @bind-Value="NewEducation.Description" id="description" class="form-control" rows="4" placeholder="Enter a description" style="max-height: 272px" />
                 <ValidationMessage For="@(() => NewEducation.Description)"/>
             </div>
         </div>

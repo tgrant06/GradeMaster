@@ -2,9 +2,9 @@
 
 <TopPageHeader Style="font-size: 28px; top: 10px">Detail Grade</TopPageHeader>
 
-<div class="border-top" style="width: 100%; max-width: 50%; margin-top: 15px"></div>
+<div class="border-top animated-top-line" style="width: 100%; max-width: 50%; margin-top: 15px"></div>
 
-<div class="container">
+<div class="container animated-page-content">
     <div class="border-top generic-devider-line" style="margin-top: -1px"></div>
     <div class="col-12 col-md-12 py-3" style="max-width: 1200px;" >
         <h2 style="font-size: 34px;">
@@ -24,10 +24,15 @@
 
     <div class="py-2">
         <Card Style="max-width: 1050px">
-            <CardBody>
-                <CardText Class="enabled-text-selection">
-                    <b class="enabled-text-selection">Description:</b> <br style="user-select: text;"/> @UIUtils.FallbackIfEmpty(Grade.Description, "-")
+            <CardBody Id="description-area" Style="@(DescriptionAreaDynamicHeight)">
+                <CardText Id="description-text" Class="enabled-text-selection" Style="white-space: pre-wrap; margin-bottom: 0;">
+                    <b class="enabled-text-selection">Description:</b> <br style="user-select: text;"/>@UIUtils.FallbackIfEmpty(Grade.Description, "-")
                 </CardText>
+                <div class="description-bottom-cover"></div>
+                @if (IsTruncated)
+                {
+                    <Button Type="ButtonType.Button" Color="ButtonColor.Link" Class="show-more-less-btn fw-bolder" @onclick="ToggleDescription">...@ButtonText</Button>
+                }
             </CardBody>
         </Card>
     </div>
@@ -85,10 +90,17 @@
         <Button Color="ButtonColor.Primary" @onclick="GoBack" Size="ButtonSize.Medium">
             <Icon Name="IconName.ArrowLeft" /> Back
         </Button>
-        <Button Color="ButtonColor.Success" @onclick="EditGrade" Size="ButtonSize.Medium">
-            Edit <Icon Name="IconName.PencilSquare" />
-        </Button>
+        <div>
+            <Button Color="ButtonColor.Success" @onclick="EditGrade" Size="ButtonSize.Medium">
+                Edit <Icon Name="IconName.PencilSquare" />
+            </Button>
+            <Button Color="ButtonColor.Danger" @onclick="DeleteGradeAsync" Size="ButtonSize.Medium" TooltipTitle="Delete" Style="margin-left: 8px; padding-left: 10px; padding-right: 10px;">
+                <Icon Name="IconName.Trash" />
+            </Button>
+        </div>
     </div>
+    
+    <ConfirmDialog @ref="_dialog" />
 </div>
 
 <script>

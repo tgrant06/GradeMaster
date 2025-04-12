@@ -126,7 +126,7 @@ public partial class SubjectForm
                 {
                     Completed = false,
                     Semester = 1,
-                    Education = EducationId.HasValue ? Educations.First() : new Entities.Education()
+                    Education = EducationId.HasValue ? Educations.First() : default!
                 };
 
                 FormTitle = "Create New Subject";
@@ -166,6 +166,13 @@ public partial class SubjectForm
         if (NewSubject.Education == null || NewSubject.Education.Id == 0)
         {
             ToastService.Notify(new ToastMessage(ToastType.Warning, "Please select a valid education."));
+            return;
+        }
+
+        if (NewSubject.Semester > NewSubject.Education.Semesters)
+        {
+            NewSubject.Semester = NewSubject.Education.Semesters;
+            ToastService.Notify(new ToastMessage(ToastType.Warning, $"Please select a valid semester between 1 and {NewSubject.Education.Semesters}."));
             return;
         }
 

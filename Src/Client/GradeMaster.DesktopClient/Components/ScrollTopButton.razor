@@ -1,4 +1,6 @@
 ﻿@inject IJSRuntime JSRuntime
+@implements IAsyncDisposable
+
 
 <Button Id="scrollToTopButton" @onclick="ScrollToTop" Class="btn-scroll-top btn-translucient-v3 border-dark-subtle">
     <Icon Name="IconName.ArrowUpCircle" Size="IconSize.x4"/>

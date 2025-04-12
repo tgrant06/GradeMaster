@@ -138,4 +138,9 @@ public class EducationRepository : IEducationRepository
     {
         return await _context.Educations.AnyAsync(e => e.Completed == completed);
     }
+
+    public async Task<bool> ExistsAsync(int id)
+    {
+        return await _context.Educations.AnyAsync(e => e.Id == id);
+    }
 }
