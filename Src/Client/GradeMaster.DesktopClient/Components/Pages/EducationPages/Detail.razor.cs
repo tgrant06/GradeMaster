@@ -23,6 +23,7 @@ public partial class Detail : IAsyncDisposable
     public List<Subject> Subjects { get; set; } = [];
 
     private bool IsExpanded { get; set; } = false;
+
     private bool IsTruncated { get; set; } = false;
 
     private string ButtonText => IsExpanded ? "less" : "more";

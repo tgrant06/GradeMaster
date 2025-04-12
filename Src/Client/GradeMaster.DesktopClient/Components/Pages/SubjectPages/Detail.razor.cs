@@ -2,6 +2,7 @@
 using GradeMaster.Client.Shared.Utility;
 using GradeMaster.Common.Entities;
 using GradeMaster.DataAccess.Interfaces.IRepositories;
+using GradeMaster.DataAccess.Repositories;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web.Virtualization;
 using Microsoft.JSInterop;
@@ -18,29 +19,21 @@ public partial class Detail
         get; set;
     }
 
-    public Subject Subject
-    {
-        get; set;
-    }
+    public Subject Subject { get; set; } = new();
 
-    public List<Grade> Grades
-    {
-        get; set;
-    }
+    public List<Grade> Grades { get; set; } = [];
 
     private bool IsExpanded { get; set; } = false;
+
     private bool IsTruncated { get; set; } = false;
 
     private string ButtonText => IsExpanded ? "less" : "more";
-    //private string DescriptionClass => IsExpanded ? "expanded" : "collapsed";
 
     private string DescriptionAreaDynamicHeight => IsExpanded ? $"max-height: {_descriptionAreaExpandedHeight}px;" : "max-height: 175px;";
 
     private int _descriptionAreaExpandedHeight;
 
     private decimal _subjectAverage;
-
-    private Virtualize<Grade>? _virtualizeComponent;
 
     private ConfirmDialog _dialog = default!;
 
@@ -84,12 +77,28 @@ public partial class Detail
 
     protected async override Task OnInitializedAsync()
     {
+        Subject.Education = new Education(); // Initialize the Education property to avoid null reference exceptions
+
+        var educationExists = await _subjectRepository.ExistsAsync(Id);
+
+        if (!educationExists)
+        {
+            ToastService.Notify(new ToastMessage(ToastType.Info, $"This subject does no longer exist."));
+            await GoBack();
+            return;
+        }
+
         await _weightRepository.GetAllAsync();
         Subject = await _subjectRepository.GetByIdDetailAsync(Id);
-        Grades = await _gradeRepository.GetBySubjectIdAsync(Subject.Id);
+        await RefreshGradeData();
 
         // Calculate the average only after loading the education data
         CalculateSubjectAverage();
+    }
+
+    private async Task RefreshGradeData()
+    {
+        Grades = await _gradeRepository.GetBySubjectIdAsync(Subject.Id);
     }
 
     #region Description
@@ -135,10 +144,37 @@ public partial class Detail
 
     #endregion
 
-    private async Task RefreshGradeData()
+    #region Delete Subject
+
+    private async Task DeleteSubjectAsync()
     {
-        await _virtualizeComponent?.RefreshDataAsync();
+        var options = new ConfirmDialogOptions
+        {
+            YesButtonColor = ButtonColor.Danger,
+        };
+
+        var confirmation = await _dialog.ShowAsync(
+            title: "Are you sure you want to delete this Subject?",
+            message1: $"Subject: {Subject.Name} - {Subject.Semester} of Education: {Subject.Education.Name} and all of its {Subject.Grades.Count} Grade(s) will be deleted.",
+            message2: "Do you want to proceed?",
+            confirmDialogOptions: options);
+
+        if (confirmation)
+        {
+            try
+            {
+                await _subjectRepository.DeleteByIdAsync(Subject.Id);
+                await GoBack(); // was await OnSubjectDeleted.InvokeAsync(Subject.Id);
+                ToastService.Notify(new ToastMessage(ToastType.Success, $"Subject deleted successfully.")); // maybe add Name of deleted object
+            }
+            catch (Exception e)
+            {
+                ToastService.Notify(new ToastMessage(ToastType.Danger, $"Error deleting subject: {e.Message}"));
+            }
+        }
     }
+
+    #endregion
 
     #region Navigation
 
