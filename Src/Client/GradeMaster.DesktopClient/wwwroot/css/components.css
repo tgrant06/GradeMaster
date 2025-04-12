@@ -160,3 +160,12 @@
 
 .form-group {
 }
+
+.animated-page-content {
+    animation: fadeInBlur .18s ease;
+}
+
+.animated-top-line {
+    animation: fadeInBlur .2s ease;
+    will-change: opacity, filter;
+}
