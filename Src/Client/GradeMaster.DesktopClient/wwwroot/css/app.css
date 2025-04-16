@@ -141,7 +141,7 @@ h1:focus {
     }
 
     .btn-translucient-v3:hover:active, .btn-translucient-v3:first-child:active, .btn-translucient-v3:active {
-            background-color: light-dark(rgba(0, 0, 0, 0.20), rgba(255, 255, 255, 0.20)) !important;
+        background-color: light-dark(rgba(0, 0, 0, 0.20), rgba(255, 255, 255, 0.20)) !important;
     }
 
 /* maybe later for different color: light 245, 245, 245, ... | dark: 38, 42, 46, ... background-color: #e72a2a40;*/
