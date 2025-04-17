@@ -44,7 +44,7 @@ public static class UIUtils
     }
 
     /// <summary>
-    /// Returns the string or a dash if empty
+    /// Returns the string or a fallback if empty
     /// </summary>
     /// <param name="input"></param>
     /// <param name="fallback"></param>

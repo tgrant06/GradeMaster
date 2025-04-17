@@ -90,7 +90,7 @@
     {
         <div class="border-top generic-devider-line" style="opacity: 0.5;"></div>
         <div class="topPageSubHeader border-bottom" style="max-width: 1074px; margin-right: -12px; margin-left: -12px;">
-            <h5>@Education.Name @UIUtils.TruncateString(string.IsNullOrEmpty(Education.Institution) ? "" : "| " + Education.Institution.Split(",")[0], 15)</h5>
+            <h5>@Education.Name @UIUtils.TruncateString(string.IsNullOrEmpty(Education.Institution) ? "" : "| " + Education.Institution.Split(",")[0], 15) <CompletionStateBadge Completed="@Education.Completed" MarginBottom="2" /></h5>
             <div class="topPageSubHeaderSideBlock"></div>
         </div>
     }
