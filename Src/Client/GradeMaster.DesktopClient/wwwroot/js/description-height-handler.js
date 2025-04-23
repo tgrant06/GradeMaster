@@ -7,7 +7,7 @@
 window.getMaxDescriptionHeight = (elementId) => {
     let element = document.getElementById(elementId);
     if (!element) return 0;
-    return element.scrollHeight + 32;
+    return element.scrollHeight + 60; // was 32
 }
 
 // not used
@@ -31,7 +31,7 @@ const descriptionListener = () => {
     let descriptionText = document.getElementById("description-text");
 
     if (descriptionArea) {
-        descriptionArea.style.maxHeight = `${descriptionText.scrollHeight + 32}px`;
+        descriptionArea.style.height = `${descriptionText.scrollHeight + 60}px`; // was 32
     }
 }
 

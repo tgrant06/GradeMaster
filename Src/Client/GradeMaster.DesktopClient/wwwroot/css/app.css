@@ -187,8 +187,8 @@ h1:focus {
 
 #description-area {
     overflow: hidden;
-    transition: max-height 0.3s ease-out;
-    will-change: max-height;
+    transition: max-height 0.3s ease-out, height 0.3s ease-out;
+    will-change: max-height, height;
 }
 
 /*    .collapsed {
@@ -204,10 +204,12 @@ h1:focus {
     right: 4px;
     bottom: 7px;
     padding-top: 1px;
-    color: light-dark(#2f2f2f, #e0e0e0);
+    color: light-dark(#474747, #c7c7c7);
     text-decoration: none;
     background-color: light-dark(#ffffff, #212529) !important;
     box-shadow: -14px -1px 8px -1px light-dark(#ffffffe3, #212529f7);
+    transition: color 0.15s ease-in-out;
+    will-change: color;
 }
 
     .show-more-less-btn:hover, .show-more-less-btn:active, .show-more-less-btn:active:hover {

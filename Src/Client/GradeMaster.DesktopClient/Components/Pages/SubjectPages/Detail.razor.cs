@@ -27,9 +27,9 @@ public partial class Detail
 
     private bool IsTruncated { get; set; } = false;
 
-    private string ButtonText => IsExpanded ? "less" : "more";
+    private string ButtonText => IsExpanded ? "less" : "...more";
 
-    private string DescriptionAreaDynamicHeight => IsExpanded ? $"max-height: {_descriptionAreaExpandedHeight}px;" : "max-height: 175px;";
+    private string DescriptionAreaDynamicHeight => IsExpanded ? $"height: {_descriptionAreaExpandedHeight}px;" : "height: 175px;";
 
     private int _descriptionAreaExpandedHeight;
 

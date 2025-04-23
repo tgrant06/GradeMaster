@@ -23,7 +23,7 @@
                 <div class="description-bottom-cover"></div>
                 @if (IsTruncated)
                 {
-                    <Button Type="ButtonType.Button" Color="ButtonColor.Link" Class="show-more-less-btn fw-bolder" @onclick="ToggleDescription">...@ButtonText</Button>
+                    <Button Type="ButtonType.Button" Color="ButtonColor.Link" Class="show-more-less-btn fw-bolder" @onclick="ToggleDescription">@ButtonText</Button>
                 }
             </CardBody>
         </Card>
