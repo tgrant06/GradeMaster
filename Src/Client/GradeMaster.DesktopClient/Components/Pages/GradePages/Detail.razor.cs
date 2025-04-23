@@ -26,7 +26,7 @@ public partial class Detail : IAsyncDisposable
 
     private string ButtonText => IsExpanded ? "less" : "...more";
 
-    private string DescriptionAreaDynamicHeight => IsExpanded ? $"height: {_descriptionAreaExpandedHeight}px;" : "height: 175px;";
+    private string DescriptionAreaDynamicHeight => IsExpanded ? $"max-height: {_descriptionAreaExpandedHeight}px;" : "max-height: 175px;";
 
     private int _descriptionAreaExpandedHeight;
 

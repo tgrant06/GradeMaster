@@ -187,8 +187,8 @@ h1:focus {
 
 #description-area {
     overflow: hidden;
-    transition: max-height 0.3s ease-out, height 0.3s ease-out;
-    will-change: max-height, height;
+    transition: max-height 0.3s ease-out;
+    will-change: max-height;
 }
 
 /*    .collapsed {

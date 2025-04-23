@@ -23,12 +23,13 @@
                 <CardText Id="description-text" Class="enabled-text-selection" Style="white-space: pre-wrap; margin-bottom: 0;">
                     <b class="enabled-text-selection">Description:</b> <br class="enabled-text-selection" />@UIUtils.FallbackIfEmpty(Subject.Description, "-")
                 </CardText>
+                @if (IsTruncated)
+                {
+                    <div style="height: 28px;"></div>
+                    <div class="description-bottom-cover"></div>
+                    <Button Type="ButtonType.Button" Color="ButtonColor.Link" Class="show-more-less-btn fw-bolder" @onclick="ToggleDescription">@ButtonText</Button>
+                }
             </CardBody>
-            <div class="description-bottom-cover"></div>
-            @if (IsTruncated)
-            {
-                <Button Type="ButtonType.Button" Color="ButtonColor.Link" Class="show-more-less-btn fw-bolder" @onclick="ToggleDescription">@ButtonText</Button>
-            }
         </Card>
     </div>
     <div class="py-3" style="margin-bottom: 50px">

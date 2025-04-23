@@ -31,7 +31,7 @@ const descriptionListener = () => {
     let descriptionText = document.getElementById("description-text");
 
     if (descriptionArea) {
-        descriptionArea.style.height = `${descriptionText.scrollHeight + 60}px`; // was 32
+        descriptionArea.style.maxHeight = `${descriptionText.scrollHeight + 60}px`; // was 32
     }
 }
 
