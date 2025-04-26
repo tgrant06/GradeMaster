@@ -3,6 +3,7 @@ using GradeMaster.Common.Entities;
 using GradeMaster.DataAccess.Interfaces.IRepositories;
 using Microsoft.AspNetCore.Components.Web.Virtualization;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.WebUtilities;
 
 namespace GradeMaster.DesktopClient.Components.Pages;
 
@@ -43,6 +44,14 @@ public partial class Educations
     protected async override Task OnInitializedAsync()
     {
         await _weightRepository.GetAllAsync();
+
+        var uri = new Uri(Navigation.Uri);
+        var queryParams = QueryHelpers.ParseQuery(uri.Query);
+        if (queryParams.TryGetValue("q", out var searchValue))
+        {
+            var searchValueString = searchValue.ToString();
+            _searchValue = string.IsNullOrWhiteSpace(searchValueString) ? string.Empty : searchValueString;
+        }
     }
 
     private async ValueTask<ItemsProviderResult<Education>> GetEducationsProvider(ItemsProviderRequest request)
@@ -62,7 +71,12 @@ public partial class Educations
 
     private async Task RefreshEducationData()
     {
-        await _virtualizeComponent?.RefreshDataAsync();
+        var uri = new Uri(Navigation.Uri);
+        var baseUri = uri.GetLeftPart(UriPartial.Path);
+        var updatedUri = QueryHelpers.AddQueryString(baseUri, "q", _searchValue);
+        Navigation.NavigateTo(updatedUri, forceLoad: false);
+
+        await _virtualizeComponent?.RefreshDataAsync()!;
     }
 
     private async Task LoadAllEducations()

@@ -3,6 +3,7 @@ using GradeMaster.Common.Entities;
 using GradeMaster.DataAccess.Interfaces.IRepositories;
 using Microsoft.AspNetCore.Components.Web.Virtualization;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.WebUtilities;
 
 namespace GradeMaster.DesktopClient.Components.Pages;
 
@@ -51,6 +52,14 @@ public partial class Grades
     {
         await _weightRepository.GetAllAsync();
         _existsAnySubjectInProgress = await _subjectRepository.ExistsAnyIsCompletedAsync(false);
+
+        var uri = new Uri(Navigation.Uri);
+        var queryParams = QueryHelpers.ParseQuery(uri.Query);
+        if (queryParams.TryGetValue("q", out var searchValue))
+        {
+            var searchValueString = searchValue.ToString();
+            _searchValue = string.IsNullOrWhiteSpace(searchValueString) ? string.Empty : searchValueString;
+        }
     }
 
     private async ValueTask<ItemsProviderResult<Grade>> GetGradesProvider(ItemsProviderRequest request)
@@ -70,7 +79,12 @@ public partial class Grades
 
     private async Task RefreshGradeData()
     {
-        await _virtualizeComponent?.RefreshDataAsync();
+        var uri = new Uri(Navigation.Uri);
+        var baseUri = uri.GetLeftPart(UriPartial.Path);
+        var updatedUri = QueryHelpers.AddQueryString(baseUri, "q", _searchValue);
+        Navigation.NavigateTo(updatedUri, forceLoad: false);
+
+        await _virtualizeComponent?.RefreshDataAsync()!;
     }
 
     private async Task LoadAllGrades()
