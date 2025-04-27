@@ -4,10 +4,11 @@ using GradeMaster.DataAccess.Interfaces.IRepositories;
 using Microsoft.AspNetCore.Components.Web.Virtualization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.JSInterop;
 
 namespace GradeMaster.DesktopClient.Components.Pages;
 
-public partial class Educations
+public partial class Educations : IAsyncDisposable
 {
     #region Fields / Properties
 
@@ -16,6 +17,8 @@ public partial class Educations
     private Virtualize<Education>? _virtualizeComponent;
 
     private ConfirmDialog _dialog = default!;
+
+    private DotNetObjectReference<Educations>? objRef;
 
     #endregion
 
@@ -39,10 +42,19 @@ public partial class Educations
         get; set;
     }
 
+    [Inject]
+    private IJSRuntime JSRuntime
+    {
+        get; set;
+    }
+
     #endregion
 
     protected async override Task OnInitializedAsync()
     {
+        objRef = DotNetObjectReference.Create(this);
+        await JSRuntime.InvokeVoidAsync("addPageKeybinds", "EducationPage", objRef);
+
         await _weightRepository.GetAllAsync();
 
         var uri = new Uri(Navigation.Uri);
@@ -140,9 +152,22 @@ public partial class Educations
 
     #endregion
 
+    #region HotKeys
+
+
+
+    #endregion
+
     #region Navigation
 
+    [JSInvokable("NavigateToCreate")]
     private void CreateEducation() => Navigation.NavigateTo("/educations/create");
 
     #endregion
+
+    public async ValueTask DisposeAsync()
+    {
+        await JSRuntime.InvokeVoidAsync("removePageKeybinds", "Education");
+        objRef?.Dispose();
+    }
 }
