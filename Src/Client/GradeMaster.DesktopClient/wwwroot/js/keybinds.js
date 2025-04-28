@@ -13,6 +13,9 @@ window.addPageKeybinds = (pageName, dotNetHelper) => {
             case "GradesPage":
                 handleGradesPageKeys(event, dotNetHelper);
                 break;
+            case "MainLayoutPage":
+                handleMainLayoutPageKeys(event, dotNetHelper);
+                break;
             }
         }
     };
@@ -33,6 +36,17 @@ function focusSearchField(searchFieldName) {
     if (searchElement) {
         searchElement.focus();
         searchElement.select(); // Selects the text inside
+    }
+}
+
+// does not currently work
+function handleEscape(event) {
+    if (event.key === "Escape") {
+        event.preventDefault();
+        const active = document.activeElement;
+        if (active && (active.tagName === "INPUT" || active.tagName === "TEXTAREA" || active.isContentEditable)) {
+            active.blur();
+        }
     }
 }
 
@@ -89,6 +103,17 @@ function handleGradesPageKeys(event, dotNetHelper) {
     case "x":
         event.preventDefault();
         dotNetHelper.invokeMethodAsync("ClearSearch");
+        break;
+    }
+}
+
+function handleMainLayoutPageKeys(event, dotNetHelper) {
+    if (!event.ctrlKey) return;
+
+    switch (event.key.toLowerCase()) {
+    case "o":
+        event.preventDefault();
+        dotNetHelper.invokeMethodAsync("ToggleOffCanvas");
         break;
     }
 }

@@ -163,7 +163,7 @@ public partial class Grades : IAsyncDisposable
 
     #endregion
 
-    #region JSInvokable
+    #region JSInvokable / Keybinds
 
     [JSInvokable]
     public void NavigateToCreate() => CreateGrade();

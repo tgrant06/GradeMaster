@@ -152,19 +152,13 @@ public partial class Educations : IAsyncDisposable
 
     #endregion
 
-    #region HotKeys
-
-
-
-    #endregion
-
     #region Navigation
 
     private void CreateEducation() => Navigation.NavigateTo("/educations/create");
 
     #endregion
 
-    #region JSInvokable
+    #region JSInvokable / Keybinds
 
     [JSInvokable]
     public void NavigateToCreate() => CreateEducation();

@@ -154,7 +154,7 @@ public partial class Subjects : IAsyncDisposable
 
     #endregion
 
-    #region JSInvokable
+    #region JSInvokable / Keybinds
 
     [JSInvokable]
     public void NavigateToCreate() => CreateSubject();
