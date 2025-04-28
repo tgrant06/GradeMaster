@@ -4,19 +4,23 @@ using GradeMaster.DataAccess.Interfaces.IRepositories;
 using Microsoft.AspNetCore.Components.Web.Virtualization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.JSInterop;
 
 namespace GradeMaster.DesktopClient.Components.Pages;
 
-public partial class Grades
+public partial class Grades : IAsyncDisposable
 {
     #region Fields / Properties
 
     private string _searchValue = string.Empty;
+
     private bool _existsAnySubjectInProgress;
 
     private Virtualize<Grade>? _virtualizeComponent;
 
     private ConfirmDialog _dialog = default!;
+
+    private DotNetObjectReference<Grades>? objRef;
 
     #endregion
 
@@ -46,10 +50,20 @@ public partial class Grades
         get; set;
     }
 
+    [Inject]
+    private IJSRuntime JSRuntime
+    {
+        get; set;
+    }
+
+
     #endregion
 
     protected async override Task OnInitializedAsync()
     {
+        objRef = DotNetObjectReference.Create(this);
+        await JSRuntime.InvokeVoidAsync("addPageKeybinds", "GradesPage", objRef);
+
         await _weightRepository.GetAllAsync();
         _existsAnySubjectInProgress = await _subjectRepository.ExistsAnyIsCompletedAsync(false);
 
@@ -148,4 +162,24 @@ public partial class Grades
     private void CreateGrade() => Navigation.NavigateTo("/grades/create");
 
     #endregion
+
+    #region JSInvokable
+
+    [JSInvokable]
+    public void NavigateToCreate() => CreateGrade();
+
+    [JSInvokable]
+    public async Task ClearSearch()
+    {
+        await LoadAllGrades();
+        StateHasChanged();
+    }
+
+    #endregion
+
+    public async ValueTask DisposeAsync()
+    {
+        await JSRuntime.InvokeVoidAsync("removePageKeybinds", "GradesPage");
+        objRef?.Dispose();
+    }
 }

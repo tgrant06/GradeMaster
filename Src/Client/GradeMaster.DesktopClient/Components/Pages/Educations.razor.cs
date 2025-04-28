@@ -53,7 +53,7 @@ public partial class Educations : IAsyncDisposable
     protected async override Task OnInitializedAsync()
     {
         objRef = DotNetObjectReference.Create(this);
-        await JSRuntime.InvokeVoidAsync("addPageKeybinds", "EducationPage", objRef);
+        await JSRuntime.InvokeVoidAsync("addPageKeybinds", "EducationsPage", objRef);
 
         await _weightRepository.GetAllAsync();
 
@@ -160,14 +160,27 @@ public partial class Educations : IAsyncDisposable
 
     #region Navigation
 
-    [JSInvokable("NavigateToCreate")]
     private void CreateEducation() => Navigation.NavigateTo("/educations/create");
+
+    #endregion
+
+    #region JSInvokable
+
+    [JSInvokable]
+    public void NavigateToCreate() => CreateEducation();
+
+    [JSInvokable]
+    public async Task ClearSearch()
+    {
+        await LoadAllEducations();
+        StateHasChanged();
+    }
 
     #endregion
 
     public async ValueTask DisposeAsync()
     {
-        await JSRuntime.InvokeVoidAsync("removePageKeybinds", "Education");
+        await JSRuntime.InvokeVoidAsync("removePageKeybinds", "EducationsPage");
         objRef?.Dispose();
     }
 }

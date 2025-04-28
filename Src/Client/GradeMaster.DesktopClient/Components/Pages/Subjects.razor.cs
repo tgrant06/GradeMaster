@@ -4,19 +4,23 @@ using GradeMaster.DataAccess.Interfaces.IRepositories;
 using Microsoft.AspNetCore.Components.Web.Virtualization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.JSInterop;
 
 namespace GradeMaster.DesktopClient.Components.Pages;
 
-public partial class Subjects
+public partial class Subjects : IAsyncDisposable
 {
     #region Fields / Properties
 
     private string _searchValue = string.Empty;
+
     private bool _existsAnyEducationInProgress;
 
     private Virtualize<Subject>? _virtualizeComponent;
 
     private ConfirmDialog _dialog = default!;
+
+    private DotNetObjectReference<Subjects>? objRef;
 
     #endregion
 
@@ -46,10 +50,19 @@ public partial class Subjects
         get; set;
     }
 
+    [Inject]
+    private IJSRuntime JSRuntime
+    {
+        get; set;
+    }
+
     #endregion
 
     protected async override Task OnInitializedAsync()
     {
+        objRef = DotNetObjectReference.Create(this);
+        await JSRuntime.InvokeVoidAsync("addPageKeybinds", "SubjectsPage", objRef);
+
         await _weightRepository.GetAllAsync();
         _existsAnyEducationInProgress = await _educationRepository.ExistsAnyIsCompletedAsync(false);
 
@@ -140,4 +153,24 @@ public partial class Subjects
     private void CreateSubject() => Navigation.NavigateTo("/subjects/create");
 
     #endregion
+
+    #region JSInvokable
+
+    [JSInvokable]
+    public void NavigateToCreate() => CreateSubject();
+
+    [JSInvokable]
+    public async Task ClearSearch()
+    {
+        await LoadAllSubjects();
+        StateHasChanged();
+    }
+
+    #endregion
+
+    public async ValueTask DisposeAsync()
+    {
+        await JSRuntime.InvokeVoidAsync("removePageKeybinds", "SubjectsPage");
+        objRef?.Dispose();
+    }
 }

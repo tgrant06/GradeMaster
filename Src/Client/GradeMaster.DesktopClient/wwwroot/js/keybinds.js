@@ -4,14 +4,14 @@ window.addPageKeybinds = (pageName, dotNetHelper) => {
     const handler = function (event) {
         if (event.ctrlKey) {
             switch (pageName) {
-            case "EducationPage":
-                handleEducationPageKeys(event, dotNetHelper);
+            case "EducationsPage":
+                handleEducationsPageKeys(event, dotNetHelper);
                 break;
-            case "SubjectPage":
-                handleSubjectPageKeys(event, dotNetHelper);
+            case "SubjectsPage":
+                handleSubjectsPageKeys(event, dotNetHelper);
                 break;
-            case "GradePage":
-                handleGradePageKeys(event, dotNetHelper);
+            case "GradesPage":
+                handleGradesPageKeys(event, dotNetHelper);
                 break;
             }
         }
@@ -29,14 +29,14 @@ window.removePageKeybinds = (pageName) => {
 };
 
 function focusSearchField(searchFieldName) {
-    let searchElement = getElementById(`searchField${searchFieldName}`);
+    let searchElement = document.getElementById(`searchField${searchFieldName}`);
     if (searchElement) {
         searchElement.focus();
         searchElement.select(); // Selects the text inside
     }
 }
 
-function handleEducationPageKeys(event, dotNetHelper) {
+function handleEducationsPageKeys(event, dotNetHelper) {
     if (!event.ctrlKey) return;
 
     switch (event.key.toLowerCase()) {
@@ -48,18 +48,14 @@ function handleEducationPageKeys(event, dotNetHelper) {
         event.preventDefault();
         dotNetHelper.invokeMethodAsync("NavigateToCreate");
         break;
-    case "e":
+    case "x":
         event.preventDefault();
-        dotNetHelper.invokeMethodAsync("NavigateToEdit");
-        break;
-    case "b":
-        event.preventDefault();
-        dotNetHelper.invokeMethodAsync("NavigateBack");
+        dotNetHelper.invokeMethodAsync("ClearSearch");
         break;
     }
 }
 
-function handleSubjectPageKeys(event, dotNetHelper) {
+function handleSubjectsPageKeys(event, dotNetHelper) {
     if (!event.ctrlKey) return;
 
     switch (event.key.toLowerCase()) {
@@ -71,18 +67,14 @@ function handleSubjectPageKeys(event, dotNetHelper) {
         event.preventDefault();
         dotNetHelper.invokeMethodAsync("NavigateToCreate");
         break;
-    case "e":
+    case "x":
         event.preventDefault();
-        dotNetHelper.invokeMethodAsync("NavigateToEdit");
-        break;
-    case "b":
-        event.preventDefault();
-        dotNetHelper.invokeMethodAsync("NavigateBack");
+        dotNetHelper.invokeMethodAsync("ClearSearch");
         break;
     }
 }
 
-function handleGradePageKeys(event, dotNetHelper) {
+function handleGradesPageKeys(event, dotNetHelper) {
     if (!event.ctrlKey) return;
 
     switch (event.key.toLowerCase()) {
@@ -94,13 +86,9 @@ function handleGradePageKeys(event, dotNetHelper) {
         event.preventDefault();
         dotNetHelper.invokeMethodAsync("NavigateToCreate");
         break;
-    case "e":
+    case "x":
         event.preventDefault();
-        dotNetHelper.invokeMethodAsync("NavigateToEdit");
-        break;
-    case "b":
-        event.preventDefault();
-        dotNetHelper.invokeMethodAsync("NavigateBack");
+        dotNetHelper.invokeMethodAsync("ClearSearch");
         break;
     }
 }
