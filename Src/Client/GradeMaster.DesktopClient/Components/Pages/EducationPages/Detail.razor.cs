@@ -88,7 +88,7 @@ public partial class Detail : IAsyncDisposable
         }
 
         _objRef = DotNetObjectReference.Create(this);
-        await JSRuntime.InvokeVoidAsync("addPageKeybinds", "DetailPage", _objRef);
+        await JSRuntime.InvokeVoidAsync("addPageKeybinds", "EducationDetailPage", _objRef);
 
         await _weightRepository.GetAllAsync();
         Education = await _educationRepository.GetByIdAsync(Id);
@@ -228,7 +228,7 @@ public partial class Detail : IAsyncDisposable
     {
         await JSRuntime.InvokeVoidAsync("removeDescriptionAreaEventListener");
 
-        await JSRuntime.InvokeVoidAsync("removePageKeybinds", "DetailPage");
+        await JSRuntime.InvokeVoidAsync("removePageKeybinds", "EducationDetailPage");
         _objRef?.Dispose();
     }
 }

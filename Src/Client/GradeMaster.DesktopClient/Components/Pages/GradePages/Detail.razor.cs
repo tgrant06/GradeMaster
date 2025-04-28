@@ -32,6 +32,8 @@ public partial class Detail : IAsyncDisposable
 
     private ConfirmDialog _dialog = default!;
 
+    private DotNetObjectReference<Detail>? _objRef;
+
     //private decimal _subjectAverage;
 
     #endregion
@@ -74,6 +76,9 @@ public partial class Detail : IAsyncDisposable
             await GoBack();
             return;
         }
+
+        _objRef = DotNetObjectReference.Create(this);
+        await JSRuntime.InvokeVoidAsync("addPageKeybinds", "GradeDetailPage", _objRef);
 
         Grade = await _gradeRepository.GetByIdDetailAsync(Id);
 
@@ -168,6 +173,22 @@ public partial class Detail : IAsyncDisposable
 
     #endregion
 
+    #region JSInvokable / Keybinds
+
+    [JSInvokable]
+    public void NavigateToEdit() => EditGrade();
+
+    [JSInvokable]
+    public async Task DeleteObject() => await DeleteGradeAsync();
+
+    [JSInvokable]
+    public void NavigateToEducation() => GoToEducation();
+
+    [JSInvokable]
+    public void NavigateToSubject() => GoToSubject();
+
+    #endregion
+
     #region Averages Currently Not Used
 
     // private async Task CalculateSubjectAverage()
@@ -198,5 +219,8 @@ public partial class Detail : IAsyncDisposable
     public async ValueTask DisposeAsync()
     {
         await JSRuntime.InvokeVoidAsync("removeDescriptionAreaEventListener");
+
+        await JSRuntime.InvokeVoidAsync("removePageKeybinds", "GradeDetailPage");
+        _objRef?.Dispose();
     }
 }

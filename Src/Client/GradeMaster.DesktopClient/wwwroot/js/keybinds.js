@@ -16,8 +16,11 @@ window.addPageKeybinds = (pageName, dotNetHelper) => {
             case "MainLayoutPage":
                 handleMainLayoutPageKeys(event, dotNetHelper);
                 break;
-            case "DetailPage":
-                handleDetailPageKeys(event, dotNetHelper);
+            case "EducationDetailPage":
+                handleEducationDetailPageKeys(event, dotNetHelper);
+                break;
+            case "SubjectDetailPage":
+                handleSubjectDetailPageKeys(event, dotNetHelper);
                 break;
             case "GradeDetailPage":
                 handleGradeDetailPageKeys(event, dotNetHelper);
@@ -46,8 +49,18 @@ function focusSearchField(searchFieldName) {
 }
 
 // does not currently work
-function handleEscape(event) {
+function handleEscapeV1(event) {
     if (event.key === "Escape") {
+        event.preventDefault();
+        const active = document.activeElement;
+        if (active && (active.tagName === "INPUT" || active.tagName === "TEXTAREA" || active.isContentEditable)) {
+            active.blur();
+        }
+    }
+}
+
+function handleEscape(event) {
+    if (event.code === "Escape") {
         event.preventDefault();
         const active = document.activeElement;
         if (active && (active.tagName === "INPUT" || active.tagName === "TEXTAREA" || active.isContentEditable)) {
@@ -164,7 +177,7 @@ function handleMainLayoutPageKeys(event, dotNetHelper) {
     }
 }
 
-function handleDetailPageKeys(event, dotNetHelper) {
+function handleEducationDetailPageKeys(event, dotNetHelper) {
     if (!event.ctrlKey) return;
 
     let shortcut = "";
@@ -190,4 +203,74 @@ function handleDetailPageKeys(event, dotNetHelper) {
         dotNetHelper.invokeMethodAsync("DeleteObject");
         break;
     }
+}
+
+function handleSubjectDetailPageKeys(event, dotNetHelper) {
+    if (!event.ctrlKey && !event.altKey) return; // now allow Ctrl **or** Alt combos
+
+    let shortcut = "";
+
+    if (event.ctrlKey) shortcut += "Ctrl+";
+    if (event.altKey) shortcut += "Alt+";
+    if (event.shiftKey) shortcut += "Shift+";
+
+    shortcut += event.key.toLowerCase();
+
+    switch (shortcut) {
+    case "Ctrl+e":
+        event.preventDefault();
+        dotNetHelper.invokeMethodAsync("NavigateToEdit");
+        break;
+
+    case "Ctrl+n":
+        event.preventDefault();
+        dotNetHelper.invokeMethodAsync("NavigateToCreate");
+        break;
+
+    case "Ctrl+Shift+d":
+        event.preventDefault();
+        dotNetHelper.invokeMethodAsync("DeleteObject");
+        break;
+
+    case "Ctrl+Shift+e":
+        event.preventDefault();
+        dotNetHelper.invokeMethodAsync("NavigateToEducation");
+        break;
+    }
+}
+
+function handleGradeDetailPageKeys(event, dotNetHelper) {
+    if (!event.ctrlKey && !event.altKey) return; // allow Ctrl or Alt combos
+
+    let shortcut = "";
+
+    if (event.ctrlKey) shortcut += "Ctrl+";
+    if (event.altKey) shortcut += "Alt+";
+    if (event.shiftKey) shortcut += "Shift+";
+
+    shortcut += event.key.toLowerCase();
+
+    switch (shortcut) {
+    case "Ctrl+e":
+        event.preventDefault();
+        dotNetHelper.invokeMethodAsync("NavigateToEdit");
+        break;
+
+    case "Ctrl+Shift+d":
+        event.preventDefault();
+        dotNetHelper.invokeMethodAsync("DeleteObject");
+        break;
+
+    case "Ctrl+Shift+q":
+        event.preventDefault();
+        dotNetHelper.invokeMethodAsync("NavigateToSubject");
+        break;
+
+    case "Ctrl+Shift+e":
+        event.preventDefault();
+        dotNetHelper.invokeMethodAsync("NavigateToEducation");
+        break;
+    }
+
+    // maybe add keybind to add new grade with the same Subject
 }

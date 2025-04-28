@@ -91,7 +91,7 @@ public partial class Detail : IAsyncDisposable
         }
 
         _objRef = DotNetObjectReference.Create(this);
-        await JSRuntime.InvokeVoidAsync("addPageKeybinds", "DetailPage", _objRef);
+        await JSRuntime.InvokeVoidAsync("addPageKeybinds", "SubjectDetailPage", _objRef);
 
         await _weightRepository.GetAllAsync();
         Subject = await _subjectRepository.GetByIdDetailAsync(Id);
@@ -204,6 +204,9 @@ public partial class Detail : IAsyncDisposable
     [JSInvokable]
     public async Task DeleteObject() => await DeleteSubjectAsync();
 
+    [JSInvokable]
+    public void NavigateToEducation() => GoToEducation();
+
     #endregion
 
     #region Averages
@@ -220,7 +223,7 @@ public partial class Detail : IAsyncDisposable
     {
         await JSRuntime.InvokeVoidAsync("removeDescriptionAreaEventListener");
 
-        await JSRuntime.InvokeVoidAsync("removePageKeybinds", "DetailPage");
+        await JSRuntime.InvokeVoidAsync("removePageKeybinds", "SubjectDetailPage");
         _objRef?.Dispose();
     }
 }
