@@ -25,6 +25,9 @@ window.addPageKeybinds = (pageName, dotNetHelper) => {
             case "GradeDetailPage":
                 handleGradeDetailPageKeys(event, dotNetHelper);
                 break;
+            case "FormPage":
+                handleFormPageKeys(event, dotnetHelper);
+                break;
             }
         }
     };
@@ -273,4 +276,23 @@ function handleGradeDetailPageKeys(event, dotNetHelper) {
     }
 
     // maybe add keybind to add new grade with the same Subject
+}
+
+function handleFormPageKeys(event, dotNetHelper) {
+    if (!event.ctrlKey && !event.altKey) return; // allow Ctrl or Alt combos
+    let shortcut = "";
+    if (event.ctrlKey) shortcut += "Ctrl+";
+    if (event.altKey) shortcut += "Alt+";
+    if (event.shiftKey) shortcut += "Shift+";
+    shortcut += event.key.toLowerCase();
+    switch (shortcut) {
+        case "Ctrl+e":
+            event.preventDefault();
+            dotNetHelper.invokeMethodAsync("NavigateToEdit");
+            break;
+        case "Ctrl+Shift+d":
+            event.preventDefault();
+            dotNetHelper.invokeMethodAsync("DeleteObject");
+            break;
+    }
 }
