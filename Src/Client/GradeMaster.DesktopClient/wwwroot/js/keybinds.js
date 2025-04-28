@@ -108,12 +108,42 @@ function handleGradesPageKeys(event, dotNetHelper) {
 }
 
 function handleMainLayoutPageKeys(event, dotNetHelper) {
-    if (!event.ctrlKey) return;
+    let shortcut = "";
 
-    switch (event.key.toLowerCase()) {
-    case "o":
+    if (event.ctrlKey) shortcut += "Ctrl+";
+    if (event.altKey) shortcut += "Alt+";
+
+    shortcut += event.key.toLowerCase();
+
+    switch (shortcut) {
+    case "Ctrl+o":
         event.preventDefault();
         dotNetHelper.invokeMethodAsync("ToggleOffCanvas");
+        break;
+
+    case "Ctrl+Alt+h":
+        event.preventDefault();
+        dotNetHelper.invokeMethodAsync("GoToHomePage");
+        break;
+
+    case "Ctrl+Alt+e":
+        event.preventDefault();
+        dotNetHelper.invokeMethodAsync("GoToEducationsPage");
+        break;
+
+    case "Ctrl+Alt+s":
+        event.preventDefault();
+        dotNetHelper.invokeMethodAsync("GoToSubjectsPage");
+        break;
+
+    case "Ctrl+Alt+g":
+        event.preventDefault();
+        dotNetHelper.invokeMethodAsync("GoToGradesPage");
+        break;
+
+    case "Ctrl+Alt+q":
+        event.preventDefault();
+        dotNetHelper.invokeMethodAsync("GoToSettingsPage");
         break;
     }
 }

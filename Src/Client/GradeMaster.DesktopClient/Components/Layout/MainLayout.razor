@@ -1,6 +1,7 @@
 ﻿@inherits LayoutComponentBase
 @implements IAsyncDisposable
 @inject IJSRuntime JSRuntime
+@inject NavigationManager Navigation
 
 <div class="page">
     <div class="sidebar">
@@ -65,6 +66,8 @@
         await JSRuntime.InvokeVoidAsync("addPageKeybinds", "MainLayoutPage", objRef);
     }
 
+    #region JSInvokable / Keybinds
+
     [JSInvokable]
     public async Task ToggleOffCanvas()
     {
@@ -77,6 +80,25 @@
             await OnHideOffcanvasClick();
         }
     }
+
+    // Navigation to main pages
+
+    [JSInvokable]
+    public void GoToHomePage() => Navigation.NavigateTo("/?");
+
+    [JSInvokable]
+    public void GoToEducationsPage() => Navigation.NavigateTo("/educations");
+
+    [JSInvokable]
+    public void GoToSubjectsPage() => Navigation.NavigateTo("/subjects");
+
+    [JSInvokable]
+    public void GoToGradesPage() => Navigation.NavigateTo("/grades");
+
+    [JSInvokable]
+    public void GoToSettingsPage() => Navigation.NavigateTo("/settings");
+
+    #endregion
 
     public async ValueTask DisposeAsync()
     {
