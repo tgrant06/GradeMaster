@@ -18,7 +18,7 @@ public partial class Educations : IAsyncDisposable
 
     private ConfirmDialog _dialog = default!;
 
-    private DotNetObjectReference<Educations>? objRef;
+    private DotNetObjectReference<Educations>? _objRef;
 
     #endregion
 
@@ -52,8 +52,8 @@ public partial class Educations : IAsyncDisposable
 
     protected async override Task OnInitializedAsync()
     {
-        objRef = DotNetObjectReference.Create(this);
-        await JSRuntime.InvokeVoidAsync("addPageKeybinds", "EducationsPage", objRef);
+        _objRef = DotNetObjectReference.Create(this);
+        await JSRuntime.InvokeVoidAsync("addPageKeybinds", "EducationsPage", _objRef);
 
         await _weightRepository.GetAllAsync();
 
@@ -175,6 +175,6 @@ public partial class Educations : IAsyncDisposable
     public async ValueTask DisposeAsync()
     {
         await JSRuntime.InvokeVoidAsync("removePageKeybinds", "EducationsPage");
-        objRef?.Dispose();
+        _objRef?.Dispose();
     }
 }

@@ -9,7 +9,7 @@ using Microsoft.JSInterop;
 
 namespace GradeMaster.DesktopClient.Components.Pages.SubjectPages;
 
-public partial class Detail
+public partial class Detail : IAsyncDisposable
 {
     #region Fields / Properties
 
@@ -36,6 +36,8 @@ public partial class Detail
     private decimal _subjectAverage;
 
     private ConfirmDialog _dialog = default!;
+
+    private DotNetObjectReference<Detail>? _objRef;
 
     #endregion
 
@@ -87,6 +89,9 @@ public partial class Detail
             await GoBack();
             return;
         }
+
+        _objRef = DotNetObjectReference.Create(this);
+        await JSRuntime.InvokeVoidAsync("addPageKeybinds", "DetailPage", _objRef);
 
         await _weightRepository.GetAllAsync();
         Subject = await _subjectRepository.GetByIdDetailAsync(Id);
@@ -188,6 +193,19 @@ public partial class Detail
 
     #endregion
 
+    #region JSInvokable / Keybinds
+
+    [JSInvokable]
+    public void NavigateToEdit() => EditSubject();
+
+    [JSInvokable]
+    public void NavigateToCreate() => GoToNewGrade(Subject.Id);
+
+    [JSInvokable]
+    public async Task DeleteObject() => await DeleteSubjectAsync();
+
+    #endregion
+
     #region Averages
 
     private void CalculateSubjectAverage()
@@ -201,5 +219,8 @@ public partial class Detail
     public async ValueTask DisposeAsync()
     {
         await JSRuntime.InvokeVoidAsync("removeDescriptionAreaEventListener");
+
+        await JSRuntime.InvokeVoidAsync("removePageKeybinds", "DetailPage");
+        _objRef?.Dispose();
     }
 }

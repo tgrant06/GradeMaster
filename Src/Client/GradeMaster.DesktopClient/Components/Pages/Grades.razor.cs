@@ -20,7 +20,7 @@ public partial class Grades : IAsyncDisposable
 
     private ConfirmDialog _dialog = default!;
 
-    private DotNetObjectReference<Grades>? objRef;
+    private DotNetObjectReference<Grades>? _objRef;
 
     #endregion
 
@@ -61,8 +61,8 @@ public partial class Grades : IAsyncDisposable
 
     protected async override Task OnInitializedAsync()
     {
-        objRef = DotNetObjectReference.Create(this);
-        await JSRuntime.InvokeVoidAsync("addPageKeybinds", "GradesPage", objRef);
+        _objRef = DotNetObjectReference.Create(this);
+        await JSRuntime.InvokeVoidAsync("addPageKeybinds", "GradesPage", _objRef);
 
         await _weightRepository.GetAllAsync();
         _existsAnySubjectInProgress = await _subjectRepository.ExistsAnyIsCompletedAsync(false);
@@ -180,6 +180,6 @@ public partial class Grades : IAsyncDisposable
     public async ValueTask DisposeAsync()
     {
         await JSRuntime.InvokeVoidAsync("removePageKeybinds", "GradesPage");
-        objRef?.Dispose();
+        _objRef?.Dispose();
     }
 }

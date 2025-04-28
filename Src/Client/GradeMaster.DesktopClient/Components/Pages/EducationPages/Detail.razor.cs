@@ -36,6 +36,8 @@ public partial class Detail : IAsyncDisposable
 
     private ConfirmDialog _dialog = default!;
 
+    private DotNetObjectReference<Detail>? _objRef;
+
     #endregion
 
     #region Dependency Injection
@@ -84,6 +86,9 @@ public partial class Detail : IAsyncDisposable
             await GoBack();
             return;
         }
+
+        _objRef = DotNetObjectReference.Create(this);
+        await JSRuntime.InvokeVoidAsync("addPageKeybinds", "DetailPage", _objRef);
 
         await _weightRepository.GetAllAsync();
         Education = await _educationRepository.GetByIdAsync(Id);
@@ -196,6 +201,19 @@ public partial class Detail : IAsyncDisposable
 
     #endregion
 
+    #region JSInvokable / Keybinds
+
+    [JSInvokable]
+    public void NavigateToEdit() => EditEducation();
+
+    [JSInvokable]
+    public void NavigateToCreate() => GoToNewSubject(Education.Id);
+
+    [JSInvokable]
+    public async Task DeleteObject() => await DeleteEducationAsync();
+
+    #endregion
+
     #region Averages
 
     private void CalculateEducationAverage()
@@ -209,5 +227,8 @@ public partial class Detail : IAsyncDisposable
     public async ValueTask DisposeAsync()
     {
         await JSRuntime.InvokeVoidAsync("removeDescriptionAreaEventListener");
+
+        await JSRuntime.InvokeVoidAsync("removePageKeybinds", "DetailPage");
+        _objRef?.Dispose();
     }
 }

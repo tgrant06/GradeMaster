@@ -20,7 +20,7 @@ public partial class Subjects : IAsyncDisposable
 
     private ConfirmDialog _dialog = default!;
 
-    private DotNetObjectReference<Subjects>? objRef;
+    private DotNetObjectReference<Subjects>? _objRef;
 
     #endregion
 
@@ -60,8 +60,8 @@ public partial class Subjects : IAsyncDisposable
 
     protected async override Task OnInitializedAsync()
     {
-        objRef = DotNetObjectReference.Create(this);
-        await JSRuntime.InvokeVoidAsync("addPageKeybinds", "SubjectsPage", objRef);
+        _objRef = DotNetObjectReference.Create(this);
+        await JSRuntime.InvokeVoidAsync("addPageKeybinds", "SubjectsPage", _objRef);
 
         await _weightRepository.GetAllAsync();
         _existsAnyEducationInProgress = await _educationRepository.ExistsAnyIsCompletedAsync(false);
@@ -171,6 +171,6 @@ public partial class Subjects : IAsyncDisposable
     public async ValueTask DisposeAsync()
     {
         await JSRuntime.InvokeVoidAsync("removePageKeybinds", "SubjectsPage");
-        objRef?.Dispose();
+        _objRef?.Dispose();
     }
 }

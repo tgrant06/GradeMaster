@@ -16,6 +16,12 @@ window.addPageKeybinds = (pageName, dotNetHelper) => {
             case "MainLayoutPage":
                 handleMainLayoutPageKeys(event, dotNetHelper);
                 break;
+            case "DetailPage":
+                handleDetailPageKeys(event, dotNetHelper);
+                break;
+            case "GradeDetailPage":
+                handleGradeDetailPageKeys(event, dotNetHelper);
+                break;
             }
         }
     };
@@ -121,6 +127,16 @@ function handleMainLayoutPageKeys(event, dotNetHelper) {
         dotNetHelper.invokeMethodAsync("ToggleOffCanvas");
         break;
 
+    case "Ctrl+t":
+        event.preventDefault();
+        window.scrollToTop();
+        break;
+
+    case "Ctrl+b":
+        event.preventDefault();
+        window.history.back();
+        break;
+
     case "Ctrl+Alt+h":
         event.preventDefault();
         dotNetHelper.invokeMethodAsync("GoToHomePage");
@@ -144,6 +160,34 @@ function handleMainLayoutPageKeys(event, dotNetHelper) {
     case "Ctrl+Alt+q":
         event.preventDefault();
         dotNetHelper.invokeMethodAsync("GoToSettingsPage");
+        break;
+    }
+}
+
+function handleDetailPageKeys(event, dotNetHelper) {
+    if (!event.ctrlKey) return;
+
+    let shortcut = "";
+
+    if (event.ctrlKey) shortcut += "Ctrl+";
+    if (event.shiftKey) shortcut += "Shift+";
+
+    shortcut += event.key.toLowerCase();
+
+    switch (shortcut) {
+    case "Ctrl+e":
+        event.preventDefault();
+        dotNetHelper.invokeMethodAsync("NavigateToEdit");
+        break;
+
+    case "Ctrl+n":
+        event.preventDefault();
+        dotNetHelper.invokeMethodAsync("NavigateToCreate");
+        break;
+
+    case "Ctrl+Shift+d":
+        event.preventDefault();
+        dotNetHelper.invokeMethodAsync("DeleteObject");
         break;
     }
 }
