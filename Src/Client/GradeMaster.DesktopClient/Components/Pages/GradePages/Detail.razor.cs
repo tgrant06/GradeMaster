@@ -187,6 +187,16 @@ public partial class Detail : IAsyncDisposable
     [JSInvokable]
     public void NavigateToSubject() => GoToSubject();
 
+    [JSInvokable]
+    public async Task ToggleDescriptionHeight()
+    {
+        if (IsTruncated)
+        {
+            await ToggleDescription();
+            StateHasChanged();
+        }
+    }
+
     #endregion
 
     #region Averages Currently Not Used

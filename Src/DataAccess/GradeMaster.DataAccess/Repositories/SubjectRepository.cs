@@ -89,6 +89,13 @@ public class SubjectRepository : ISubjectRepository
         return await _context.Subjects.Where(s => s.Completed == completed).Include(s => s.Education).ToListAsync();
     }
 
+    public async Task<List<Subject>> GetByEducationIdAndCompletedAsync(int id, bool completed)
+    {
+        return await _context.Subjects.Where(s => s.Education.Id == id && s.Completed == completed)
+            .Include(s => s.Education)
+            .ToListAsync();
+    }
+
     public async Task<Subject?> GetByGradeIdAsync(int id)
     {
         return await _context.Subjects.Where(s => s.Grades.Any(g => g.Id == id)).Include(s => s.Education)
@@ -156,6 +163,11 @@ public class SubjectRepository : ISubjectRepository
     public async Task<bool> ExistsAnyIsCompletedAsync(bool completed)
     {
         return await _context.Subjects.AnyAsync(s => s.Completed == completed);
+    }
+
+    public async Task<bool> ExistsAnyIsCompletedWithEducationIdAsync(int id, bool completed)
+    {
+        return await _context.Subjects.AnyAsync(s => s.Education.Id == id && s.Completed == completed);
     }
 
     public async Task<bool> ExistsAsync(int id)

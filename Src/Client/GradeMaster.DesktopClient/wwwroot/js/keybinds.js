@@ -54,6 +54,13 @@ function focusSearchField(searchFieldName) {
     }
 }
 
+function focusSelectField(selectFieldName) {
+    let selectElement = document.getElementById(`selectField${selectFieldName}`);
+    if (selectElement) {
+        selectElement.focus();
+    }
+}
+
 // does not currently work
 function handleEscapeV1(event) {
     if (event.key === "Escape") {
@@ -65,6 +72,7 @@ function handleEscapeV1(event) {
     }
 }
 
+// does not currently work
 function handleEscape(event) {
     if (event.code === "Escape") {
         event.preventDefault();
@@ -204,6 +212,11 @@ function handleEducationDetailPageKeys(event, dotNetHelper) {
             dotNetHelper.invokeMethodAsync("NavigateToCreate");
             break;
 
+        case "Ctrl+d":
+            event.preventDefault();
+            dotNetHelper.invokeMethodAsync("ToggleDescriptionHeight");
+            break;
+
         case "Ctrl+Shift+d":
             event.preventDefault();
             dotNetHelper.invokeMethodAsync("DeleteObject");
@@ -233,6 +246,11 @@ function handleSubjectDetailPageKeys(event, dotNetHelper) {
             dotNetHelper.invokeMethodAsync("NavigateToCreate");
             break;
 
+        case "Ctrl+d":
+            event.preventDefault();
+            dotNetHelper.invokeMethodAsync("ToggleDescriptionHeight");
+            break;
+
         case "Ctrl+Shift+d":
             event.preventDefault();
             dotNetHelper.invokeMethodAsync("DeleteObject");
@@ -260,6 +278,11 @@ function handleGradeDetailPageKeys(event, dotNetHelper) {
         case "Ctrl+e":
             event.preventDefault();
             dotNetHelper.invokeMethodAsync("NavigateToEdit");
+            break;
+
+        case "Ctrl+d":
+            event.preventDefault();
+            dotNetHelper.invokeMethodAsync("ToggleDescriptionHeight");
             break;
 
         case "Ctrl+Shift+d":
@@ -316,7 +339,7 @@ function handleHomePageKeys(event, dotNetHelper) {
             break;
         case "Ctrl+f":
             event.preventDefault();
-            // focus on select field
+            focusSelectField("Education");
             break;
         case "Ctrl+d":
             event.preventDefault();
@@ -324,7 +347,7 @@ function handleHomePageKeys(event, dotNetHelper) {
             break;
         case "Ctrl+x":
             event.preventDefault();
-            dotNetHelper.invokeMethodAsync("ReloadData");
+            dotNetHelper.invokeMethodAsync("ReloadPageData");
             break;
     default:
     }

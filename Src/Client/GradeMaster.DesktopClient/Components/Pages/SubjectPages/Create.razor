@@ -16,12 +16,15 @@
 @code {
     private int? _educationId;
 
+
     [Inject] private ISubjectRepository _subjectRepository { get; set; }
 
     [Inject] protected ToastService ToastService { get; set; } = default!;
 
     [Inject] private NavigationManager Navigation { get; set; }
+
     [Inject] private IJSRuntime JSRuntime { get; set; }
+
 
     protected override void OnInitialized()
     {

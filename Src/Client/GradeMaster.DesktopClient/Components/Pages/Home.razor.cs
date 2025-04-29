@@ -1,12 +1,15 @@
-﻿using GradeMaster.Client.Shared.Utility;
+﻿using BlazorBootstrap;
+using GradeMaster.Client.Shared.Utility;
 using GradeMaster.Common.Entities;
 using GradeMaster.DataAccess.Interfaces.IRepositories;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.JSInterop;
 
 namespace GradeMaster.DesktopClient.Components.Pages;
 
-public partial class Home
+public partial class Home : IAsyncDisposable
 {
     #region Fields / Properties
 
@@ -30,6 +33,8 @@ public partial class Home
         }
     }
 
+    private DotNetObjectReference<Home>? _objRef;
+
     #endregion
 
     #region Dependency Injection
@@ -52,8 +57,16 @@ public partial class Home
         get; set;
     }
 
+    [Inject] protected ToastService ToastService { get; set; } = default!;
+
     [Inject]
     private NavigationManager Navigation
+    {
+        get; set;
+    }
+
+    [Inject]
+    private IJSRuntime JSRuntime
     {
         get; set;
     }
@@ -64,6 +77,9 @@ public partial class Home
     {
         _educations = await _educationRepository.GetAllSimpleAsync();
         await _weightRepository.GetAllAsync();
+
+        _objRef = DotNetObjectReference.Create(this);
+        await JSRuntime.InvokeVoidAsync("addPageKeybinds", "HomePage", _objRef);
 
         var uri = Navigation.ToAbsoluteUri(Navigation.Uri);
         if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("educationId", out var educationIdString) && int.TryParse(educationIdString, out var educationId))
@@ -76,11 +92,15 @@ public partial class Home
                 await LoadEducationData(educationId);
                 return;
             }
+
+            ToastService.Notify(new ToastMessage(ToastType.Info, $"This education does no longer exist."));
         }
 
         // Navigate to the URL with the default query parameter
         Navigation.NavigateTo($"?", false);
     }
+
+    #region Data
 
     private async void ChangeEducation(int? educationId)
     {
@@ -120,6 +140,8 @@ public partial class Home
         }
     }
 
+    #endregion
+
     #region Navigation
 
     private void GoToSubject(int subjectId) => Navigation.NavigateTo($"/subjects/{subjectId}");
@@ -131,6 +153,75 @@ public partial class Home
     private void GoToNewSubject(int educationId) => Navigation.NavigateTo($"/subjects/create?educationId={educationId}");
 
     private void GoToNewGrade(int subjectId) => Navigation.NavigateTo($"/grades/create?subjectId={subjectId}");
+
+    private void GoToNewGradeFromEducationId(int educationId) => Navigation.NavigateTo($"/grades/create?educationId={educationId}");
+
+    private void GoToNewEducation() => Navigation.NavigateTo("/educations/create");
+
+    #endregion
+
+    #region JSInvokable / Keybinds
+
+    [JSInvokable]
+    public void NavigateToEducationCreate() => GoToNewEducation();
+
+    [JSInvokable]
+    public void NavigateToSubjectCreate()
+    {
+        if (_currentEducationId == 0)
+        {
+            ToastService.Notify(new ToastMessage(ToastType.Info, $"Select Education first"));
+            return;
+        }
+
+        if (_educations.Find(e => e.Id.Equals(_currentEducationId))!.Completed)
+        {
+            ToastService.Notify(new ToastMessage(ToastType.Info, $"Education is completed"));
+            return;
+        }
+
+        GoToNewSubject(_currentEducationId);
+    }
+
+    [JSInvokable]
+    public async Task NavigateToGradeCreate()
+    {
+        if (_currentEducationId == 0)
+        {
+            ToastService.Notify(new ToastMessage(ToastType.Info, $"Select Education first"));
+            return;
+        }
+
+        var educationHasInProgressSubjects =
+            await _subjectRepository.ExistsAnyIsCompletedWithEducationIdAsync(_currentEducationId, false);
+
+        if (!educationHasInProgressSubjects)
+        {
+            ToastService.Notify(new ToastMessage(ToastType.Info, $"No 'In Progress' subjects"));
+            return;
+        }
+
+        GoToNewGradeFromEducationId(_currentEducationId);
+    }
+
+    [JSInvokable]
+    public void NavigateToEducationDetail()
+    {
+        if (_currentEducationId == 0)
+        {
+            ToastService.Notify(new ToastMessage(ToastType.Info, $"Select Education first"));
+            return;
+        }
+
+        GoToEducation(_currentEducationId);
+    }
+
+    [JSInvokable]
+    public async Task ReloadPageData()
+    {
+        await ReloadData();
+        StateHasChanged();
+    }
 
     #endregion
 
@@ -147,4 +238,10 @@ public partial class Home
     }
 
     #endregion
+
+    public async ValueTask DisposeAsync()
+    {
+        await JSRuntime.InvokeVoidAsync("removePageKeybinds", "HomePage");
+        _objRef?.Dispose();
+    }
 }

@@ -5,7 +5,7 @@
 <div class="border-top animated-top-line" style="width: 100%; max-width: 50%; margin-top: 15px"></div>
 
 <div class="container animated-page-content">
-    <GradeForm OnSave="HandleSave" FormType="FormType.Create" SubjectId="_subjectId" />
+    <GradeForm OnSave="HandleSave" FormType="FormType.Create" SubjectId="_subjectId" EducationId="_educationId" />
 </div>
 
 <script>
@@ -15,6 +15,9 @@
 @code {
     private int? _subjectId;
 
+    private int? _educationId;
+
+
     [Inject] private IGradeRepository _gradeRepository { get; set; }
 
     [Inject] protected ToastService ToastService { get; set; } = default!;
@@ -23,6 +26,7 @@
 
     [Inject] private IJSRuntime JSRuntime { get; set; }
 
+
     protected override void OnInitialized()
     {
         var uri = new Uri(Navigation.Uri);
@@ -30,6 +34,10 @@
         if (queryParams.TryGetValue("subjectId", out var subjectIdString) && int.TryParse(subjectIdString, out var subjectId))
         {
             _subjectId = subjectId;
+        } 
+        else if (queryParams.TryGetValue("educationId", out var educationIdString) && int.TryParse(educationIdString, out var educationId))
+        {
+            _educationId = educationId;
         }
     }
 

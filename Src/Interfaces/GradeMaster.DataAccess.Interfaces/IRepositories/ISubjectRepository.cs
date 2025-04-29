@@ -17,6 +17,8 @@ public interface ISubjectRepository : IGenericEntityRepository<Subject>
 
     Task<List<Subject>> GetByCompletedAsync(bool completed);
 
+    Task<List<Subject>> GetByEducationIdAndCompletedAsync(int id , bool completed); 
+
     Task<Subject?> GetByGradeIdAsync(int id);
 
     Task<List<Subject>> GetBySearchWithRangeAsync(string searchValue, int startIndex, int amount);
@@ -24,4 +26,6 @@ public interface ISubjectRepository : IGenericEntityRepository<Subject>
     Task<int> GetTotalCountAsync(string searchValue);
 
     Task<bool> ExistsAnyIsCompletedAsync(bool completed);
+
+    Task<bool> ExistsAnyIsCompletedWithEducationIdAsync(int id, bool completed);
 }

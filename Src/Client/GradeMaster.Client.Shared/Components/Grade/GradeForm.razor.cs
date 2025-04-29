@@ -21,18 +21,27 @@ public partial class GradeForm : IAsyncDisposable
     {
         get; set;
     }
+
     [Parameter]
     public Entities.Grade? Grade
     {
         get; set;
     }
+
     [Parameter]
     public EventCallback<Entities.Grade> OnSave
     {
         get; set;
     }
+
     [Parameter]
     public int? SubjectId
+    {
+        get; set;
+    }
+
+    [Parameter]
+    public int? EducationId
     {
         get; set;
     }
@@ -130,9 +139,16 @@ public partial class GradeForm : IAsyncDisposable
 
             if (!SubjectId.HasValue)
             {
+                if (EducationId.HasValue)
+                {
+                    Subjects = await _subjectRepository.GetByEducationIdAndCompletedAsync(EducationId.Value, false);
+                }
+                else
+                {
+                    Subjects = await _subjectRepository.GetByCompletedAsync(false);
+                }
 
-                Subjects = await _subjectRepository.GetByCompletedAsync(false);
-                Subjects = Subjects.OrderByDescending(e => e.Id).ToList();
+                Subjects = Subjects.OrderByDescending(s => s.Id).ToList();
                 if (FormType == FormType.Edit && Grade != null)
                 {
                     // can never be null
