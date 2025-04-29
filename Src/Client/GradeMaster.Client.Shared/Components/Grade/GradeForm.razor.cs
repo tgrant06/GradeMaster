@@ -8,10 +8,11 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
 using Entities = GradeMaster.Common.Entities;
+using GradeMaster.Client.Shared.Components.Education;
 
 namespace GradeMaster.Client.Shared.Components.Grade;
 
-public partial class GradeForm
+public partial class GradeForm : IAsyncDisposable
 {
     #region Fields / Properties
 
@@ -69,6 +70,8 @@ public partial class GradeForm
     }
 
     private EditContext? _editContext;
+
+    private DotNetObjectReference<GradeForm>? _objRef;
 
     #endregion
 
@@ -177,6 +180,9 @@ public partial class GradeForm
             ToastService.Notify(new ToastMessage(ToastType.Danger, $"Error during initialization: {ex.Message}"));
             throw;
         }
+
+        _objRef = DotNetObjectReference.Create(this);
+        await JSRuntime.InvokeVoidAsync("addPageKeybinds", "FormComponent", _objRef);
     }
 
     #region HandleSubmit
@@ -222,4 +228,29 @@ public partial class GradeForm
     #endregion
 
     private async Task Cancel() => await JSRuntime.InvokeVoidAsync("window.history.back");
+
+    #region JSInvokable / Keybinds
+
+    [JSInvokable]
+    public async Task SubmitForm()
+    {
+        var isValid = _editContext?.Validate();
+
+        if (isValid == true)
+        {
+            await HandleValidSubmit();
+        }
+        else
+        {
+            HandleInvalidSubmit();
+        }
+    }
+
+    #endregion
+
+    public async ValueTask DisposeAsync()
+    {
+        await JSRuntime.InvokeVoidAsync("removePageKeybinds", "FormComponent");
+        _objRef?.Dispose();
+    }
 }

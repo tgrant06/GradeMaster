@@ -7,10 +7,11 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
 using Entities = GradeMaster.Common.Entities;
+using GradeMaster.Client.Shared.Components.Education;
 
 namespace GradeMaster.Client.Shared.Components.Subject;
 
-public partial class SubjectForm
+public partial class SubjectForm : IAsyncDisposable
 {
     #region Fields / Properties
 
@@ -57,6 +58,8 @@ public partial class SubjectForm
     public List<Entities.Education> Educations { get; set; } = new();
 
     private EditContext? _editContext;
+
+    private DotNetObjectReference<SubjectForm>? _objRef;
 
     #endregion
 
@@ -145,6 +148,9 @@ public partial class SubjectForm
             ToastService.Notify(new ToastMessage(ToastType.Danger, $"Error during initialization: {ex.Message}"));
             throw;
         }
+
+        _objRef = DotNetObjectReference.Create(this);
+        await JSRuntime.InvokeVoidAsync("addPageKeybinds", "FormComponent", _objRef);
     }
 
     private int GetMaxSemesterNumber()
@@ -196,4 +202,29 @@ public partial class SubjectForm
     #endregion
 
     private async Task Cancel() => await JSRuntime.InvokeVoidAsync("window.history.back");
+
+    #region JSInvokable / Keybinds
+
+    [JSInvokable]
+    public async Task SubmitForm()
+    {
+        var isValid = _editContext?.Validate();
+
+        if (isValid == true)
+        {
+            await HandleValidSubmit();
+        }
+        else
+        {
+            HandleInvalidSubmit();
+        }
+    }
+
+    #endregion
+
+    public async ValueTask DisposeAsync()
+    {
+        await JSRuntime.InvokeVoidAsync("removePageKeybinds", "FormComponent");
+        _objRef?.Dispose();
+    }
 }

@@ -25,8 +25,8 @@ window.addPageKeybinds = (pageName, dotNetHelper) => {
             case "GradeDetailPage":
                 handleGradeDetailPageKeys(event, dotNetHelper);
                 break;
-            case "FormPage":
-                handleFormPageKeys(event, dotnetHelper);
+            case "FormComponent":
+                handleFormComponentKeys(event, dotNetHelper);
                 break;
             }
         }
@@ -278,21 +278,16 @@ function handleGradeDetailPageKeys(event, dotNetHelper) {
     // maybe add keybind to add new grade with the same Subject
 }
 
-function handleFormPageKeys(event, dotNetHelper) {
-    if (!event.ctrlKey && !event.altKey) return; // allow Ctrl or Alt combos
+function handleFormComponentKeys(event, dotNetHelper) {
+    if (!event.ctrlKey) return; // allow Ctrl or Alt combos
     let shortcut = "";
     if (event.ctrlKey) shortcut += "Ctrl+";
-    if (event.altKey) shortcut += "Alt+";
-    if (event.shiftKey) shortcut += "Shift+";
+
     shortcut += event.key.toLowerCase();
     switch (shortcut) {
-        case "Ctrl+e":
+        case "Ctrl+s":
             event.preventDefault();
-            dotNetHelper.invokeMethodAsync("NavigateToEdit");
-            break;
-        case "Ctrl+Shift+d":
-            event.preventDefault();
-            dotNetHelper.invokeMethodAsync("DeleteObject");
+            dotNetHelper.invokeMethodAsync("SubmitForm");
             break;
     }
 }
