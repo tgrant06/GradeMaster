@@ -44,6 +44,8 @@ public partial class Subjects : IAsyncDisposable
         get; set;
     }
 
+    [Inject] protected ToastService ToastService { get; set; } = default!;
+
     [Inject]
     private NavigationManager Navigation
     {
@@ -75,6 +77,8 @@ public partial class Subjects : IAsyncDisposable
         }
     }
 
+    #region Data
+
     private async ValueTask<ItemsProviderResult<Subject>> GetSubjectsProvider(ItemsProviderRequest request)
     {
         var startIndex = request.StartIndex;
@@ -105,6 +109,8 @@ public partial class Subjects : IAsyncDisposable
         _searchValue = string.Empty;
         await RefreshSubjectData();
     }
+
+    #endregion
 
     #region Not Used
 
@@ -157,7 +163,16 @@ public partial class Subjects : IAsyncDisposable
     #region JSInvokable / Keybinds
 
     [JSInvokable]
-    public void NavigateToCreate() => CreateSubject();
+    public void NavigateToCreate()
+    {
+        if (_existsAnyEducationInProgress)
+        {
+            CreateSubject();
+            return;
+        }
+
+        ToastService.Notify(new ToastMessage(ToastType.Info, $"Create Education first"));
+    }
 
     [JSInvokable]
     public async Task ClearSearch()

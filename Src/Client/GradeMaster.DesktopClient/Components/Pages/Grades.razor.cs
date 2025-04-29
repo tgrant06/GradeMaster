@@ -44,6 +44,8 @@ public partial class Grades : IAsyncDisposable
         get; set;
     }
 
+    [Inject] protected ToastService ToastService { get; set; } = default!;
+
     [Inject]
     private NavigationManager Navigation
     {
@@ -76,6 +78,8 @@ public partial class Grades : IAsyncDisposable
         }
     }
 
+    #region Data
+
     private async ValueTask<ItemsProviderResult<Grade>> GetGradesProvider(ItemsProviderRequest request)
     {
         var startIndex = request.StartIndex;
@@ -106,6 +110,8 @@ public partial class Grades : IAsyncDisposable
         _searchValue = string.Empty;
         await RefreshGradeData();
     }
+
+    #endregion
 
     #region Not Used
 
@@ -166,7 +172,15 @@ public partial class Grades : IAsyncDisposable
     #region JSInvokable / Keybinds
 
     [JSInvokable]
-    public void NavigateToCreate() => CreateGrade();
+    public void NavigateToCreate() {
+        if (_existsAnySubjectInProgress)
+        {
+            CreateGrade();
+            return;
+        }
+
+        ToastService.Notify(new ToastMessage(ToastType.Info, $"Create Education first"));
+    }
 
     [JSInvokable]
     public async Task ClearSearch()

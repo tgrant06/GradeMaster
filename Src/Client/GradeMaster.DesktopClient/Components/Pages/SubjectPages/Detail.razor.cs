@@ -199,7 +199,16 @@ public partial class Detail : IAsyncDisposable
     public void NavigateToEdit() => EditSubject();
 
     [JSInvokable]
-    public void NavigateToCreate() => GoToNewGrade(Subject.Id);
+    public void NavigateToCreate()
+    {
+        if (Subject.Completed)
+        {
+            ToastService.Notify(new ToastMessage(ToastType.Info, $"Subject is completed"));
+            return;
+        }
+
+        GoToNewGrade(Subject.Id);
+    }
 
     [JSInvokable]
     public async Task DeleteObject() => await DeleteSubjectAsync();

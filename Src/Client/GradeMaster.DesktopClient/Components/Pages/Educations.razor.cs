@@ -66,6 +66,8 @@ public partial class Educations : IAsyncDisposable
         }
     }
 
+    #region Data
+
     private async ValueTask<ItemsProviderResult<Education>> GetEducationsProvider(ItemsProviderRequest request)
     {
         var startIndex = request.StartIndex;
@@ -96,6 +98,8 @@ public partial class Educations : IAsyncDisposable
         _searchValue = string.Empty;
         await RefreshEducationData();
     }
+
+    #endregion
 
     #region Not Used
 
