@@ -256,7 +256,7 @@ function handleSubjectDetailPageKeys(event, dotNetHelper) {
             dotNetHelper.invokeMethodAsync("DeleteObject");
             break;
 
-        case "Ctrl+Shift+e":
+        case "Ctrl+Shift+a":
             event.preventDefault();
             dotNetHelper.invokeMethodAsync("NavigateToEducation");
             break;
@@ -295,7 +295,7 @@ function handleGradeDetailPageKeys(event, dotNetHelper) {
             dotNetHelper.invokeMethodAsync("NavigateToSubject");
             break;
 
-        case "Ctrl+Shift+e":
+        case "Ctrl+Shift+a":
             event.preventDefault();
             dotNetHelper.invokeMethodAsync("NavigateToEducation");
             break;
@@ -319,7 +319,7 @@ function handleFormComponentKeys(event, dotNetHelper) {
 }
 
 function handleHomePageKeys(event, dotNetHelper) {
-    if (!event.ctrlKey) return;
+    if (!event.ctrlKey || event.altKey) return;
     let shortcut = "";
     if (event.ctrlKey) shortcut += "Ctrl+";
 
