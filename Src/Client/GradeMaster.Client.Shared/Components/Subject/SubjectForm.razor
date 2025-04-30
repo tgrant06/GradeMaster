@@ -26,11 +26,11 @@ else
             <label class="col-md-2 col-form-label nowrap" for="selectFieldEducation"><strong>Education: <span class="text-danger">*</span></strong></label>
             <div class="col-md-10">
                 <select class="form-select" style="max-width: 620px" aria-label="Select Education" name="selectFieldEducation" id="selectFieldEducation" disabled="@(EducationId.HasValue)"
-                @bind="SelectedEducationId">
-                    <option value="0" class="truncate" style="background-color: #eeeeee; color: black;">Select Education</option>
+                        @bind="SelectedEducationId">
+                    <option value="0" class="truncate gm-option">Select Education</option>
                     @foreach (var education in Educations)
                     {
-                        <option @key="@($"edu_{education.Id}")" value="@education.Id" class="truncate" style="background-color: #eeeeee; color: black;">@UIUtils.TruncateString(education.Name, 65) @UIUtils.TruncateString(string.IsNullOrEmpty(education.Institution) ? " " : "| " + education.Institution.Split(",")[0], 15) @(education.Completed ? "🟢" : "")</option>
+                        <option @key="@($"edu_{education.Id}")" value="@education.Id" class="truncate gm-option">@UIUtils.TruncateString(education.Name, 65) @UIUtils.TruncateString(string.IsNullOrEmpty(education.Institution) ? " " : "| " + education.Institution.Split(",")[0], 15) @(education.Completed ? "🟢" : "")</option>
                     }
                 </select>
                 <ValidationMessage For="@(() => NewSubject.Education)"/>

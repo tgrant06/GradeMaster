@@ -27,10 +27,10 @@ else
             <div class="col-md-10">
                 <select class="form-select" style="max-width: 155px" aria-label="Select Weight" name="selectFieldWeight" id="selectFieldWeight"
                         @bind="SelectedWeightId">
-                    <option value="0" style="background-color: #eeeeee; color: black; display: none;">Select Weight</option>
+                    <option value="0" style="display: none;" class="gm-option">Select Weight</option>
                     @foreach (var weight in Weights)
                     {
-                        <option @key="@($"$wgt_{weight.Id}")" value="@weight.Id" style="background-color: #eeeeee; color: black;">@weight.Name / @weight.Value.ToString("0.0##")</option>
+                        <option @key="@($"$wgt_{weight.Id}")" value="@weight.Id" class="gm-option">@weight.Name / @weight.Value.ToString("0.0##")</option>
                     }
                 </select>
                 <ValidationMessage For="@(() => NewGrade.Weight)"/>
@@ -42,11 +42,11 @@ else
             <label class="col-md-2 col-form-label nowrap" for="selectFieldSubject"><strong>Subject: <span class="text-danger">*</span></strong></label>
             <div class="col-md-10">
                 <select class="form-select" style="max-width: 620px" aria-label="Select Subject" name="selectFieldSubject" id="selectFieldSubject" disabled="@(SubjectId.HasValue)"
-                @bind="SelectedSubjectId">
-                    <option value="0" style="background-color: #eeeeee; color: black;">Select Subject</option>
+                        @bind="SelectedSubjectId">
+                    <option value="0" class="gm-option">Select Subject</option>
                     @foreach (var subject in Subjects)
                     {
-                        <option @key="@($"sub_{subject.Id}")" value="@subject.Id" style="background-color: #eeeeee; color: black;">@UIUtils.TruncateString(subject.Name, 60) - @subject.Semester @(subject.Completed ? "🟢" : "") | @UIUtils.TruncateString(subject.Education.Name, 60) @(subject.Education.Completed ? "🟢" : "")</option>
+                        <option @key="@($"sub_{subject.Id}")" value="@subject.Id" class="gm-option">@UIUtils.TruncateString(subject.Name, 60) - @subject.Semester @(subject.Completed ? "🟢" : "") | @UIUtils.TruncateString(subject.Education.Name, 60) @(subject.Education.Completed ? "🟢" : "")</option>
                     }
                 </select>
                 <ValidationMessage For="@(() => NewGrade.Subject)"/>
