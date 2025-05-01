@@ -253,3 +253,7 @@ h1:focus {
     background-color: light-dark(#eeeeee, #252525);
     color: light-dark(black, white);
 }
+
+.btn-entity-link {
+    max-width: calc(100% - 10px);
+}

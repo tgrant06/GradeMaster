@@ -10,7 +10,7 @@
         <h2 style="margin-bottom: 6px;">
             <b class="enabled-text-selection">@Subject.Name - @Subject.Semester</b>
         </h2>
-        <Button @onclick="GoToEducation" class="btn-translucient-v2 border-0" style="margin-left: -6px; padding: 5px; padding-left: 6px; padding-right: 6px;">
+        <Button @onclick="GoToEducation" class="btn-translucient-v2 border-0 btn-entity-link" style="margin-left: -6px; padding: 5px; padding-left: 6px; padding-right: 6px;">
             <CardSubTitle Class="enabled-text-selection">@Subject.Education.Name, @Subject.Education.StartDate.Year - @Subject.Education.EndDate.Year <Icon Name="IconName.ArrowUpRightCircle"/></CardSubTitle>
         </Button>
         <CompletionStateBadge Completed="Subject.Education.Completed" MarginBottom="-1" />
