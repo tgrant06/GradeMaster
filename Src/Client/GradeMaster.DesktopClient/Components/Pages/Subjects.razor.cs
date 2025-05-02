@@ -16,6 +16,8 @@ public partial class Subjects : IAsyncDisposable
 
     private bool _existsAnyEducationInProgress;
 
+    private int _totalItemCount;
+
     private Virtualize<Subject>? _virtualizeComponent;
 
     private ConfirmDialog _dialog = default!;
@@ -75,6 +77,8 @@ public partial class Subjects : IAsyncDisposable
             var searchValueString = searchValue.ToString();
             _searchValue = string.IsNullOrWhiteSpace(searchValueString) ? string.Empty : searchValueString;
         }
+
+        _totalItemCount = await _subjectRepository.GetTotalCountAsync(_searchValue);
     }
 
     #region Data
@@ -88,10 +92,10 @@ public partial class Subjects : IAsyncDisposable
         var fetchedSubjects = await _subjectRepository.GetBySearchWithRangeAsync(_searchValue, startIndex, count);
 
         // Calculate the total number of items (if known or needed)
-        var totalItemCount = await _subjectRepository.GetTotalCountAsync(_searchValue);
+        //var totalItemCount = await _subjectRepository.GetTotalCountAsync(_searchValue);
 
         // Return the result to the Virtualize component
-        return new ItemsProviderResult<Subject>(fetchedSubjects, totalItemCount);
+        return new ItemsProviderResult<Subject>(fetchedSubjects, _totalItemCount);
     }
 
     private async Task RefreshSubjectData()
@@ -100,6 +104,8 @@ public partial class Subjects : IAsyncDisposable
         var baseUri = uri.GetLeftPart(UriPartial.Path);
         var updatedUri = QueryHelpers.AddQueryString(baseUri, "q", _searchValue);
         Navigation.NavigateTo(updatedUri, forceLoad: false);
+
+        _totalItemCount = await _subjectRepository.GetTotalCountAsync(_searchValue);
 
         await _virtualizeComponent?.RefreshDataAsync()!;
     }

@@ -16,6 +16,8 @@ public partial class Grades : IAsyncDisposable
 
     private bool _existsAnySubjectInProgress;
 
+    private int _totalItemCount;
+
     private Virtualize<Grade>? _virtualizeComponent;
 
     private ConfirmDialog _dialog = default!;
@@ -76,6 +78,8 @@ public partial class Grades : IAsyncDisposable
             var searchValueString = searchValue.ToString();
             _searchValue = string.IsNullOrWhiteSpace(searchValueString) ? string.Empty : searchValueString;
         }
+
+        _totalItemCount = await _gradeRepository.GetTotalCountAsync(_searchValue);
     }
 
     #region Data
@@ -89,10 +93,10 @@ public partial class Grades : IAsyncDisposable
         var fetchedGrades = await _gradeRepository.GetBySearchWithRangeAsync(_searchValue, startIndex, count);
 
         // Calculate the total number of items (if known or needed)
-        var totalItemCount = await _gradeRepository.GetTotalCountAsync(_searchValue);
+        //var totalItemCount = await _gradeRepository.GetTotalCountAsync(_searchValue);
 
         // Return the result to the Virtualize component
-        return new ItemsProviderResult<Grade>(fetchedGrades, totalItemCount);
+        return new ItemsProviderResult<Grade>(fetchedGrades, _totalItemCount);
     }
 
     private async Task RefreshGradeData()
@@ -101,6 +105,8 @@ public partial class Grades : IAsyncDisposable
         var baseUri = uri.GetLeftPart(UriPartial.Path);
         var updatedUri = QueryHelpers.AddQueryString(baseUri, "q", _searchValue);
         Navigation.NavigateTo(updatedUri, forceLoad: false);
+
+        _totalItemCount = await _gradeRepository.GetTotalCountAsync(_searchValue);
 
         await _virtualizeComponent?.RefreshDataAsync()!;
     }
