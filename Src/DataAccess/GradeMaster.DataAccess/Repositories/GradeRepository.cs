@@ -1,16 +1,39 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using GradeMaster.Common.Entities;
 using GradeMaster.DataAccess.Interfaces.IRepositories;
+using System.Text.RegularExpressions;
 
 namespace GradeMaster.DataAccess.Repositories;
 
 public class GradeRepository : IGradeRepository
 {
     private readonly GradeMasterDbContext _context;
+    private static readonly Regex DateRegex = new(@"^(\d{1,2})\.(\d{1,2})\.(\d{4})$", RegexOptions.Compiled);
 
     public GradeRepository(GradeMasterDbContext context)
     {
         _context = context;
+    }
+
+    private string NormalizeDateSearchValue(string searchValue)
+    {
+        if (string.IsNullOrWhiteSpace(searchValue))
+            return searchValue;
+
+        // Check if the input matches the dd.mm.yyyy pattern
+        var match = DateRegex.Match(searchValue);
+        if (match.Success)
+        {
+            // Extract day, month, and year
+            var day = match.Groups[1].Value.PadLeft(2, '0');
+            var month = match.Groups[2].Value.PadLeft(2, '0');
+            var year = match.Groups[3].Value;
+
+            // Return in yyyy-mm-dd format
+            return $"{year}-{month}-{day}";
+        }
+
+        return searchValue;
     }
 
     public async Task<Grade?> GetByIdAsync(int id)
@@ -102,8 +125,10 @@ public class GradeRepository : IGradeRepository
                 .Take(amount)
                 .ToListAsync();
         }
-
+        
         var newSearchValue = $"%{searchValue}%";
+        var normalizedDateSearch = NormalizeDateSearchValue(searchValue);
+        var normalizedDateSearchValue = $"%{normalizedDateSearch}%";
         var isNumericSearch = decimal.TryParse(searchValue, out var searchValueAsDecimal);
 
         return await _context.Grades
@@ -114,7 +139,7 @@ public class GradeRepository : IGradeRepository
                 (grade.Description != null && EF.Functions.Like(grade.Description, newSearchValue)) ||
                 (isNumericSearch && grade.Value == searchValueAsDecimal) ||
                 EF.Functions.Like(grade.Subject.Education.Name, newSearchValue) ||
-                EF.Functions.Like(grade.Date.ToString(), newSearchValue) ||
+                EF.Functions.Like(grade.Date.ToString(), normalizedDateSearchValue) ||
                 (grade.Subject.Education.Institution != null && EF.Functions.Like(grade.Subject.Education.Institution, newSearchValue)))
             .Include(g => g.Subject)
                 .ThenInclude(s => s.Education)
@@ -133,6 +158,8 @@ public class GradeRepository : IGradeRepository
         }
 
         var newSearchValue = $"%{searchValue}%";
+        var normalizedDateSearch = NormalizeDateSearchValue(searchValue);
+        var normalizedDateSearchValue = $"%{normalizedDateSearch}%";
         var isNumericSearch = decimal.TryParse(searchValue, out var searchValueAsDecimal);
 
         return await _context.Grades
@@ -141,7 +168,7 @@ public class GradeRepository : IGradeRepository
                 (grade.Description != null && EF.Functions.Like(grade.Description, newSearchValue)) ||
                 (isNumericSearch && grade.Value == searchValueAsDecimal) ||
                 EF.Functions.Like(grade.Subject.Education.Name, newSearchValue) ||
-                EF.Functions.Like(grade.Date.ToString(), newSearchValue) ||
+                EF.Functions.Like(grade.Date.ToString(), normalizedDateSearchValue) ||
                 (grade.Subject.Education.Institution != null && EF.Functions.Like(grade.Subject.Education.Institution, newSearchValue)))
             .CountAsync();
     }
