@@ -3,6 +3,7 @@ using GradeMaster.Client.Shared.Utility;
 using GradeMaster.Common.Entities;
 using GradeMaster.DataAccess.Interfaces.IRepositories;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.JSInterop;
@@ -14,11 +15,26 @@ public partial class Home : IAsyncDisposable
     #region Fields / Properties
 
     private int _currentEducationId;
+
     private List<Education> _educations = new();
+
     private List<Subject> _subjects = new();
 
-    private decimal _educationAverage = new();
+    private decimal _educationAverage;
+
     private int? _selectedEducationId;
+
+    private DotNetObjectReference<Home>? _objRef;
+
+    private int _selectedSemester;
+
+    private bool _isFiltered;
+
+    private int _maxSemesterValue;
+
+    private SemesterViewModel _semesterViewModel = new();
+
+    private string _averageDisplayText => _isFiltered ? $"Semester {_selectedSemester} Average:" : "Education Average:";
 
     private int? SelectedEducationId
     {
@@ -33,7 +49,18 @@ public partial class Home : IAsyncDisposable
         }
     }
 
-    private DotNetObjectReference<Home>? _objRef;
+
+    #endregion
+
+    #region Classes 
+
+    private class SemesterViewModel
+    {
+        public int Semester
+        {
+            get; set;
+        }
+    }
 
     #endregion
 
@@ -77,6 +104,8 @@ public partial class Home : IAsyncDisposable
     {
         _educations = await _educationRepository.GetAllSimpleAsync();
         await _weightRepository.GetAllAsync();
+
+        _selectedSemester = 0;
 
         _objRef = DotNetObjectReference.Create(this);
         await JSRuntime.InvokeVoidAsync("addPageKeybinds", "HomePage", _objRef);
@@ -124,6 +153,7 @@ public partial class Home : IAsyncDisposable
         _currentEducationId = educationId;
         _subjects = await _subjectRepository.GetByEducationIdAsync(educationId);
         _educationAverage = EducationUtils.CalculateEducationAverage(_subjects);
+        _maxSemesterValue = GetEducationSemester();
     }
 
     // maybe reload entire page? (soft reload)
@@ -137,6 +167,57 @@ public partial class Home : IAsyncDisposable
         else
         {
             _educations = await _educationRepository.GetAllSimpleAsync();
+        }
+    }
+
+    #endregion
+
+    #region Filtering
+
+    private async Task HandleSubmit()
+    {
+        if (!_selectedEducationId.HasValue || _currentEducationId == 0)
+        {
+            ToastService.Notify(new ToastMessage(ToastType.Info, "Select Education first"));
+            return;
+        }
+
+        // Get all subjects for the education and filter by semester
+        var allSubjects = await _subjectRepository.GetByEducationIdAsync(_currentEducationId);
+
+        if (_semesterViewModel.Semester > 0)  // Changed from _selectedSemester to SelectedSemester
+        {
+            _subjects = allSubjects.Where(s => s.Semester == _semesterViewModel.Semester).ToList();  // Changed here too
+            _isFiltered = true;
+            _selectedSemester = _semesterViewModel.Semester;
+
+            if (!_subjects.Any())
+            {
+                ToastService.Notify(new ToastMessage(ToastType.Info, $"No subjects found for semester {_semesterViewModel.Semester}"));  // Changed here
+            }
+        }
+        else
+        {
+            // If semester is 0 or not selected, show all subjects
+            _subjects = allSubjects;
+            _isFiltered = false;
+            _selectedSemester = 0;
+        }
+
+        // Update the calculated average based on filtered subjects
+        _educationAverage = EducationUtils.CalculateEducationAverage(_subjects);
+    }
+
+    private async Task ResetForm()
+    {
+        _semesterViewModel.Semester = 0;
+        _isFiltered = false;
+        _selectedSemester = 0;
+
+        // Load all subjects for the current education without filtering
+        if (_selectedEducationId.HasValue)
+        {
+            await LoadEducationData(_selectedEducationId.Value);
         }
     }
 
@@ -235,6 +316,27 @@ public partial class Home : IAsyncDisposable
         }
 
         return "N/A";
+    }
+
+    #endregion
+
+    #region Utility
+
+    private int GetEducationSemester()
+    {
+        if (_currentEducationId == 0)
+        {
+            return 0;
+        }
+
+        var education = _educations.Find(e => e.Id.Equals(_currentEducationId));
+
+        if (education is null)
+        {
+            return 0;
+        }
+
+        return education.Semesters;
     }
 
     #endregion

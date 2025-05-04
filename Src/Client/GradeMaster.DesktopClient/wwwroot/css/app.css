@@ -225,7 +225,7 @@ h1:focus {
     background-color: light-dark(#ffffff, #212529);
 }
 
-#menuDropdown::after {
+.menuDropdown::after {
     content: "";
     display: none;
 }
