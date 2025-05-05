@@ -250,7 +250,7 @@ h1:focus {
 }
 
 .gm-option {
-    background-color: light-dark(#eeeeee, #252525);
+    background-color: light-dark(#eeeeee, #2f2f2f);
     color: light-dark(black, white);
 }
 

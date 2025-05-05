@@ -155,13 +155,17 @@ public partial class GradeForm : IAsyncDisposable
                     {
                         Subjects = await _subjectRepository.GetByEducationIdAndCompletedAsync(EducationId.Value, false);
                     }
+
+                    Subjects = Subjects.OrderByDescending(s => s.Semester).ThenByDescending(s => s.Name).ToList();
                 }
                 else
                 {
                     Subjects = await _subjectRepository.GetByCompletedAsync(false);
+
+                    Subjects = Subjects.OrderByDescending(s => s.Id).ToList();
                 }
 
-                Subjects = Subjects.OrderByDescending(s => s.Id).ToList();
+                //Subjects = Subjects.OrderByDescending(s => s.Id).ToList();
                 if (FormType == FormType.Edit && Grade != null)
                 {
                     // can never be null
