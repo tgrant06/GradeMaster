@@ -170,6 +170,11 @@ h1:focus {
     scroll-margin-top: 60px;
 }
 
+main {
+    transform: translateZ(0);
+    will-change: transform;
+}
+
 @media (max-width: 640.98px) {
     main {
         overflow-x: visible;
