@@ -25,7 +25,7 @@
         <Dropdown Color="DropdownColor.Primary" Style="height: 38px; padding: 0;" Disabled="@(!_selectedEducationId.HasValue)">
             <DropdownToggleButton Class="px-1 menuDropdown" Style="width: 38px; padding-top: 3px;" Id="filterMenu"><Icon Name="IconName.Binoculars" Size="IconSize.x5" /></DropdownToggleButton>
             <DropdownMenu Position="DropdownMenuPosition.Start" Style="width: 225px; height: 175px;" Class="p-3">
-                <EditForm Model="_semesterViewModel" OnSubmit="HandleSubmit">
+                <EditForm Model="_semesterViewModel" OnValidSubmit="HandleValidSubmit">
                     <h5 style="margin-bottom: 25px;">Filtering</h5>
                     <div class="form-group row mb-3">
                         <label class="col-md-3 col-form-label nowrap me-4" style="max-width: 52px;" for="semester">
@@ -93,7 +93,7 @@
     }
 
     <Grid TItem="Subject"
-          Class="table table-hover"
+          Class="table table-hover animated-table"
           Data="@_subjects.OrderByDescending(s => s.Semester).ThenBy(s => s.Name)"
           EmptyText="No records to display"
           HeaderRowCssClass="border-bottom-0"

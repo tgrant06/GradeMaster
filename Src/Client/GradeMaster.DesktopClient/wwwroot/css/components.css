@@ -181,3 +181,8 @@
         filter: blur(0);
     }
 }
+
+.animated-table tr {
+    animation: BlurIn 0.18s ease-out;
+    will-change: opacity, filter;
+}

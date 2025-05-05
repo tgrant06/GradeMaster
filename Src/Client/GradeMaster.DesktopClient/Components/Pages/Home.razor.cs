@@ -186,7 +186,7 @@ public partial class Home : IAsyncDisposable
 
     #region Filtering
 
-    private async Task HandleSubmit()
+    private async Task HandleValidSubmit()
     {
         if (!_selectedEducationId.HasValue || _currentEducationId == 0)
         {
