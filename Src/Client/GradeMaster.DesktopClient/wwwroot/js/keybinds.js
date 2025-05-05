@@ -61,6 +61,14 @@ function focusSelectField(selectFieldName) {
     }
 }
 
+function focusAndSelectFilterMenu() {
+    let filterElement = document.getElementById("filterMenu");
+    if (filterElement) {
+        filterElement.focus();
+        filterElement.click();
+    }
+}
+
 // does not currently work
 function handleEscapeV1(event) {
     if (event.key === "Escape") {
@@ -321,7 +329,9 @@ function handleFormComponentKeys(event, dotNetHelper) {
 function handleHomePageKeys(event, dotNetHelper) {
     if (!event.ctrlKey || event.altKey) return;
     let shortcut = "";
+
     if (event.ctrlKey) shortcut += "Ctrl+";
+    if (event.shiftKey) shortcut += "Shift+";
 
     shortcut += event.key.toLowerCase();
     switch (shortcut) {
@@ -340,6 +350,10 @@ function handleHomePageKeys(event, dotNetHelper) {
         case "Ctrl+f":
             event.preventDefault();
             focusSelectField("Education");
+            break;
+        case "Ctrl+Shift+f":
+            event.preventDefault();
+            focusAndSelectFilterMenu();
             break;
         case "Ctrl+d":
             event.preventDefault();

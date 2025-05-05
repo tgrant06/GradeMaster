@@ -225,7 +225,7 @@ public partial class Home : IAsyncDisposable
         _educationAverage = EducationUtils.CalculateEducationAverage(_subjects);
     }
 
-    private async Task ResetForm()
+    private async Task ClearFilter()
     {
         _semesterViewModel.Semester = null;
         _isFiltered = false;

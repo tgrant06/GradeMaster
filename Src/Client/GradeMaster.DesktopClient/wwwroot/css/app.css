@@ -208,8 +208,6 @@ h1:focus {
     text-decoration: none;
     background-color: light-dark(#ffffff, #212529) !important;
     box-shadow: -14px -1px 8px -1px light-dark(#ffffffe3, #212529f7);
-    transition: color 0.15s ease-in-out;
-    will-change: color;
 }
 
     .show-more-less-btn:hover, .show-more-less-btn:active, .show-more-less-btn:active:hover {
