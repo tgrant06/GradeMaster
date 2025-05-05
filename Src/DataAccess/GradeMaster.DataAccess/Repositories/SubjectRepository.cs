@@ -96,6 +96,13 @@ public class SubjectRepository : ISubjectRepository
             .ToListAsync();
     }
 
+    public async Task<List<Subject>> GetByEducationIdAndCompletedWithSemesterAsync(int id, bool completed, int semester)
+    {
+        return await _context.Subjects.Where(s => s.Education.Id == id && s.Completed == completed && s.Semester == semester)
+            .Include(s => s.Education)
+            .ToListAsync();
+    }
+
     public async Task<Subject?> GetByGradeIdAsync(int id)
     {
         return await _context.Subjects.Where(s => s.Grades.Any(g => g.Id == id)).Include(s => s.Education)

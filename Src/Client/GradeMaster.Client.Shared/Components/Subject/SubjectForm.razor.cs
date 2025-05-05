@@ -39,6 +39,12 @@ public partial class SubjectForm : IAsyncDisposable
         get; set;
     }
 
+    [Parameter]
+    public int? SubjectSemester
+    {
+        get; set;
+    }
+
     private int SelectedEducationId
     {
         get => NewSubject.Education?.Id ?? 0;
@@ -128,7 +134,7 @@ public partial class SubjectForm : IAsyncDisposable
                 Subject = new Entities.Subject
                 {
                     Completed = false,
-                    Semester = 1,
+                    Semester = SubjectSemester is > 0 ? SubjectSemester.Value : 1,
                     Education = EducationId.HasValue ? Educations.First() : default!
                 };
 

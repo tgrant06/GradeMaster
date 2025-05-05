@@ -46,6 +46,12 @@ public partial class GradeForm : IAsyncDisposable
         get; set;
     }
 
+    [Parameter]
+    public int? SubjectSemester
+    {
+        get; set;
+    }
+
     private string FormTitle { get; set; } = "Grade Form";
 
     public Entities.Grade NewGrade { get; set; } = new();
@@ -141,7 +147,14 @@ public partial class GradeForm : IAsyncDisposable
             {
                 if (EducationId.HasValue)
                 {
-                    Subjects = await _subjectRepository.GetByEducationIdAndCompletedAsync(EducationId.Value, false);
+                    if (SubjectSemester is > 0)
+                    {
+                        Subjects = await _subjectRepository.GetByEducationIdAndCompletedWithSemesterAsync(EducationId.Value, false, SubjectSemester.Value);
+                    }
+                    else
+                    {
+                        Subjects = await _subjectRepository.GetByEducationIdAndCompletedAsync(EducationId.Value, false);
+                    }
                 }
                 else
                 {

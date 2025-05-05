@@ -5,7 +5,7 @@
 <div class="border-top animated-top-line" style="width: 100%; max-width: 50%; margin-top: 15px"></div>
 
 <div class="container animated-page-content">
-    <GradeForm OnSave="HandleSave" FormType="FormType.Create" SubjectId="_subjectId" EducationId="_educationId" />
+    <GradeForm OnSave="HandleSave" FormType="FormType.Create" SubjectId="_subjectId" SubjectSemester="_subjectSemester" EducationId="_educationId" />
 </div>
 
 <script>
@@ -16,6 +16,8 @@
     private int? _subjectId;
 
     private int? _educationId;
+
+    private int? _subjectSemester;
 
 
     [Inject] private IGradeRepository _gradeRepository { get; set; }
@@ -38,6 +40,11 @@
         else if (queryParams.TryGetValue("educationId", out var educationIdString) && int.TryParse(educationIdString, out var educationId))
         {
             _educationId = educationId;
+
+            if (queryParams.TryGetValue("subjectSemester", out var subjectSemesterString) && int.TryParse(subjectSemesterString, out var subjectSemester))
+            {
+                _subjectSemester = subjectSemester;
+            }
         }
     }
 

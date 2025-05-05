@@ -43,7 +43,7 @@ else
                 <strong>Semester: <span class="text-danger">*</span></strong>
             </label>
             <div class="col-md-10">
-                <NumberInput TValue="int" @bind-Value="NewSubject.Semester" EnableMinMax="true" Max="@(GetMaxSemesterNumber())" Min="1" Id="semester" Class="form-control" Placeholder="Enter total semesters" style="width: 155px;" />
+                <NumberInput TValue="int" @bind-Value="NewSubject.Semester" EnableMinMax="true" Max="@(GetMaxSemesterNumber())" Min="1" Id="semester" Disabled="@(SubjectSemester is > 0)" Class="form-control" Placeholder="Enter total semesters" style="width: 155px;" />
                 <ValidationMessage For="@(() => NewSubject.Semester)" />
             </div>
         </div>

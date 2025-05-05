@@ -1,4 +1,5 @@
-﻿using BlazorBootstrap;
+﻿using System.Text.RegularExpressions;
+using BlazorBootstrap;
 using GradeMaster.Client.Shared.Utility;
 using GradeMaster.Common.Entities;
 using GradeMaster.DataAccess.Interfaces.IRepositories;
@@ -49,14 +50,13 @@ public partial class Home : IAsyncDisposable
         }
     }
 
-
     #endregion
 
     #region Classes 
 
     private class SemesterViewModel
     {
-        public int Semester
+        public int? Semester
         {
             get; set;
         }
@@ -117,6 +117,15 @@ public partial class Home : IAsyncDisposable
 
             if (educationExists)
             {
+                if (QueryHelpers.ParseQuery(uri.Query)
+                        .TryGetValue("semesterFilterNumber", out var semesterFilterNumberString) &&
+                    int.TryParse(semesterFilterNumberString, out var semesterFilterNumber))
+                {
+                    _semesterViewModel.Semester = semesterFilterNumber;
+                    _selectedSemester = _semesterViewModel.Semester.Value;
+                    _isFiltered = true;
+                }
+
                 _selectedEducationId = educationId;
                 await LoadEducationData(educationId);
                 return;
@@ -133,6 +142,8 @@ public partial class Home : IAsyncDisposable
 
     private async void ChangeEducation(int? educationId)
     {
+        _semesterViewModel.Semester = null;
+
         if (educationId.HasValue)
         {
             await LoadEducationData(educationId.Value);
@@ -146,15 +157,13 @@ public partial class Home : IAsyncDisposable
 
             Navigation.NavigateTo($"?", false);
         }
-
-        await ResetForm();
     }
 
     private async Task LoadEducationData(int educationId)
     {
         _currentEducationId = educationId;
         var allSubjects = await _subjectRepository.GetByEducationIdAsync(educationId);
-        _subjects = _semesterViewModel.Semester > 0 ? allSubjects.Where(s => s.Semester == _semesterViewModel.Semester).ToList() : allSubjects;
+        _subjects = _semesterViewModel.Semester is > 0 ? allSubjects.Where(s => s.Semester == _semesterViewModel.Semester.Value).ToList() : allSubjects;
         _educationAverage = EducationUtils.CalculateEducationAverage(_subjects);
         _maxSemesterValue = GetEducationSemester();
     }
@@ -188,11 +197,13 @@ public partial class Home : IAsyncDisposable
         // Get all subjects for the education and filter by semester
         var allSubjects = await _subjectRepository.GetByEducationIdAsync(_currentEducationId);
 
-        if (_semesterViewModel.Semester > 0)  // Changed from _selectedSemester to SelectedSemester
+        if (_semesterViewModel.Semester is > 0)  // Changed from _selectedSemester to SelectedSemester
         {
-            _subjects = allSubjects.Where(s => s.Semester == _semesterViewModel.Semester).ToList();  // Changed here too
+            _subjects = allSubjects.Where(s => s.Semester == _semesterViewModel.Semester.Value).ToList();  // Changed here too
             _isFiltered = true;
-            _selectedSemester = _semesterViewModel.Semester;
+            _selectedSemester = _semesterViewModel.Semester.Value;
+
+            SetSemesterFilterNumberQueryToValue(_semesterViewModel.Semester.Value);
 
             //if (!_subjects.Any())
             //{
@@ -203,8 +214,11 @@ public partial class Home : IAsyncDisposable
         {
             // If semester is 0 or not selected, show all subjects
             _subjects = allSubjects;
+            _semesterViewModel.Semester = null;
             _isFiltered = false;
             _selectedSemester = 0;
+
+            SetSemesterFilterNumberQueryToValue();
         }
 
         // Update the calculated average based on filtered subjects
@@ -213,9 +227,11 @@ public partial class Home : IAsyncDisposable
 
     private async Task ResetForm()
     {
-        _semesterViewModel.Semester = 0;
+        _semesterViewModel.Semester = null;
         _isFiltered = false;
         _selectedSemester = 0;
+
+        SetSemesterFilterNumberQueryToValue();
 
         // Load all subjects for the current education without filtering
         if (_selectedEducationId.HasValue)
@@ -234,11 +250,24 @@ public partial class Home : IAsyncDisposable
 
     private void GoToEducation(int educationId) => Navigation.NavigateTo($"/educations/{educationId}");
 
-    private void GoToNewSubject(int educationId) => Navigation.NavigateTo($"/subjects/create?educationId={educationId}");
+    private void GoToNewSubject(int educationId, int? subjectSemester = null)
+    {
+        if (subjectSemester is null or 0)
+        {
+            Navigation.NavigateTo($"/subjects/create?educationId={educationId}");
+            return;
+        }
+
+        GoToNewSubjectWithSemester(educationId, subjectSemester.Value);
+    }
+
+    private void GoToNewSubjectWithSemester(int educationId, int subjectSemester) => Navigation.NavigateTo($"/subjects/create?educationId={educationId}&subjectSemester={subjectSemester}");
 
     private void GoToNewGrade(int subjectId) => Navigation.NavigateTo($"/grades/create?subjectId={subjectId}");
 
     private void GoToNewGradeFromEducationId(int educationId) => Navigation.NavigateTo($"/grades/create?educationId={educationId}");
+
+    private void GoToNewGradeFromEducationIdAndSemester(int educationId, int subjectSemester) => Navigation.NavigateTo($"/grades/create?educationId={educationId}&subjectSemester={subjectSemester}");
 
     private void GoToNewEducation() => Navigation.NavigateTo("/educations/create");
 
@@ -264,6 +293,12 @@ public partial class Home : IAsyncDisposable
             return;
         }
 
+        if (_semesterViewModel.Semester is > 0)
+        {
+            GoToNewSubjectWithSemester(_currentEducationId, _semesterViewModel.Semester.Value);
+            return;
+        }
+
         GoToNewSubject(_currentEducationId);
     }
 
@@ -282,6 +317,18 @@ public partial class Home : IAsyncDisposable
         if (!educationHasInProgressSubjects)
         {
             ToastService.Notify(new ToastMessage(ToastType.Info, $"No 'In Progress' subjects"));
+            return;
+        }
+
+        if (_semesterViewModel.Semester is > 0)
+        {
+            if (_subjects.Any(s => s.Completed == false))
+            {
+                GoToNewGradeFromEducationIdAndSemester(_currentEducationId, _semesterViewModel.Semester.Value);
+                return;
+            }
+
+            ToastService.Notify(new ToastMessage(ToastType.Info, $"No 'In Progress' subjects with semester {_semesterViewModel.Semester.Value}"));
             return;
         }
 
@@ -340,6 +387,45 @@ public partial class Home : IAsyncDisposable
         }
 
         return education.Semesters;
+    }
+
+    private void SetSemesterFilterNumberQueryToValue(int value = 0)
+    {
+        var uri = new Uri(Navigation.Uri);
+        var absoluteUri = uri.AbsoluteUri;
+
+        const string pattern = @"(semesterFilterNumber=)(\d+)";
+
+        if (value == 0)
+        {
+            // Remove the parameter if it exists
+            absoluteUri = Regex.Replace(absoluteUri, pattern, match =>
+            {
+                // If it's the only parameter or the first one, clean up trailing "&" or "?"
+                return match.Groups[1].Value == "?" ? "?" : "";
+            });
+
+            // Remove dangling "?" if it's the last character
+            absoluteUri = absoluteUri.TrimEnd('?');
+
+            Navigation.NavigateTo(absoluteUri, forceLoad: false);
+            return;
+        }
+
+        if (Regex.IsMatch(absoluteUri, pattern))
+        {
+            // Use a MatchEvaluator lambda to preserve regex capture groups correctly
+            absoluteUri = Regex.Replace(absoluteUri, pattern, match => $"{match.Groups[1].Value}{value}");
+        }
+        else
+        {
+            // Add the parameter (with correct ? or & handling)
+            var separator = absoluteUri.Contains("?") ? "&" : "?";
+            absoluteUri += $"{separator}semesterFilterNumber={value}";
+        }
+
+        //var updatedUri = QueryHelpers.AddQueryString(uri.AbsoluteUri, "semesterFilterNumber", value.ToString());
+        Navigation.NavigateTo(absoluteUri, forceLoad: false);
     }
 
     #endregion

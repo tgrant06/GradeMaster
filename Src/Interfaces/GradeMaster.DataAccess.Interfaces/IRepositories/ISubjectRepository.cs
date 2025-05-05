@@ -19,6 +19,8 @@ public interface ISubjectRepository : IGenericEntityRepository<Subject>
 
     Task<List<Subject>> GetByEducationIdAndCompletedAsync(int id , bool completed); 
 
+    Task<List<Subject>> GetByEducationIdAndCompletedWithSemesterAsync(int id, bool completed, int semester);
+
     Task<Subject?> GetByGradeIdAsync(int id);
 
     Task<List<Subject>> GetBySearchWithRangeAsync(string searchValue, int startIndex, int amount);
