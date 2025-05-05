@@ -191,10 +191,10 @@ public partial class Home : IAsyncDisposable
             _isFiltered = true;
             _selectedSemester = _semesterViewModel.Semester;
 
-            if (!_subjects.Any())
-            {
-                ToastService.Notify(new ToastMessage(ToastType.Info, $"No subjects found for semester {_semesterViewModel.Semester}"));  // Changed here
-            }
+            //if (!_subjects.Any())
+            //{
+            //    ToastService.Notify(new ToastMessage(ToastType.Info, $"No subjects found for semester {_semesterViewModel.Semester}"));  // Changed here
+            //}
         }
         else
         {
