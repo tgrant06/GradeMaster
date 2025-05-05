@@ -156,7 +156,7 @@ public partial class GradeForm : IAsyncDisposable
                         Subjects = await _subjectRepository.GetByEducationIdAndCompletedAsync(EducationId.Value, false);
                     }
 
-                    Subjects = Subjects.OrderByDescending(s => s.Semester).ThenByDescending(s => s.Name).ToList();
+                    Subjects = Subjects.OrderByDescending(s => s.Semester).ThenBy(s => s.Name).ThenByDescending(s => s.Id).ToList();
                 }
                 else
                 {

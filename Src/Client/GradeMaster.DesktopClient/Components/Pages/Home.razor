@@ -94,7 +94,7 @@
 
     <Grid TItem="Subject"
           Class="table table-hover animated-table"
-          Data="@_subjects.OrderByDescending(s => s.Semester).ThenBy(s => s.Name)"
+          Data="@_subjects.OrderByDescending(s => s.Semester).ThenBy(s => s.Name).ThenByDescending(s => s.Id)"
           EmptyText="No records to display"
           HeaderRowCssClass="border-bottom-0"
           Responsive="true">
