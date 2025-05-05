@@ -146,12 +146,15 @@ public partial class Home : IAsyncDisposable
 
             Navigation.NavigateTo($"?", false);
         }
+
+        await ResetForm();
     }
 
     private async Task LoadEducationData(int educationId)
     {
         _currentEducationId = educationId;
-        _subjects = await _subjectRepository.GetByEducationIdAsync(educationId);
+        var allSubjects = await _subjectRepository.GetByEducationIdAsync(educationId);
+        _subjects = _semesterViewModel.Semester > 0 ? allSubjects.Where(s => s.Semester == _semesterViewModel.Semester).ToList() : allSubjects;
         _educationAverage = EducationUtils.CalculateEducationAverage(_subjects);
         _maxSemesterValue = GetEducationSemester();
     }

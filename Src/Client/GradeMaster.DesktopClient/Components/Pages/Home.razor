@@ -24,27 +24,20 @@
         </Tooltip> *@
         <Dropdown Color="DropdownColor.Primary" Style="height: 38px; padding: 0;" Disabled="@(!_selectedEducationId.HasValue)">
             <DropdownToggleButton class="px-1 menuDropdown" Style="width: 38px; padding-top: 3px;"><Icon Name="IconName.Search" Size="IconSize.x5" /></DropdownToggleButton>
-            <DropdownMenu Position="DropdownMenuPosition.Start" Style="width: 225px; height: 125px;" Class="p-3">
+            <DropdownMenu Position="DropdownMenuPosition.Start" Style="width: 225px; height: 175px;" Class="p-3">
                 <EditForm Model="_semesterViewModel">
-
-                    @* <div class="mb-3">
-                        <label class="form-label">Item Price: <span class="text-danger">*</span></label>
-                        <NumberInput TValue="int" EnableMinMax="true" Min="0" Max="_educations.Find(e => e.Id.Equals(_currentEducationId))!.Semesters" Value="SelectedSemester" ValueExpression="() => SelectedSemester" ValueChanged="(value) => SelectedSemester = value" Placeholder="Enter price" />
-                        <ValidationMessage For="@(() => SelectedSemester)" />
-                    </div> *@
-                    
+                    <h5 style="margin-bottom: 25px;">Filtering</h5>
                     <div class="form-group row mb-3">
-                        <label class="col-md-3 col-form-label nowrap me-4" for="semester">
+                        <label class="col-md-3 col-form-label nowrap me-4" style="max-width: 52px;" for="semester">
                             Semester:
                         </label>
-                        <div class="col-md-4" style="margin-right: 3px;">
+                        <div class="col-md-4" style="margin-right: 3px; max-width: 72px;">
                             <NumberInput TValue="int" @bind-Value="_semesterViewModel.Semester" EnableMinMax="true" Min="0" Max="@_maxSemesterValue" Id="semester" Class="form-control" Placeholder="Enter Semester" Style="width: 68px; outline: none !important; background-color: transparent;" />
                         </div>
-                        <label class="col-md-3 col-form-label nowrap" for="semester">
+                        <label class="col-md-3 col-form-label nowrap" style="max-width: 50px;" for="semester">
                             of @_maxSemesterValue
                         </label>
                     </div>
-
                     <div class="row">
                         <div class="col-md-12 text-end">
                             <Button Type="ButtonType.Button" Color="ButtonColor.Secondary" Class="me-2" @onclick="ResetForm">Reset</Button> <!--had class float-end-->
