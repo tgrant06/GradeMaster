@@ -222,6 +222,13 @@ public partial class GradeForm : IAsyncDisposable
 
     private async Task HandleValidSubmit()
     {
+        if (NewGrade.Value < 1)
+        {
+            NewGrade.Value = 1;
+            ToastService.Notify(new ToastMessage(ToastType.Warning, "Please enter a valid grade value (1 - 6)."));
+            return;
+        }
+
         if (NewGrade.Weight == null || NewGrade.Weight.Id == 0)
         {
             ToastService.Notify(new ToastMessage(ToastType.Warning, "Please select a valid weight."));
@@ -234,10 +241,17 @@ public partial class GradeForm : IAsyncDisposable
             return;
         }
 
-        if (NewGrade.Value < 1)
+        if (NewGrade.Date > NewGrade.Subject.Education.EndDate)
         {
-            NewGrade.Value = 1;
-            ToastService.Notify(new ToastMessage(ToastType.Warning, "Please enter a valid grade value (1 - 6)."));
+            NewGrade.Date = NewGrade.Subject.Education.EndDate;
+            ToastService.Notify(new ToastMessage(ToastType.Warning, "Date of grade may not exceed education end date."));
+            return;
+        }
+
+        if (NewGrade.Date < NewGrade.Subject.Education.StartDate)
+        {
+            NewGrade.Date = NewGrade.Subject.Education.StartDate;
+            ToastService.Notify(new ToastMessage(ToastType.Warning, "Date of grade may not be below education start date."));
             return;
         }
 

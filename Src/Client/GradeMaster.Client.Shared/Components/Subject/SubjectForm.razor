@@ -26,7 +26,7 @@ else
             <label class="col-md-2 col-form-label nowrap" for="selectFieldEducation"><strong>Education: <span class="text-danger">*</span></strong></label>
             <div class="col-md-10">
                 <select class="form-select" style="max-width: 620px" aria-label="Select Education" name="selectFieldEducation" id="selectFieldEducation" disabled="@(EducationId.HasValue)"
-                        @bind="SelectedEducationId">
+                @bind="SelectedEducationId">
                     <option value="0" class="truncate gm-option">Select Education</option>
                     @foreach (var education in Educations)
                     {
@@ -42,8 +42,8 @@ else
             <label class="col-md-2 col-form-label nowrap" for="semester">
                 <strong>Semester: <span class="text-danger">*</span></strong>
             </label>
-            <div class="col-md-10">
-                <NumberInput TValue="int" @bind-Value="NewSubject.Semester" EnableMinMax="true" Max="@(GetMaxSemesterNumber())" Min="1" Id="semester" Disabled="@(SubjectSemester is > 0)" Class="form-control" Placeholder="Enter total semesters" style="width: 155px;" />
+            <div class="col-md-10 d-flex">
+                <NumberInput TValue="int" @bind-Value="NewSubject.Semester" EnableMinMax="true" Max="@(GetMaxSemesterNumber())" Min="1" Id="semester" Disabled="@(SubjectSemester is > 0)" Class="form-control" Placeholder="Enter total semesters" style="width: 155px;" /> <div style="padding: 7px;">@(GetMaxSemesterNumber() == 512 ? "" : "of " + GetMaxSemesterNumber())</div>
                 <ValidationMessage For="@(() => NewSubject.Semester)" />
             </div>
         </div>
@@ -58,7 +58,7 @@ else
                 <div class="form-check">
                     <InputCheckbox @bind-Value="NewSubject.Completed" id="completionState" class="form-check-input" disabled="@(FormType == FormType.Create)" />
                     <label class="form-check-label" for="completionState">
-                        @(NewSubject.Completed ? "Completed" : "In Progress")
+                        @(NewSubject.Completed ? "Completed" : "In Progress") <CompletionStateBadge Completed="NewSubject.Completed" MarginBottom="1"/>
                     </label>
                 </div>
                 <ValidationMessage For="@(() => NewSubject.Completed)"/>

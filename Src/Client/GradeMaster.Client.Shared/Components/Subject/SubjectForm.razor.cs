@@ -165,7 +165,7 @@ public partial class SubjectForm : IAsyncDisposable
 
         if (education == null)
         {
-            return 256;
+            return 512;
         }
 
         return education.Semesters;
