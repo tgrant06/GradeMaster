@@ -82,14 +82,24 @@ public class EducationRepository : IEducationRepository
                 .ToListAsync();
         }
 
+        searchValue = searchValue.Trim();
         var newSearchValue = $"%{searchValue}%";
         var isNumericSearch = int.TryParse(searchValue, out var searchValueAsInt);
+
+        var completionState = searchValue.ToLower();
+        bool? searchCompletionState = completionState switch
+        {
+            "in progress" => false,
+            "completed" => true,
+            _ => null
+        };
 
         return await _context.Educations
             .Where(education =>
                 EF.Functions.Like(education.Name, newSearchValue) ||
                 (education.Description != null && EF.Functions.Like(education.Description, newSearchValue)) ||
                 (education.Institution != null && EF.Functions.Like(education.Institution, newSearchValue)) ||
+                (searchCompletionState != null && education.Completed == searchCompletionState) ||
                 (isNumericSearch && education.Semesters == searchValueAsInt) || // Direct integer comparison
                 (isNumericSearch && education.StartDate.Year == searchValueAsInt) || // Compare Year as an int
                 (isNumericSearch && education.EndDate.Year == searchValueAsInt)
@@ -109,14 +119,24 @@ public class EducationRepository : IEducationRepository
             return await _context.Educations.CountAsync();
         }
 
+        searchValue = searchValue.Trim();
         var newSearchValue = $"%{searchValue}%";
         var isNumericSearch = int.TryParse(searchValue, out var searchValueAsInt);
+
+        var completionState = searchValue.ToLower();
+        bool? searchCompletionState = completionState switch
+        {
+            "in progress" => false,
+            "completed" => true,
+            _ => null
+        };
 
         return await _context.Educations
             .Where(education =>
                 EF.Functions.Like(education.Name, newSearchValue) ||
                 (education.Description != null && EF.Functions.Like(education.Description, newSearchValue)) ||
                 (education.Institution != null && EF.Functions.Like(education.Institution, newSearchValue)) ||
+                (searchCompletionState != null && education.Completed == searchCompletionState) ||
                 (isNumericSearch && education.Semesters == searchValueAsInt) || // Direct integer comparison
                 (isNumericSearch && education.StartDate.Year == searchValueAsInt) || // Compare Year as an int
                 (isNumericSearch && education.EndDate.Year == searchValueAsInt)

@@ -125,7 +125,8 @@ public class GradeRepository : IGradeRepository
                 .Take(amount)
                 .ToListAsync();
         }
-        
+
+        searchValue = searchValue.Trim();
         var newSearchValue = $"%{searchValue}%";
         var normalizedDateSearch = NormalizeDateSearchValue(searchValue);
         var normalizedDateSearchValue = $"%{normalizedDateSearch}%";
@@ -138,6 +139,8 @@ public class GradeRepository : IGradeRepository
                 EF.Functions.Like(grade.Subject.Name, newSearchValue) ||
                 (grade.Description != null && EF.Functions.Like(grade.Description, newSearchValue)) ||
                 (isNumericSearch && grade.Value == searchValueAsDecimal) ||
+                (isNumericSearch && grade.Weight.Value == searchValueAsDecimal) ||
+                EF.Functions.Like(grade.Weight.Name, newSearchValue) ||
                 EF.Functions.Like(grade.Subject.Education.Name, newSearchValue) ||
                 EF.Functions.Like(grade.Date.ToString(), normalizedDateSearchValue) ||
                 (grade.Subject.Education.Institution != null && EF.Functions.Like(grade.Subject.Education.Institution, newSearchValue)))
@@ -157,6 +160,7 @@ public class GradeRepository : IGradeRepository
             return await _context.Grades.CountAsync();
         }
 
+        searchValue = searchValue.Trim();
         var newSearchValue = $"%{searchValue}%";
         var normalizedDateSearch = NormalizeDateSearchValue(searchValue);
         var normalizedDateSearchValue = $"%{normalizedDateSearch}%";
@@ -167,6 +171,8 @@ public class GradeRepository : IGradeRepository
                 EF.Functions.Like(grade.Subject.Name, newSearchValue) ||
                 (grade.Description != null && EF.Functions.Like(grade.Description, newSearchValue)) ||
                 (isNumericSearch && grade.Value == searchValueAsDecimal) ||
+                (isNumericSearch && grade.Weight.Value == searchValueAsDecimal) ||
+                EF.Functions.Like(grade.Weight.Name, newSearchValue) ||
                 EF.Functions.Like(grade.Subject.Education.Name, newSearchValue) ||
                 EF.Functions.Like(grade.Date.ToString(), normalizedDateSearchValue) ||
                 (grade.Subject.Education.Institution != null && EF.Functions.Like(grade.Subject.Education.Institution, newSearchValue)))
