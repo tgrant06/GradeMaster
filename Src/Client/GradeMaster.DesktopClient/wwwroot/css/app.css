@@ -236,7 +236,7 @@ main {
 .dropdown-menu {
     /*--bs-dropdown-min-width: 150px;*/
     background-color: light-dark(#f5f5f5b0, #262A2ECC);
-    backdrop-filter: blur(16px);
+    backdrop-filter: saturate(120%) blur(16px);
 }
 
 .dropdown-item:hover {
@@ -259,4 +259,9 @@ main {
 
 .btn-entity-link {
     max-width: calc(100% - 10px);
+}
+
+.gm-sm-infotext {
+    margin-left: 5px;
+    font-size: 12px;
 }

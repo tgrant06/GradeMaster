@@ -3,7 +3,7 @@
 <TopPageHeader>Home</TopPageHeader>
 
 <div class="row py-3 mx-0" style="animation: BlurIn .15s ease-in;">@*TODO: Change animation later*@
-    <div class="col-8 col-md-8 px-0 mb-3" style="max-width: 400px">
+    <div class="col-8 col-md-8 px-0 mb-2" style="max-width: 400px">
         <b>Education: </b>
         <select class="form-select" style="min-width: 200px; max-width: 400px" aria-label="Select Education" name="selectFieldEducation" id="selectFieldEducation"
                 @bind="SelectedEducationId" @bind:event="onchange">
@@ -13,6 +13,7 @@
                 <option @key="@($"edu_{education.Id}")" value="@education.Id" class="gm-option">@UIUtils.TruncateString(education.Name, 65) @(education.Completed ? "🟢" : "🟡")</option>
             }
         </select>
+        <span class="text-secondary gm-sm-infotext">Subjects: @_subjects.Count @(_isFiltered ? "|" : "")</span><span class="text-primary-emphasis gm-sm-infotext">@(_isFiltered ? "Filter is active" : "")</span>
         <!--these two rectangles are: green circle and yellow circle emojis respectfully-->
     </div>
     <!--Maybe add edit button later-->
@@ -32,7 +33,7 @@
                             Semester:
                         </label>
                         <div class="col-md-4" style="margin-right: 3px; max-width: 72px;">
-                            <NumberInput TValue="int?" @bind-Value="_semesterViewModel.Semester" EnableMinMax="true" Min="0" Max="@_maxSemesterValue" Id="semester" Class="form-control" Placeholder="Semester" Style="width: 68px; outline: none !important; background-color: transparent;" />
+                            <NumberInput TValue="int?" @bind-Value="_semesterViewModel.Semester" EnableMinMax="true" Min="0" Max="@_maxSemesterValue" Id="semester" Class="form-control" Style="width: 68px; outline: none !important; background-color: light-dark(#ffffffa0, #00000020);" />
                         </div>
                         <label class="col-md-3 col-form-label nowrap" style="max-width: 50px;" for="semester">
                             of @_maxSemesterValue

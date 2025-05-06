@@ -12,11 +12,12 @@
 
 <div class="row py-3 mx-0" style="animation: BlurIn .15s ease-in; will-change: opacity, filter;">@*TODO: Change animation later*@
     <!--had classes: bd-navbar sticky-top-->
-    <div class="col-8 col-md-8 px-0 mb-3" style="max-width: 400px">
+    <div class="col-8 col-md-8 px-0 mb-2" style="max-width: 400px">
         <b>Search:</b>
         <EditForm Model="_searchValue" OnValidSubmit="RefreshSubjectData">
             <InputText id="searchFieldSubject" class="form-control" placeholder="Search for Subject" @bind-Value="_searchValue" />
         </EditForm>
+        <span class="text-secondary gm-sm-infotext">Results: @_totalItemCount</span>
     </div>
     <!--Add edit and detail button later-->
     <div class="col-1 col-md-1 mb-3 mt-4" style="width: 38px; margin-right: 6px; padding-left: 9px;">
@@ -29,7 +30,7 @@
             <Icon Name="IconName.ArrowRepeat" Size="IconSize.x5" />
         </Button>
     </div>
-    <div class="col-4 col-md-4 text-end ms-auto mb-3 mt-4" style="width: 130px; padding: 0;">
+    <div class="col-4 col-md-4 text-end ms-auto mt-4" style="width: 130px; padding: 0;">
         @if (_existsAnyEducationInProgress)
         {
             <Button Color="ButtonColor.Success" @onclick="CreateSubject" Size="ButtonSize.Medium" Style="height: 38px;">
@@ -50,7 +51,7 @@
 <ConfirmDialog @ref="_dialog" />
 
 <div class="container align-content-center" style="margin-bottom: 25px;">
-    <div class="component-card-grid py-4">
+    <div class="component-card-grid pb-4 pt-3">
         <Virtualize TItem="Subject" ItemsProvider="GetSubjectsProvider" Context="subject" OverscanCount="12" @ref="_virtualizeComponent">
             <ItemContent>
                 <SubjectCard @key="subject.Id" Subject="@subject" OnSubjectDeleted="RefreshSubjectData" Dialog="_dialog" />

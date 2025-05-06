@@ -143,6 +143,8 @@ public partial class Home : IAsyncDisposable
     private async void ChangeEducation(int? educationId)
     {
         _semesterViewModel.Semester = null;
+        _isFiltered = false;
+        _selectedSemester = 0;
 
         if (educationId.HasValue)
         {
