@@ -9,6 +9,8 @@ public class SubjectRepository : ISubjectRepository
 {
     private readonly GradeMasterDbContext _context;
 
+    private static readonly Regex SearchPatternSubjectAndSemester = new(@"^(.*?)(?:\s*-\s*|\s+)(\d+)$", RegexOptions.Compiled);
+
     public SubjectRepository(GradeMasterDbContext context)
     {
         _context = context;
@@ -124,11 +126,10 @@ public class SubjectRepository : ISubjectRepository
                 .ToListAsync();
         }
 
-        var searchPattern = new Regex(@"^(.*?)(?:\s*-\s*|\s+)(\d+)$");
         string? namePart = null;
         int? semesterPart = null;
 
-        var match = searchPattern.Match(searchValue.Trim());
+        var match = SearchPatternSubjectAndSemester.Match(searchValue.Trim());
         if (match.Success)
         {
             namePart = match.Groups[1].Value.Trim();
@@ -176,11 +177,10 @@ public class SubjectRepository : ISubjectRepository
             return await _context.Subjects.CountAsync();
         }
 
-        var searchPattern = new Regex(@"^(.*?)(?:\s*-\s*|\s+)(\d+)$");
         string? namePart = null;
         int? semesterPart = null;
 
-        var match = searchPattern.Match(searchValue.Trim());
+        var match = SearchPatternSubjectAndSemester.Match(searchValue.Trim());
         if (match.Success)
         {
             namePart = match.Groups[1].Value.Trim();

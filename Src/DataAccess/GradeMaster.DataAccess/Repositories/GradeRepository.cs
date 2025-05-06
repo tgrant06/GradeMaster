@@ -8,7 +8,9 @@ namespace GradeMaster.DataAccess.Repositories;
 public class GradeRepository : IGradeRepository
 {
     private readonly GradeMasterDbContext _context;
+
     private static readonly Regex DateRegex = new(@"^(\d{1,2})\.(\d{1,2})\.(\d{4})$", RegexOptions.Compiled);
+    private static readonly Regex SearchPatternSubjectAndSemester = new(@"^(.*?)(?:\s*-\s*|\s+)(\d+)$", RegexOptions.Compiled);
 
     public GradeRepository(GradeMasterDbContext context)
     {
@@ -126,6 +128,19 @@ public class GradeRepository : IGradeRepository
                 .ToListAsync();
         }
 
+        string? namePart = null;
+        int? semesterPart = null;
+
+        var match = SearchPatternSubjectAndSemester.Match(searchValue.Trim());
+        if (match.Success)
+        {
+            namePart = match.Groups[1].Value.Trim();
+            if (int.TryParse(match.Groups[2].Value, out var sem))
+            {
+                semesterPart = sem;
+            }
+        }
+
         searchValue = searchValue.Trim();
         var newSearchValue = $"%{searchValue}%";
         var normalizedDateSearch = NormalizeDateSearchValue(searchValue);
@@ -136,7 +151,9 @@ public class GradeRepository : IGradeRepository
             // maybe add search by weight
             // maybe add search by Subject.Semester
             .Where(grade =>
-                EF.Functions.Like(grade.Subject.Name, newSearchValue) ||
+                (!string.IsNullOrEmpty(namePart) && semesterPart != null
+                    ? EF.Functions.Like(grade.Subject.Name, $"%{namePart}%") && grade.Subject.Semester == semesterPart
+                    : EF.Functions.Like(grade.Subject.Name, newSearchValue)) ||
                 (grade.Description != null && EF.Functions.Like(grade.Description, newSearchValue)) ||
                 (isNumericSearch && grade.Value == searchValueAsDecimal) ||
                 (isNumericSearch && grade.Weight.Value == searchValueAsDecimal) ||
@@ -160,6 +177,19 @@ public class GradeRepository : IGradeRepository
             return await _context.Grades.CountAsync();
         }
 
+        string? namePart = null;
+        int? semesterPart = null;
+
+        var match = SearchPatternSubjectAndSemester.Match(searchValue.Trim());
+        if (match.Success)
+        {
+            namePart = match.Groups[1].Value.Trim();
+            if (int.TryParse(match.Groups[2].Value, out var sem))
+            {
+                semesterPart = sem;
+            }
+        }
+
         searchValue = searchValue.Trim();
         var newSearchValue = $"%{searchValue}%";
         var normalizedDateSearch = NormalizeDateSearchValue(searchValue);
@@ -168,7 +198,9 @@ public class GradeRepository : IGradeRepository
 
         return await _context.Grades
             .Where(grade =>
-                EF.Functions.Like(grade.Subject.Name, newSearchValue) ||
+                (!string.IsNullOrEmpty(namePart) && semesterPart != null
+                    ? EF.Functions.Like(grade.Subject.Name, $"%{namePart}%") && grade.Subject.Semester == semesterPart
+                    : EF.Functions.Like(grade.Subject.Name, newSearchValue)) ||
                 (grade.Description != null && EF.Functions.Like(grade.Description, newSearchValue)) ||
                 (isNumericSearch && grade.Value == searchValueAsDecimal) ||
                 (isNumericSearch && grade.Weight.Value == searchValueAsDecimal) ||

@@ -261,6 +261,10 @@ main {
     max-width: calc(100% - 10px);
 }
 
+.contain-entity-link {
+    max-width: calc(100% - 10px);
+}
+
 .gm-sm-infotext {
     margin-left: 5px;
     font-size: 12px;
