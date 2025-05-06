@@ -5,11 +5,11 @@ namespace GradeMaster.DataAccess.Interfaces.IRepositories;
 
 public interface IGradeRepository : IGenericEntityRepository<Grade>
 {
-    Task<List<Grade>> GetBySubjectIdsAsync(List<int> id);
+    Task<List<Grade>> GetBySubjectIdsAsync(List<int> subjectIds);
 
-    Task<List<Grade>> GetBySubjectIdAsync(int id);
+    Task<List<Grade>> GetBySubjectIdAsync(int subjectId);
 
-    Task<List<Grade>> GetBySubjectIdSimpleAsync(int id);
+    Task<List<Grade>> GetBySubjectIdSimpleAsync(int subjectId);
 
     Task<Grade?> GetByIdDetailAsync(int id);
 

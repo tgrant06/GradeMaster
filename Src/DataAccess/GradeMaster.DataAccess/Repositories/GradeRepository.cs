@@ -15,7 +15,7 @@ public class GradeRepository : IGradeRepository
         _context = context;
     }
 
-    private string NormalizeDateSearchValue(string searchValue)
+    private static string NormalizeDateSearchValue(string searchValue)
     {
         if (string.IsNullOrWhiteSpace(searchValue))
             return searchValue;
@@ -79,15 +79,15 @@ public class GradeRepository : IGradeRepository
         }
     }
 
-    public async Task<List<Grade>> GetBySubjectIdsAsync(List<int> ids)
+    public async Task<List<Grade>> GetBySubjectIdsAsync(List<int> subjectIds)
     {
-        return await _context.Grades.Where(g => ids.Contains(g.Subject.Id)).Include(g => g.Weight).ToListAsync();
+        return await _context.Grades.Where(g => subjectIds.Contains(g.Subject.Id)).Include(g => g.Weight).ToListAsync();
     }
 
-    public async Task<List<Grade>> GetBySubjectIdAsync(int id)
+    public async Task<List<Grade>> GetBySubjectIdAsync(int subjectId)
     {
         return await _context.Grades
-            .Where(g => g.Subject.Id == id)
+            .Where(g => g.Subject.Id == subjectId)
             .OrderByDescending(g => g.Date)
                 .ThenByDescending(g => g.Id)
             .ToListAsync();

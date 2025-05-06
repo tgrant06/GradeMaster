@@ -5,9 +5,9 @@ namespace GradeMaster.DataAccess.Interfaces.IRepositories;
 
 public interface ISubjectRepository : IGenericEntityRepository<Subject>
 {
-    Task<List<Subject>> GetByEducationIdAsync(int id);
+    Task<List<Subject>> GetByEducationIdAsync(int educationId);
 
-    Task<List<Subject>> GetByEducationIdOrderedAsync(int id);
+    Task<List<Subject>> GetByEducationIdOrderedAsync(int educationId);
 
     Task<List<Subject>> GetAllWithGradesAsync();
 
@@ -17,11 +17,11 @@ public interface ISubjectRepository : IGenericEntityRepository<Subject>
 
     Task<List<Subject>> GetByCompletedAsync(bool completed);
 
-    Task<List<Subject>> GetByEducationIdAndCompletedAsync(int id , bool completed); 
+    Task<List<Subject>> GetByEducationIdAndCompletedAsync(int educationId , bool completed); 
 
-    Task<List<Subject>> GetByEducationIdAndCompletedWithSemesterAsync(int id, bool completed, int semester);
+    Task<List<Subject>> GetByEducationIdAndCompletedWithSemesterAsync(int educationId, bool completed, int semester);
 
-    Task<Subject?> GetByGradeIdAsync(int id);
+    Task<Subject?> GetByGradeIdAsync(int gradeId);
 
     Task<List<Subject>> GetBySearchWithRangeAsync(string searchValue, int startIndex, int amount);
 
@@ -29,5 +29,5 @@ public interface ISubjectRepository : IGenericEntityRepository<Subject>
 
     Task<bool> ExistsAnyIsCompletedAsync(bool completed);
 
-    Task<bool> ExistsAnyIsCompletedWithEducationIdAsync(int id, bool completed);
+    Task<bool> ExistsAnyIsCompletedWithEducationIdAsync(int educationId, bool completed);
 }

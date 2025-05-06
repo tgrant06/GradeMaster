@@ -59,9 +59,9 @@ public class SubjectRepository : ISubjectRepository
         }
     }
 
-    public async Task<List<Subject>> GetByEducationIdAsync(int id)
+    public async Task<List<Subject>> GetByEducationIdAsync(int educationId)
     {
-        return await _context.Subjects.Where(s => s.Education.Id == id)
+        return await _context.Subjects.Where(s => s.Education.Id == educationId)
             .Include(s => s.Grades)
             .ToListAsync();
     }
@@ -90,23 +90,23 @@ public class SubjectRepository : ISubjectRepository
         return await _context.Subjects.Where(s => s.Completed == completed).Include(s => s.Education).ToListAsync();
     }
 
-    public async Task<List<Subject>> GetByEducationIdAndCompletedAsync(int id, bool completed)
+    public async Task<List<Subject>> GetByEducationIdAndCompletedAsync(int educationId, bool completed)
     {
-        return await _context.Subjects.Where(s => s.Education.Id == id && s.Completed == completed)
+        return await _context.Subjects.Where(s => s.Education.Id == educationId && s.Completed == completed)
             .Include(s => s.Education)
             .ToListAsync();
     }
 
-    public async Task<List<Subject>> GetByEducationIdAndCompletedWithSemesterAsync(int id, bool completed, int semester)
+    public async Task<List<Subject>> GetByEducationIdAndCompletedWithSemesterAsync(int educationId, bool completed, int semester)
     {
-        return await _context.Subjects.Where(s => s.Education.Id == id && s.Completed == completed && s.Semester == semester)
+        return await _context.Subjects.Where(s => s.Education.Id == educationId && s.Completed == completed && s.Semester == semester)
             .Include(s => s.Education)
             .ToListAsync();
     }
 
-    public async Task<Subject?> GetByGradeIdAsync(int id)
+    public async Task<Subject?> GetByGradeIdAsync(int gradeId)
     {
-        return await _context.Subjects.Where(s => s.Grades.Any(g => g.Id == id)).Include(s => s.Education)
+        return await _context.Subjects.Where(s => s.Grades.Any(g => g.Id == gradeId)).Include(s => s.Education)
             .FirstOrDefaultAsync();
     }
 
@@ -225,9 +225,9 @@ public class SubjectRepository : ISubjectRepository
         return await _context.Subjects.AnyAsync(s => s.Completed == completed);
     }
 
-    public async Task<bool> ExistsAnyIsCompletedWithEducationIdAsync(int id, bool completed)
+    public async Task<bool> ExistsAnyIsCompletedWithEducationIdAsync(int educationId, bool completed)
     {
-        return await _context.Subjects.AnyAsync(s => s.Education.Id == id && s.Completed == completed);
+        return await _context.Subjects.AnyAsync(s => s.Education.Id == educationId && s.Completed == completed);
     }
 
     public async Task<bool> ExistsAsync(int id)
