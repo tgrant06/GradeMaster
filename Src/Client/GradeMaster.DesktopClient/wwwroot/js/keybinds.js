@@ -363,6 +363,9 @@ function handleHomePageKeys(event, dotNetHelper) {
             event.preventDefault();
             dotNetHelper.invokeMethodAsync("ReloadPageData");
             break;
-    default:
+
+        // maybe add clear filter keybind
+
+        default:
     }
 }

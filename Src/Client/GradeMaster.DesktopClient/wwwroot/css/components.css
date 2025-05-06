@@ -182,13 +182,19 @@
     }
 }
 
-@keyframes fadeInAppear {
-    from {
-        opacity: 0.25;
-        filter: blur(2px);
+/*Experimental*/
+@keyframes BlurInAppear {
+    0% {
+        opacity: 0;
+        filter: blur(5px);
     }
 
-    to {
+    10% {
+        opacity: 0.6;
+        filter: blur(5px);
+    }
+
+    100% {
         opacity: 1;
         filter: blur(0);
     }
@@ -214,7 +220,7 @@
 }
 
 .animated-table thead tr {
-    animation: BlurIn 0.18s ease-out;
+    animation: BlurIn 0.16s ease-out;
     will-change: opacity, filter;
 }
 
@@ -226,6 +232,15 @@
     filter: blur(5px)
 }
 
+/*Experimental*/
+/*.animated-table tbody tr {
+    animation: BlurInAppear 0.18s ease-out forwards;
+    animation-fill-mode: both;
+    will-change: opacity, filter;
+    opacity: 0;
+    filter: blur(5px)
+}*/
+
 /*EXPERIMENTAL*/
 /*.animated-table tbody tr {
     animation: fadeInXBlur 0.18s ease forwards;
@@ -236,17 +251,22 @@
     filter: blur(4px);
 }*/
 
-/* First 10 rows staggered */
+/* First 15 rows staggered */
 /*.animated-table tbody tr:nth-child(1)  { animation-delay: 0s; }
-.animated-table tbody tr:nth-child(2)  { animation-delay: 0.02s; }
-.animated-table tbody tr:nth-child(3)  { animation-delay: 0.04s; }
-.animated-table tbody tr:nth-child(4)  { animation-delay: 0.06s; }
-.animated-table tbody tr:nth-child(5)  { animation-delay: 0.08s; }
-.animated-table tbody tr:nth-child(6)  { animation-delay: 0.10s; }
-.animated-table tbody tr:nth-child(7)  { animation-delay: 0.12s; }
-.animated-table tbody tr:nth-child(8)  { animation-delay: 0.14s; }
-.animated-table tbody tr:nth-child(9)  { animation-delay: 0.16s; }
-.animated-table tbody tr:nth-child(10) { animation-delay: 0.18s; }*/
+.animated-table tbody tr:nth-child(2)  { animation-delay: 0.01s; }
+.animated-table tbody tr:nth-child(3)  { animation-delay: 0.02s; }
+.animated-table tbody tr:nth-child(4)  { animation-delay: 0.03s; }
+.animated-table tbody tr:nth-child(5)  { animation-delay: 0.04s; }
+.animated-table tbody tr:nth-child(6)  { animation-delay: 0.05s; }
+.animated-table tbody tr:nth-child(7)  { animation-delay: 0.06s; }
+.animated-table tbody tr:nth-child(8)  { animation-delay: 0.07s; }
+.animated-table tbody tr:nth-child(9)  { animation-delay: 0.08s; }
+.animated-table tbody tr:nth-child(10) { animation-delay: 0.09s; }
+.animated-table tbody tr:nth-child(11) { animation-delay: 0.10s; }
+.animated-table tbody tr:nth-child(12) { animation-delay: 0.11s; }
+.animated-table tbody tr:nth-child(13) { animation-delay: 0.12s; }
+.animated-table tbody tr:nth-child(14) { animation-delay: 0.13s; }
+.animated-table tbody tr:nth-child(15) { animation-delay: 0.14s; }*/
 
 /* Rows after 10 — uniform delay AFTER the above finish */
-/*.animated-table tbody tr:nth-child(n+11) { animation-delay: 0.28s; }*/
+/*.animated-table tbody tr:nth-child(n+16) { animation-delay: 0.20s; }*/
