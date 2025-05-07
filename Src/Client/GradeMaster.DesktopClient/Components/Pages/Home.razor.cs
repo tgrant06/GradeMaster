@@ -356,6 +356,18 @@ public partial class Home : IAsyncDisposable
         StateHasChanged();
     }
 
+    [JSInvokable]
+    public async Task ClearFilterState()
+    {
+        if (!_isFiltered)
+        {
+            return;
+        }
+
+        await ClearFilter();
+        StateHasChanged();
+    }
+
     #endregion
 
     #region Averages

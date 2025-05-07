@@ -2,162 +2,164 @@
 
 <TopPageHeader>Home</TopPageHeader>
 
-<div class="row py-3 mx-0" style="animation: BlurIn .15s ease-in;">@*TODO: Change animation later*@
-    <div class="col-8 col-md-8 px-0 mb-2" style="max-width: 400px">
-        <b>Education: </b>
-        <select class="form-select" style="min-width: 200px; max-width: 400px" aria-label="Select Education" name="selectFieldEducation" id="selectFieldEducation"
-                @bind="SelectedEducationId" @bind:event="onchange">
-            <option value="" class="gm-option">Select Education</option>
-            @foreach (var education in _educations)
-            {
-                <option @key="@($"edu_{education.Id}")" value="@education.Id" class="gm-option">@UIUtils.TruncateString(education.Name, 65) @(education.Completed ? "🟢" : "🟡")</option>
-            }
-        </select>
-        <span class="text-secondary gm-sm-infotext">Subjects: @_subjects.Count @(_isFiltered ? "|" : "")</span><span class="text-primary-emphasis gm-sm-infotext">@(_isFiltered ? "Filter is active" : "")</span>
-        <!--these two rectangles are: green circle and yellow circle emojis respectfully-->
-    </div>
-    <!--Maybe add edit button later-->
-    <div class="col-1 col-md-1 mb-3 mt-4" style="width: 38px; margin-right: 6px; padding-left: 9px;">
-        @* <Tooltip Title="New Education" Style="padding-top: 6px;">
+<div class="transform-stack-container">
+    <div class="row py-3 mx-0" style="animation: BlurIn .15s ease-in;">@*TODO: Change animation later*@
+        <div class="col-8 col-md-8 px-0 mb-2" style="max-width: 400px">
+            <b>Education: </b>
+            <select class="form-select" style="min-width: 200px; max-width: 400px" aria-label="Select Education" name="selectFieldEducation" id="selectFieldEducation"
+                    @bind="SelectedEducationId" @bind:event="onchange">
+                <option value="" class="gm-option">Select Education</option>
+                @foreach (var education in _educations)
+                {
+                    <option @key="@($"edu_{education.Id}")" value="@education.Id" class="gm-option">@UIUtils.TruncateString(education.Name, 65) @(education.Completed ? "🟢" : "🟡")</option>
+                }
+            </select>
+            <span class="text-secondary gm-sm-infotext">Subjects: @_subjects.Count @(_isFiltered ? "|" : "")</span><span class="text-primary-emphasis gm-sm-infotext">@(_isFiltered ? "Filter is active" : "")</span>
+            <!--these two rectangles are: green circle and yellow circle emojis respectfully-->
+        </div>
+        <!--Maybe add edit button later-->
+        <div class="col-1 col-md-1 mb-3 mt-4" style="width: 38px; margin-right: 6px; padding-left: 9px;">
+            @* <Tooltip Title="New Education" Style="padding-top: 6px;">
             <NavLink href="/educations/create" class="btn btn-primary px-2" style="height: 38px; padding-top: 3px;">
                 <Icon Name="IconName.PlusCircle" Size="IconSize.x5"/>
             </NavLink>
         </Tooltip> *@
-        <Dropdown Color="DropdownColor.Primary" Style="height: 38px; padding: 0;" Disabled="@(!_selectedEducationId.HasValue)">
-            <DropdownToggleButton Class="px-1 menuDropdown" Style="width: 38px; padding-top: 3px;" Id="filterMenu"><Icon Name="IconName.Binoculars" Size="IconSize.x5" /></DropdownToggleButton>
-            <DropdownMenu Position="DropdownMenuPosition.Start" Style="width: 225px; height: 175px;" Class="p-3">
-                <EditForm Model="_semesterViewModel" OnValidSubmit="HandleValidSubmit">
-                    <h5 style="margin-bottom: 25px;">Filtering</h5>
-                    <div class="form-group row mb-3">
-                        <label class="col-md-3 col-form-label nowrap me-4" style="max-width: 52px;" for="semester">
-                            Semester:
-                        </label>
-                        <div class="col-md-4" style="margin-right: 3px; max-width: 72px;">
-                            <NumberInput TValue="int?" @bind-Value="_semesterViewModel.Semester" EnableMinMax="true" Min="0" Max="@_maxSemesterValue" Id="semester" Class="form-control" Style="width: 68px; outline: none !important; background-color: light-dark(#ffffffa0, #00000020);" />
+            <Dropdown Color="DropdownColor.Primary" Style="height: 38px; padding: 0;" Disabled="@(!_selectedEducationId.HasValue)">
+                <DropdownToggleButton Class="px-1 menuDropdown" Style="width: 38px; padding-top: 3px;" Id="filterMenu"><Icon Name="IconName.Binoculars" Size="IconSize.x5" /></DropdownToggleButton>
+                <DropdownMenu Position="DropdownMenuPosition.Start" Style="width: 225px; height: 175px;" Class="p-3">
+                    <EditForm Model="_semesterViewModel" OnValidSubmit="HandleValidSubmit">
+                        <h5 style="margin-bottom: 25px;">Filtering</h5>
+                        <div class="form-group row mb-3">
+                            <label class="col-md-3 col-form-label nowrap me-4" style="max-width: 52px;" for="semester">
+                                Semester:
+                            </label>
+                            <div class="col-md-4" style="margin-right: 3px; max-width: 72px;">
+                                <NumberInput TValue="int?" @bind-Value="_semesterViewModel.Semester" EnableMinMax="true" Min="0" Max="@_maxSemesterValue" Id="semester" Class="form-control" Style="width: 68px; outline: none !important; background-color: light-dark(#ffffffa0, #00000020);" />
+                            </div>
+                            <label class="col-md-3 col-form-label nowrap" style="max-width: 50px;" for="semester">
+                                of @_maxSemesterValue
+                            </label>
                         </div>
-                        <label class="col-md-3 col-form-label nowrap" style="max-width: 50px;" for="semester">
-                            of @_maxSemesterValue
-                        </label>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12 text-end">
-                            <Button Type="ButtonType.Button" Color="ButtonColor.Secondary" Class="me-2" @onclick="ClearFilter">Clear Filter</Button> <!--had class float-end-->
-                            <Button Type="ButtonType.Submit" Color="ButtonColor.Success">Done</Button> <!--had class float-end-->
+                        <div class="row">
+                            <div class="col-md-12 text-end">
+                                <Button Type="ButtonType.Button" Color="ButtonColor.Secondary" Class="me-2" @onclick="ClearFilter">Clear Filter</Button> <!--had class float-end-->
+                                <Button Type="ButtonType.Submit" Color="ButtonColor.Success">Done</Button> <!--had class float-end-->
+                            </div>
                         </div>
-                    </div>
-                </EditForm>
-            </DropdownMenu>
-        </Dropdown>
-    </div>
-    <div class="col-1 col-md-1 mb-3 mt-4" style="width: 38px">
-        @* <Button Color="ButtonColor.Secondary" class="px-2" style="height: 38px; padding-top: 3px;" @onclick="ReloadData">
+                    </EditForm>
+                </DropdownMenu>
+            </Dropdown>
+        </div>
+        <div class="col-1 col-md-1 mb-3 mt-4" style="width: 38px">
+            @* <Button Color="ButtonColor.Secondary" class="px-2" style="height: 38px; padding-top: 3px;" @onclick="ReloadData">
             <Icon Name="IconName.ArrowRepeat" Size="IconSize.x5"/>
         </Button> *@
-        <Dropdown Color="DropdownColor.Secondary" Style="height: 38px; padding: 0;" >
-            <DropdownToggleButton Id="menuDropdown" Class="px-1 menuDropdown" Style="width: 38px; padding-top: 3px;"><Icon Name="IconName.List" Size="IconSize.x5" /></DropdownToggleButton>
-            <DropdownMenu Position="DropdownMenuPosition.End" Style="width: 100px">
-                <DropdownItem @onclick="GoToNewEducation">New Education <Icon Name="IconName.PlusCircle" /></DropdownItem>
-                <DropdownDivider></DropdownDivider>
-                <DropdownItem @onclick="ReloadData" Type="DropdownItemType.Button">Reload <Icon Name="IconName.ArrowRepeat"/></DropdownItem>
-                <DropdownItem @onclick="() => GoToEducation(_selectedEducationId!.Value)" Disabled="@(!_selectedEducationId.HasValue)" Type="DropdownItemType.Button">Detail <Icon Name="IconName.Journal"/></DropdownItem>
-            </DropdownMenu>
-        </Dropdown>
+            <Dropdown Color="DropdownColor.Secondary" Style="height: 38px; padding: 0;" >
+                <DropdownToggleButton Id="menuDropdown" Class="px-1 menuDropdown" Style="width: 38px; padding-top: 3px;"><Icon Name="IconName.List" Size="IconSize.x5" /></DropdownToggleButton>
+                <DropdownMenu Position="DropdownMenuPosition.End" Style="width: 100px">
+                    <DropdownItem @onclick="GoToNewEducation">New Education <Icon Name="IconName.PlusCircle" /></DropdownItem>
+                    <DropdownDivider></DropdownDivider>
+                    <DropdownItem @onclick="ReloadData" Type="DropdownItemType.Button">Reload <Icon Name="IconName.ArrowRepeat"/></DropdownItem>
+                    <DropdownItem @onclick="() => GoToEducation(_selectedEducationId!.Value)" Disabled="@(!_selectedEducationId.HasValue)" Type="DropdownItemType.Button">Detail <Icon Name="IconName.Journal"/></DropdownItem>
+                </DropdownMenu>
+            </Dropdown>
+        </div>
+        <div class="col-12 col-lg-5 text-end ms-auto mb-3 mt-4" style="max-width: 320px; padding: 0; z-index: -10;"> <!--maybe add later: margin-bottom: 0 !important; again-->
+            <h3 class="nowrap">@_averageDisplayText @(_educationAverage == 0 ? "N/A" : _educationAverage.ToString("0.##"))</h3>
+        </div>
     </div>
-    <div class="col-12 col-lg-5 text-end ms-auto mb-3 mt-4" style="max-width: 320px; padding: 0; z-index: -10;"> <!--maybe add later: margin-bottom: 0 !important; again-->
-        <h3 class="nowrap">@_averageDisplayText @(_educationAverage == 0 ? "N/A" : _educationAverage.ToString("0.##"))</h3>
-    </div>
-</div>
 
-<!--Enable paging for large data-->
-<!--Had animation style="animation: fadeInBlur 0.2s ease-in;"-->
-<div class="row" style="padding-top: 0; padding-bottom: 40px; animation: fadeInBlur .18s ease; will-change: opacity, filter;">
-    @if (_currentEducationId != 0)
-    {
-        if (_educations.Find(e => e.Id.Equals(_currentEducationId))!.Completed)
+    <!--Enable paging for large data-->
+    <!--Had animation style="animation: fadeInBlur 0.2s ease-in;"-->
+    <div class="row" style="padding-top: 0; padding-bottom: 42px; animation: fadeInBlur .18s ease; will-change: opacity, filter;">
+        @if (_currentEducationId != 0)
         {
-            <Tooltip Title="This Education is completed" Placement="TooltipPlacement.Right" Style="width: 147px; padding-left: 0;">
-                <Button Disabled="true" @onclick="() => GoToNewSubject(_currentEducationId, _semesterViewModel.Semester)" class="btn-success p-1" style="margin-left: 12px; width: 135px;">
+            if (_educations.Find(e => e.Id.Equals(_currentEducationId))!.Completed)
+            {
+                <Tooltip Title="This Education is completed" Placement="TooltipPlacement.Right" Style="width: 147px; padding-left: 0;">
+                    <Button Disabled="true" @onclick="() => GoToNewSubject(_currentEducationId, _semesterViewModel.Semester)" class="btn-success p-1" style="margin-left: 12px; width: 135px;">
+                        New Subject <i class="bi bi-plus-circle"></i>
+                    </Button>
+                </Tooltip>
+            }
+            else
+            {
+                <Button @onclick="() => GoToNewSubject(_currentEducationId, _semesterViewModel.Semester)" class="btn-success p-1" style="margin-left: 12px; width: 135px;">
                     New Subject <i class="bi bi-plus-circle"></i>
                 </Button>
-            </Tooltip>
+            }
         }
         else
         {
-            <Button @onclick="() => GoToNewSubject(_currentEducationId, _semesterViewModel.Semester)" class="btn-success p-1" style="margin-left: 12px; width: 135px;">
-                New Subject <i class="bi bi-plus-circle"></i>
-            </Button>
+            <div style="height: 34px"></div>
         }
-    }
-    else
-    {
-        <div style="height: 34px"></div>
-    }
 
-    <Grid TItem="Subject"
-          Class="table table-hover animated-table"
-          Data="@_subjects.OrderByDescending(s => s.Semester).ThenBy(s => s.Name).ThenByDescending(s => s.Id)"
-          EmptyText="No records to display"
-          HeaderRowCssClass="border-bottom-0"
-          Responsive="true">
+        <Grid TItem="Subject"
+              Class="table table-hover animated-table"
+              Data="@_subjects.OrderByDescending(s => s.Semester).ThenBy(s => s.Name).ThenByDescending(s => s.Id)"
+              EmptyText="No records to display"
+              HeaderRowCssClass="border-bottom-0"
+              Responsive="true">
 
-        <GridColumns>
-            <GridColumn TItem="Subject" HeaderText="Subject" PropertyName="Name" Class="name-column">
-                <Tooltip Title="@(context.Completed ? "Completed 🟢" : "In Progress 🟡")" Style="padding-top: 1px;">
-                    <Button @onclick="() => GoToSubject(context.Id)" class="btn-translucient-v2 border-0" style="padding: 3px; font-size: initial; margin-top: 1px; margin-bottom: 1px;">@UIUtils.TruncateString(context.Name, 25) - @context.Semester</Button>
-                </Tooltip>
-            </GridColumn>
-            <GridColumn TItem="Subject" HeaderText="Grades" SortKeySelector="item => item.Grades != null ? item.Grades.Count : 0" Class="grades-column">
-                @if (context.Grades != null && context.Grades.Any())
-                {
-                    foreach (var grade in context.Grades.OrderBy(g => g.Date).ThenBy(g => g.Id))
-                    {
-                        if (grade.Value < 4)
-                        {
-                            <Tooltip Title="@grade.Date.ToShortDateString()" Style="padding-top: 1px;">
-                                <Button @onclick="() => GoToGrade(grade.Id)" class="btn-translucient-red border-0" style="padding: 3px; font-size: initial; margin-top: 1px; margin-bottom: 1px; margin-right: 2px;">@grade.Value (@grade.Weight.Name)</Button>
-                            </Tooltip>
-                        }
-                        else
-                        {
-                            <Tooltip Title="@grade.Date.ToShortDateString()" Style="padding-top: 1px;">
-                                <Button @onclick="() => GoToGrade(grade.Id)" class="btn-translucient-v2 border-0" style="padding: 3px; font-size: initial; margin-top: 1px; margin-bottom: 1px; margin-right: 2px;">@grade.Value (@grade.Weight.Name)</Button>
-                            </Tooltip>
-                        }
-                    }
-
-                    @* @string.Join(" | ", context.Grades.Select(grade =>
-                        $"{grade.Value} ({grade.Weight.Name}) ")) *@
-                }
-                else
-                {
-                    @* <span>No Grades </span> *@
-
-                    <div style="display: inline-block; padding: 2px; font-size: initial; margin-top: 0; margin-bottom: 0; margin-right: 3px;">No Grades</div>
-                }
-                @if (!context.Completed)
-                {
-                    <Tooltip Title="New Grade" Style="padding-top: 1px;"><!--was height: 29px; and width: 29px; padding-left: 4pt;-->
-                        <Button @onclick="() => GoToNewGrade(context.Id)" class="btn-secondary" style="height: 30px; width: 30px; padding-top: 2px; padding-left: 4.55pt; margin-top: 1px; margin-bottom: 1px;">
-                            <Icon Name="IconName.PlusCircle" Size="IconSize.x6"/><!--maybe change font-size to fixed amount for example to 16px-->
-                        </Button>
+            <GridColumns>
+                <GridColumn TItem="Subject" HeaderText="Subject" PropertyName="Name" Class="name-column">
+                    <Tooltip Title="@(context.Completed ? "Completed 🟢" : "In Progress 🟡")" Style="padding-top: 1px;">
+                        <Button @onclick="() => GoToSubject(context.Id)" class="btn-translucient-v2 border-0" style="padding: 3px; font-size: initial; margin-top: 1px; margin-bottom: 1px;">@UIUtils.TruncateString(context.Name, 25) - @context.Semester</Button>
                     </Tooltip>
-                }
-            </GridColumn>
-            <GridColumn TItem="Subject" HeaderText="Average" SortKeySelector="item => item.Grades != null ? item.Grades.Average(g => g.Value) : 0" HeaderTextAlignment="Alignment.End" TextAlignment="Alignment.Center" Class="average-grade-column">
-                @if (SubjectUtils.CalculateWeightedAverage(context.Grades) < 4 && SubjectUtils.CalculateWeightedAverage(context.Grades) != 0)
-                {
-                    <Badge Color="BadgeColor.Danger" IndicatorType="BadgeIndicatorType.RoundedPill" Style="font-size: initial">
+                </GridColumn>
+                <GridColumn TItem="Subject" HeaderText="Grades" SortKeySelector="item => item.Grades != null ? item.Grades.Count : 0" Class="grades-column">
+                    @if (context.Grades != null && context.Grades.Any())
+                    {
+                        foreach (var grade in context.Grades.OrderBy(g => g.Date).ThenBy(g => g.Id))
+                        {
+                            if (grade.Value < 4)
+                            {
+                                <Tooltip Title="@grade.Date.ToShortDateString()" Style="padding-top: 1px;">
+                                    <Button @onclick="() => GoToGrade(grade.Id)" class="btn-translucient-red border-0" style="padding: 3px; font-size: initial; margin-top: 1px; margin-bottom: 1px; margin-right: 2px;">@grade.Value (@grade.Weight.Name)</Button>
+                                </Tooltip>
+                            }
+                            else
+                            {
+                                <Tooltip Title="@grade.Date.ToShortDateString()" Style="padding-top: 1px;">
+                                    <Button @onclick="() => GoToGrade(grade.Id)" class="btn-translucient-v2 border-0" style="padding: 3px; font-size: initial; margin-top: 1px; margin-bottom: 1px; margin-right: 2px;">@grade.Value (@grade.Weight.Name)</Button>
+                                </Tooltip>
+                            }
+                        }
+
+                        @* @string.Join(" | ", context.Grades.Select(grade =>
+                        $"{grade.Value} ({grade.Weight.Name}) ")) *@
+                    }
+                    else
+                    {
+                        @* <span>No Grades </span> *@
+
+                        <div style="display: inline-block; padding: 2px; font-size: initial; margin-top: 0; margin-bottom: 0; margin-right: 3px;">No Grades</div>
+                    }
+                    @if (!context.Completed)
+                    {
+                        <Tooltip Title="New Grade" Style="padding-top: 1px;"><!--was height: 29px; and width: 29px; padding-left: 4pt;-->
+                            <Button @onclick="() => GoToNewGrade(context.Id)" class="btn-secondary" style="height: 30px; width: 30px; padding-top: 2px; padding-left: 4.55pt; margin-top: 1px; margin-bottom: 1px;">
+                                <Icon Name="IconName.PlusCircle" Size="IconSize.x6"/><!--maybe change font-size to fixed amount for example to 16px-->
+                            </Button>
+                        </Tooltip>
+                    }
+                </GridColumn>
+                <GridColumn TItem="Subject" HeaderText="Average" SortKeySelector="item => item.Grades != null ? item.Grades.Average(g => g.Value) : 0" HeaderTextAlignment="Alignment.End" TextAlignment="Alignment.Center" Class="average-grade-column">
+                    @if (SubjectUtils.CalculateWeightedAverage(context.Grades) < 4 && SubjectUtils.CalculateWeightedAverage(context.Grades) != 0)
+                    {
+                        <Badge Color="BadgeColor.Danger" IndicatorType="BadgeIndicatorType.RoundedPill" Style="font-size: initial">
+                            <b>@GetAverageGrade(context.Grades)</b>
+                        </Badge>
+                    }
+                    else
+                    {
                         <b>@GetAverageGrade(context.Grades)</b>
-                    </Badge>
-                }
-                else
-                {
-                    <b>@GetAverageGrade(context.Grades)</b>
-                }
-            </GridColumn>
-        </GridColumns>
-    </Grid>
-    <!--Later add detail of every row maybe us _selectedEducationId instead-->
+                    }
+                </GridColumn>
+            </GridColumns>
+        </Grid>
+        <!--Later add detail of every row maybe us _selectedEducationId instead-->
+    </div>
 </div>
 
 @* <ScrollTopButton /> *@

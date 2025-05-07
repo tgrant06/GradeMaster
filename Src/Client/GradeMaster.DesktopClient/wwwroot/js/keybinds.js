@@ -351,6 +351,10 @@ function handleHomePageKeys(event, dotNetHelper) {
             event.preventDefault();
             focusSelectField("Education");
             break;
+        case "Ctrl+q":
+            event.preventDefault();
+            dotNetHelper.invokeMethodAsync("ClearFilterState");
+            break;
         case "Ctrl+Shift+f":
             event.preventDefault();
             focusAndSelectFilterMenu();

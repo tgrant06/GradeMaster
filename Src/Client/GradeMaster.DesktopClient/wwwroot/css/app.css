@@ -170,7 +170,18 @@ h1:focus {
     scroll-margin-top: 60px;
 }
 
-main {
+/*Only use if article option somehow doesnt work*/
+/*main {
+    transform: translateZ(0);
+    will-change: transform;
+}*/
+
+/*article {
+    transform: translateZ(0);
+    will-change: transform;
+}*/
+
+.transform-stack-container {
     transform: translateZ(0);
     will-change: transform;
 }

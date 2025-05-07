@@ -3,10 +3,12 @@
 @using Microsoft.AspNetCore.WebUtilities;
 
 <TopPageHeader>New Subject</TopPageHeader>
-<div class="border-top animated-top-line" style="width: 100%; max-width: 50%; margin-top: 15px"></div>
+<div class="transform-stack-container">
+    <div class="border-top animated-top-line" style="width: 100%; max-width: 50%; margin-top: 15px"></div>
 
-<div class="container animated-page-content">
-    <SubjectForm OnSave="HandleSave" FormType="FormType.Create" SubjectSemester="_subjectSemester" EducationId="_educationId"/>
+    <div class="container animated-page-content">
+        <SubjectForm OnSave="HandleSave" FormType="FormType.Create" SubjectSemester="_subjectSemester" EducationId="_educationId"/>
+    </div>
 </div>
 
 <script>

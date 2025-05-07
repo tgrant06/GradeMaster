@@ -2,10 +2,12 @@
 @using Microsoft.AspNetCore.WebUtilities
 
 <TopPageHeader>New Grade</TopPageHeader>
-<div class="border-top animated-top-line" style="width: 100%; max-width: 50%; margin-top: 15px"></div>
+<div class="transform-stack-container">
+    <div class="border-top animated-top-line" style="width: 100%; max-width: 50%; margin-top: 15px"></div>
 
-<div class="container animated-page-content">
-    <GradeForm OnSave="HandleSave" FormType="FormType.Create" SubjectId="_subjectId" SubjectSemester="_subjectSemester" EducationId="_educationId" />
+    <div class="container animated-page-content">
+        <GradeForm OnSave="HandleSave" FormType="FormType.Create" SubjectId="_subjectId" SubjectSemester="_subjectSemester" EducationId="_educationId" />
+    </div>
 </div>
 
 <script>
