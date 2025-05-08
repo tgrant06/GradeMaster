@@ -82,11 +82,25 @@ public class EducationRepository : IEducationRepository
                 .ToListAsync();
         }
 
-        searchValue = searchValue.Trim();
-        var newSearchValue = $"%{searchValue}%";
-        var isNumericSearch = int.TryParse(searchValue, out var searchValueAsInt);
+        var mainSearch = searchValue.Trim();
+        string? institutionSearch = null;
 
-        var completionState = searchValue.ToLower();
+        // Check for pipe separator
+        if (mainSearch.Contains(" | "))
+        {
+            var parts = mainSearch.Split('|', 2, StringSplitOptions.RemoveEmptyEntries);
+            if (parts.Length == 2)
+            {
+                mainSearch = parts[0].Trim();
+                institutionSearch = parts[1].Trim();
+            }
+        }
+        
+        var newSearchValue = $"%{mainSearch}%";
+        var newInstitutionSearch = !string.IsNullOrEmpty(institutionSearch) ? $"%{institutionSearch}%" : null;
+        var isNumericSearch = int.TryParse(mainSearch, out var searchValueAsInt);
+
+        var completionState = mainSearch.ToLower();
         bool? searchCompletionState = completionState switch
         {
             "in progress" => false,
@@ -96,13 +110,21 @@ public class EducationRepository : IEducationRepository
 
         return await _context.Educations
             .Where(education =>
-                EF.Functions.Like(education.Name, newSearchValue) ||
-                (education.Description != null && EF.Functions.Like(education.Description, newSearchValue)) ||
-                (education.Institution != null && EF.Functions.Like(education.Institution, newSearchValue)) ||
-                (searchCompletionState != null && education.Completed == searchCompletionState) ||
-                (isNumericSearch && education.Semesters == searchValueAsInt) || // Direct integer comparison
-                (isNumericSearch && education.StartDate.Year == searchValueAsInt) || // Compare Year as an int
-                (isNumericSearch && education.EndDate.Year == searchValueAsInt)
+                (
+                    EF.Functions.Like(education.Name, newSearchValue) ||
+                    (education.Description != null && EF.Functions.Like(education.Description, newSearchValue)) ||
+                    (searchCompletionState != null && education.Completed == searchCompletionState) ||
+                    (isNumericSearch && education.Semesters == searchValueAsInt) ||
+                    (isNumericSearch && education.StartDate.Year == searchValueAsInt) ||
+                    (isNumericSearch && education.EndDate.Year == searchValueAsInt) ||
+                    (newInstitutionSearch == null &&
+                     education.Institution != null && EF.Functions.Like(education.Institution, newSearchValue))
+                )
+                &&
+                (
+                    newInstitutionSearch == null ||
+                    (education.Institution != null && EF.Functions.Like(education.Institution, newInstitutionSearch))
+                )
             )
             .Include(e => e.Subjects)
                 .ThenInclude(s => s.Grades)
@@ -119,11 +141,25 @@ public class EducationRepository : IEducationRepository
             return await _context.Educations.CountAsync();
         }
 
-        searchValue = searchValue.Trim();
-        var newSearchValue = $"%{searchValue}%";
-        var isNumericSearch = int.TryParse(searchValue, out var searchValueAsInt);
+        var mainSearch = searchValue.Trim();
+        string? institutionSearch = null;
 
-        var completionState = searchValue.ToLower();
+        // Check for pipe separator
+        if (mainSearch.Contains(" | "))
+        {
+            var parts = mainSearch.Split('|', 2, StringSplitOptions.RemoveEmptyEntries);
+            if (parts.Length == 2)
+            {
+                mainSearch = parts[0].Trim();
+                institutionSearch = parts[1].Trim();
+            }
+        }
+
+        var newSearchValue = $"%{mainSearch}%";
+        var newInstitutionSearch = !string.IsNullOrEmpty(institutionSearch) ? $"%{institutionSearch}%" : null;
+        var isNumericSearch = int.TryParse(mainSearch, out var searchValueAsInt);
+
+        var completionState = mainSearch.ToLower();
         bool? searchCompletionState = completionState switch
         {
             "in progress" => false,
@@ -133,13 +169,21 @@ public class EducationRepository : IEducationRepository
 
         return await _context.Educations
             .Where(education =>
-                EF.Functions.Like(education.Name, newSearchValue) ||
-                (education.Description != null && EF.Functions.Like(education.Description, newSearchValue)) ||
-                (education.Institution != null && EF.Functions.Like(education.Institution, newSearchValue)) ||
-                (searchCompletionState != null && education.Completed == searchCompletionState) ||
-                (isNumericSearch && education.Semesters == searchValueAsInt) || // Direct integer comparison
-                (isNumericSearch && education.StartDate.Year == searchValueAsInt) || // Compare Year as an int
-                (isNumericSearch && education.EndDate.Year == searchValueAsInt)
+                (
+                    EF.Functions.Like(education.Name, newSearchValue) ||
+                    (education.Description != null && EF.Functions.Like(education.Description, newSearchValue)) ||
+                    (searchCompletionState != null && education.Completed == searchCompletionState) ||
+                    (isNumericSearch && education.Semesters == searchValueAsInt) ||
+                    (isNumericSearch && education.StartDate.Year == searchValueAsInt) ||
+                    (isNumericSearch && education.EndDate.Year == searchValueAsInt) ||
+                    (newInstitutionSearch == null &&
+                     education.Institution != null && EF.Functions.Like(education.Institution, newSearchValue))
+                )
+                &&
+                (
+                    newInstitutionSearch == null ||
+                    (education.Institution != null && EF.Functions.Like(education.Institution, newInstitutionSearch))
+                )
             )
             .CountAsync();
     }
