@@ -62,8 +62,10 @@
                         <div class="col mb-3">
                             <CardText Class="border-bottom enabled-text-selection" Style="padding-bottom: 17px; margin-bottom: 6px;">
                                 <b class="enabled-text-selection">Education:</b> 
-                                <Button @onclick="GoToEducation" class="btn-translucient-v2 border-0 enabled-text-selection btn-entity-link" style="padding: 3px; padding-left: 6px; padding-right: 6px; font-size: initial; margin-top: -4px; margin-left: -5px;">@Grade.Subject.Education.Name <Icon Name="IconName.ArrowUpRightCircle" /></Button>
-                                <CompletionStateBadge Completed="Grade.Subject.Education.Completed" MarginBottom="2" />
+                                <span style="white-space: nowrap;">
+                                    <Button @onclick="GoToEducation" Class="btn-translucient-v2 border-0 enabled-text-selection btn-entity-link" Style="padding: 3px; padding-left: 6px; padding-right: 6px; font-size: initial; margin-top: -4px; margin-left: -5px; white-space: normal;">@Grade.Subject.Education.Name <Icon Name="IconName.ArrowUpRightCircle" /></Button>
+                                    <CompletionStateBadge Completed="Grade.Subject.Education.Completed" MarginBottom="2" />
+                                </span>
                             </CardText>
                         </div>
                         <div class="col mb-3">
@@ -74,8 +76,10 @@
                         <div class="col mb-3">
                             <CardText Class="border-bottom enabled-text-selection" Style="padding-bottom: 17px; margin-bottom: 6px;">
                                 <b class="enabled-text-selection">Subject:</b> 
-                                <Button @onclick="GoToSubject" class="btn-translucient-v2 border-0 enabled-text-selection btn-entity-link" style="padding: 3px; padding-left: 6px; padding-right: 6px; font-size: initial; margin-top: -4px; margin-left: -5px;"> @Grade.Subject.Name - @Grade.Subject.Semester <Icon Name="IconName.ArrowUpRightCircle" /></Button>
-                                <CompletionStateBadge Completed="Grade.Subject.Completed" MarginBottom="2" />
+                                <span style="white-space: nowrap;">
+                                    <Button @onclick="GoToSubject" class="btn-translucient-v2 border-0 enabled-text-selection btn-entity-link" style="padding: 3px; padding-left: 6px; padding-right: 6px; font-size: initial; margin-top: -4px; margin-left: -5px; white-space: normal;"> @Grade.Subject.Name - @Grade.Subject.Semester <Icon Name="IconName.ArrowUpRightCircle" /></Button>
+                                    <CompletionStateBadge Completed="Grade.Subject.Completed" MarginBottom="2" />
+                                </span>
                             </CardText>
                         </div>
                         <div class="col mb-3">
@@ -105,6 +109,16 @@
         </div>
     </div>
 </section>
+
+<style>
+    .tooltip {
+        display: none !important;
+    }
+
+    #scrollToTopButton {
+        display: none !important;
+    }
+</style>
 
 <script>
     window.scrollTo({ top: 0, behavior: 'auto' });
