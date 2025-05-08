@@ -35,7 +35,7 @@ public partial class Home : IAsyncDisposable
 
     private SemesterViewModel _semesterViewModel = new();
 
-    private string _averageDisplayText => _isFiltered ? $"Semester {_selectedSemester} Average:" : "Education Average:";
+    private string _averageDisplayText => _isFiltered ? $"Semester {_selectedSemester} Avg:" : "Education Avg:";
 
     private int? SelectedEducationId
     {
