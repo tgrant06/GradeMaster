@@ -82,25 +82,25 @@ public class EducationRepository : IEducationRepository
                 .ToListAsync();
         }
 
-        var mainSearch = searchValue.Trim();
+        var mainSearchValue = searchValue.Trim();
         string? institutionSearch = null;
 
         // Check for pipe separator
-        if (mainSearch.Contains(" | "))
+        if (mainSearchValue.Contains(" | "))
         {
-            var parts = mainSearch.Split('|', 2, StringSplitOptions.RemoveEmptyEntries);
+            var parts = mainSearchValue.Split('|', 2, StringSplitOptions.RemoveEmptyEntries);
             if (parts.Length == 2)
             {
-                mainSearch = parts[0].Trim();
+                mainSearchValue = parts[0].Trim();
                 institutionSearch = parts[1].Trim();
             }
         }
         
-        var newSearchValue = $"%{mainSearch}%";
+        var newSearchValue = $"%{mainSearchValue}%";
         var newInstitutionSearch = !string.IsNullOrEmpty(institutionSearch) ? $"%{institutionSearch}%" : null;
-        var isNumericSearch = int.TryParse(mainSearch, out var searchValueAsInt);
+        var isNumericSearch = int.TryParse(mainSearchValue, out var searchValueAsInt);
 
-        var completionState = mainSearch.ToLower();
+        var completionState = mainSearchValue.ToLower();
         bool? searchCompletionState = completionState switch
         {
             "in progress" => false,
@@ -141,25 +141,25 @@ public class EducationRepository : IEducationRepository
             return await _context.Educations.CountAsync();
         }
 
-        var mainSearch = searchValue.Trim();
+        var mainSearchValue = searchValue.Trim();
         string? institutionSearch = null;
 
         // Check for pipe separator
-        if (mainSearch.Contains(" | "))
+        if (mainSearchValue.Contains(" | "))
         {
-            var parts = mainSearch.Split('|', 2, StringSplitOptions.RemoveEmptyEntries);
+            var parts = mainSearchValue.Split('|', 2, StringSplitOptions.RemoveEmptyEntries);
             if (parts.Length == 2)
             {
-                mainSearch = parts[0].Trim();
+                mainSearchValue = parts[0].Trim();
                 institutionSearch = parts[1].Trim();
             }
         }
 
-        var newSearchValue = $"%{mainSearch}%";
+        var newSearchValue = $"%{mainSearchValue}%";
         var newInstitutionSearch = !string.IsNullOrEmpty(institutionSearch) ? $"%{institutionSearch}%" : null;
-        var isNumericSearch = int.TryParse(mainSearch, out var searchValueAsInt);
+        var isNumericSearch = int.TryParse(mainSearchValue, out var searchValueAsInt);
 
-        var completionState = mainSearch.ToLower();
+        var completionState = mainSearchValue.ToLower();
         bool? searchCompletionState = completionState switch
         {
             "in progress" => false,

@@ -126,10 +126,28 @@ public class SubjectRepository : ISubjectRepository
                 .ToListAsync();
         }
 
+        var mainSearchValue = searchValue.Trim();
+        string? institutionSearch = null;
+
+        // Check for pipe separator
+        if (mainSearchValue.Contains(" | "))
+        {
+            var parts = mainSearchValue.Split('|', 2, StringSplitOptions.RemoveEmptyEntries);
+            if (parts.Length == 2)
+            {
+                mainSearchValue = parts[0].Trim();
+                institutionSearch = parts[1].Trim();
+            }
+        }
+
+        var newSearchValue = $"%{mainSearchValue}%";
+        var newInstitutionSearch = !string.IsNullOrEmpty(institutionSearch) ? $"%{institutionSearch}%" : null;
+
+
         string? namePart = null;
         int? semesterPart = null;
 
-        var match = SearchPatternSubjectAndSemester.Match(searchValue.Trim());
+        var match = SearchPatternSubjectAndSemester.Match(mainSearchValue);
         if (match.Success)
         {
             namePart = match.Groups[1].Value.Trim();
@@ -139,11 +157,9 @@ public class SubjectRepository : ISubjectRepository
             }
         }
 
-        searchValue = searchValue.Trim();
-        var newSearchValue = $"%{searchValue}%";
-        var isNumericSearch = int.TryParse(searchValue, out var searchValueAsInt);
+        var isNumericSearch = int.TryParse(mainSearchValue, out var searchValueAsInt);
 
-        var completionState = searchValue.ToLower();
+        var completionState = mainSearchValue.ToLower();
         bool? searchCompletionState = completionState switch
         {
             "in progress" => false,
@@ -153,14 +169,23 @@ public class SubjectRepository : ISubjectRepository
 
         return await _context.Subjects
             .Where(subject =>
-                (!string.IsNullOrEmpty(namePart) && semesterPart != null
-                    ? EF.Functions.Like(subject.Name, $"%{namePart}%") && subject.Semester == semesterPart
-                    : EF.Functions.Like(subject.Name, newSearchValue)) ||
-                (subject.Description != null && EF.Functions.Like(subject.Description, newSearchValue)) ||
-                (isNumericSearch && subject.Semester == searchValueAsInt) ||
-                (searchCompletionState != null && subject.Completed == searchCompletionState) ||
-                EF.Functions.Like(subject.Education.Name, newSearchValue) ||
-                (subject.Education.Institution != null && EF.Functions.Like(subject.Education.Institution, newSearchValue)))
+                (
+                    (!string.IsNullOrEmpty(namePart) && semesterPart != null
+                        ? EF.Functions.Like(subject.Name, $"%{namePart}%") && subject.Semester == semesterPart
+                        : EF.Functions.Like(subject.Name, newSearchValue)) ||
+                    (subject.Description != null && EF.Functions.Like(subject.Description, newSearchValue)) ||
+                    (isNumericSearch && subject.Semester == searchValueAsInt) ||
+                    (searchCompletionState != null && subject.Completed == searchCompletionState) ||
+                    EF.Functions.Like(subject.Education.Name, newSearchValue) ||
+                    (newInstitutionSearch == null &&
+                     subject.Education.Institution != null && EF.Functions.Like(subject.Education.Institution, newSearchValue))
+                )
+                &&
+                (
+                    newInstitutionSearch == null ||
+                    (subject.Education.Institution != null && EF.Functions.Like(subject.Education.Institution, newInstitutionSearch))
+                )
+            )
             .Include(s => s.Education)
             .Include(s => s.Grades)
             .OrderByDescending(s => s.Id)
@@ -177,10 +202,28 @@ public class SubjectRepository : ISubjectRepository
             return await _context.Subjects.CountAsync();
         }
 
+        var mainSearchValue = searchValue.Trim();
+        string? institutionSearch = null;
+
+        // Check for pipe separator
+        if (mainSearchValue.Contains(" | "))
+        {
+            var parts = mainSearchValue.Split('|', 2, StringSplitOptions.RemoveEmptyEntries);
+            if (parts.Length == 2)
+            {
+                mainSearchValue = parts[0].Trim();
+                institutionSearch = parts[1].Trim();
+            }
+        }
+
+        var newSearchValue = $"%{mainSearchValue}%";
+        var newInstitutionSearch = !string.IsNullOrEmpty(institutionSearch) ? $"%{institutionSearch}%" : null;
+
+
         string? namePart = null;
         int? semesterPart = null;
 
-        var match = SearchPatternSubjectAndSemester.Match(searchValue.Trim());
+        var match = SearchPatternSubjectAndSemester.Match(mainSearchValue);
         if (match.Success)
         {
             namePart = match.Groups[1].Value.Trim();
@@ -190,11 +233,9 @@ public class SubjectRepository : ISubjectRepository
             }
         }
 
-        searchValue = searchValue.Trim();
-        var newSearchValue = $"%{searchValue}%";
-        var isNumericSearch = int.TryParse(searchValue, out var searchValueAsInt);
+        var isNumericSearch = int.TryParse(mainSearchValue, out var searchValueAsInt);
 
-        var completionState = searchValue.ToLower();
+        var completionState = mainSearchValue.ToLower();
         bool? searchCompletionState = completionState switch
         {
             "in progress" => false,
@@ -204,14 +245,23 @@ public class SubjectRepository : ISubjectRepository
 
         return await _context.Subjects
             .Where(subject =>
-                (!string.IsNullOrEmpty(namePart) && semesterPart != null
-                    ? EF.Functions.Like(subject.Name, $"%{namePart}%") && subject.Semester == semesterPart
-                    : EF.Functions.Like(subject.Name, newSearchValue)) || 
-                (subject.Description != null && EF.Functions.Like(subject.Description, newSearchValue)) ||
-                (isNumericSearch && subject.Semester == searchValueAsInt) ||
-                (searchCompletionState != null && subject.Completed == searchCompletionState) ||
-                EF.Functions.Like(subject.Education.Name, newSearchValue) ||
-                (subject.Education.Institution != null && EF.Functions.Like(subject.Education.Institution, newSearchValue)))
+                (
+                    (!string.IsNullOrEmpty(namePart) && semesterPart != null
+                        ? EF.Functions.Like(subject.Name, $"%{namePart}%") && subject.Semester == semesterPart
+                        : EF.Functions.Like(subject.Name, newSearchValue)) ||
+                    (subject.Description != null && EF.Functions.Like(subject.Description, newSearchValue)) ||
+                    (isNumericSearch && subject.Semester == searchValueAsInt) ||
+                    (searchCompletionState != null && subject.Completed == searchCompletionState) ||
+                    EF.Functions.Like(subject.Education.Name, newSearchValue) ||
+                    (newInstitutionSearch == null &&
+                     subject.Education.Institution != null && EF.Functions.Like(subject.Education.Institution, newSearchValue))
+                )
+                &&
+                (
+                    newInstitutionSearch == null ||
+                    (subject.Education.Institution != null && EF.Functions.Like(subject.Education.Institution, newInstitutionSearch))
+                )
+            )
             .CountAsync();
     }
 
