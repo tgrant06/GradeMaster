@@ -4,9 +4,9 @@
 
 <section class="transform-stack-container">
     <div class="row py-3 mx-0" style="animation: BlurIn .15s ease-in;">@*TODO: Change animation later*@
-        <div class="col-8 col-md-8 px-0 mb-2" style="max-width: 400px">
+        <div class="col-8 col-md-8 px-0 mb-2" style="max-width: 420px">
             <b>Education: </b>
-            <select class="form-select" style="min-width: 200px; max-width: 400px" aria-label="Select Education" name="selectFieldEducation" id="selectFieldEducation"
+            <select class="form-select" style="min-width: 200px; max-width: 420px" aria-label="Select Education" name="selectFieldEducation" id="selectFieldEducation"
                     @bind="SelectedEducationId" @bind:event="onchange">
                 <option value="" class="gm-option">Select Education</option>
                 @foreach (var education in _educations)
@@ -64,7 +64,7 @@
                 </DropdownMenu>
             </Dropdown>
         </div>
-        <div class="col-12 col-lg-5 text-end ms-auto mb-3 mt-4" style="max-width: 320px; padding: 0; z-index: -10;"> <!--maybe add later: margin-bottom: 0 !important; again-->
+        <div class="col-12 col-lg-5 text-end ms-auto mb-3 mt-4" style="max-width: 300px; padding: 0; z-index: -10;"> <!--maybe add later: margin-bottom: 0 !important; again-->
             <h3 class="nowrap">@_averageDisplayText @(_educationAverage == 0 ? "N/A" : _educationAverage.ToString("0.##"))</h3>
         </div>
     </div>
@@ -93,7 +93,7 @@
         {
             <div style="height: 34px"></div>
         }
-
+        @*Maybe add .toList() or something else for _subjects*@
         <Grid TItem="Subject"
               Class="table table-hover animated-table"
               Data="@_subjects.OrderByDescending(s => s.Semester).ThenBy(s => s.Name).ThenByDescending(s => s.Id)"
