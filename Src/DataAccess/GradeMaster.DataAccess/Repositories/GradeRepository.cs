@@ -128,10 +128,28 @@ public class GradeRepository : IGradeRepository
                 .ToListAsync();
         }
 
+        var mainSearchValue = searchValue.Trim();
+        string? institutionSearch = null;
+
+        // Check for pipe separator
+        if (mainSearchValue.Contains(" | "))
+        {
+            var parts = mainSearchValue.Split('|', 2, StringSplitOptions.RemoveEmptyEntries);
+            if (parts.Length == 2)
+            {
+                mainSearchValue = parts[0].Trim();
+                institutionSearch = parts[1].Trim();
+            }
+        }
+
+        var newSearchValue = $"%{mainSearchValue}%";
+        var newInstitutionSearch = !string.IsNullOrEmpty(institutionSearch) ? $"%{institutionSearch}%" : null;
+
+
         string? namePart = null;
         int? semesterPart = null;
 
-        var match = SearchPatternSubjectAndSemester.Match(searchValue.Trim());
+        var match = SearchPatternSubjectAndSemester.Match(mainSearchValue);
         if (match.Success)
         {
             namePart = match.Groups[1].Value.Trim();
@@ -141,26 +159,32 @@ public class GradeRepository : IGradeRepository
             }
         }
 
-        searchValue = searchValue.Trim();
-        var newSearchValue = $"%{searchValue}%";
-        var normalizedDateSearch = NormalizeDateSearchValue(searchValue);
+        var normalizedDateSearch = NormalizeDateSearchValue(mainSearchValue);
         var normalizedDateSearchValue = $"%{normalizedDateSearch}%";
-        var isNumericSearch = decimal.TryParse(searchValue, out var searchValueAsDecimal);
+
+        var isNumericSearch = decimal.TryParse(mainSearchValue, out var searchValueAsDecimal);
 
         return await _context.Grades
-            // maybe add search by weight
-            // maybe add search by Subject.Semester
             .Where(grade =>
-                (!string.IsNullOrEmpty(namePart) && semesterPart != null
-                    ? EF.Functions.Like(grade.Subject.Name, $"%{namePart}%") && grade.Subject.Semester == semesterPart
-                    : EF.Functions.Like(grade.Subject.Name, newSearchValue)) ||
-                (grade.Description != null && EF.Functions.Like(grade.Description, newSearchValue)) ||
-                (isNumericSearch && grade.Value == searchValueAsDecimal) ||
-                (isNumericSearch && grade.Weight.Value == searchValueAsDecimal) ||
-                EF.Functions.Like(grade.Weight.Name, newSearchValue) ||
-                EF.Functions.Like(grade.Subject.Education.Name, newSearchValue) ||
-                EF.Functions.Like(grade.Date.ToString(), normalizedDateSearchValue) ||
-                (grade.Subject.Education.Institution != null && EF.Functions.Like(grade.Subject.Education.Institution, newSearchValue)))
+                (
+                    (!string.IsNullOrEmpty(namePart) && semesterPart != null
+                        ? EF.Functions.Like(grade.Subject.Name, $"%{namePart}%") && grade.Subject.Semester == semesterPart
+                        : EF.Functions.Like(grade.Subject.Name, newSearchValue)) ||
+                    (grade.Description != null && EF.Functions.Like(grade.Description, newSearchValue)) ||
+                    (isNumericSearch && grade.Value == searchValueAsDecimal) ||
+                    (isNumericSearch && grade.Weight.Value == searchValueAsDecimal) ||
+                    EF.Functions.Like(grade.Weight.Name, newSearchValue) ||
+                    EF.Functions.Like(grade.Subject.Education.Name, newSearchValue) ||
+                    EF.Functions.Like(grade.Date.ToString(), normalizedDateSearchValue) ||
+                    (newInstitutionSearch == null &&
+                     grade.Subject.Education.Institution != null && EF.Functions.Like(grade.Subject.Education.Institution, newSearchValue))
+                )
+                &&
+                (
+                    newInstitutionSearch == null ||
+                    (grade.Subject.Education.Institution != null && EF.Functions.Like(grade.Subject.Education.Institution, newInstitutionSearch))
+                )
+            )
             .Include(g => g.Subject)
                 .ThenInclude(s => s.Education)
             .OrderByDescending(g => g.Date)
@@ -177,10 +201,28 @@ public class GradeRepository : IGradeRepository
             return await _context.Grades.CountAsync();
         }
 
+        var mainSearchValue = searchValue.Trim();
+        string? institutionSearch = null;
+
+        // Check for pipe separator
+        if (mainSearchValue.Contains(" | "))
+        {
+            var parts = mainSearchValue.Split('|', 2, StringSplitOptions.RemoveEmptyEntries);
+            if (parts.Length == 2)
+            {
+                mainSearchValue = parts[0].Trim();
+                institutionSearch = parts[1].Trim();
+            }
+        }
+
+        var newSearchValue = $"%{mainSearchValue}%";
+        var newInstitutionSearch = !string.IsNullOrEmpty(institutionSearch) ? $"%{institutionSearch}%" : null;
+
+
         string? namePart = null;
         int? semesterPart = null;
 
-        var match = SearchPatternSubjectAndSemester.Match(searchValue.Trim());
+        var match = SearchPatternSubjectAndSemester.Match(mainSearchValue);
         if (match.Success)
         {
             namePart = match.Groups[1].Value.Trim();
@@ -190,24 +232,32 @@ public class GradeRepository : IGradeRepository
             }
         }
 
-        searchValue = searchValue.Trim();
-        var newSearchValue = $"%{searchValue}%";
-        var normalizedDateSearch = NormalizeDateSearchValue(searchValue);
+        var normalizedDateSearch = NormalizeDateSearchValue(mainSearchValue);
         var normalizedDateSearchValue = $"%{normalizedDateSearch}%";
-        var isNumericSearch = decimal.TryParse(searchValue, out var searchValueAsDecimal);
+
+        var isNumericSearch = decimal.TryParse(mainSearchValue, out var searchValueAsDecimal);
 
         return await _context.Grades
             .Where(grade =>
-                (!string.IsNullOrEmpty(namePart) && semesterPart != null
-                    ? EF.Functions.Like(grade.Subject.Name, $"%{namePart}%") && grade.Subject.Semester == semesterPart
-                    : EF.Functions.Like(grade.Subject.Name, newSearchValue)) ||
-                (grade.Description != null && EF.Functions.Like(grade.Description, newSearchValue)) ||
-                (isNumericSearch && grade.Value == searchValueAsDecimal) ||
-                (isNumericSearch && grade.Weight.Value == searchValueAsDecimal) ||
-                EF.Functions.Like(grade.Weight.Name, newSearchValue) ||
-                EF.Functions.Like(grade.Subject.Education.Name, newSearchValue) ||
-                EF.Functions.Like(grade.Date.ToString(), normalizedDateSearchValue) ||
-                (grade.Subject.Education.Institution != null && EF.Functions.Like(grade.Subject.Education.Institution, newSearchValue)))
+                (
+                    (!string.IsNullOrEmpty(namePart) && semesterPart != null
+                        ? EF.Functions.Like(grade.Subject.Name, $"%{namePart}%") && grade.Subject.Semester == semesterPart
+                        : EF.Functions.Like(grade.Subject.Name, newSearchValue)) ||
+                    (grade.Description != null && EF.Functions.Like(grade.Description, newSearchValue)) ||
+                    (isNumericSearch && grade.Value == searchValueAsDecimal) ||
+                    (isNumericSearch && grade.Weight.Value == searchValueAsDecimal) ||
+                    EF.Functions.Like(grade.Weight.Name, newSearchValue) ||
+                    EF.Functions.Like(grade.Subject.Education.Name, newSearchValue) ||
+                    EF.Functions.Like(grade.Date.ToString(), normalizedDateSearchValue) ||
+                    (newInstitutionSearch == null &&
+                     grade.Subject.Education.Institution != null && EF.Functions.Like(grade.Subject.Education.Institution, newSearchValue))
+                )
+                &&
+                (
+                    newInstitutionSearch == null ||
+                    (grade.Subject.Education.Institution != null && EF.Functions.Like(grade.Subject.Education.Institution, newInstitutionSearch))
+                )
+            )
             .CountAsync();
     }
 
