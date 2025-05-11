@@ -107,19 +107,20 @@
         }
 
         <div class="text-end" style="max-width: 1050px; padding-top: 30px;">
+            @* <h6 class="text-secondary-emphasis px-2 py-1 fw-semibold" style="text-align: left; margin-bottom: -30px;">Amount: @Subject.Grades.Count</h6> *@
             <h4 style="text-align: center; margin-bottom: -30px;">Grades</h4>
             @if (Subject.Completed)
             {
                 <Tooltip Title="This Subject is completed" Placement="TooltipPlacement.Left" Style="padding-bottom: 5px;">
                     <Button Disabled="true" @onclick="() => GoToNewGrade(Subject.Id)" Color="ButtonColor.Secondary" Size="ButtonSize.Small" Style="margin-right: 16px;">
-                        New <Icon Name="IconName.BookmarkPlus" Size="IconSize.x6" />
+                        New <Icon Name="IconName.BookmarkPlus" Size="IconSize.x6"/>
                     </Button>
                 </Tooltip>
             }
             else
             {
                 <Button @onclick="() => GoToNewGrade(Subject.Id)" Color="ButtonColor.Secondary" Size="ButtonSize.Small" Style="margin-right: 16px;">
-                    New <Icon Name="IconName.BookmarkPlus" Size="IconSize.x6" />
+                    New <Icon Name="IconName.BookmarkPlus" Size="IconSize.x6"/>
                 </Button>
             }
         </div>

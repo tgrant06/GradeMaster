@@ -107,7 +107,12 @@
                     <li class="list-item-bottom-spacer">
                         <strong>Search:</strong>
                         <!--Todo: Add search tips and tricks also with search patterns-->
-                        <p>It is recommended that you sometimes back up your data. You can do this by copying the file '<code>GradeMaster.db</code>' and save it somewhere at a dedicated location. The file is located at: '<code>C:\Users\YourUser\AppData\Local\GradeMaster\Data</code>'.</p>
+                        <p>When searching you can use following advanced patterns on following pages.</p>
+                        <ul>
+                            <li><strong>Educations:</strong> Patterns: "#1 some text | #2 some text" this will search for everything matching (#1) and institution matching (2#). Example: "Something specific | Institute1"</li>
+                            <li><strong>Subjects:</strong> Patterns: supports the pattern of Educations Page, but also allows </li>
+                            <li><strong>Grades:</strong> You can search for the value of the grade, the weight and the description.</li>
+                        </ul>
                     </li>
                 </ul>
             </div>
@@ -121,8 +126,6 @@
     //window.scrollTo({ top: 0, behavior: 'auto' });
     document.querySelector(".content").scrollIntoView({ block: 'start', behavior: 'instant' });
 </script>
-
-<!--Todo for example add how to use app effectively with Hot-Keys for example-->
 
 @code {
 

@@ -104,19 +104,20 @@
         }
 
         <div class="text-end" style="max-width: 1050px; padding-top: 30px;">
+            @* <p class="text-secondary-emphasis" style="text-align: left; margin-bottom: -30px;">Amount: @Education.Subjects.Count</p> *@
             <h4 style="text-align: center; margin-bottom: -30px;">Subjects</h4>
             @if (Education.Completed)
             {
                 <Tooltip Title="This Education is completed" Placement="TooltipPlacement.Left" Style="padding-bottom: 5px;">
                     <Button Disabled="true" @onclick="() => GoToNewSubject(Education.Id)" Color="ButtonColor.Secondary" Size="ButtonSize.Small" Style="margin-right: 16px;">
-                        New <Icon Name="IconName.PlusSquare" Size="IconSize.x6" />
+                        New <Icon Name="IconName.PlusSquare" Size="IconSize.x6"/>
                     </Button>
                 </Tooltip>
             }
             else
             {
                 <Button @onclick="() => GoToNewSubject(Education.Id)" Color="ButtonColor.Secondary" Size="ButtonSize.Small" Style="margin-right: 16px;">
-                    New <Icon Name="IconName.PlusSquare" Size="IconSize.x6" />
+                    New <Icon Name="IconName.PlusSquare" Size="IconSize.x6"/>
                 </Button>
             }
         </div>

@@ -14,16 +14,10 @@
                     <option @key="@($"edu_{education.Id}")" value="@education.Id" class="gm-option">@UIUtils.TruncateString(education.Name, 65) @(education.Completed ? "🟢" : "🟡")</option>
                 }
             </select>
-            <span class="text-secondary gm-sm-infotext">Subjects: @_subjects.Count @(_isFiltered ? "|" : "")</span><span class="text-primary-emphasis gm-sm-infotext">@(_isFiltered ? "Filter is active" : "")</span>
-            <!--these two rectangles are: green circle and yellow circle emojis respectfully-->
+            <span class="text-secondary gm-sm-infotext">Subjects: @_subjects.Count | Grades: @GetTotalGradeCountOfEducation() @(_isFiltered ? "|" : "")</span><span class="text-primary-emphasis gm-sm-infotext">@(_isFiltered ? "Filter is active" : "")</span>
+            @* these two rectangles are: green circle and yellow circle emojis respectfully *@
         </div>
-        <!--Maybe add edit button later-->
         <div class="col-1 col-md-1 mb-3 mt-4" style="width: 38px; margin-right: 6px; padding-left: 9px;">
-            @* <Tooltip Title="New Education" Style="padding-top: 6px;">
-            <NavLink href="/educations/create" class="btn btn-primary px-2" style="height: 38px; padding-top: 3px;">
-                <Icon Name="IconName.PlusCircle" Size="IconSize.x5"/>
-            </NavLink>
-        </Tooltip> *@
             <Dropdown Color="DropdownColor.Primary" Style="height: 38px; padding: 0;" Disabled="@(!_selectedEducationId.HasValue)">
                 <DropdownToggleButton Class="px-1 menuDropdown" Style="width: 38px; padding-top: 3px;" Id="filterMenu"><Icon Name="IconName.Binoculars" Size="IconSize.x5" /></DropdownToggleButton>
                 <DropdownMenu Position="DropdownMenuPosition.Start" Style="width: 225px; height: 175px;" Class="p-3">
@@ -42,8 +36,8 @@
                         </div>
                         <div class="row">
                             <div class="col-md-12 text-end">
-                                <Button Type="ButtonType.Button" Color="ButtonColor.Secondary" Class="me-2" @onclick="ClearFilter">Clear Filter</Button> <!--had class float-end-->
-                                <Button Type="ButtonType.Submit" Color="ButtonColor.Success">Done</Button> <!--had class float-end-->
+                                <Button Type="ButtonType.Button" Color="ButtonColor.Secondary" Class="me-2" @onclick="ClearFilter">Clear Filter</Button>
+                                <Button Type="ButtonType.Submit" Color="ButtonColor.Success">Done</Button>
                             </div>
                         </div>
                     </EditForm>
@@ -51,9 +45,6 @@
             </Dropdown>
         </div>
         <div class="col-1 col-md-1 mb-3 mt-4" style="width: 38px">
-            @* <Button Color="ButtonColor.Secondary" class="px-2" style="height: 38px; padding-top: 3px;" @onclick="ReloadData">
-            <Icon Name="IconName.ArrowRepeat" Size="IconSize.x5"/>
-        </Button> *@
             <Dropdown Color="DropdownColor.Secondary" Style="height: 38px; padding: 0;" >
                 <DropdownToggleButton Id="menuDropdown" Class="px-1 menuDropdown" Style="width: 38px; padding-top: 3px;"><Icon Name="IconName.List" Size="IconSize.x5" /></DropdownToggleButton>
                 <DropdownMenu Position="DropdownMenuPosition.End" Style="width: 100px">
@@ -64,13 +55,13 @@
                 </DropdownMenu>
             </Dropdown>
         </div>
-        <div class="col-12 col-lg-5 text-end ms-auto mb-3 mt-4" style="max-width: 300px; padding: 0; z-index: -10;"> <!--maybe add later: margin-bottom: 0 !important; again-->
+        <div class="col-12 col-lg-5 text-end ms-auto mb-3 mt-4" style="max-width: 300px; padding: 0; z-index: -10;"> @* maybe add later: margin-bottom: 0 !important; again *@
             <h3 class="nowrap">@_averageDisplayText @(_educationAverage == 0 ? "N/A" : _educationAverage.ToString("0.##"))</h3>
         </div>
     </div>
 
-    <!--Enable paging for large data-->
-    <!--Had animation style="animation: fadeInBlur 0.2s ease-in;"-->
+    @* Enable paging for large data *@
+    @* Had animation style="animation: fadeInBlur 0.2s ease-in;" *@
     <div class="row" style="padding-top: 0; padding-bottom: 46px; animation: fadeInBlur .18s ease; will-change: opacity, filter;">
         @if (_currentEducationId != 0)
         {
@@ -93,7 +84,7 @@
         {
             <div style="height: 34px"></div>
         }
-        @*Maybe add .toList() or something else for _subjects*@
+        @* Maybe add .toList() or something else for _subjects *@
         <Grid TItem="Subject"
               Class="table table-hover animated-table"
               Data="@_subjects.OrderByDescending(s => s.Semester).ThenBy(s => s.Name).ThenByDescending(s => s.Id)"
@@ -137,9 +128,9 @@
                     }
                     @if (!context.Completed)
                     {
-                        <Tooltip Title="New Grade" Style="padding-top: 1px;"><!--was height: 29px; and width: 29px; padding-left: 4pt;-->
+                        <Tooltip Title="New Grade" Style="padding-top: 1px;">@* was height: 29px; and width: 29px; padding-left: 4pt; *@
                             <Button @onclick="() => GoToNewGrade(context.Id)" class="btn-secondary" style="height: 30px; width: 30px; padding-top: 2px; padding-left: 4.55pt; margin-top: 1px; margin-bottom: 1px;">
-                                <Icon Name="IconName.PlusCircle" Size="IconSize.x6"/><!--maybe change font-size to fixed amount for example to 16px-->
+                                <Icon Name="IconName.PlusCircle" Size="IconSize.x6"/>@* maybe change font-size to fixed amount for example to 16px *@
                             </Button>
                         </Tooltip>
                     }
@@ -158,7 +149,6 @@
                 </GridColumn>
             </GridColumns>
         </Grid>
-        <!--Later add detail of every row maybe us _selectedEducationId instead-->
     </div>
 </section>
 

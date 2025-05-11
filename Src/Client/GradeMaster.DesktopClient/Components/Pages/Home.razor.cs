@@ -4,9 +4,7 @@ using GradeMaster.Client.Shared.Utility;
 using GradeMaster.Common.Entities;
 using GradeMaster.DataAccess.Interfaces.IRepositories;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.JSInterop;
 
 namespace GradeMaster.DesktopClient.Components.Pages;
@@ -131,11 +129,11 @@ public partial class Home : IAsyncDisposable
                 return;
             }
 
-            ToastService.Notify(new ToastMessage(ToastType.Info, $"This education does no longer exist."));
+            ToastService.Notify(new ToastMessage(ToastType.Info, "This education does no longer exist."));
         }
 
         // Navigate to the URL with the default query parameter
-        Navigation.NavigateTo($"?", false);
+        Navigation.NavigateTo("?", false);
     }
 
     #region Data
@@ -157,7 +155,7 @@ public partial class Home : IAsyncDisposable
             _subjects = new List<Subject>();
             _educationAverage = 0;
 
-            Navigation.NavigateTo($"?", false);
+            Navigation.NavigateTo("?", false);
         }
     }
 
@@ -285,13 +283,13 @@ public partial class Home : IAsyncDisposable
     {
         if (_currentEducationId == 0)
         {
-            ToastService.Notify(new ToastMessage(ToastType.Info, $"Select Education first"));
+            ToastService.Notify(new ToastMessage(ToastType.Info, "Select Education first"));
             return;
         }
 
         if (_educations.Find(e => e.Id.Equals(_currentEducationId))!.Completed)
         {
-            ToastService.Notify(new ToastMessage(ToastType.Info, $"Education is completed"));
+            ToastService.Notify(new ToastMessage(ToastType.Info, "Education is completed"));
             return;
         }
 
@@ -309,7 +307,7 @@ public partial class Home : IAsyncDisposable
     {
         if (_currentEducationId == 0)
         {
-            ToastService.Notify(new ToastMessage(ToastType.Info, $"Select Education first"));
+            ToastService.Notify(new ToastMessage(ToastType.Info, "Select Education first"));
             return;
         }
 
@@ -318,7 +316,7 @@ public partial class Home : IAsyncDisposable
 
         if (!educationHasInProgressSubjects)
         {
-            ToastService.Notify(new ToastMessage(ToastType.Info, $"No 'In Progress' subjects"));
+            ToastService.Notify(new ToastMessage(ToastType.Info, "No 'In Progress' subjects"));
             return;
         }
 
@@ -342,7 +340,7 @@ public partial class Home : IAsyncDisposable
     {
         if (_currentEducationId == 0)
         {
-            ToastService.Notify(new ToastMessage(ToastType.Info, $"Select Education first"));
+            ToastService.Notify(new ToastMessage(ToastType.Info, "Select Education first"));
             return;
         }
 
@@ -440,6 +438,11 @@ public partial class Home : IAsyncDisposable
 
         //var updatedUri = QueryHelpers.AddQueryString(uri.AbsoluteUri, "semesterFilterNumber", value.ToString());
         Navigation.NavigateTo(absoluteUri, forceLoad: false);
+    }
+
+    private int GetTotalGradeCountOfEducation()
+    {
+        return _currentEducationId == 0 ? 0 : _subjects.Sum(subject => subject.Grades.Count);
     }
 
     #endregion
