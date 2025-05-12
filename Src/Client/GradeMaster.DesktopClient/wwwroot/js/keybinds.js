@@ -47,7 +47,7 @@ window.removePageKeybinds = (pageName) => {
 };
 
 function focusSearchField(searchFieldName) {
-    let searchElement = document.getElementById(`searchField${searchFieldName}`);
+    const searchElement = document.getElementById(`searchField${searchFieldName}`);
     if (searchElement) {
         searchElement.focus();
         searchElement.select(); // Selects the text inside
@@ -55,14 +55,14 @@ function focusSearchField(searchFieldName) {
 }
 
 function focusSelectField(selectFieldName) {
-    let selectElement = document.getElementById(`selectField${selectFieldName}`);
+    const selectElement = document.getElementById(`selectField${selectFieldName}`);
     if (selectElement) {
         selectElement.focus();
     }
 }
 
 function focusAndSelectFilterMenu() {
-    let filterElement = document.getElementById("filterMenu");
+    const filterElement = document.getElementById("filterMenu");
     if (filterElement) {
         filterElement.focus();
         filterElement.click();
@@ -367,9 +367,6 @@ function handleHomePageKeys(event, dotNetHelper) {
             event.preventDefault();
             dotNetHelper.invokeMethodAsync("ReloadPageData");
             break;
-
-        // maybe add clear filter keybind
-
         default:
     }
 }

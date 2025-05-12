@@ -17,27 +17,34 @@ async function checkForUpdates() {
             const latestVersion = titleElement.textContent.replace("release: v", "").trim();
 
             // Update latest version UI
-            latestVersionElement.innerText = latestVersion;
+            //latestVersionElement.innerText = latestVersion;
 
             latestVersionElement.innerHTML = `<span style="text-decoration: underline; padding-bottom: 1px;">${latestVersion}</span> <i class="bi bi-box-arrow-up-right" style="text-decoration: none;"></i>`;
 
             // Compare versions
             if (installedVersion === latestVersion) {
                 updateStatusElement.innerHTML = "<i class=\"bi bi-check-circle\"></i> Up to Date";
-                // updateStatusElement.innerText = " Up to Date";
                 updateStatusElement.classList.remove("alert-warning");
                 updateStatusElement.classList.add("alert-success");
             } else {
                 updateStatusElement.innerHTML = "<i class=\"bi bi-info-circle\"></i> Update Available";
-                // updateStatusElement.innerText = "<i class=\"bi bi-exclamation-triangle-fill\"></i> Update Available";
                 updateStatusElement.classList.remove("alert-success");
                 updateStatusElement.classList.add("alert-warning");
             }
         } else {
-            latestVersionElement.innerText = "Error fetching version";
+            updateStatusElement.innerHTML = "<i class=\"bi bi-exclamation-circle text-danger\"></i> Could not check for update";
+
+            latestVersionElement.classList.remove("alert-primary");
+            latestVersionElement.classList.add("alert-danger");
+            latestVersionElement.innerHTML = "<span style=\"text-decoration: underline; padding-bottom: 1px;\">Error fetching version</span> <i class=\"bi bi-box-arrow-up-right\" style=\"text-decoration: none;\"></i>";
         }
     } catch (error) {
-        latestVersionElement.innerText = "Error fetching version";
+        updateStatusElement.innerHTML = "<i class=\"bi bi-exclamation-circle text-danger\"></i> Could not check for update";
+
+        latestVersionElement.classList.remove("alert-primary");
+        latestVersionElement.classList.add("alert-danger");
+        latestVersionElement.innerHTML = "<span style=\"text-decoration: underline; padding-bottom: 1px;\">Error fetching version</span> <i class=\"bi bi-box-arrow-up-right\" style=\"text-decoration: none;\"></i>";
+
         console.error("Error fetching latest version:", error);
     }
 }

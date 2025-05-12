@@ -1,11 +1,11 @@
 ﻿window.checkDescriptionHeight = (elementId, maxHeight) => {
-    let element = document.getElementById(elementId);
+    const element = document.getElementById(elementId);
     if (!element) return false;
     return element.scrollHeight > maxHeight;
 };
 
 window.getMaxDescriptionHeight = (elementId) => {
-    let element = document.getElementById(elementId);
+    const element = document.getElementById(elementId);
     if (!element) return 0;
     return element.scrollHeight + 60; // was 32
 }
@@ -27,8 +27,8 @@ window.getMaxDescriptionHeight = (elementId) => {
 // use when the description is expanded
 
 const descriptionListener = () => {
-    let descriptionArea = document.getElementById("description-area");
-    let descriptionText = document.getElementById("description-text");
+    const descriptionArea = document.getElementById("description-area");
+    const descriptionText = document.getElementById("description-text");
 
     if (descriptionArea) {
         descriptionArea.style.maxHeight = `${descriptionText.scrollHeight + 60}px`; // was 32
