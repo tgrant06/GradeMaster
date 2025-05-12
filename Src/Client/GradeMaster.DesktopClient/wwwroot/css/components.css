@@ -205,11 +205,11 @@
     0% {
         opacity: 0;
         transform: scaleX(0.95);
-        filter: blur(4px);
+        filter: blur(5px);
     }
 
     20% {
-        filter: blur(4px);
+        filter: blur(5px);
     }
 
     100% {
