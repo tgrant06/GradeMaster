@@ -5,7 +5,7 @@ namespace GradeMaster.DataAccess.Interfaces.IRepositories;
 
 public interface IEducationRepository : IGenericEntityRepository<Education>
 {
-    Task<Education?> GetBySubjectIdAsync(int id);
+    Task<Education?> GetBySubjectIdAsync(int subjectId);
 
     //Task<List<Education>> GetBySubjectIdsAsync(List<int> ids);
     // implement custom methods here, like searching by name, etc.

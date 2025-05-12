@@ -77,7 +77,7 @@ else
                 <div class="form-check">
                     <InputCheckbox @bind-Value="NewEducation.Completed" id="completionState" class="form-check-input" disabled="@(FormType == FormType.Create)"/>
                     <label class="form-check-label" for="completionState">
-                        @(NewEducation.Completed ? "Completed" : "In Progress")
+                        @(NewEducation.Completed ? "Completed" : "In Progress") <CompletionStateBadge Completed="NewEducation.Completed" MarginBottom="1" />
                     </label>
                 </div>
                 <ValidationMessage For="@(() => NewEducation.Completed)"/>

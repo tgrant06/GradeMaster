@@ -2,95 +2,108 @@
 
 <TopPageHeader>FAQ</TopPageHeader>
 @* <div style="margin-top: 50px;"></div> *@
-<div class="border-top animated-top-line" style="width: 100%; max-width: 50%; margin-top: 15px"></div>
-<div class="container animated-page-content">
-    <div class="border-top generic-devider-line" style="margin-top: -1px;"></div>
-    <div class="py-2"></div>
-    <h3>FAQ</h3>
-    <div style="max-width: 1050px;">
-        <Accordion>
-            <AccordionItem Title="What is the ' - 4' at the end of each Subject Name? For Example: 'Math - 4'">
-                <Content>
-                    The <b>' - 4'</b> is the Semester in which the Subject is based. This is made to more easily identify each Subject, because there can be many of the same Subjects for different Semesters. For Example <b>'Math - 1'</b>, <b>'Math - 2'</b> and so on.
-                </Content>
-            </AccordionItem>
-            <AccordionItem Title="What Grading-System is the App based on?">
-                <Content>
-                    GradeMaster is based on and made for the Swiss Grading-System.
-                </Content>
-            </AccordionItem>
-            <AccordionItem Title="How do I write the Institution of the Education so it is displayed correctly?">
-                <Content>
-                    In order to be displayed right the Institution must be written like this: <b>'TI, Test Institution'</b> First the Abbreviation followed by the fullname.
-                </Content>
-            </AccordionItem>
-            <AccordionItem Title="Where is my data saved?">
-                <Content>
-                    GradeMaster saves all data created by the user locally on your computer.
-                </Content>
-            </AccordionItem>
-            <AccordionItem Title="Can I make a backup of the data?">
-                <Content>
-                    Yes, you can make a backup of the data by copying the data folder located in the AppData folder of the App. <br /> 
-                    Path: '<code>C:\Users\YourUser\AppData\Local\GradeMaster\Data</code>'. In this directory there is a file called '<code>GradeMaster.db</code>', which is the database of the application.
-                </Content>
-            </AccordionItem>
-            <AccordionItem Title="Is GradeMaster free?">
-                <Content>
-                    This version of GradeMaster is as of this moment free to use. This might change later.
-                </Content>
-            </AccordionItem>
-            <AccordionItem Title="Does GradeMaster update automatically?">
-                <Content>
-                    No, GradeMaster does not update automatically, as of this moment.
-                </Content>
-            </AccordionItem>
-            <AccordionItem Title="Where can I get more info about GradeMaster?">
-                <Content>
-                    You can go to the official repository page: <b><a href="https://github.com/DevT06/GradeMaster" class="btn-link" target="_blank">https://github.com/DevT06/GradeMaster</a></b>
-                </Content>
-            </AccordionItem>
-            <AccordionItem Title="Are there different themes for the App?">
-                <Content>
-                    Yes, there are different themes for GradeMaster. You can toggle between light, dark and system mode in the settings page under the section personalisation.
-                </Content>
-            </AccordionItem>
-            <AccordionItem Title="How can I reload the current page?">
-                <Content>
-                    By pressing "<kbd>F5</kbd>" or "<kbd>CTRL + R</kbd>" for normal reload and "<kbd>CTRL + F5</kbd>" or "<kbd>CTRL + SHIFT + R</kbd>" you can hard reload the current page. <br />
-                    Refresh is rarely necessary.
-                </Content>
-            </AccordionItem>
-            <AccordionItem Title="What should I do if the application crashes and the reload link doesnt work?">
-                <Content>
-                    If the reload link does not work then navigate back in the history one or two times with "<kbd>ALT + Left Arrow Key</kbd>" and then try to reload using the reload Key combinations: "<kbd>F5</kbd>", "<kbd>CTRL + R</kbd>", "<kbd>CTRL + F5</kbd>" or "<kbd>CTRL + SHIFT + R</kbd>".
-                </Content>
-            </AccordionItem>
-            <AccordionItem Title="Why cant I create new Objects (Subjects, Grades)?">
-                <Content>
-                    You must have at least one <b>'In Progress'</b> Education to be able to create new Subjects. You also must have at least one <b>'In Progress'</b> Subject to be able to create new Grades.
-                </Content>
-            </AccordionItem>
-            <AccordionItem Title="How can I search for spesific dates on Grades page?">
-                <Content>
-                    To search for specific dates you need to use a specific format. The format is <b>'YYYY-MM-DD'</b>. For example: <b>'2021-12-31'</b>.
-                </Content>
-            </AccordionItem>
-            <AccordionItem Title="How do I update or delete this installation?">
-                <Content>
-                    Follow the instructions on the official repository page: <b><a href="https://github.com/DevT06/GradeMaster#installation-and-setup-guide" class="btn-link" target="_blank">https://github.com/DevT06/GradeMaster - Installation and Setup Guide</a></b>
-                </Content>
-            </AccordionItem>
-            <AccordionItem Title="Why does search for special characters like ü, ö or ä not work?">
-                <Content>
-                    The search function does not work because of the way the search is implemented. This might be fixed in a later version.
-                </Content>
-            </AccordionItem>
-            <!--Implement more Questions / Answers-->
-        </Accordion>
+<section class="transform-stack-container">
+    <div class="border-top animated-top-line" style="width: 100%; max-width: 50%; margin-top: 15px"></div>
+    <div class="container animated-page-content">
+        <div class="border-top generic-devider-line" style="margin-top: -1px;"></div>
+        <div class="py-2"></div>
+        <h3>FAQ</h3>
+        <div style="max-width: 1050px;">
+            <Accordion>
+                <AccordionItem Title="What is the ' - 4' at the end of each Subject Name? For Example: 'Math - 4'">
+                    <Content>
+                        The <b>' - 4'</b> is the Semester in which the Subject is based. This is made to more easily identify each Subject, because there can be many of the same Subjects for different Semesters. For Example <b>'Math - 1'</b>, <b>'Math - 2'</b> and so on.
+                    </Content>
+                </AccordionItem>
+                <AccordionItem Title="What Grading-System is the App based on?">
+                    <Content>
+                        GradeMaster is based on and made for the Swiss Grading-System.
+                    </Content>
+                </AccordionItem>
+                <AccordionItem Title="How do I write the Institution of the Education so it is displayed correctly?">
+                    <Content>
+                        In order to be displayed right the Institution must be written like this: <b>'TI, Test Institution'</b> First the Abbreviation followed by the fullname.
+                    </Content>
+                </AccordionItem>
+                <AccordionItem Title="Where is my data saved?">
+                    <Content>
+                        GradeMaster saves all data created by the user locally on your computer.
+                    </Content>
+                </AccordionItem>
+                <AccordionItem Title="Can I make a backup of the data?">
+                    <Content>
+                        Yes, you can make a backup of the data by copying the data folder located in the AppData folder of the App. <br /> 
+                        Path: '<code>C:\Users\YourUser\AppData\Local\GradeMaster\Data</code>'. In this directory there is a file called '<code>GradeMaster.db</code>', which is the database of the application.
+                    </Content>
+                </AccordionItem>
+                <AccordionItem Title="Is GradeMaster free?">
+                    <Content>
+                        This version of GradeMaster is as of this moment free to use. This might change later.
+                    </Content>
+                </AccordionItem>
+                <AccordionItem Title="Does GradeMaster update automatically?">
+                    <Content>
+                        No, GradeMaster does not update automatically, as of this moment.
+                    </Content>
+                </AccordionItem>
+                <AccordionItem Title="Where can I get more info about GradeMaster?">
+                    <Content>
+                        You can go to the official repository page: <b><a href="https://github.com/DevT06/GradeMaster" class="btn-link" target="_blank">https://github.com/DevT06/GradeMaster</a></b>
+                    </Content>
+                </AccordionItem>
+                <AccordionItem Title="Are there different themes for the App?">
+                    <Content>
+                        Yes, there are different themes for GradeMaster. You can toggle between light, dark and system mode in the settings page under the section personalisation.
+                    </Content>
+                </AccordionItem>
+                <AccordionItem Title="How can I reload the current page?">
+                    <Content>
+                        By pressing "<kbd>F5</kbd>" or "<kbd>CTRL + R</kbd>" for normal reload and "<kbd>CTRL + F5</kbd>" or "<kbd>CTRL + SHIFT + R</kbd>" you can hard reload the current page. <br />
+                        Refresh is rarely necessary.
+                    </Content>
+                </AccordionItem>
+                <AccordionItem Title="What should I do if the application crashes and the reload link doesnt work?">
+                    <Content>
+                        If the reload link does not work then navigate back in the history one or two times with "<kbd>ALT + ⬅️</kbd>" and then try to reload using the reload Key combinations: "<kbd>F5</kbd>", "<kbd>CTRL + R</kbd>", "<kbd>CTRL + F5</kbd>" or "<kbd>CTRL + SHIFT + R</kbd>".
+                    </Content>
+                </AccordionItem>
+                <AccordionItem Title="Why cant I create new Objects (Subjects, Grades)?">
+                    <Content>
+                        You must have at least one <b>'In Progress'</b> Education to be able to create new Subjects. You also must have at least one <b>'In Progress'</b> Subject to be able to create new Grades.
+                    </Content>
+                </AccordionItem>
+                <AccordionItem Title="How can I search for specific dates on Grades page?">
+                    <Content>
+                        To search for specific dates you need to use a specific format. The format is <b>'YYYY-MM-DD'</b>. For example: <b>'2021-12-31'</b>. <br/> The format <b>'31.12.2021'</b> works too now.
+                    </Content>
+                </AccordionItem>
+                <AccordionItem Title="How do I update or delete this installation?">
+                    <Content>
+                        Follow the instructions on the official repository page: <b><a href="https://github.com/DevT06/GradeMaster#installation-and-setup-guide" class="btn-link" target="_blank">https://github.com/DevT06/GradeMaster - Installation and Setup Guide</a></b>
+                    </Content>
+                </AccordionItem>
+                <AccordionItem Title="Why does search for special characters like ü, ö or ä not work properly?">
+                    <Content>S
+                        The search function does not work properly because of the way the search is implemented. This might be fixed in a later version. <br /> 
+                        The search with these characters, unlike other characters is case-sensitive.
+                    </Content>
+                </AccordionItem>
+                <AccordionItem Title="Why does it not save the field i am currently editing when using 'CTRL + S'?">
+                    <Content>
+                        The field is not saved, because it is in the editing state. To make sure all data is saved, when using "<kbd>CTRL</kbd> + <kbd>S</kbd>" you should tab out or un-focus the field before saving.
+                    </Content>
+                </AccordionItem>
+                <AccordionItem Title="How does the start and end date corolate to the total semesters of an education?">
+                    <Content>
+                        Usually a Semester is 6 months long. The start date is the date when the education starts and the end date is the date when the education ends. By default, an education is set to 1 year length and 2 semesters, when creating a new education.
+                    </Content>
+                </AccordionItem>
+                <!--Implement more Questions / Answers-->
+            </Accordion>
+        </div>
     </div>
-</div>
-<div style="margin-bottom: 100px;"></div>
+    <div style="margin-bottom: 100px;"></div>
+</section>
 
 <script>
     window.scrollTo({ top: 0, behavior: 'auto' });

@@ -1,12 +1,15 @@
 ﻿using GradeMaster.DataAccess.Interfaces.IRepositories;
 using GradeMaster.Common.Entities;
 using Microsoft.EntityFrameworkCore;
+using System.Text.RegularExpressions;
 
 namespace GradeMaster.DataAccess.Repositories;
 
 public class SubjectRepository : ISubjectRepository
 {
     private readonly GradeMasterDbContext _context;
+
+    private static readonly Regex SearchPatternSubjectAndSemester = new(@"^(.*?)(?:\s*-\s*|\s+)(\d+)$", RegexOptions.Compiled);
 
     public SubjectRepository(GradeMasterDbContext context)
     {
@@ -58,9 +61,9 @@ public class SubjectRepository : ISubjectRepository
         }
     }
 
-    public async Task<List<Subject>> GetByEducationIdAsync(int id)
+    public async Task<List<Subject>> GetByEducationIdAsync(int educationId)
     {
-        return await _context.Subjects.Where(s => s.Education.Id == id)
+        return await _context.Subjects.Where(s => s.Education.Id == educationId)
             .Include(s => s.Grades)
             .ToListAsync();
     }
@@ -89,9 +92,23 @@ public class SubjectRepository : ISubjectRepository
         return await _context.Subjects.Where(s => s.Completed == completed).Include(s => s.Education).ToListAsync();
     }
 
-    public async Task<Subject?> GetByGradeIdAsync(int id)
+    public async Task<List<Subject>> GetByEducationIdAndCompletedAsync(int educationId, bool completed)
     {
-        return await _context.Subjects.Where(s => s.Grades.Any(g => g.Id == id)).Include(s => s.Education)
+        return await _context.Subjects.Where(s => s.Education.Id == educationId && s.Completed == completed)
+            .Include(s => s.Education)
+            .ToListAsync();
+    }
+
+    public async Task<List<Subject>> GetByEducationIdAndCompletedWithSemesterAsync(int educationId, bool completed, int semester)
+    {
+        return await _context.Subjects.Where(s => s.Education.Id == educationId && s.Completed == completed && s.Semester == semester)
+            .Include(s => s.Education)
+            .ToListAsync();
+    }
+
+    public async Task<Subject?> GetByGradeIdAsync(int gradeId)
+    {
+        return await _context.Subjects.Where(s => s.Grades.Any(g => g.Id == gradeId)).Include(s => s.Education)
             .FirstOrDefaultAsync();
     }
 
@@ -109,16 +126,66 @@ public class SubjectRepository : ISubjectRepository
                 .ToListAsync();
         }
 
-        var newSearchValue = $"%{searchValue}%";
-        var isNumericSearch = int.TryParse(searchValue, out var searchValueAsInt);
+        var mainSearchValue = searchValue.Trim();
+        string? institutionSearch = null;
+
+        // Check for pipe separator
+        if (mainSearchValue.Contains(" | "))
+        {
+            var parts = mainSearchValue.Split('|', 2, StringSplitOptions.RemoveEmptyEntries);
+            if (parts.Length == 2)
+            {
+                mainSearchValue = parts[0].Trim();
+                institutionSearch = parts[1].Trim();
+            }
+        }
+
+        var newSearchValue = $"%{mainSearchValue}%";
+        var newInstitutionSearch = !string.IsNullOrEmpty(institutionSearch) ? $"%{institutionSearch}%" : null;
+
+
+        string? namePart = null;
+        int? semesterPart = null;
+
+        var match = SearchPatternSubjectAndSemester.Match(mainSearchValue);
+        if (match.Success)
+        {
+            namePart = match.Groups[1].Value.Trim();
+            if (int.TryParse(match.Groups[2].Value, out var sem))
+            {
+                semesterPart = sem;
+            }
+        }
+
+        var isNumericSearch = int.TryParse(mainSearchValue, out var searchValueAsInt);
+
+        var completionState = mainSearchValue.ToLower();
+        bool? searchCompletionState = completionState switch
+        {
+            "in progress" => false,
+            "completed" => true,
+            _ => null
+        };
 
         return await _context.Subjects
             .Where(subject =>
-                EF.Functions.Like(subject.Name, newSearchValue) ||
-                (subject.Description != null && EF.Functions.Like(subject.Description, newSearchValue)) ||
-                (isNumericSearch && subject.Semester == searchValueAsInt) ||
-                EF.Functions.Like(subject.Education.Name, newSearchValue) ||
-                (subject.Education.Institution != null && EF.Functions.Like(subject.Education.Institution, newSearchValue)))
+                (
+                    (!string.IsNullOrEmpty(namePart) && semesterPart != null
+                        ? EF.Functions.Like(subject.Name, $"%{namePart}%") && subject.Semester == semesterPart
+                        : EF.Functions.Like(subject.Name, newSearchValue)) ||
+                    (subject.Description != null && EF.Functions.Like(subject.Description, newSearchValue)) ||
+                    (isNumericSearch && subject.Semester == searchValueAsInt) ||
+                    (searchCompletionState != null && subject.Completed == searchCompletionState) ||
+                    EF.Functions.Like(subject.Education.Name, newSearchValue) ||
+                    (newInstitutionSearch == null &&
+                     subject.Education.Institution != null && EF.Functions.Like(subject.Education.Institution, newSearchValue))
+                )
+                &&
+                (
+                    newInstitutionSearch == null ||
+                    (subject.Education.Institution != null && EF.Functions.Like(subject.Education.Institution, newInstitutionSearch))
+                )
+            )
             .Include(s => s.Education)
             .Include(s => s.Grades)
             .OrderByDescending(s => s.Id)
@@ -135,16 +202,66 @@ public class SubjectRepository : ISubjectRepository
             return await _context.Subjects.CountAsync();
         }
 
-        var newSearchValue = $"%{searchValue}%";
-        var isNumericSearch = int.TryParse(searchValue, out var searchValueAsInt);
+        var mainSearchValue = searchValue.Trim();
+        string? institutionSearch = null;
+
+        // Check for pipe separator
+        if (mainSearchValue.Contains(" | "))
+        {
+            var parts = mainSearchValue.Split('|', 2, StringSplitOptions.RemoveEmptyEntries);
+            if (parts.Length == 2)
+            {
+                mainSearchValue = parts[0].Trim();
+                institutionSearch = parts[1].Trim();
+            }
+        }
+
+        var newSearchValue = $"%{mainSearchValue}%";
+        var newInstitutionSearch = !string.IsNullOrEmpty(institutionSearch) ? $"%{institutionSearch}%" : null;
+
+
+        string? namePart = null;
+        int? semesterPart = null;
+
+        var match = SearchPatternSubjectAndSemester.Match(mainSearchValue);
+        if (match.Success)
+        {
+            namePart = match.Groups[1].Value.Trim();
+            if (int.TryParse(match.Groups[2].Value, out var sem))
+            {
+                semesterPart = sem;
+            }
+        }
+
+        var isNumericSearch = int.TryParse(mainSearchValue, out var searchValueAsInt);
+
+        var completionState = mainSearchValue.ToLower();
+        bool? searchCompletionState = completionState switch
+        {
+            "in progress" => false,
+            "completed" => true,
+            _ => null
+        };
 
         return await _context.Subjects
             .Where(subject =>
-                EF.Functions.Like(subject.Name, newSearchValue) ||
-                (subject.Description != null && EF.Functions.Like(subject.Description, newSearchValue)) ||
-                (isNumericSearch && subject.Semester == searchValueAsInt) ||
-                EF.Functions.Like(subject.Education.Name, newSearchValue) ||
-                (subject.Education.Institution != null && EF.Functions.Like(subject.Education.Institution, newSearchValue)))
+                (
+                    (!string.IsNullOrEmpty(namePart) && semesterPart != null
+                        ? EF.Functions.Like(subject.Name, $"%{namePart}%") && subject.Semester == semesterPart
+                        : EF.Functions.Like(subject.Name, newSearchValue)) ||
+                    (subject.Description != null && EF.Functions.Like(subject.Description, newSearchValue)) ||
+                    (isNumericSearch && subject.Semester == searchValueAsInt) ||
+                    (searchCompletionState != null && subject.Completed == searchCompletionState) ||
+                    EF.Functions.Like(subject.Education.Name, newSearchValue) ||
+                    (newInstitutionSearch == null &&
+                     subject.Education.Institution != null && EF.Functions.Like(subject.Education.Institution, newSearchValue))
+                )
+                &&
+                (
+                    newInstitutionSearch == null ||
+                    (subject.Education.Institution != null && EF.Functions.Like(subject.Education.Institution, newInstitutionSearch))
+                )
+            )
             .CountAsync();
     }
 
@@ -156,6 +273,11 @@ public class SubjectRepository : ISubjectRepository
     public async Task<bool> ExistsAnyIsCompletedAsync(bool completed)
     {
         return await _context.Subjects.AnyAsync(s => s.Completed == completed);
+    }
+
+    public async Task<bool> ExistsAnyIsCompletedWithEducationIdAsync(int educationId, bool completed)
+    {
+        return await _context.Subjects.AnyAsync(s => s.Education.Id == educationId && s.Completed == completed);
     }
 
     public async Task<bool> ExistsAsync(int id)

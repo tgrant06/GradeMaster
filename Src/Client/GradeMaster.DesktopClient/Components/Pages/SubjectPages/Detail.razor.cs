@@ -9,7 +9,7 @@ using Microsoft.JSInterop;
 
 namespace GradeMaster.DesktopClient.Components.Pages.SubjectPages;
 
-public partial class Detail
+public partial class Detail : IAsyncDisposable
 {
     #region Fields / Properties
 
@@ -27,7 +27,7 @@ public partial class Detail
 
     private bool IsTruncated { get; set; } = false;
 
-    private string ButtonText => IsExpanded ? "less" : "more";
+    private string ButtonText => IsExpanded ? "less" : "...more";
 
     private string DescriptionAreaDynamicHeight => IsExpanded ? $"max-height: {_descriptionAreaExpandedHeight}px;" : "max-height: 175px;";
 
@@ -36,6 +36,8 @@ public partial class Detail
     private decimal _subjectAverage;
 
     private ConfirmDialog _dialog = default!;
+
+    private DotNetObjectReference<Detail>? _objRef;
 
     #endregion
 
@@ -87,6 +89,9 @@ public partial class Detail
             await GoBack();
             return;
         }
+
+        _objRef = DotNetObjectReference.Create(this);
+        await JSRuntime.InvokeVoidAsync("addPageKeybinds", "SubjectDetailPage", _objRef);
 
         await _weightRepository.GetAllAsync();
         Subject = await _subjectRepository.GetByIdDetailAsync(Id);
@@ -188,6 +193,41 @@ public partial class Detail
 
     #endregion
 
+    #region JSInvokable / Keybinds
+
+    [JSInvokable]
+    public void NavigateToEdit() => EditSubject();
+
+    [JSInvokable]
+    public void NavigateToCreate()
+    {
+        if (Subject.Completed)
+        {
+            ToastService.Notify(new ToastMessage(ToastType.Info, $"Subject is completed"));
+            return;
+        }
+
+        GoToNewGrade(Subject.Id);
+    }
+
+    [JSInvokable]
+    public async Task DeleteObject() => await DeleteSubjectAsync();
+
+    [JSInvokable]
+    public void NavigateToEducation() => GoToEducation();
+
+    [JSInvokable]
+    public async Task ToggleDescriptionHeight()
+    {
+        if (IsTruncated)
+        {
+            await ToggleDescription();
+            StateHasChanged();
+        }
+    }
+
+    #endregion
+
     #region Averages
 
     private void CalculateSubjectAverage()
@@ -201,5 +241,8 @@ public partial class Detail
     public async ValueTask DisposeAsync()
     {
         await JSRuntime.InvokeVoidAsync("removeDescriptionAreaEventListener");
+
+        await JSRuntime.InvokeVoidAsync("removePageKeybinds", "SubjectDetailPage");
+        _objRef?.Dispose();
     }
 }

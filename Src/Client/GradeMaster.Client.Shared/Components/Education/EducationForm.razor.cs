@@ -9,7 +9,7 @@ using Entities = GradeMaster.Common.Entities;
 
 namespace GradeMaster.Client.Shared.Components.Education;
 
-public partial class EducationForm
+public partial class EducationForm : IAsyncDisposable
 {
     #region Fields / Properties
 
@@ -37,6 +37,8 @@ public partial class EducationForm
 
     private EditContext? _editContext;
 
+    private DotNetObjectReference<EducationForm>? _objRef;
+
     #endregion
 
     #region Dependency Injection
@@ -63,7 +65,7 @@ public partial class EducationForm
 
     #endregion
 
-    protected override void OnInitialized()
+    protected async override Task OnInitializedAsync()
     {
         if (Education == null)
         {
@@ -85,6 +87,9 @@ public partial class EducationForm
         _educationService.PassObjectAttributes(NewEducation, Education);
 
         _editContext = new EditContext(NewEducation);
+
+        _objRef = DotNetObjectReference.Create(this);
+        await JSRuntime.InvokeVoidAsync("addPageKeybinds", "FormComponent", _objRef);
     }
 
     #region HandleSubmit
@@ -118,4 +123,29 @@ public partial class EducationForm
     #endregion
 
     private async Task Cancel() => await JSRuntime.InvokeVoidAsync("window.history.back");
+
+    #region JSInvokable / Keybinds
+
+    [JSInvokable]
+    public async Task SubmitForm()
+    {
+        var isValid = _editContext?.Validate();
+
+        if (isValid == true)
+        {
+            await HandleValidSubmit();
+        }
+        else
+        {
+            HandleInvalidSubmit();
+        }
+    }
+
+    #endregion
+
+    public async ValueTask DisposeAsync()
+    {
+        await JSRuntime.InvokeVoidAsync("removePageKeybinds", "FormComponent");
+        _objRef?.Dispose();
+    }
 }

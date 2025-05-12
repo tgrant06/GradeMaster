@@ -3,18 +3,24 @@ using GradeMaster.Common.Entities;
 using GradeMaster.DataAccess.Interfaces.IRepositories;
 using Microsoft.AspNetCore.Components.Web.Virtualization;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.JSInterop;
 
 namespace GradeMaster.DesktopClient.Components.Pages;
 
-public partial class Educations
+public partial class Educations : IAsyncDisposable
 {
     #region Fields / Properties
 
     private string _searchValue = string.Empty;
 
+    private int _totalItemCount;
+
     private Virtualize<Education>? _virtualizeComponent;
 
     private ConfirmDialog _dialog = default!;
+
+    private DotNetObjectReference<Educations>? _objRef;
 
     #endregion
 
@@ -38,12 +44,33 @@ public partial class Educations
         get; set;
     }
 
+    [Inject]
+    private IJSRuntime JSRuntime
+    {
+        get; set;
+    }
+
     #endregion
 
     protected async override Task OnInitializedAsync()
     {
+        _objRef = DotNetObjectReference.Create(this);
+        await JSRuntime.InvokeVoidAsync("addPageKeybinds", "EducationsPage", _objRef);
+
         await _weightRepository.GetAllAsync();
+
+        var uri = new Uri(Navigation.Uri);
+        var queryParams = QueryHelpers.ParseQuery(uri.Query);
+        if (queryParams.TryGetValue("q", out var searchValue))
+        {
+            var searchValueString = searchValue.ToString();
+            _searchValue = string.IsNullOrWhiteSpace(searchValueString) ? string.Empty : searchValueString;
+        }
+
+        _totalItemCount = await _educationRepository.GetTotalCountAsync(_searchValue);
     }
+
+    #region Data
 
     private async ValueTask<ItemsProviderResult<Education>> GetEducationsProvider(ItemsProviderRequest request)
     {
@@ -54,15 +81,22 @@ public partial class Educations
         var fetchedEducations = await _educationRepository.GetBySearchWithRangeAsync(_searchValue, startIndex, count);
 
         // Calculate the total number of items (if known or needed)
-        var totalItemCount = await _educationRepository.GetTotalCountAsync(_searchValue);
+        //var totalItemCount = await _educationRepository.GetTotalCountAsync(_searchValue);
 
         // Return the result to the Virtualize component
-        return new ItemsProviderResult<Education>(fetchedEducations, totalItemCount);
+        return new ItemsProviderResult<Education>(fetchedEducations, _totalItemCount);
     }
 
     private async Task RefreshEducationData()
     {
-        await _virtualizeComponent?.RefreshDataAsync();
+        var uri = new Uri(Navigation.Uri);
+        var baseUri = uri.GetLeftPart(UriPartial.Path);
+        var updatedUri = QueryHelpers.AddQueryString(baseUri, "q", _searchValue);
+        Navigation.NavigateTo(updatedUri, forceLoad: false);
+
+        _totalItemCount = await _educationRepository.GetTotalCountAsync(_searchValue);
+
+        await _virtualizeComponent?.RefreshDataAsync()!;
     }
 
     private async Task LoadAllEducations()
@@ -70,6 +104,8 @@ public partial class Educations
         _searchValue = string.Empty;
         await RefreshEducationData();
     }
+
+    #endregion
 
     #region Not Used
 
@@ -131,4 +167,24 @@ public partial class Educations
     private void CreateEducation() => Navigation.NavigateTo("/educations/create");
 
     #endregion
+
+    #region JSInvokable / Keybinds
+
+    [JSInvokable]
+    public void NavigateToCreate() => CreateEducation();
+
+    [JSInvokable]
+    public async Task ClearSearch()
+    {
+        await LoadAllEducations();
+        StateHasChanged();
+    }
+
+    #endregion
+
+    public async ValueTask DisposeAsync()
+    {
+        await JSRuntime.InvokeVoidAsync("removePageKeybinds", "EducationsPage");
+        _objRef?.Dispose();
+    }
 }

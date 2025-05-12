@@ -3,11 +3,13 @@
 @using Microsoft.AspNetCore.WebUtilities;
 
 <TopPageHeader>New Subject</TopPageHeader>
-<div class="border-top animated-top-line" style="width: 100%; max-width: 50%; margin-top: 15px"></div>
+<section class="transform-stack-container">
+    <div class="border-top animated-top-line" style="width: 100%; max-width: 50%; margin-top: 15px"></div>
 
-<div class="container animated-page-content">
-    <SubjectForm OnSave="HandleSave" FormType="FormType.Create" EducationId="_educationId"/>
-</div>
+    <div class="container animated-page-content">
+        <SubjectForm OnSave="HandleSave" FormType="FormType.Create" SubjectSemester="_subjectSemester" EducationId="_educationId"/>
+    </div>
+</section>
 
 <script>
     window.scrollTo({ top: 0, behavior: 'auto' });
@@ -16,12 +18,16 @@
 @code {
     private int? _educationId;
 
+    private int? _subjectSemester;
+
     [Inject] private ISubjectRepository _subjectRepository { get; set; }
 
     [Inject] protected ToastService ToastService { get; set; } = default!;
 
     [Inject] private NavigationManager Navigation { get; set; }
+
     [Inject] private IJSRuntime JSRuntime { get; set; }
+
 
     protected override void OnInitialized()
     {
@@ -30,6 +36,11 @@
         if (queryParams.TryGetValue("educationId", out var educationIdString) && int.TryParse(educationIdString, out var educationId))
         {
             _educationId = educationId;
+
+            if (queryParams.TryGetValue("subjectSemester", out var subjectSemesterString) && int.TryParse(subjectSemesterString, out var subjectSemester))
+            {
+                _subjectSemester = subjectSemester;
+            }
         }
     }
 

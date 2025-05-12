@@ -2,144 +2,154 @@
 
 <TopPageHeader Style="font-size: 28px; top: 10px">Detail Subject</TopPageHeader>
 
-<div class="border-top animated-top-line" style="width: 100%; max-width: 50%; margin-top: 15px"></div>
+<ConfirmDialog @ref="_dialog" />
 
-<div class="container animated-page-content">
-    <div class="border-top generic-devider-line" style="margin-top: -1px"></div>
-    <div class="col-12 col-md-12 py-3" style="max-width: 1200px;">
-        <h2 style="margin-bottom: 6px;">
-            <b class="enabled-text-selection">@Subject.Name - @Subject.Semester</b>
-        </h2>
-        <Button @onclick="GoToEducation" class="btn-translucient-v2 border-0" style="margin-left: -6px; padding: 5px; padding-left: 6px; padding-right: 6px;">
-            <CardSubTitle Class="enabled-text-selection">@Subject.Education.Name, @Subject.Education.StartDate.Year - @Subject.Education.EndDate.Year <Icon Name="IconName.ArrowUpRightCircle"/></CardSubTitle>
-        </Button>
-        <CompletionStateBadge Completed="Subject.Education.Completed" MarginBottom="-1" />
-        <CardSubTitle Class="enabled-text-selection" Style="margin-top: 2px;">@Subject.Education.Institution</CardSubTitle>
-    </div>
+<section class="transform-stack-container">
+    <div class="border-top animated-top-line" style="width: 100%; max-width: 50%; margin-top: 15px"></div>
 
-    <div class="py-2">
-        <Card Style="max-width: 1050px">
-            <CardBody Id="description-area" Style="@(DescriptionAreaDynamicHeight)">
-                <CardText Id="description-text" Class="enabled-text-selection" Style="white-space: pre-wrap; margin-bottom: 0;">
-                    <b class="enabled-text-selection">Description:</b> <br class="enabled-text-selection" />@UIUtils.FallbackIfEmpty(Subject.Description, "-")
-                </CardText>
-            </CardBody>
-            <div class="description-bottom-cover"></div>
-            @if (IsTruncated)
-            {
-                <Button Type="ButtonType.Button" Color="ButtonColor.Link" Class="show-more-less-btn fw-bolder" @onclick="ToggleDescription">...@ButtonText</Button>
-            }
-        </Card>
-    </div>
-    <div class="py-3" style="margin-bottom: 50px">
-        <Card Style="max-width: 1050px">
-            <CardBody>
-                <div class="row row-cols-1 row-cols-sm-1 row-cols-md-1 row-cols-lg-2">
-                    <div class="col mb-3">
-                        <CardText Class="border-bottom enabled-text-selection" Style="padding-bottom: 20px; margin-bottom: 6px;">
-                            <strong class="enabled-text-selection">Subject Average: </strong>
-                            @if (_subjectAverage < 4 && _subjectAverage != 0)
-                            {
-                                <Badge Class="enabled-text-selection" Color="BadgeColor.Danger" IndicatorType="BadgeIndicatorType.RoundedPill" Style="font-size: 14px;">
+    <div class="container animated-page-content">
+        <div class="border-top generic-devider-line" style="margin-top: -1px"></div>
+        <div class="col-12 col-md-12 py-3" style="max-width: 1200px;">
+            <h2 style="margin-bottom: 6px;">
+                <b class="enabled-text-selection">@Subject.Name - @Subject.Semester</b>
+            </h2>
+            <Button @onclick="GoToEducation" class="btn-translucient-v2 border-0 btn-entity-link" style="margin-left: -6px; padding: 5px; padding-left: 6px; padding-right: 6px;">
+                <CardSubTitle Class="enabled-text-selection">@Subject.Education.Name, @Subject.Education.StartDate.Year - @Subject.Education.EndDate.Year <Icon Name="IconName.ArrowUpRightCircle"/></CardSubTitle>
+            </Button>
+            <CompletionStateBadge Completed="Subject.Education.Completed" MarginBottom="-1" />
+            <CardSubTitle Class="enabled-text-selection" Style="margin-top: 2px;">@Subject.Education.Institution</CardSubTitle>
+        </div>
+
+        <div class="py-2">
+            <Card Style="max-width: 1050px">
+                <CardBody Id="description-area" Style="@(DescriptionAreaDynamicHeight)">
+                    <CardText Id="description-text" Class="enabled-text-selection" Style="white-space: pre-wrap; margin-bottom: 0;">
+                        <b class="enabled-text-selection">Description:</b> <br class="enabled-text-selection" />@UIUtils.FallbackIfEmpty(Subject.Description, "-")
+                    </CardText>
+                    @if (IsTruncated)
+                    {
+                        <div style="height: 28px;"></div>
+                        <div class="description-bottom-cover"></div>
+                        <Button Type="ButtonType.Button" Color="ButtonColor.Link" Class="show-more-less-btn fw-bolder" @onclick="ToggleDescription">@ButtonText</Button>
+                    }
+                </CardBody>
+            </Card>
+        </div>
+        <div class="py-3" style="margin-bottom: 50px">
+            <Card Style="max-width: 1050px">
+                <CardBody>
+                    <div class="row row-cols-1 row-cols-sm-1 row-cols-md-1 row-cols-lg-2">
+                        <div class="col mb-3">
+                            <CardText Class="border-bottom enabled-text-selection" Style="padding-bottom: 20px; margin-bottom: 6px;">
+                                <strong class="enabled-text-selection">Subject Average: </strong>
+                                @if (_subjectAverage < 4 && _subjectAverage != 0)
+                                {
+                                    <Badge Class="enabled-text-selection" Color="BadgeColor.Danger" IndicatorType="BadgeIndicatorType.RoundedPill" Style="font-size: 14px;">
+                                        @(_subjectAverage == 0 ? "N/A" : _subjectAverage.ToString("0.##"))
+                                    </Badge>
+                                }
+                                else
+                                {
                                     @(_subjectAverage == 0 ? "N/A" : _subjectAverage.ToString("0.##"))
+                                }
+                            </CardText>
+                        </div>
+                        <div class="col mb-3">
+                            <CardText Class="border-bottom enabled-text-selection" Style="padding-bottom: 20px; margin-bottom: 6px;">
+                                <b class="enabled-text-selection">Semester:</b> @Subject.Semester of @Subject.Education.Semesters
+                            </CardText>
+                        </div>
+                        <div class="col mb-3">
+                            <CardText Class="border-bottom enabled-text-selection" Style="padding-bottom: 20px; margin-bottom: 6px;">
+                                <b class="enabled-text-selection">Completion State:</b>
+                                <Badge Class="enabled-text-selection" Color="@(Subject.Completed ? BadgeColor.Success : BadgeColor.Warning)" IndicatorType="BadgeIndicatorType.RoundedPill">
+                                    @(Subject.Completed ? "Completed" : "In Progress")
                                 </Badge>
-                            }
-                            else
-                            {
-                                @(_subjectAverage == 0 ? "N/A" : _subjectAverage.ToString("0.##"))
-                            }
-                        </CardText>
+                            </CardText>
+                        </div>
+                        <div class="col mb-3">
+                            <CardText Class="border-bottom enabled-text-selection" Style="padding-bottom: 20px;">
+                                <b class="enabled-text-selection">Grade Amount:</b> @Subject.Grades.Count
+                            </CardText>
+                        </div>
                     </div>
-                    <div class="col mb-3">
-                        <CardText Class="border-bottom enabled-text-selection" Style="padding-bottom: 20px; margin-bottom: 6px;">
-                            <b class="enabled-text-selection">Semester:</b> @Subject.Semester of @Subject.Education.Semesters
-                        </CardText>
-                    </div>
-                    <div class="col mb-3">
-                        <CardText Class="border-bottom enabled-text-selection" Style="padding-bottom: 20px; margin-bottom: 6px;">
-                            <b class="enabled-text-selection">Completion State:</b>
-                            <Badge Class="enabled-text-selection" Color="@(Subject.Completed ? BadgeColor.Success : BadgeColor.Warning)" IndicatorType="BadgeIndicatorType.RoundedPill">
-                                @(Subject.Completed ? "Completed" : "In Progress")
-                            </Badge>
-                        </CardText>
-                    </div>
-                    <div class="col mb-3">
-                        <CardText Class="border-bottom enabled-text-selection" Style="padding-bottom: 20px;">
-                            <b class="enabled-text-selection">Grade Amount:</b> @Subject.Grades.Count
-                        </CardText>
-                    </div>
-                </div>
-            </CardBody>
-        </Card>
-    </div>
-
-    <div class="border-top generic-devider-line" style="margin-top: 15px; opacity: 0.5;"></div>
-
-    <div class="d-flex justify-content-between my-3" style="max-width: 1050px">
-        <Button Color="ButtonColor.Primary" @onclick="GoBack" Size="ButtonSize.Medium">
-            <Icon Name="IconName.ArrowLeft" /> Back
-        </Button>
-        <div>
-            <Button Color="ButtonColor.Success" @onclick="EditSubject" Size="ButtonSize.Medium">
-                Edit <Icon Name="IconName.PencilSquare" />
-            </Button>
-            <Button Color="ButtonColor.Danger" @onclick="DeleteSubjectAsync" Size="ButtonSize.Medium" TooltipTitle="Delete" Style="margin-left: 8px; padding-left: 10px; padding-right: 10px;">
-                <Icon Name="IconName.Trash" />
-            </Button>
+                </CardBody>
+            </Card>
         </div>
-    </div>
 
-    @if (Subject.Grades.Count != 0)
-    {
-        <div class="border-top generic-devider-line" style="opacity: 0.5;"></div>
-        <div class="topPageSubHeader border-bottom" style="max-width: 1074px; margin-right: -12px; margin-left: -12px;">
-            <h5>@Subject.Name - @Subject.Semester <CompletionStateBadge Completed="@Subject.Completed" MarginBottom="2" /></h5>
-            <div class="topPageSubHeaderSideBlock"></div>
-        </div>
-    }
-    else
-    {
-        <div class="border-top generic-devider-line"></div>
-    }
+        <div class="border-top generic-devider-line" style="margin-top: 15px; opacity: 0.5;"></div>
 
-    <div class="text-end" style="max-width: 1050px; padding-top: 30px;">
-        <h4 style="text-align: center; margin-bottom: -30px;">Grades</h4>
-        @if (Subject.Completed)
-        {
-            <Tooltip Title="This Subject is completed" Placement="TooltipPlacement.Left" Style="padding-bottom: 5px;">
-                <Button Disabled="true" @onclick="() => GoToNewGrade(Subject.Id)" Color="ButtonColor.Secondary" Size="ButtonSize.Small" Style="margin-right: 16px;">
-                    New <Icon Name="IconName.BookmarkPlus" Size="IconSize.x6" />
+        <div class="d-flex justify-content-between my-3" style="max-width: 1050px">
+            <Button Color="ButtonColor.Primary" @onclick="GoBack" Size="ButtonSize.Medium">
+                <Icon Name="IconName.ArrowLeft" /> Back
+            </Button>
+            <div>
+                <Button Color="ButtonColor.Success" @onclick="EditSubject" Size="ButtonSize.Medium">
+                    Edit <Icon Name="IconName.PencilSquare" />
                 </Button>
-            </Tooltip>
+                <Button Color="ButtonColor.Danger" @onclick="DeleteSubjectAsync" Size="ButtonSize.Medium" TooltipTitle="Delete" Style="margin-left: 8px; padding-left: 10px; padding-right: 10px;">
+                    <Icon Name="IconName.Trash" />
+                </Button>
+            </div>
+        </div>
+        
+        @if (Subject.Grades.Count != 0)
+        {
+            <div class="border-top generic-devider-line" style="opacity: 0.5;"></div>
+            <div class="topPageSubHeader border-bottom" style="max-width: 1074px; margin-right: -12px; margin-left: -12px;">
+                <h5>@Subject.Name - @Subject.Semester <CompletionStateBadge Completed="@Subject.Completed" MarginBottom="2" /></h5>
+                <div class="topPageSubHeaderSideBlock"></div>
+            </div>
         }
         else
         {
-            <Button @onclick="() => GoToNewGrade(Subject.Id)" Color="ButtonColor.Secondary" Size="ButtonSize.Small" Style="margin-right: 16px;">
-                New <Icon Name="IconName.BookmarkPlus" Size="IconSize.x6" />
-            </Button>
+            <div class="border-top generic-devider-line"></div>
         }
+
+        <div class="text-end" style="max-width: 1050px; padding-top: 30px;">
+            @* <h6 class="text-secondary-emphasis px-2 py-1 fw-semibold" style="text-align: left; margin-bottom: -30px;">Amount: @Subject.Grades.Count</h6> *@
+            <h4 style="text-align: center; margin-bottom: -30px;">Grades</h4>
+            @if (Subject.Completed)
+            {
+                <Tooltip Title="This Subject is completed" Placement="TooltipPlacement.Left" Style="padding-bottom: 5px;">
+                    <Button Disabled="true" @onclick="() => GoToNewGrade(Subject.Id)" Color="ButtonColor.Secondary" Size="ButtonSize.Small" Style="margin-right: 16px;">
+                        New <Icon Name="IconName.BookmarkPlus" Size="IconSize.x6"/>
+                    </Button>
+                </Tooltip>
+            }
+            else
+            {
+                <Button @onclick="() => GoToNewGrade(Subject.Id)" Color="ButtonColor.Secondary" Size="ButtonSize.Small" Style="margin-right: 16px;">
+                    New <Icon Name="IconName.BookmarkPlus" Size="IconSize.x6"/>
+                </Button>
+            }
+        </div>
+
+        <div class="component-card-grid min-component-card-grid py-4" style="max-width: 1050px; padding-top: 0 !important; margin-bottom: 25px;">
+            <!--set overflow to hidden maybe-->
+            <Virtualize TItem="Grade" Items="Grades" Context="grade" OverscanCount="12">
+                <ItemContent>
+                    <GradeCard @key="@grade.Id" Grade="@grade" OnGradeDeleted="RefreshGradeData" Dialog="_dialog" />
+                </ItemContent>
+                <EmptyContent>
+                    <div></div>
+                    <div class="text-center" style="grid-column: 1/-1;">
+                        <p>No grades found. Create new grade?</p><!--was: Try adjusting your search or add a new grade.-->
+                    </div>
+                    <div></div>
+                </EmptyContent>
+            </Virtualize>
+        </div>
     </div>
+</section>
 
-    <ConfirmDialog @ref="_dialog" />
+@* <ScrollTopButton /> *@
 
-    <div class="component-card-grid min-component-card-grid py-4" style="max-width: 1050px; padding-top: 0 !important; margin-bottom: 25px;">
-        <!--set overflow to hidden maybe-->
-        <Virtualize TItem="Grade" Items="Grades" Context="grade" OverscanCount="12">
-            <ItemContent>
-                <GradeCard @key="@grade.Id" Grade="@grade" OnGradeDeleted="RefreshGradeData" Dialog="_dialog" />
-            </ItemContent>
-            <EmptyContent>
-                <div></div>
-                <div class="text-center" style="grid-column: 1/-1;">
-                    <p>No grades found. Create new grade?</p><!--was: Try adjusting your search or add a new grade.-->
-                </div>
-                <div></div>
-            </EmptyContent>
-        </Virtualize>
-    </div>
-</div>
-
-<ScrollTopButton />
+<style>
+    .tooltip {
+        display: none !important;
+    }
+</style>
 
 <script>
     window.scrollTo({ top: 0, behavior: 'auto' });

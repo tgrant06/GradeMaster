@@ -8,10 +8,11 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
 using Entities = GradeMaster.Common.Entities;
+using GradeMaster.Client.Shared.Components.Education;
 
 namespace GradeMaster.Client.Shared.Components.Grade;
 
-public partial class GradeForm
+public partial class GradeForm : IAsyncDisposable
 {
     #region Fields / Properties
 
@@ -20,18 +21,33 @@ public partial class GradeForm
     {
         get; set;
     }
+
     [Parameter]
     public Entities.Grade? Grade
     {
         get; set;
     }
+
     [Parameter]
     public EventCallback<Entities.Grade> OnSave
     {
         get; set;
     }
+
     [Parameter]
     public int? SubjectId
+    {
+        get; set;
+    }
+
+    [Parameter]
+    public int? EducationId
+    {
+        get; set;
+    }
+
+    [Parameter]
+    public int? SubjectSemester
     {
         get; set;
     }
@@ -69,6 +85,8 @@ public partial class GradeForm
     }
 
     private EditContext? _editContext;
+
+    private DotNetObjectReference<GradeForm>? _objRef;
 
     #endregion
 
@@ -127,9 +145,27 @@ public partial class GradeForm
 
             if (!SubjectId.HasValue)
             {
+                if (EducationId.HasValue)
+                {
+                    if (SubjectSemester is > 0)
+                    {
+                        Subjects = await _subjectRepository.GetByEducationIdAndCompletedWithSemesterAsync(EducationId.Value, false, SubjectSemester.Value);
+                    }
+                    else
+                    {
+                        Subjects = await _subjectRepository.GetByEducationIdAndCompletedAsync(EducationId.Value, false);
+                    }
 
-                Subjects = await _subjectRepository.GetByCompletedAsync(false);
-                Subjects = Subjects.OrderByDescending(e => e.Id).ToList();
+                    Subjects = Subjects.OrderByDescending(s => s.Semester).ThenBy(s => s.Name).ThenByDescending(s => s.Id).ToList();
+                }
+                else
+                {
+                    Subjects = await _subjectRepository.GetByCompletedAsync(false);
+
+                    Subjects = Subjects.OrderByDescending(s => s.Id).ToList();
+                }
+
+                //Subjects = Subjects.OrderByDescending(s => s.Id).ToList();
                 if (FormType == FormType.Edit && Grade != null)
                 {
                     // can never be null
@@ -177,12 +213,22 @@ public partial class GradeForm
             ToastService.Notify(new ToastMessage(ToastType.Danger, $"Error during initialization: {ex.Message}"));
             throw;
         }
+
+        _objRef = DotNetObjectReference.Create(this);
+        await JSRuntime.InvokeVoidAsync("addPageKeybinds", "FormComponent", _objRef);
     }
 
     #region HandleSubmit
 
     private async Task HandleValidSubmit()
     {
+        if (NewGrade.Value < 1)
+        {
+            NewGrade.Value = 1;
+            ToastService.Notify(new ToastMessage(ToastType.Warning, "Please enter a valid grade value (1 - 6)."));
+            return;
+        }
+
         if (NewGrade.Weight == null || NewGrade.Weight.Id == 0)
         {
             ToastService.Notify(new ToastMessage(ToastType.Warning, "Please select a valid weight."));
@@ -195,10 +241,17 @@ public partial class GradeForm
             return;
         }
 
-        if (NewGrade.Value < 1)
+        if (NewGrade.Date > NewGrade.Subject.Education.EndDate)
         {
-            NewGrade.Value = 1;
-            ToastService.Notify(new ToastMessage(ToastType.Warning, "Please enter a valid grade value (1 - 6)."));
+            NewGrade.Date = NewGrade.Subject.Education.EndDate;
+            ToastService.Notify(new ToastMessage(ToastType.Warning, "Date of grade may not exceed education end date."));
+            return;
+        }
+
+        if (NewGrade.Date < NewGrade.Subject.Education.StartDate)
+        {
+            NewGrade.Date = NewGrade.Subject.Education.StartDate;
+            ToastService.Notify(new ToastMessage(ToastType.Warning, "Date of grade may not be below education start date."));
             return;
         }
 
@@ -222,4 +275,29 @@ public partial class GradeForm
     #endregion
 
     private async Task Cancel() => await JSRuntime.InvokeVoidAsync("window.history.back");
+
+    #region JSInvokable / Keybinds
+
+    [JSInvokable]
+    public async Task SubmitForm()
+    {
+        var isValid = _editContext?.Validate();
+
+        if (isValid == true)
+        {
+            await HandleValidSubmit();
+        }
+        else
+        {
+            HandleInvalidSubmit();
+        }
+    }
+
+    #endregion
+
+    public async ValueTask DisposeAsync()
+    {
+        await JSRuntime.InvokeVoidAsync("removePageKeybinds", "FormComponent");
+        _objRef?.Dispose();
+    }
 }

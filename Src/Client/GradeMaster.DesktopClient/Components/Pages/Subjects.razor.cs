@@ -3,19 +3,26 @@ using GradeMaster.Common.Entities;
 using GradeMaster.DataAccess.Interfaces.IRepositories;
 using Microsoft.AspNetCore.Components.Web.Virtualization;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.JSInterop;
 
 namespace GradeMaster.DesktopClient.Components.Pages;
 
-public partial class Subjects
+public partial class Subjects : IAsyncDisposable
 {
     #region Fields / Properties
 
     private string _searchValue = string.Empty;
+
     private bool _existsAnyEducationInProgress;
+
+    private int _totalItemCount;
 
     private Virtualize<Subject>? _virtualizeComponent;
 
     private ConfirmDialog _dialog = default!;
+
+    private DotNetObjectReference<Subjects>? _objRef;
 
     #endregion
 
@@ -39,8 +46,16 @@ public partial class Subjects
         get; set;
     }
 
+    [Inject] protected ToastService ToastService { get; set; } = default!;
+
     [Inject]
     private NavigationManager Navigation
+    {
+        get; set;
+    }
+
+    [Inject]
+    private IJSRuntime JSRuntime
     {
         get; set;
     }
@@ -49,9 +64,24 @@ public partial class Subjects
 
     protected async override Task OnInitializedAsync()
     {
+        _objRef = DotNetObjectReference.Create(this);
+        await JSRuntime.InvokeVoidAsync("addPageKeybinds", "SubjectsPage", _objRef);
+
         await _weightRepository.GetAllAsync();
         _existsAnyEducationInProgress = await _educationRepository.ExistsAnyIsCompletedAsync(false);
+
+        var uri = new Uri(Navigation.Uri);
+        var queryParams = QueryHelpers.ParseQuery(uri.Query);
+        if (queryParams.TryGetValue("q", out var searchValue))
+        {
+            var searchValueString = searchValue.ToString();
+            _searchValue = string.IsNullOrWhiteSpace(searchValueString) ? string.Empty : searchValueString;
+        }
+
+        _totalItemCount = await _subjectRepository.GetTotalCountAsync(_searchValue);
     }
+
+    #region Data
 
     private async ValueTask<ItemsProviderResult<Subject>> GetSubjectsProvider(ItemsProviderRequest request)
     {
@@ -62,15 +92,22 @@ public partial class Subjects
         var fetchedSubjects = await _subjectRepository.GetBySearchWithRangeAsync(_searchValue, startIndex, count);
 
         // Calculate the total number of items (if known or needed)
-        var totalItemCount = await _subjectRepository.GetTotalCountAsync(_searchValue);
+        //var totalItemCount = await _subjectRepository.GetTotalCountAsync(_searchValue);
 
         // Return the result to the Virtualize component
-        return new ItemsProviderResult<Subject>(fetchedSubjects, totalItemCount);
+        return new ItemsProviderResult<Subject>(fetchedSubjects, _totalItemCount);
     }
 
     private async Task RefreshSubjectData()
     {
-        await _virtualizeComponent?.RefreshDataAsync();
+        var uri = new Uri(Navigation.Uri);
+        var baseUri = uri.GetLeftPart(UriPartial.Path);
+        var updatedUri = QueryHelpers.AddQueryString(baseUri, "q", _searchValue);
+        Navigation.NavigateTo(updatedUri, forceLoad: false);
+
+        _totalItemCount = await _subjectRepository.GetTotalCountAsync(_searchValue);
+
+        await _virtualizeComponent?.RefreshDataAsync()!;
     }
 
     private async Task LoadAllSubjects()
@@ -78,6 +115,8 @@ public partial class Subjects
         _searchValue = string.Empty;
         await RefreshSubjectData();
     }
+
+    #endregion
 
     #region Not Used
 
@@ -126,4 +165,33 @@ public partial class Subjects
     private void CreateSubject() => Navigation.NavigateTo("/subjects/create");
 
     #endregion
+
+    #region JSInvokable / Keybinds
+
+    [JSInvokable]
+    public void NavigateToCreate()
+    {
+        if (_existsAnyEducationInProgress)
+        {
+            CreateSubject();
+            return;
+        }
+
+        ToastService.Notify(new ToastMessage(ToastType.Info, $"Create Education first"));
+    }
+
+    [JSInvokable]
+    public async Task ClearSearch()
+    {
+        await LoadAllSubjects();
+        StateHasChanged();
+    }
+
+    #endregion
+
+    public async ValueTask DisposeAsync()
+    {
+        await JSRuntime.InvokeVoidAsync("removePageKeybinds", "SubjectsPage");
+        _objRef?.Dispose();
+    }
 }

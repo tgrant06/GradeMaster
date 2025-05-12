@@ -26,7 +26,7 @@ public partial class Detail : IAsyncDisposable
 
     private bool IsTruncated { get; set; } = false;
 
-    private string ButtonText => IsExpanded ? "less" : "more";
+    private string ButtonText => IsExpanded ? "less" : "...more";
 
     private string DescriptionAreaDynamicHeight => IsExpanded ? $"max-height: {_descriptionAreaExpandedHeight}px;" : "max-height: 175px;";
 
@@ -35,6 +35,8 @@ public partial class Detail : IAsyncDisposable
     private decimal _educationAverage;
 
     private ConfirmDialog _dialog = default!;
+
+    private DotNetObjectReference<Detail>? _objRef;
 
     #endregion
 
@@ -84,6 +86,9 @@ public partial class Detail : IAsyncDisposable
             await GoBack();
             return;
         }
+
+        _objRef = DotNetObjectReference.Create(this);
+        await JSRuntime.InvokeVoidAsync("addPageKeybinds", "EducationDetailPage", _objRef);
 
         await _weightRepository.GetAllAsync();
         Education = await _educationRepository.GetByIdAsync(Id);
@@ -196,6 +201,38 @@ public partial class Detail : IAsyncDisposable
 
     #endregion
 
+    #region JSInvokable / Keybinds
+
+    [JSInvokable]
+    public void NavigateToEdit() => EditEducation();
+
+    [JSInvokable]
+    public void NavigateToCreate()
+    {
+        if (Education.Completed)
+        {
+            ToastService.Notify(new ToastMessage(ToastType.Info, $"Education is completed"));
+            return;
+        }
+
+        GoToNewSubject(Education.Id);
+    }
+
+    [JSInvokable]
+    public async Task DeleteObject() => await DeleteEducationAsync();
+
+    [JSInvokable]
+    public async Task ToggleDescriptionHeight()
+    {
+        if (IsTruncated)
+        {
+            await ToggleDescription();
+            StateHasChanged();
+        }
+    }
+
+    #endregion
+
     #region Averages
 
     private void CalculateEducationAverage()
@@ -209,5 +246,8 @@ public partial class Detail : IAsyncDisposable
     public async ValueTask DisposeAsync()
     {
         await JSRuntime.InvokeVoidAsync("removeDescriptionAreaEventListener");
+
+        await JSRuntime.InvokeVoidAsync("removePageKeybinds", "EducationDetailPage");
+        _objRef?.Dispose();
     }
 }
