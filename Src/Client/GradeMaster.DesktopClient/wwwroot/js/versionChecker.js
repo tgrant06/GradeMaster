@@ -32,20 +32,20 @@ async function checkForUpdates() {
                 updateStatusElement.classList.add("alert-warning");
             }
         } else {
-            updateStatusElement.innerHTML = "<i class=\"bi bi-exclamation-circle text-danger\"></i> Could not check for update";
+            updateStatusElement.innerHTML = "<i class=\"bi bi-exclamation-circle text-danger\"></i> Could not check for updates";
 
             latestVersionElement.classList.remove("alert-primary");
             latestVersionElement.classList.add("alert-danger");
-            latestVersionElement.innerHTML = "<span style=\"text-decoration: underline; padding-bottom: 1px;\">Error fetching version</span> <i class=\"bi bi-box-arrow-up-right\" style=\"text-decoration: none;\"></i>";
+            latestVersionElement.innerHTML = "<span style=\"text-decoration: underline; padding-bottom: 1px;\">Error fetching data</span> <i class=\"bi bi-box-arrow-up-right\" style=\"text-decoration: none;\"></i>";
         }
     } catch (error) {
-        updateStatusElement.innerHTML = "<i class=\"bi bi-exclamation-circle text-danger\"></i> Could not check for update";
+        updateStatusElement.innerHTML = "<i class=\"bi bi-exclamation-circle text-danger\"></i> Could not check for updates";
 
         latestVersionElement.classList.remove("alert-primary");
         latestVersionElement.classList.add("alert-danger");
-        latestVersionElement.innerHTML = "<span style=\"text-decoration: underline; padding-bottom: 1px;\">Error fetching version</span> <i class=\"bi bi-box-arrow-up-right\" style=\"text-decoration: none;\"></i>";
+        latestVersionElement.innerHTML = "<span style=\"text-decoration: underline; padding-bottom: 1px;\">Error fetching data</span> <i class=\"bi bi-box-arrow-up-right\" style=\"text-decoration: none;\"></i>";
 
-        console.error("Error fetching latest version:", error);
+        console.error("Error fetching latest version data:", error);
     }
 }
 
