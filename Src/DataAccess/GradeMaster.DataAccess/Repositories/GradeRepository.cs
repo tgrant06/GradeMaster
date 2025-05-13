@@ -10,6 +10,7 @@ public class GradeRepository : IGradeRepository
     private readonly GradeMasterDbContext _context;
 
     private static readonly Regex DateRegex = new(@"^(\d{1,2})\.(\d{1,2})\.(\d{4})$", RegexOptions.Compiled);
+    private static readonly Regex MonthYearRegex = new(@"^(\d{1,2})\.(\d{4})$", RegexOptions.Compiled);
     private static readonly Regex SearchPatternSubjectAndSemester = new(@"^(.*?)(?:\s*-\s*|\s+)(\d+)$", RegexOptions.Compiled);
 
     public GradeRepository(GradeMasterDbContext context)
@@ -33,6 +34,17 @@ public class GradeRepository : IGradeRepository
 
             // Return in yyyy-mm-dd format
             return $"{year}-{month}-{day}";
+        }
+
+        var matchMonthYear = MonthYearRegex.Match(searchValue);
+        if (matchMonthYear.Success)
+        {
+            // Extract day, month, and year
+            var month = matchMonthYear.Groups[1].Value.PadLeft(2, '0');
+            var year = matchMonthYear.Groups[2].Value;
+
+            // Return in yyyy-mm format
+            return $"{year}-{month}";
         }
 
         return searchValue;
