@@ -78,7 +78,7 @@ New releases are generally released on a monthly basis. <br>
 
 ### Future Plans and Roadmap
 - Planned Features:
-  - Hot-Keys
+  - Hot-Keys ✅
   - Notes
   - [Maybe] Bakckup of Database
 
