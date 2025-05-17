@@ -84,6 +84,29 @@ public class EducationRepository : IEducationRepository
 
         var mainSearchValue = searchValue.Trim();
         string? institutionSearch = null;
+        bool? searchCompletionState = null;
+
+        // Check for completion state suffix
+        if (mainSearchValue.EndsWith(" (in progress)", StringComparison.OrdinalIgnoreCase))
+        {
+            searchCompletionState = false;
+            mainSearchValue = mainSearchValue[..^" (in progress)".Length].Trim();
+        } 
+        else if (mainSearchValue.EndsWith(" (ip)", StringComparison.OrdinalIgnoreCase))
+        {
+            searchCompletionState = false;
+            mainSearchValue = mainSearchValue[..^" (ip)".Length].Trim();
+        }
+        else if (mainSearchValue.EndsWith(" (complete)", StringComparison.OrdinalIgnoreCase))
+        {
+            searchCompletionState = true;
+            mainSearchValue = mainSearchValue[..^" (complete)".Length].Trim();
+        } 
+        else if (mainSearchValue.EndsWith(" (c)", StringComparison.OrdinalIgnoreCase))
+        {
+            searchCompletionState = true;
+            mainSearchValue = mainSearchValue[..^" (c)".Length].Trim();
+        }
 
         // Check for pipe separator
         if (mainSearchValue.Contains(" | "))
@@ -95,25 +118,41 @@ public class EducationRepository : IEducationRepository
                 institutionSearch = parts[1].Trim();
             }
         }
-        
-        var newSearchValue = $"%{mainSearchValue}%";
-        var newInstitutionSearch = !string.IsNullOrEmpty(institutionSearch) ? $"%{institutionSearch}%" : null;
-        var isNumericSearch = int.TryParse(mainSearchValue, out var searchValueAsInt);
 
-        var completionState = mainSearchValue.ToLower();
-        bool? searchCompletionState = completionState switch
+        // If after removing suffixes and splitting, mainSearchValue is empty, we'll only search by completion state
+        var searchByTextValue = !string.IsNullOrWhiteSpace(mainSearchValue);
+
+        var newSearchValue = searchByTextValue ? $"%{mainSearchValue}%" : null;
+        var newInstitutionSearch = !string.IsNullOrEmpty(institutionSearch) ? $"%{institutionSearch}%" : null;
+        var isSearchValueNumber = int.TryParse(mainSearchValue, out var searchValueAsInt);
+        var isNumericSearch = searchByTextValue && isSearchValueNumber;
+
+        // Only check for in progress/completed in the search value if we haven't already found a suffix
+        var onlySearchByCompletionState = false;
+
+        if (searchCompletionState == null && searchByTextValue)
         {
-            "in progress" => false,
-            "completed" => true,
-            _ => null
-        };
+            var completionState = mainSearchValue.ToLower();
+            searchCompletionState = completionState switch
+            {
+                "*(in progress)" => false,
+                "*(ip)" => false,
+                "*(completed)" => true,
+                "*(c)" => true,
+                _ => null
+            };
+
+            onlySearchByCompletionState = searchCompletionState != null;
+        }
 
         return await _context.Educations
             .Where(education =>
                 (
+                    // Skip text-based searches if the main search value is empty
+                    onlySearchByCompletionState ||
+                    !searchByTextValue ||
                     EF.Functions.Like(education.Name, newSearchValue) ||
                     (education.Description != null && EF.Functions.Like(education.Description, newSearchValue)) ||
-                    (searchCompletionState != null && education.Completed == searchCompletionState) ||
                     (isNumericSearch && education.Semesters == searchValueAsInt) ||
                     (isNumericSearch && education.StartDate.Year == searchValueAsInt) ||
                     (isNumericSearch && education.EndDate.Year == searchValueAsInt) ||
@@ -124,6 +163,11 @@ public class EducationRepository : IEducationRepository
                 (
                     newInstitutionSearch == null ||
                     (education.Institution != null && EF.Functions.Like(education.Institution, newInstitutionSearch))
+                )
+                &&
+                (
+                    searchCompletionState == null ||
+                    education.Completed == searchCompletionState
                 )
             )
             .Include(e => e.Subjects)
@@ -143,6 +187,29 @@ public class EducationRepository : IEducationRepository
 
         var mainSearchValue = searchValue.Trim();
         string? institutionSearch = null;
+        bool? searchCompletionState = null;
+
+        // Check for completion state suffix
+        if (mainSearchValue.EndsWith(" (in progress)", StringComparison.OrdinalIgnoreCase))
+        {
+            searchCompletionState = false;
+            mainSearchValue = mainSearchValue[..^" (in progress)".Length].Trim();
+        }
+        else if (mainSearchValue.EndsWith(" (ip)", StringComparison.OrdinalIgnoreCase))
+        {
+            searchCompletionState = false;
+            mainSearchValue = mainSearchValue[..^" (ip)".Length].Trim();
+        }
+        else if (mainSearchValue.EndsWith(" (complete)", StringComparison.OrdinalIgnoreCase))
+        {
+            searchCompletionState = true;
+            mainSearchValue = mainSearchValue[..^" (complete)".Length].Trim();
+        }
+        else if (mainSearchValue.EndsWith(" (c)", StringComparison.OrdinalIgnoreCase))
+        {
+            searchCompletionState = true;
+            mainSearchValue = mainSearchValue[..^" (c)".Length].Trim();
+        }
 
         // Check for pipe separator
         if (mainSearchValue.Contains(" | "))
@@ -155,24 +222,40 @@ public class EducationRepository : IEducationRepository
             }
         }
 
-        var newSearchValue = $"%{mainSearchValue}%";
-        var newInstitutionSearch = !string.IsNullOrEmpty(institutionSearch) ? $"%{institutionSearch}%" : null;
-        var isNumericSearch = int.TryParse(mainSearchValue, out var searchValueAsInt);
+        // If after removing suffixes and splitting, mainSearchValue is empty, we'll only search by completion state
+        var searchByTextValue = !string.IsNullOrWhiteSpace(mainSearchValue);
 
-        var completionState = mainSearchValue.ToLower();
-        bool? searchCompletionState = completionState switch
+        var newSearchValue = searchByTextValue ? $"%{mainSearchValue}%" : null;
+        var newInstitutionSearch = !string.IsNullOrEmpty(institutionSearch) ? $"%{institutionSearch}%" : null;
+        var isSearchValueNumber = int.TryParse(mainSearchValue, out var searchValueAsInt);
+        var isNumericSearch = searchByTextValue && isSearchValueNumber;
+
+        // Only check for in progress/completed in the search value if we haven't already found a suffix
+        var onlySearchByCompletionState = false;
+
+        if (searchCompletionState == null && searchByTextValue)
         {
-            "in progress" => false,
-            "completed" => true,
-            _ => null
-        };
+            var completionState = mainSearchValue.ToLower();
+            searchCompletionState = completionState switch
+            {
+                "*(in progress)" => false,
+                "*(ip)" => false,
+                "*(completed)" => true,
+                "*(c)" => true,
+                _ => null
+            };
+
+            onlySearchByCompletionState = searchCompletionState != null;
+        }
 
         return await _context.Educations
             .Where(education =>
                 (
+                    // Skip text-based searches if the main search value is empty
+                    onlySearchByCompletionState ||
+                    !searchByTextValue ||
                     EF.Functions.Like(education.Name, newSearchValue) ||
                     (education.Description != null && EF.Functions.Like(education.Description, newSearchValue)) ||
-                    (searchCompletionState != null && education.Completed == searchCompletionState) ||
                     (isNumericSearch && education.Semesters == searchValueAsInt) ||
                     (isNumericSearch && education.StartDate.Year == searchValueAsInt) ||
                     (isNumericSearch && education.EndDate.Year == searchValueAsInt) ||
@@ -183,6 +266,11 @@ public class EducationRepository : IEducationRepository
                 (
                     newInstitutionSearch == null ||
                     (education.Institution != null && EF.Functions.Like(education.Institution, newInstitutionSearch))
+                )
+                &&
+                (
+                    searchCompletionState == null ||
+                    education.Completed == searchCompletionState
                 )
             )
             .CountAsync();
