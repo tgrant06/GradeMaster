@@ -22,5 +22,3 @@
 
 - Is there a dark mode for the App?
     - There is no dark mode for GradeMaster as of this moment.
-    
-## 
