@@ -186,8 +186,8 @@ public class GradeRepository : IGradeRepository
                     (isNumericSearch && grade.Value == searchValueAsDecimal) ||
                     (isNumericSearch && grade.Weight.Value == searchValueAsDecimal) ||
                     EF.Functions.Like(grade.Weight.Name, newSearchValue) ||
-                    EF.Functions.Like(grade.Subject.Education.Name, newSearchValue) ||
                     EF.Functions.Like(grade.Date.ToString(), normalizedDateSearchValue) ||
+                    EF.Functions.Like(grade.Subject.Education.Name, newSearchValue) ||
                     (newInstitutionSearch == null &&
                      grade.Subject.Education.Institution != null && EF.Functions.Like(grade.Subject.Education.Institution, newSearchValue))
                 )
@@ -259,8 +259,8 @@ public class GradeRepository : IGradeRepository
                     (isNumericSearch && grade.Value == searchValueAsDecimal) ||
                     (isNumericSearch && grade.Weight.Value == searchValueAsDecimal) ||
                     EF.Functions.Like(grade.Weight.Name, newSearchValue) ||
-                    EF.Functions.Like(grade.Subject.Education.Name, newSearchValue) ||
                     EF.Functions.Like(grade.Date.ToString(), normalizedDateSearchValue) ||
+                    EF.Functions.Like(grade.Subject.Education.Name, newSearchValue) ||
                     (newInstitutionSearch == null &&
                      grade.Subject.Education.Institution != null && EF.Functions.Like(grade.Subject.Education.Institution, newSearchValue))
                 )
