@@ -77,6 +77,8 @@ public static class MauiProgram
         builder.Services.AddScoped<ISubjectRepository, SubjectRepository>();
         builder.Services.AddScoped<IGradeRepository, GradeRepository>();
         builder.Services.AddScoped<IWeightRepository, WeightRepository>();
+        builder.Services.AddScoped<INoteRepository, NoteRepository>();
+        builder.Services.AddScoped<IColorRepository, ColorRepository>();
 
         #endregion
 
@@ -85,6 +87,7 @@ public static class MauiProgram
         builder.Services.AddTransient<IEducationService, EducationService>();
         builder.Services.AddTransient<ISubjectService, SubjectService>();
         builder.Services.AddTransient<IGradeService, GradeService>();
+        builder.Services.AddTransient<INoteService, NoteService>();
 
         #endregion
 

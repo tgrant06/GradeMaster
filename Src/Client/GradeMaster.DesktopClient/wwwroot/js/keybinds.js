@@ -16,6 +16,9 @@ window.addPageKeybinds = (pageName, dotNetHelper) => {
                 case "GradesPage":
                     handleGradesPageKeys(event, dotNetHelper);
                     break;
+                case "NotesPage":
+                    handleNotesPageKeys(event, dotNetHelper);
+                    break;
                 case "MainLayoutPage":
                     handleMainLayoutPageKeys(event, dotNetHelper);
                     break;
@@ -136,6 +139,25 @@ function handleGradesPageKeys(event, dotNetHelper) {
         case "f":
             event.preventDefault();
             focusSearchField("Grade");
+            break;
+        case "n":
+            event.preventDefault();
+            dotNetHelper.invokeMethodAsync("NavigateToCreate");
+            break;
+        case "x":
+            event.preventDefault();
+            dotNetHelper.invokeMethodAsync("ClearSearch");
+            break;
+    }
+}
+
+function handleNotesPageKeys(event, dotNetHelper) {
+    if (!event.ctrlKey) return;
+
+    switch (event.key.toLowerCase()) {
+        case "f":
+            event.preventDefault();
+            focusSearchField("Note");
             break;
         case "n":
             event.preventDefault();
