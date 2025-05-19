@@ -77,50 +77,13 @@ public partial class Detail : IAsyncDisposable
         await JSRuntime.InvokeVoidAsync("addPageKeybinds", "NoteDetailPage", _objRef);
 
         Note = await _noteRepository.GetByIdDetailAsync(Id);
-
-        // Calculate the average only after loading the data
-        //await CalculateSubjectAverage();
     }
 
-    #region Description
+    #region Content
 
-    protected async override Task OnAfterRenderAsync(bool firstRender)
+    private async Task ShowNoteContent()
     {
-        if (firstRender)
-        {
-            IsTruncated = await JSRuntime.InvokeAsync<bool>("checkDescriptionHeight", "description-area", 175);
-            await SetDescriptionAreaExpandedHeight();
-            StateHasChanged();
-        }
-    }
-
-    private async Task ToggleDescription()
-    {
-        if (!IsExpanded)
-        {
-            await SetDescriptionAreaExpandedHeight();
-        }
-
-        IsExpanded = !IsExpanded;
-
-        await DynamicDescriptionHeightActive(IsExpanded);
-    }
-
-    private async Task SetDescriptionAreaExpandedHeight()
-    {
-        _descriptionAreaExpandedHeight = await JSRuntime.InvokeAsync<int>("getMaxDescriptionHeight", "description-text");
-    }
-
-    private async Task DynamicDescriptionHeightActive(bool isActive)
-    {
-        if (isActive)
-        {
-            await JSRuntime.InvokeVoidAsync("addDescriptionAreaEventListener");
-        }
-        else
-        {
-            await JSRuntime.InvokeVoidAsync("removeDescriptionAreaEventListener");
-        }
+        await JSRuntime.InvokeVoidAsync("window.scrollToContentSection");
     }
 
     #endregion
@@ -173,22 +136,10 @@ public partial class Detail : IAsyncDisposable
     [JSInvokable]
     public async Task DeleteObject() => await DeleteNoteAsync();
 
-    [JSInvokable]
-    public async Task ToggleDescriptionHeight()
-    {
-        if (IsTruncated)
-        {
-            await ToggleDescription();
-            StateHasChanged();
-        }
-    }
-
     #endregion
 
     public async ValueTask DisposeAsync()
     {
-        await JSRuntime.InvokeVoidAsync("removeDescriptionAreaEventListener");
-
         await JSRuntime.InvokeVoidAsync("removePageKeybinds", "NoteDetailPage");
         _objRef?.Dispose();
     }

@@ -52,3 +52,10 @@ window.scrollToTop = function () {
         contentElement.scrollIntoView({ block: "start", behavior: "smooth" });
     }
 };
+
+window.scrollToContentSection = function () {
+    const contentElement = document.querySelector("#noteContentHeader"); // Select the scrollable container
+    if (contentElement) {
+        contentElement.scrollIntoView({ block: "start", behavior: "smooth" });
+    }
+}

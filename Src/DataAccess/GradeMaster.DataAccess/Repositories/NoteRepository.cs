@@ -212,6 +212,20 @@ public class NoteRepository : INoteRepository
             .Skip(startIndex)
             .Take(amount)
             .ToListAsync();
+
+        // later todo:
+        // //.Select(n => new Note
+        // //{
+        // //    Id = n.Id,
+        // //    Title = n.Title,
+        // //    Content = null, // or null if you prefer
+        // //    CreatedAt = n.CreatedAt,
+        // //    UpdatedAt = n.UpdatedAt,
+        // //    IsPinned = n.IsPinned,
+        // //    IsArchived = n.IsArchived,
+        // //    ColorId = n.ColorId
+        // //})
+        // //.asn
     }
 
     public async Task<int> GetTotalCountAsync(string searchValue)

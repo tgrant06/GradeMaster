@@ -144,6 +144,17 @@ h1:focus {
         background-color: light-dark(rgba(0, 0, 0, 0.20), rgba(255, 255, 255, 0.20)) !important;
     }
 
+.btn-translucient-v4 {
+    background-color: light-dark(rgba(0, 0, 0, 0.02), rgba(255, 255, 255, 0.03)) !important;
+}
+
+    .btn-translucient-v4:hover, .btn-translucient-v4:focus-visible {
+        background-color: light-dark(rgba(0, 0, 0, 0.1), rgba(255, 255, 255, 0.125)) !important;
+    }
+
+    .btn-translucient-v4:hover:active, .btn-translucient-v4:first-child:active, .btn-translucient-v4:active {
+        background-color: light-dark(rgba(0, 0, 0, 0.15), rgba(255, 255, 255, 0.20)) !important;
+    }
 /* maybe later for different color: light 245, 245, 245, ... | dark: 38, 42, 46, ... background-color: #e72a2a40;*/
 
 .btn-translucient-red {
@@ -274,6 +285,10 @@ h1:focus {
 
 .contain-entity-link {
     max-width: calc(100% - 10px);
+}
+
+.contain-note-title-text {
+    max-width: calc(100% - 25px);
 }
 
 .gm-sm-infotext {

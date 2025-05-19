@@ -3,6 +3,7 @@ using System;
 using GradeMaster.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GradeMaster.DataAccess.Migrations
 {
     [DbContext(typeof(GradeMasterDbContext))]
-    partial class GradeMasterDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250519164900_MigrationV2")]
+    partial class MigrationV2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.5");

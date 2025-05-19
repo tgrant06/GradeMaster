@@ -16,7 +16,7 @@ else
                 <strong>Title: <span class="text-danger">*</span></strong>
             </label>
             <div class="col-md-10">
-                <TextInput  @bind-Value="NewNote.Title" Id="noteTitle" class="form-control" Placeholder="Enter the note title" Style="width: 155px;" />
+                <InputText  @bind-Value="NewNote.Title" id="noteTitle" class="form-control" placeholder="Enter the note title" />
                 <ValidationMessage For="@(() => NewNote.Title)" />
             </div>
         </div>
@@ -25,12 +25,12 @@ else
         <div class="form-group row mb-3">
             <label class="col-md-2 col-form-label nowrap" for="selectFieldColor"><strong>Color: <span class="text-danger">*</span></strong></label>
             <div class="col-md-10">
-                <select class="form-select" style="max-width: 155px" aria-label="Select Color" name="selectFieldColor" id="selectFieldColor"
+                <select class="form-select" style="max-width: 200px" aria-label="Select Color" name="selectFieldColor" id="selectFieldColor"
                         @bind="SelectedColorId">
                     <option value="0" style="display: none;" class="gm-option">Select Color</option>
                     @foreach (var color in Colors)
                     {
-                        <option @key="@($"$col_{color.Id}")" value="@color.Id" class="gm-option">@color.Name @color.Symbol</option>
+                        <option @key="@($"$col_{color.Id}")" value="@color.Id" class="gm-option">@color.Symbol @color.Name</option>
                     }
                 </select>
                 <ValidationMessage For="@(() => NewNote.Color)" />
@@ -77,11 +77,21 @@ else
             <div class="col-md-10">
                 <Tabs>
                     <Tab Title="Write" Active="true">
-                        <InputTextArea @bind-Value="NewNote.Content" id="content" class="form-control gm-active-resizing-textarea" rows="4" placeholder="Enter the content" style="max-height: 1000px;"/>
-                        <ValidationMessage For="@(() => NewNote.Content)"/>
+                        <Content>
+                            <div class="mt-2">
+                                <InputTextArea @bind-Value="NewNote.Content" id="content" class="form-control gm-active-resizing-textarea" rows="4" placeholder="Enter the note content" style="max-height: 1000px; min-height: 206px;"/>
+                                <ValidationMessage For="@(() => NewNote.Content)"/>
+                            </div>
+                        </Content>
                     </Tab>
                     <Tab Title="Preview">
-                        <Markdown Style="overflow: auto;">@NewNote.Content</Markdown>
+                        <Content>
+                            <Card Class="mt-2">
+                                <CardBody Style="padding: 6px 12px !important;">
+                                    <Markdown TableCssClass="table table-striped table-hover table-bordered" Style="overflow: auto;">@NewNote.Content</Markdown>
+                                </CardBody>
+                            </Card>
+                        </Content>
                     </Tab>
                 </Tabs>
             </div>
@@ -100,6 +110,10 @@ else
 <style>
     .nowrap {
         white-space: nowrap;
+    }
+
+    #scrollToTopButton {
+        display: none !important;
     }
 </style>
 

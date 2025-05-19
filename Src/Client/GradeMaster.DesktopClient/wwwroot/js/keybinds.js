@@ -105,6 +105,8 @@ function handleEscape(event) {
 function handleEducationsPageKeys(event, dotNetHelper) {
     if (!event.ctrlKey) return;
 
+    if (event.altKey) return;
+
     switch (event.key.toLowerCase()) {
         case "f":
             event.preventDefault();
@@ -123,6 +125,8 @@ function handleEducationsPageKeys(event, dotNetHelper) {
 
 function handleSubjectsPageKeys(event, dotNetHelper) {
     if (!event.ctrlKey) return;
+
+    if (event.altKey) return;
 
     switch (event.key.toLowerCase()) {
         case "f":
@@ -143,6 +147,8 @@ function handleSubjectsPageKeys(event, dotNetHelper) {
 function handleGradesPageKeys(event, dotNetHelper) {
     if (!event.ctrlKey) return;
 
+    if (event.altKey) return;
+
     switch (event.key.toLowerCase()) {
         case "f":
             event.preventDefault();
@@ -161,6 +167,8 @@ function handleGradesPageKeys(event, dotNetHelper) {
 
 function handleNotesPageKeys(event, dotNetHelper) {
     if (!event.ctrlKey) return;
+
+    if (event.altKey) return;
 
     switch (event.key.toLowerCase()) {
         case "f":
@@ -220,6 +228,11 @@ function handleMainLayoutPageKeys(event, dotNetHelper) {
         case "Ctrl+Alt+g":
             event.preventDefault();
             dotNetHelper.invokeMethodAsync("GoToGradesPage");
+            break;
+
+        case "Ctrl+Alt+n":
+            event.preventDefault();
+            dotNetHelper.invokeMethodAsync("GoToNotesPage");
             break;
 
         case "Ctrl+Alt+q":
@@ -360,7 +373,7 @@ function handleNoteDetailPage(event, dotNetHelper) {
             break;
         case "Ctrl+d":
             event.preventDefault();
-            dotNetHelper.invokeMethodAsync("ToggleDescriptionHeight");
+            window.scrollToContentSection();
             break;
         case "Ctrl+Shift+d":
             event.preventDefault();

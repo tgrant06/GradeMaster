@@ -1,6 +1,6 @@
 ﻿@page "/notes/{Id:int}"
 
-<TopPageHeader Style="font-size: 28px; top: 10px">Detail Grade</TopPageHeader>
+<TopPageHeader Style="font-size: 28px; top: 10px">Detail Note</TopPageHeader>
 
 <ConfirmDialog @ref="_dialog" />
 
@@ -10,33 +10,37 @@
     <div class="container animated-page-content">
         <div class="border-top generic-devider-line" style="margin-top: -1px"></div>
         <div class="col-12 col-md-12 py-3" style="max-width: 1200px;">
-            <h2 style="font-size: 34px;">
+            <h2 style="margin-bottom: 11px;">
                 <strong class="enabled-text-selection">@Note.Title</strong>
             </h2>
-            <CardSubTitle Class="enabled-text-selection" Style="margin-top: 6px;">Color: @Note.Color.Name @Note.Color.Symbol</CardSubTitle>
+            <CardSubTitle Class="enabled-text-selection" Style="font-size: 17px;">Color: @Note.Color.Name @Note.Color.Symbol</CardSubTitle>
+            <CardSubTitle Class="enabled-text-selection" Style="margin-top: 6px;">
+                @if (Note is { IsPinned: true, IsArchived: true })
+                {
+                    <span>Pinned 📌 | Archived <i class="bi bi-archive"></i></span>
+                }
+                else if (Note.IsPinned)
+                {
+                    <span>Pinned 📌</span>
+                }
+                else if (Note.IsArchived)
+                {
+                    <span>Archived <i class="bi bi-archive"></i></span>
+                }
+            </CardSubTitle>
         </div>
         @*Todo: ||
                 \/*@
         <div class="py-2">
-            <Card Style="max-width: 1050px">
-                <CardBody Id="description-area" Style="@(DescriptionAreaDynamicHeight)">
-                    <CardText Id="description-text" Class="enabled-text-selection" Style="white-space: pre-wrap; margin-bottom: 0;">
-                        <b class="enabled-text-selection">Description:</b> <br style="user-select: text;" />@UIUtils.FallbackIfEmpty(Note.Description, "-")
-                    </CardText>
-                    @if (IsTruncated)
-                    {
-                        <div style="height: 28px;"></div>
-                        <div class="description-bottom-cover"></div>
-                        <Button Type="ButtonType.Button" Color="ButtonColor.Link" Class="show-more-less-btn fw-bolder" @onclick="ToggleDescription">@ButtonText</Button>
-                    }
-                </CardBody>
-            </Card>
+            <div style="max-width: 1050px; text-align: center;">
+                <Button @onclick="ShowNoteContent" Class="btn-translucient-v4 btn-show-content border-dark-subtle">Show Content <Icon Name="IconName.ArrowDownCircle" /></Button>
+            </div>
         </div>
-        <div class="py-3" style="margin-bottom: 50px">
+        <div class="pb-3 pt-2" style="margin-bottom: 50px">
             <Card Style="max-width: 1050px">
                 <CardBody>
                     <div class="row row-cols-1 row-cols-sm-1 row-cols-md-1 row-cols-lg-2">
-                        <div class="col mb-3">
+                        @* <div class="col mb-3">
                             <CardText Class="border-bottom enabled-text-selection" Style="padding-bottom: 17px; margin-bottom: 6px;">
                                 <b class="enabled-text-selection">Education:</b>
                                 <span style="white-space: nowrap;">
@@ -44,13 +48,13 @@
                                     <CompletionStateBadge Completed="Note.Subject.Education.Completed" MarginBottom="2" />
                                 </span>
                             </CardText>
-                        </div>
+                        </div> *@
                         <div class="col mb-3">
                             <CardText Class="border-bottom enabled-text-selection" Style="padding-bottom: 20px; margin-bottom: 6px;">
-                                <b class="enabled-text-selection">Institution:</b> @UIUtils.FallbackIfEmpty(Note.Subject.Education.Institution, "-")
+                                <b class="enabled-text-selection">Updated at:</b> @Note.UpdatedAt.ToString("f")
                             </CardText>
                         </div>
-                        <div class="col mb-3">
+                        @* <div class="col mb-3">
                             <CardText Class="border-bottom enabled-text-selection" Style="padding-bottom: 17px; margin-bottom: 6px;">
                                 <b class="enabled-text-selection">Subject:</b>
                                 <span style="white-space: nowrap;">
@@ -58,10 +62,10 @@
                                     <CompletionStateBadge Completed="Note.Subject.Completed" MarginBottom="2" />
                                 </span>
                             </CardText>
-                        </div>
+                        </div> *@
                         <div class="col mb-3">
                             <CardText Class="border-bottom enabled-text-selection" Style="padding-bottom: 20px; margin-bottom: 6px;">
-                                <b class="enabled-text-selection">Date:</b> @Note.Date.ToShortDateString()
+                                <b class="enabled-text-selection">Created at:</b> @Note.CreatedAt.ToString("f")
                             </CardText>
                         </div>
                     </div>
@@ -69,7 +73,7 @@
             </Card>
         </div>
 
-        <div class="border-top generic-devider-line" style="margin-top: 15px"></div>
+        <div class="border-top generic-devider-line" style="margin-top: 15px; opacity: 0.5;"></div>
 
         <div class="d-flex justify-content-between my-3" style="max-width: 1050px">
             <Button Color="ButtonColor.Primary" @onclick="GoBack" Size="ButtonSize.Medium">
@@ -84,10 +88,24 @@
                 </Button>
             </div>
         </div>
-    </div>
-    
-    <div class="border-top generic-devider-line"></div>
 
+        <div class="border-top generic-devider-line" style="opacity: 0.5;"></div>
+        
+        <div class="py-1" style="margin-bottom: 50px">
+            <Card Style="max-width: 1050px">
+                <CardBody>
+                    @if (string.IsNullOrWhiteSpace(Note.Content))
+                    {
+                        <CardText Style="text-align: center;">The content of this note is empty.</CardText>
+                    }
+                    else
+                    {
+                        <Markdown TableCssClass="table table-striped table-hover table-bordered">@Note.Content</Markdown>
+                    }
+                </CardBody>
+            </Card>
+        </div>
+    </div>
 </section>
 
 <style>
