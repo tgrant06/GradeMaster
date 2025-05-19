@@ -1,4 +1,93 @@
-﻿<h3>NoteForm</h3>
+﻿<div class="border-top generic-devider-line" style="margin-top: -1px"></div>
+@if (FormType == FormType.Edit)
+{
+    <h4 style="margin-bottom: 25px; margin-top: 10px; max-width: 1100px;">@FormTitle: @Note?.Title | Color: @Note?.Color.Name @Note?.Color.Symbol</h4>
+}
+else
+{
+    <div style="margin-top: 25px;"></div>
+}
+<EditForm OnValidSubmit="HandleValidSubmit" OnInvalidSubmit="HandleInvalidSubmit" EditContext="_editContext">
+    <DataAnnotationsValidator />
+    <Card Style="max-width: 1050px; border: none;">
+        <!-- Title Field -->
+        <div class="form-group row mb-3">
+            <label class="col-md-2 col-form-label nowrap" for="noteTitle">
+                <strong>Title: <span class="text-danger">*</span></strong>
+            </label>
+            <div class="col-md-10">
+                <TextInput  @bind-Value="NewNote.Title" Id="noteTitle" class="form-control" Placeholder="Enter the note title" Style="width: 155px;" />
+                <ValidationMessage For="@(() => NewNote.Title)" />
+            </div>
+        </div>
+
+        <!-- Color Field -->
+        <div class="form-group row mb-3">
+            <label class="col-md-2 col-form-label nowrap" for="selectFieldColor"><strong>Color: <span class="text-danger">*</span></strong></label>
+            <div class="col-md-10">
+                <select class="form-select" style="max-width: 155px" aria-label="Select Color" name="selectFieldColor" id="selectFieldColor"
+                        @bind="SelectedColorId">
+                    <option value="0" style="display: none;" class="gm-option">Select Color</option>
+                    @foreach (var color in Colors)
+                    {
+                        <option @key="@($"$col_{color.Id}")" value="@color.Id" class="gm-option">@color.Name @color.Symbol</option>
+                    }
+                </select>
+                <ValidationMessage For="@(() => NewNote.Color)" />
+            </div>
+        </div>
+
+        <!-- Subject Field -->
+        <div class="form-group row mb-3">
+            <label class="col-md-2 col-form-label nowrap" for="selectFieldSubject"><strong>Subject: <span class="text-danger">*</span></strong></label>
+            <div class="col-md-10">
+                <select class="form-select" style="max-width: 620px" aria-label="Select Subject" name="selectFieldSubject" id="selectFieldSubject" disabled="@(SubjectId.HasValue)"
+                        @bind="SelectedSubjectId">
+                    <option value="0" class="gm-option">Select Subject</option>
+                    @foreach (var subject in Subjects)
+                    {
+                        <option @key="@($"sub_{subject.Id}")" value="@subject.Id" class="gm-option">@UIUtils.TruncateString(subject.Name, 60) - @subject.Semester @(subject.Completed ? "🟢" : "") | @UIUtils.TruncateString(subject.Education.Name, 60) @(subject.Education.Completed ? "🟢" : "")</option>
+                    }
+                </select>
+                <ValidationMessage For="@(() => NewNote.Subject)" />
+            </div>
+        </div>
+
+        <!-- Total Created At Field -->
+        <div class="form-group row mb-3">
+            <label class="col-md-2 col-form-label nowrap" for="date">
+                <strong>Date: <span class="text-danger">*</span></strong>
+            </label>
+            <div class="col-md-10">
+                <InputDate TValue="DateOnly" @bind-Value="NewNote.Date" id="date" class="form-control" style="width: auto; max-width: 200px;" />
+                <ValidationMessage For="@(() => NewNote.Date)" />
+            </div>
+        </div>
+
+        <!-- Description Field -->
+        <div class="form-group row mb-3">
+            <label class="col-md-2 col-form-label nowrap" for="description">Description:</label>
+            <div class="col-md-10">
+                <InputTextArea @bind-Value="NewNote.Description" id="description" class="form-control" rows="4" placeholder="Enter a description" style="max-height: 272px" />
+                <ValidationMessage For="@(() => NewNote.Description)" />
+            </div>
+        </div>
+
+        <div class="border-top generic-devider-line" style="margin-top: 15px"></div>
+
+        <!-- Buttons -->
+        <div class="d-flex justify-content-between my-3">
+            <Button Type="ButtonType.Button" Color="ButtonColor.Primary" @onclick="Cancel"><Icon Name="IconName.ArrowLeft" /> Cancel</Button>
+            <Button Type="ButtonType.Submit" Color="ButtonColor.Success">Save <Icon Name="IconName.Floppy" /></Button>
+        </div>
+    </Card>
+</EditForm>
+
+<style>
+    .nowrap {
+        white-space: nowrap;
+    }
+</style>
 
 @code {
 

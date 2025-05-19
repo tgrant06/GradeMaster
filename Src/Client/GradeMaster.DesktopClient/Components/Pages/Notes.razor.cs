@@ -8,7 +8,7 @@ using Microsoft.JSInterop;
 
 namespace GradeMaster.DesktopClient.Components.Pages;
 
-public partial class Notes
+public partial class Notes : IAsyncDisposable
 {
     #region Fields / Properties
 
