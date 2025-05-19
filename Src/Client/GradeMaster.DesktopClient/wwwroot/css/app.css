@@ -280,3 +280,7 @@ h1:focus {
     margin-left: 5px;
     font-size: 12px;
 }
+
+.gm-active-resizing-textarea {
+    field-sizing: content;
+}

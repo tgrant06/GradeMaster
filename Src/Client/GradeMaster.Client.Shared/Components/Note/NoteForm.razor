@@ -37,39 +37,53 @@ else
             </div>
         </div>
 
-        <!-- Subject Field -->
+        <!-- IsPinned Field -->
         <div class="form-group row mb-3">
-            <label class="col-md-2 col-form-label nowrap" for="selectFieldSubject"><strong>Subject: <span class="text-danger">*</span></strong></label>
+            <label class="col-md-2 col-form-label nowrap"></label>
             <div class="col-md-10">
-                <select class="form-select" style="max-width: 620px" aria-label="Select Subject" name="selectFieldSubject" id="selectFieldSubject" disabled="@(SubjectId.HasValue)"
-                        @bind="SelectedSubjectId">
-                    <option value="0" class="gm-option">Select Subject</option>
-                    @foreach (var subject in Subjects)
-                    {
-                        <option @key="@($"sub_{subject.Id}")" value="@subject.Id" class="gm-option">@UIUtils.TruncateString(subject.Name, 60) - @subject.Semester @(subject.Completed ? "🟢" : "") | @UIUtils.TruncateString(subject.Education.Name, 60) @(subject.Education.Completed ? "🟢" : "")</option>
-                    }
-                </select>
-                <ValidationMessage For="@(() => NewNote.Subject)" />
+                <label class="col-form-label nowrap" for="isPinned">
+                    <strong>Is Pinned 📌: <span class="text-danger">*</span></strong>
+                </label>
+                <div class="form-check">
+                    <InputCheckbox @bind-Value="NewNote.IsPinned" id="isPinned" class="form-check-input" />
+                    <label class="form-check-label" for="isPinned">
+                        @(NewNote.IsPinned ? "Pinned" : "Unpinned")
+                    </label>
+                </div>
+                <ValidationMessage For="@(() => NewNote.IsPinned)" />
+            </div>
+        </div>
+        
+        <!-- IsArchived Field -->
+        <div class="form-group row mb-3">
+            <label class="col-md-2 col-form-label nowrap"></label>
+            <div class="col-md-10">
+                <label class="col-form-label nowrap" for="isArchived">
+                    <strong>Is Archived <i class="bi bi-archive"></i>: <span class="text-danger">*</span></strong>
+                </label>
+                <div class="form-check">
+                    <InputCheckbox @bind-Value="NewNote.IsArchived" id="isArchived" class="form-check-input" disabled="@(FormType == FormType.Create)"/>
+                    <label class="form-check-label" for="isArchived">
+                        @(NewNote.IsArchived ? "Archived" : "Unarchived")
+                    </label>
+                </div>
+                <ValidationMessage For="@(() => NewNote.IsArchived)" />
             </div>
         </div>
 
-        <!-- Total Created At Field -->
+        <!-- Content Field -->
         <div class="form-group row mb-3">
-            <label class="col-md-2 col-form-label nowrap" for="date">
-                <strong>Date: <span class="text-danger">*</span></strong>
-            </label>
+            <label class="col-md-2 col-form-label nowrap" for="content">Content:</label>
             <div class="col-md-10">
-                <InputDate TValue="DateOnly" @bind-Value="NewNote.Date" id="date" class="form-control" style="width: auto; max-width: 200px;" />
-                <ValidationMessage For="@(() => NewNote.Date)" />
-            </div>
-        </div>
-
-        <!-- Description Field -->
-        <div class="form-group row mb-3">
-            <label class="col-md-2 col-form-label nowrap" for="description">Description:</label>
-            <div class="col-md-10">
-                <InputTextArea @bind-Value="NewNote.Description" id="description" class="form-control" rows="4" placeholder="Enter a description" style="max-height: 272px" />
-                <ValidationMessage For="@(() => NewNote.Description)" />
+                <Tabs>
+                    <Tab Title="Write" Active="true">
+                        <InputTextArea @bind-Value="NewNote.Content" id="content" class="form-control gm-active-resizing-textarea" rows="4" placeholder="Enter the content" style="max-height: 1000px;"/>
+                        <ValidationMessage For="@(() => NewNote.Content)"/>
+                    </Tab>
+                    <Tab Title="Preview">
+                        <Markdown Style="overflow: auto;">@NewNote.Content</Markdown>
+                    </Tab>
+                </Tabs>
             </div>
         </div>
 
@@ -78,7 +92,7 @@ else
         <!-- Buttons -->
         <div class="d-flex justify-content-between my-3">
             <Button Type="ButtonType.Button" Color="ButtonColor.Primary" @onclick="Cancel"><Icon Name="IconName.ArrowLeft" /> Cancel</Button>
-            <Button Type="ButtonType.Submit" Color="ButtonColor.Success">Save <Icon Name="IconName.Floppy" /></Button>
+            <Button Type="ButtonType.Submit" Color="ButtonColor.Success" Id="formSubmitBtn">Save <Icon Name="IconName.Floppy" /></Button>
         </div>
     </Card>
 </EditForm>

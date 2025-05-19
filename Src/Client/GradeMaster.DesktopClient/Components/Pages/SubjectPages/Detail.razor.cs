@@ -81,9 +81,9 @@ public partial class Detail : IAsyncDisposable
     {
         Subject.Education = new Education(); // Initialize the Education property to avoid null reference exceptions
 
-        var educationExists = await _subjectRepository.ExistsAsync(Id);
+        var subjectExists = await _subjectRepository.ExistsAsync(Id);
 
-        if (!educationExists)
+        if (!subjectExists)
         {
             ToastService.Notify(new ToastMessage(ToastType.Info, $"This subject does no longer exist."));
             await GoBack();

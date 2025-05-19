@@ -72,6 +72,14 @@ function focusAndSelectFilterMenu() {
     }
 }
 
+// used for if still focused on a field the field data is not saved when pressing Ctrl+S (should solve this)
+function focusOnSubmitButton() {
+    const formSubmitBtn = document.getElementById("formSubmitBtn");
+    if (formSubmitBtn) {
+        formSubmitBtn.focus();
+    }
+}
+
 // does not currently work
 function handleEscapeV1(event) {
     if (event.key === "Escape") {
@@ -334,6 +342,33 @@ function handleGradeDetailPageKeys(event, dotNetHelper) {
     // maybe add keybind to add new grade with the same Subject
 }
 
+function handleNoteDetailPage(event, dotNetHelper) {
+    if (!event.ctrlKey && !event.altKey) return; // allow Ctrl or Alt combos
+
+    let shortcut = "";
+
+    if (event.ctrlKey) shortcut += "Ctrl+";
+    if (event.altKey) shortcut += "Alt+";
+    if (event.shiftKey) shortcut += "Shift+";
+
+    shortcut += event.key.toLowerCase();
+
+    switch (shortcut) {
+        case "Ctrl+e":
+            event.preventDefault();
+            dotNetHelper.invokeMethodAsync("NavigateToEdit");
+            break;
+        case "Ctrl+d":
+            event.preventDefault();
+            dotNetHelper.invokeMethodAsync("ToggleDescriptionHeight");
+            break;
+        case "Ctrl+Shift+d":
+            event.preventDefault();
+            dotNetHelper.invokeMethodAsync("DeleteObject");
+            break;
+    }
+}
+
 function handleFormComponentKeys(event, dotNetHelper) {
     if (!event.ctrlKey) return; // allow Ctrl or Alt combos
     let shortcut = "";
@@ -343,6 +378,7 @@ function handleFormComponentKeys(event, dotNetHelper) {
     switch (shortcut) {
         case "Ctrl+s":
             event.preventDefault();
+            focusOnSubmitButton();
             dotNetHelper.invokeMethodAsync("SubmitForm");
             break;
     }
@@ -389,6 +425,5 @@ function handleHomePageKeys(event, dotNetHelper) {
             event.preventDefault();
             dotNetHelper.invokeMethodAsync("ReloadPageData");
             break;
-        default:
     }
 }

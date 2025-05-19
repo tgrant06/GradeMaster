@@ -8,4 +8,6 @@ public interface INoteRepository : IGenericEntityRepository<Note>
     Task<List<Note>> GetBySearchWithRangeAsync(string searchValue, int startIndex, int amount);
 
     Task<int> GetTotalCountAsync(string searchValue);
+
+    Task<Note?> GetByIdDetailAsync(int id);
 }

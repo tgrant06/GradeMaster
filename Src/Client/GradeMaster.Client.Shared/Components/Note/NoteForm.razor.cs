@@ -1,5 +1,4 @@
 ﻿using BlazorBootstrap;
-using GradeMaster.Client.Shared.Components.Grade;
 using GradeMaster.Common.Entities;
 using GradeMaster.Common.Enums;
 using GradeMaster.DataAccess.Interfaces.IRepositories;
@@ -12,7 +11,7 @@ using Entities = GradeMaster.Common.Entities;
 
 namespace GradeMaster.Client.Shared.Components.Note;
 
-public partial class NoteForm
+public partial class NoteForm : IAsyncDisposable
 {
     #region Fields / Properties
 
@@ -99,59 +98,15 @@ public partial class NoteForm
 
             if (Colors == null || Colors.Count == 0)
             {
-                throw new InvalidOperationException("No weights found.");
+                throw new InvalidOperationException("No colors found.");
             }
-
-            //if (!SubjectId.HasValue)
-            //{
-            //    if (EducationId.HasValue)
-            //    {
-            //        if (SubjectSemester is > 0)
-            //        {
-            //            Subjects = await _subjectRepository.GetByEducationIdAndCompletedWithSemesterAsync(EducationId.Value, false, SubjectSemester.Value);
-            //        }
-            //        else
-            //        {
-            //            Subjects = await _subjectRepository.GetByEducationIdAndCompletedAsync(EducationId.Value, false);
-            //        }
-
-            //        Subjects = Subjects.OrderByDescending(s => s.Semester).ThenBy(s => s.Name).ThenByDescending(s => s.Id).ToList();
-            //    }
-            //    else
-            //    {
-            //        Subjects = await _subjectRepository.GetByCompletedAsync(false);
-
-            //        Subjects = Subjects.OrderByDescending(s => s.Id).ToList();
-            //    }
-
-            //    //Subjects = Subjects.OrderByDescending(s => s.Id).ToList();
-            //    if (FormType == FormType.Edit && Note != null)
-            //    {
-            //        // can never be null
-            //        var subject = await _subjectRepository.GetByGradeIdAsync(Note.Id);
-
-            //        if (!Subjects.Exists(e => e.Id == subject.Id))
-            //        {
-            //            Subjects.Insert(0, subject);
-            //        }
-            //    }
-            //}
-            //else
-            //{
-            //    Subjects.Add(await _subjectRepository.GetByIdDetailAsync(SubjectId.Value));
-            //}
-
-            //if (Subjects == null || Subjects.Count == 0)
-            //{
-            //    throw new InvalidOperationException("No subjects found.");
-            //}
 
             if (Note == null)
             {
-                // Initialize Grade for creation
+                // Initialize Note for creation
                 Note = new Entities.Note
                 {
-                    Color = Colors.Find(c => c.Id == 1)!
+                    Color = Colors.Find(c => c.Id == 1) ?? default!,
                 };
 
                 FormTitle = "Create New Note";
@@ -186,39 +141,6 @@ public partial class NoteForm
 
         NewNote.UpdatedAt = DateTime.Now;
 
-        if (NewNote.Value < 1)
-        {
-            NewNote.Value = 1;
-            ToastService.Notify(new ToastMessage(ToastType.Warning, "Please enter a valid grade value (1 - 6)."));
-            return;
-        }
-
-        if (NewNote.Weight == null || NewNote.Weight.Id == 0)
-        {
-            ToastService.Notify(new ToastMessage(ToastType.Warning, "Please select a valid weight."));
-            return;
-        }
-
-        if (NewNote.Subject == null || NewNote.Subject.Id == 0)
-        {
-            ToastService.Notify(new ToastMessage(ToastType.Warning, "Please select a valid subject."));
-            return;
-        }
-
-        if (NewNote.Date > NewNote.Subject.Education.EndDate)
-        {
-            NewNote.Date = NewNote.Subject.Education.EndDate;
-            ToastService.Notify(new ToastMessage(ToastType.Warning, "Date of grade may not exceed education end date."));
-            return;
-        }
-
-        if (NewNote.Date < NewNote.Subject.Education.StartDate)
-        {
-            NewNote.Date = NewNote.Subject.Education.StartDate;
-            ToastService.Notify(new ToastMessage(ToastType.Warning, "Date of grade may not be below education start date."));
-            return;
-        }
-
         if (OnSave.HasDelegate)
         {
             _noteService.PassObjectAttributes(Note, NewNote, true);
@@ -227,13 +149,13 @@ public partial class NoteForm
         else
         {
             // Optional fallback logic
-            ToastService.Notify(new ToastMessage(ToastType.Danger, $"Grade could not be saved."));
+            ToastService.Notify(new ToastMessage(ToastType.Danger, $"Note could not be saved."));
         }
     }
 
     private void HandleInvalidSubmit()
     {
-        ToastService.Notify(new ToastMessage(ToastType.Warning, $"Grade form is not valid."));
+        ToastService.Notify(new ToastMessage(ToastType.Warning, $"Note form is not valid."));
     }
 
     #endregion

@@ -55,6 +55,13 @@ public class NoteRepository : INoteRepository
         return await _context.Notes.FindAsync(id);
     }
 
+    public async Task<Note?> GetByIdDetailAsync(int id)
+    {
+        return await _context.Notes
+            .Include(n => n.Color)
+            .FirstOrDefaultAsync(n => n.Id == id);
+    }
+
     public async Task<List<Note>> GetAllAsync()
     {
         return await _context.Notes.ToListAsync();

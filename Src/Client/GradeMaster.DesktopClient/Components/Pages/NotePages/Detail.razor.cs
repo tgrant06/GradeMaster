@@ -1,24 +1,23 @@
 ﻿using BlazorBootstrap;
-using GradeMaster.Client.Shared.Utility;
 using GradeMaster.Common.Entities;
 using GradeMaster.DataAccess.Interfaces.IRepositories;
-using GradeMaster.DataAccess.Repositories;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
+using Entities = GradeMaster.Common.Entities;
 
-namespace GradeMaster.DesktopClient.Components.Pages.GradePages;
+namespace GradeMaster.DesktopClient.Components.Pages.NotePages;
 
 public partial class Detail : IAsyncDisposable
 {
     #region Fields / Properties
-    
+
     [Parameter]
     public int Id
     {
         get; set;
     }
 
-    public Grade Grade { get; set; } = new();
+    public Note Note { get; set; } = new();
 
     private bool IsExpanded { get; set; } = false;
 
@@ -34,14 +33,12 @@ public partial class Detail : IAsyncDisposable
 
     private DotNetObjectReference<Detail>? _objRef;
 
-    //private decimal _subjectAverage;
-
     #endregion
 
     #region Dependency Injection
 
     [Inject]
-    private IGradeRepository _gradeRepository
+    private INoteRepository _noteRepository
     {
         get; set;
     }
@@ -65,22 +62,21 @@ public partial class Detail : IAsyncDisposable
     protected async override Task OnInitializedAsync()
     {
         // Initialize to avoid null reference
-        Grade.Subject = new Subject { Education = new Education() };
-        Grade.Weight = new Weight();
+        Note.Color = new Entities.Color();
 
-        var gradeExists = await _gradeRepository.ExistsAsync(Id);
+        var noteExists = await _noteRepository.ExistsAsync(Id);
 
-        if (!gradeExists)
+        if (!noteExists)
         {
-            ToastService.Notify(new ToastMessage(ToastType.Info, $"This grade does no longer exist."));
+            ToastService.Notify(new ToastMessage(ToastType.Info, $"This note does no longer exist."));
             await GoBack();
             return;
         }
 
         _objRef = DotNetObjectReference.Create(this);
-        await JSRuntime.InvokeVoidAsync("addPageKeybinds", "GradeDetailPage", _objRef);
+        await JSRuntime.InvokeVoidAsync("addPageKeybinds", "NoteDetailPage", _objRef);
 
-        Grade = await _gradeRepository.GetByIdDetailAsync(Id);
+        Note = await _noteRepository.GetByIdDetailAsync(Id);
 
         // Calculate the average only after loading the data
         //await CalculateSubjectAverage();
@@ -129,9 +125,9 @@ public partial class Detail : IAsyncDisposable
 
     #endregion
 
-    #region Delete Grade
+    #region Delete Note
 
-    private async Task DeleteGradeAsync()
+    private async Task DeleteNoteAsync()
     {
         var options = new ConfirmDialogOptions
         {
@@ -139,8 +135,8 @@ public partial class Detail : IAsyncDisposable
         };
 
         var confirmation = await _dialog.ShowAsync(
-            title: "Are you sure you want to delete this Grade?",
-            message1: $"Grade from Subject: {Grade.Subject.Name} - {Grade.Subject.Semester} and Education: {Grade.Subject.Education.Name} with Value: {Grade.Value}, Weight: {Grade.Weight.Name}, Date: {Grade.Date.ToShortDateString()} and Description: {UIUtils.TruncateString(Grade.Description ?? "-", 35)} will be deleted.",
+            title: "Are you sure you want to delete this Note?",
+            message1: $"Note: {Note.Title} with color {Note.Color.Name} {Note.Color.Symbol}, created at: {Note.CreatedAt:f} and last updated at: {Note.UpdatedAt:f} will be deleted.",
             message2: "Do you want to proceed?",
             confirmDialogOptions: options);
 
@@ -148,13 +144,13 @@ public partial class Detail : IAsyncDisposable
         {
             try
             {
-                await _gradeRepository.DeleteByIdAsync(Grade.Id);
-                await GoBack(); // was await OnGradeDeleted.InvokeAsync(Grade.Id);
-                ToastService.Notify(new ToastMessage(ToastType.Success, $"Grade deleted successfully.")); // maybe add Name of deleted object
+                await _noteRepository.DeleteByIdAsync(Note.Id);
+                await GoBack();
+                ToastService.Notify(new ToastMessage(ToastType.Success, $"Note deleted successfully.")); // maybe add Name of deleted object
             }
             catch (Exception e)
             {
-                ToastService.Notify(new ToastMessage(ToastType.Danger, $"Error deleting grade: {e.Message}"));
+                ToastService.Notify(new ToastMessage(ToastType.Danger, $"Error deleting note: {e.Message}"));
             }
         }
     }
@@ -165,27 +161,17 @@ public partial class Detail : IAsyncDisposable
 
     private async Task GoBack() => await JSRuntime.InvokeVoidAsync("window.history.back");
 
-    private void EditGrade() => Navigation.NavigateTo($"/grades/{Grade.Id}/edit");
-
-    private void GoToEducation() => Navigation.NavigateTo($"/educations/{Grade.Subject.Education.Id}");
-
-    private void GoToSubject() => Navigation.NavigateTo($"/subjects/{Grade.Subject.Id}");
+    private void EditNote() => Navigation.NavigateTo($"/notes/{Note.Id}/edit");
 
     #endregion
 
     #region JSInvokable / Keybinds
 
     [JSInvokable]
-    public void NavigateToEdit() => EditGrade();
+    public void NavigateToEdit() => EditNote();
 
     [JSInvokable]
-    public async Task DeleteObject() => await DeleteGradeAsync();
-
-    [JSInvokable]
-    public void NavigateToEducation() => GoToEducation();
-
-    [JSInvokable]
-    public void NavigateToSubject() => GoToSubject();
+    public async Task DeleteObject() => await DeleteNoteAsync();
 
     [JSInvokable]
     public async Task ToggleDescriptionHeight()
@@ -199,38 +185,11 @@ public partial class Detail : IAsyncDisposable
 
     #endregion
 
-    #region Averages Currently Not Used
-
-    // private async Task CalculateSubjectAverage()
-    // {
-    //     var grades = await _gradeRepository.GetBySubjectIdAsync(Grade.Id);
-    //     //_subjectAverage = CalculateWeightedAverage(grades);
-    // }
-
-    // private decimal CalculateWeightedAverage(ICollection<Grade> grades)
-    // {
-    //     if (grades == null || !grades.Any())
-    //     {
-    //         return 0;
-    //     }
-
-    //     decimal totalWeight = grades.Sum(g => g.Weight?.Value ?? 1); // Default weight to 1 if null
-    //     if (totalWeight == 0)
-    //     {
-    //         return 0;
-    //     }
-
-    //     decimal weightedSum = grades.Sum(g => g.Value * (g.Weight?.Value ?? 1)); // Default weight to 1 if null
-    //     return weightedSum / totalWeight;
-    // }
-
-    #endregion
-
     public async ValueTask DisposeAsync()
     {
         await JSRuntime.InvokeVoidAsync("removeDescriptionAreaEventListener");
 
-        await JSRuntime.InvokeVoidAsync("removePageKeybinds", "GradeDetailPage");
+        await JSRuntime.InvokeVoidAsync("removePageKeybinds", "NoteDetailPage");
         _objRef?.Dispose();
     }
 }
