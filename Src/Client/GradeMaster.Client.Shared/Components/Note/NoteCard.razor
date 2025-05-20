@@ -29,11 +29,11 @@
     </CardBody> *@
     <CardBody>
         <CardText Class="border-bottom" Style="padding-bottom: 11px; margin-bottom: 11px;">
-            <b>Updated at: </b> <br /> @Note.UpdatedAt.ToString("f")
+            <b>Updated at: </b> <br /> @Note.UpdatedAt.ToString("ddd, dd. MMMM yyyy HH:mm")
             @* <CompletionStateBadge Completed="Note.Subject.Education.Completed" MarginBottom="1" /> *@
         </CardText>
         <CardText>
-            <b>Created at: </b> <br /> @Note.CreatedAt.ToString("f")
+            <b>Created at: </b> <br /> @Note.CreatedAt.ToString("ddd, dd. MMMM yyyy HH:mm")
             @* <CompletionStateBadge Completed="Note.Subject.Completed" MarginBottom="1" /> *@
         </CardText>
     </CardBody>
