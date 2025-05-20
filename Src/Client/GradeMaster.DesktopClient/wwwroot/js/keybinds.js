@@ -31,6 +31,9 @@ window.addPageKeybinds = (pageName, dotNetHelper) => {
                 case "GradeDetailPage":
                     handleGradeDetailPageKeys(event, dotNetHelper);
                     break;
+                case "NoteDetailPage":
+                    handleNoteDetailPage(event, dotNetHelper);
+                    break;
                 case "FormComponent":
                     handleFormComponentKeys(event, dotNetHelper);
                     break;

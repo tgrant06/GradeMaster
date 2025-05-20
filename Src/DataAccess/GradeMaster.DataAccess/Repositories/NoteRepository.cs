@@ -103,6 +103,8 @@ public class NoteRepository : INoteRepository
         if (string.IsNullOrWhiteSpace(searchValue))
         {
             return await _context.Notes
+                .Where(note => 
+                    note.IsArchived == false)
                 .OrderByDescending(n => n.IsPinned)
                     .ThenByDescending(n => n.UpdatedAt)
                     .ThenByDescending(n => n.Id)
@@ -112,28 +114,28 @@ public class NoteRepository : INoteRepository
         }
 
         var mainSearchValue = searchValue.Trim();
-        var searchForOnlyIsArchived = false;
-        var searchForOnlyIsPinned = false;
+        var searchForIsArchived = false;
+        var searchForIsPinned = false;
 
         // Check for completion state suffix
         if (mainSearchValue.EndsWith(" (archive)", StringComparison.OrdinalIgnoreCase))
         {
-            searchForOnlyIsArchived = true;
+            searchForIsArchived = true;
             mainSearchValue = mainSearchValue[..^" (archive)".Length].Trim();
         }
         else if (mainSearchValue.EndsWith(" (a)", StringComparison.OrdinalIgnoreCase))
         {
-            searchForOnlyIsArchived = true;
+            searchForIsArchived = true;
             mainSearchValue = mainSearchValue[..^" (a)".Length].Trim();
         }
         else if (mainSearchValue.EndsWith(" (pinned)", StringComparison.OrdinalIgnoreCase))
         {
-            searchForOnlyIsArchived = true;
+            searchForIsPinned = true;
             mainSearchValue = mainSearchValue[..^" (pinned)".Length].Trim();
         }
         else if (mainSearchValue.EndsWith(" (p)", StringComparison.OrdinalIgnoreCase))
         {
-            searchForOnlyIsArchived = true;
+            searchForIsPinned = true;
             mainSearchValue = mainSearchValue[..^" (p)".Length].Trim();
         }
 
@@ -157,26 +159,34 @@ public class NoteRepository : INoteRepository
         var newColorSearch = !string.IsNullOrEmpty(colorSearch) ? $"%{colorSearch}%" : null;
 
         // Only check for in progress/completed in the search value if we haven't already found a suffix
-        if (searchForOnlyIsArchived == false && searchByTextValue)
+        var searchForOnlyIsArchived = false;
+
+        if (searchForIsArchived == false && searchByTextValue)
         {
             var completionState = mainSearchValue.ToLower();
-            searchForOnlyIsArchived = completionState switch
+            searchForIsArchived = completionState switch
             {
                 "*(archive)" => true,
                 "*(a)" => true,
                 _ => false
             };
+
+            searchForOnlyIsArchived = searchForIsArchived;
         }
 
-        if (searchForOnlyIsPinned == false && searchByTextValue)
+        var searchForOnlyIsPinned = false;
+
+        if (searchForIsPinned == false && searchByTextValue)
         {
             var completionState = mainSearchValue.ToLower();
-            searchForOnlyIsPinned = completionState switch
+            searchForIsPinned = completionState switch
             {
                 "*(pinned)" => true,
                 "*(p)" => true,
                 _ => false
             };
+
+            searchForOnlyIsPinned = searchForIsPinned;
         }
 
         var normalizedDateSearch = NormalizeDateSearchValue(mainSearchValue);
@@ -186,8 +196,11 @@ public class NoteRepository : INoteRepository
             .Where(note =>
                 (
                     !searchByTextValue ||
+                    searchForOnlyIsArchived ||
+                    searchForOnlyIsPinned ||
                     EF.Functions.Like(note.Title, newSearchValue) ||
                     (note.Content != null && EF.Functions.Like(note.Content, newSearchValue)) ||
+                    //(note.Tags != null && EF.Functions.Like(note.Tags, newSearchValue)) ||
                     EF.Functions.Like(note.UpdatedAt.ToString(), normalizedDateSearchValue) ||
                     EF.Functions.Like(note.CreatedAt.ToString(), normalizedDateSearchValue) ||
                     (newColorSearch == null &&
@@ -200,11 +213,11 @@ public class NoteRepository : INoteRepository
                 )
                 &&
                 (
-                    !searchForOnlyIsPinned ||
-                    note.IsPinned == searchForOnlyIsPinned
+                    !searchForIsPinned ||
+                    note.IsPinned == searchForIsPinned
                 )
                 && 
-                    note.IsArchived == searchForOnlyIsArchived
+                    note.IsArchived == searchForIsArchived
             )
             .OrderByDescending(n => n.IsPinned)
                 .ThenByDescending(n => n.UpdatedAt)
@@ -232,32 +245,35 @@ public class NoteRepository : INoteRepository
     {
         if (string.IsNullOrWhiteSpace(searchValue))
         {
-            return await _context.Notes.CountAsync();
+            return await _context.Notes
+                .Where(note =>
+                    note.IsArchived == false)
+                .CountAsync();
         }
 
         var mainSearchValue = searchValue.Trim();
-        var searchForOnlyIsArchived = false;
-        var searchForOnlyIsPinned = false;
+        var searchForIsArchived = false;
+        var searchForIsPinned = false;
 
         // Check for completion state suffix
         if (mainSearchValue.EndsWith(" (archive)", StringComparison.OrdinalIgnoreCase))
         {
-            searchForOnlyIsArchived = true;
+            searchForIsArchived = true;
             mainSearchValue = mainSearchValue[..^" (archive)".Length].Trim();
         }
         else if (mainSearchValue.EndsWith(" (a)", StringComparison.OrdinalIgnoreCase))
         {
-            searchForOnlyIsArchived = true;
+            searchForIsArchived = true;
             mainSearchValue = mainSearchValue[..^" (a)".Length].Trim();
         }
         else if (mainSearchValue.EndsWith(" (pinned)", StringComparison.OrdinalIgnoreCase))
         {
-            searchForOnlyIsArchived = true;
+            searchForIsPinned = true;
             mainSearchValue = mainSearchValue[..^" (pinned)".Length].Trim();
         }
         else if (mainSearchValue.EndsWith(" (p)", StringComparison.OrdinalIgnoreCase))
         {
-            searchForOnlyIsArchived = true;
+            searchForIsPinned = true;
             mainSearchValue = mainSearchValue[..^" (p)".Length].Trim();
         }
 
@@ -281,26 +297,34 @@ public class NoteRepository : INoteRepository
         var newColorSearch = !string.IsNullOrEmpty(colorSearch) ? $"%{colorSearch}%" : null;
 
         // Only check for in progress/completed in the search value if we haven't already found a suffix
-        if (searchForOnlyIsArchived == false && searchByTextValue)
+        var searchForOnlyIsArchived = false;
+
+        if (searchForIsArchived == false && searchByTextValue)
         {
             var completionState = mainSearchValue.ToLower();
-            searchForOnlyIsArchived = completionState switch
+            searchForIsArchived = completionState switch
             {
                 "*(archive)" => true,
                 "*(a)" => true,
                 _ => false
             };
+
+            searchForOnlyIsArchived = searchForIsArchived;
         }
 
-        if (searchForOnlyIsPinned == false && searchByTextValue)
+        var searchForOnlyIsPinned = false;
+
+        if (searchForIsPinned == false && searchByTextValue)
         {
             var completionState = mainSearchValue.ToLower();
-            searchForOnlyIsPinned = completionState switch
+            searchForIsPinned = completionState switch
             {
                 "*(pinned)" => true,
                 "*(p)" => true,
                 _ => false
             };
+
+            searchForOnlyIsPinned = searchForIsPinned;
         }
 
         var normalizedDateSearch = NormalizeDateSearchValue(mainSearchValue);
@@ -310,8 +334,11 @@ public class NoteRepository : INoteRepository
             .Where(note =>
                 (
                     !searchByTextValue ||
+                    searchForOnlyIsArchived ||
+                    searchForOnlyIsPinned ||
                     EF.Functions.Like(note.Title, newSearchValue) ||
                     (note.Content != null && EF.Functions.Like(note.Content, newSearchValue)) ||
+                    //(note.Tags != null && EF.Functions.Like(note.Tags, newSearchValue)) ||
                     EF.Functions.Like(note.UpdatedAt.ToString(), normalizedDateSearchValue) ||
                     EF.Functions.Like(note.CreatedAt.ToString(), normalizedDateSearchValue) ||
                     (newColorSearch == null &&
@@ -324,13 +351,18 @@ public class NoteRepository : INoteRepository
                 )
                 &&
                 (
-                    !searchForOnlyIsPinned ||
-                    note.IsPinned == searchForOnlyIsPinned
+                    !searchForIsPinned ||
+                    note.IsPinned == searchForIsPinned
                 )
                 &&
-                    note.IsArchived == searchForOnlyIsArchived
+                    note.IsArchived == searchForIsArchived
             )
             .CountAsync();
+    }
+
+    public async Task<int> GetTotalArchivedNotesCountAsync()
+    {
+        return await _context.Notes.Where(note => note.IsArchived == true).CountAsync();
     }
 
     public async Task<bool> ExistsAnyAsync()

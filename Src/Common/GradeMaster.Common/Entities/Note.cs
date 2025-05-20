@@ -22,6 +22,14 @@ public class Note
         get; set;
     }
 
+    //[MaxLength(1020, ErrorMessage = "Tags may not exceed a combined string length of 1020.")]
+    //public string? Tags
+    //{
+    //    get; set;
+    //}
+
+    // alternatively add a Short description
+
     [Required]
     public DateTime CreatedAt
     {

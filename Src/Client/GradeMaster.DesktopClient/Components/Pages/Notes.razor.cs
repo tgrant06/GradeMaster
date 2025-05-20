@@ -16,6 +16,8 @@ public partial class Notes : IAsyncDisposable
 
     private int _totalItemCount;
 
+    private int _allArchivedNotesCount;
+
     private Virtualize<Note>? _virtualizeComponent;
 
     private ConfirmDialog _dialog = default!;
@@ -71,6 +73,8 @@ public partial class Notes : IAsyncDisposable
         }
 
         _totalItemCount = await _noteRepository.GetTotalCountAsync(_searchValue);
+
+        _allArchivedNotesCount = await _noteRepository.GetTotalArchivedNotesCountAsync();
     }
 
     #region Data
