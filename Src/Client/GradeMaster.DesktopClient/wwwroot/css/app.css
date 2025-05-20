@@ -177,6 +177,10 @@ h1:focus {
     user-select: text;
 }
 
+.enabled-text-selection-and-children * {
+    user-select: text !important;
+}
+
 .content {
     scroll-margin-top: 60px;
 }

@@ -127,7 +127,7 @@ public partial class NoteForm : IAsyncDisposable
         }
 
         _objRef = DotNetObjectReference.Create(this);
-        await JSRuntime.InvokeVoidAsync("addPageKeybinds", "FormComponent", _objRef);
+        await JSRuntime.InvokeVoidAsync("addPageKeybinds", "NoteFormComponent", _objRef);
     }
 
     #region HandleSubmit
@@ -183,7 +183,7 @@ public partial class NoteForm : IAsyncDisposable
 
     public async ValueTask DisposeAsync()
     {
-        await JSRuntime.InvokeVoidAsync("removePageKeybinds", "FormComponent");
+        await JSRuntime.InvokeVoidAsync("removePageKeybinds", "NoteFormComponent");
         _objRef?.Dispose();
     }
 }

@@ -34,6 +34,9 @@ window.addPageKeybinds = (pageName, dotNetHelper) => {
                 case "FormComponent":
                     handleFormComponentKeys(event, dotNetHelper);
                     break;
+                case "NoteFormComponent":
+                    handleNoteFormComponentKeys(event, dotNetHelper);
+                    break;
             }
         }
     };
@@ -77,6 +80,13 @@ function focusOnSubmitButton() {
     const formSubmitBtn = document.getElementById("formSubmitBtn");
     if (formSubmitBtn) {
         formSubmitBtn.focus();
+    }
+}
+
+function clickOnTab(tabName) {
+    const tabBtn = document.getElementById(`${tabName}Tab`);
+    if (tabBtn) {
+        tabBtn.click();
     }
 }
 
@@ -393,6 +403,32 @@ function handleFormComponentKeys(event, dotNetHelper) {
             event.preventDefault();
             focusOnSubmitButton();
             dotNetHelper.invokeMethodAsync("SubmitForm");
+            break;
+    }
+}
+
+function handleNoteFormComponentKeys(event, dotNetHelper) {
+    if (!event.ctrlKey) return; // allow Ctrl or Alt combos
+
+    let shortcut = "";
+
+    if (event.ctrlKey) shortcut += "Ctrl+";
+    if (event.shiftKey) shortcut += "Shift+";
+
+    shortcut += event.key.toLowerCase();
+    switch (shortcut) {
+        case "Ctrl+s":
+            event.preventDefault();
+            focusOnSubmitButton();
+            dotNetHelper.invokeMethodAsync("SubmitForm");
+            break;
+        case "Ctrl+Shift+w":
+            event.preventDefault();
+            clickOnTab("write");
+            break;
+        case "Ctrl+Shift+v":
+            event.preventDefault();
+            clickOnTab("preview");
             break;
     }
 }

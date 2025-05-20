@@ -99,7 +99,7 @@ public partial class Detail : IAsyncDisposable
 
         var confirmation = await _dialog.ShowAsync(
             title: "Are you sure you want to delete this Note?",
-            message1: $"Note: {Note.Title} with color {Note.Color.Name} {Note.Color.Symbol}, created at: {Note.CreatedAt:f} and last updated at: {Note.UpdatedAt:f} will be deleted.",
+            message1: $"Note: {Note.Title} with color: {Note.Color.Name} {Note.Color.Symbol}, created at: {Note.CreatedAt:f} and last updated at: {Note.UpdatedAt:f} will be deleted.",
             message2: "Do you want to proceed?",
             confirmDialogOptions: options);
 

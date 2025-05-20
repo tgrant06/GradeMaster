@@ -27,7 +27,7 @@ else
             <div class="col-md-10">
                 <select class="form-select" style="max-width: 200px" aria-label="Select Color" name="selectFieldColor" id="selectFieldColor"
                         @bind="SelectedColorId">
-                    <option value="0" style="display: none;" class="gm-option">Select Color</option>
+                    <option value="0" style="/* display: none; */" class="gm-option">Select Color</option>
                     @foreach (var color in Colors)
                     {
                         <option @key="@($"$col_{color.Id}")" value="@color.Id" class="gm-option">@color.Symbol @color.Name</option>
@@ -39,15 +39,15 @@ else
 
         <!-- IsPinned Field -->
         <div class="form-group row mb-3">
-            <label class="col-md-2 col-form-label nowrap"></label>
-            <div class="col-md-10">
-                <label class="col-form-label nowrap" for="isPinned">
+            <label class="col-md-2 col-form-label nowrap"><strong>Pinned: <span class="text-danger">*</span></strong></label>
+            <div class="col-md-10 ps-3 pt-2">
+                @* <label class="col-form-label nowrap" for="isPinned">
                     <strong>Is Pinned 📌: <span class="text-danger">*</span></strong>
-                </label>
+                </label> *@
                 <div class="form-check">
                     <InputCheckbox @bind-Value="NewNote.IsPinned" id="isPinned" class="form-check-input" />
                     <label class="form-check-label" for="isPinned">
-                        @(NewNote.IsPinned ? "Pinned" : "Unpinned")
+                        @(NewNote.IsPinned ? "Pinned 📌" : "Unpinned")
                     </label>
                 </div>
                 <ValidationMessage For="@(() => NewNote.IsPinned)" />
@@ -55,16 +55,23 @@ else
         </div>
         
         <!-- IsArchived Field -->
-        <div class="form-group row mb-3">
-            <label class="col-md-2 col-form-label nowrap"></label>
-            <div class="col-md-10">
-                <label class="col-form-label nowrap" for="isArchived">
+        <div class="form-group row mb-4">
+            <label class="col-md-2 col-form-label nowrap"><strong>Archived: <span class="text-danger">*</span></strong></label>
+            <div class="col-md-10 ps-3 pt-2">
+                @* <label class="col-form-label nowrap" for="isArchived">
                     <strong>Is Archived <i class="bi bi-archive"></i>: <span class="text-danger">*</span></strong>
-                </label>
+                </label> *@
                 <div class="form-check">
                     <InputCheckbox @bind-Value="NewNote.IsArchived" id="isArchived" class="form-check-input" disabled="@(FormType == FormType.Create)"/>
                     <label class="form-check-label" for="isArchived">
-                        @(NewNote.IsArchived ? "Archived" : "Unarchived")
+                        @if (NewNote.IsArchived)
+                        {
+                            <span>Archived <i class="bi bi-archive"></i></span>
+                        }
+                        else
+                        {
+                            <span>Unarchived</span>
+                        }
                     </label>
                 </div>
                 <ValidationMessage For="@(() => NewNote.IsArchived)" />
@@ -76,21 +83,28 @@ else
             <label class="col-md-2 col-form-label nowrap" for="content">Content:</label>
             <div class="col-md-10">
                 <Tabs>
-                    <Tab Title="Write" Active="true">
+                    <Tab Title="Write" Active="true" Id="writeTab">
                         <Content>
-                            <div class="mt-2">
-                                <InputTextArea @bind-Value="NewNote.Content" id="content" class="form-control gm-active-resizing-textarea" rows="4" placeholder="Enter the note content" style="max-height: 1000px; min-height: 206px;"/>
-                                <ValidationMessage For="@(() => NewNote.Content)"/>
+                            <div class="border border-top-0" style="border-radius: 0 0 12px 12px;">
+                                <div class="p-2">
+                                    <InputTextArea @bind-Value="NewNote.Content" id="content" class="form-control gm-active-resizing-textarea" rows="4" placeholder="Enter the note content" style="max-height: 750px; min-height: 206px; /* resize: none; */"/>
+                                    <ValidationMessage For="@(() => NewNote.Content)"/>
+                                </div>
                             </div>
                         </Content>
                     </Tab>
-                    <Tab Title="Preview">
+                    <Tab Title="Preview" Id="previewTab">
                         <Content>
-                            <Card Class="mt-2">
-                                <CardBody Style="padding: 6px 12px !important;">
-                                    <Markdown TableCssClass="table table-striped table-hover table-bordered" Style="overflow: auto;">@NewNote.Content</Markdown>
-                                </CardBody>
-                            </Card>
+                            <div class="border border-top-0" style="border-radius: 0 0 12px 12px;">
+                                <div Class="p-2">
+                                    <Card Style="--bs-card-border-color: var(--bs-border-color);">
+                                        <CardBody Style="padding: 0 12px !important; padding-right: 0 !important;">
+                                            <Markdown TableCssClass="table table-striped table-hover table-bordered" Class="enabled-text-selection enabled-text-selection-and-children" Style="overflow: auto; max-height: 748px; min-height: 204px; padding-top: 6px; padding-bottom: 6px; padding-right: 12px;">@NewNote.Content</Markdown>
+                                        </CardBody>
+                                    </Card>
+                                    <ValidationMessage For="@(() => NewNote.Content)" />
+                                </div>
+                            </div>
                         </Content>
                     </Tab>
                 </Tabs>
@@ -114,6 +128,10 @@ else
 
     #scrollToTopButton {
         display: none !important;
+    }
+
+    textarea.valid.modified {
+        outline: none !important;
     }
 </style>
 
