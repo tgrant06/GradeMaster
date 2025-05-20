@@ -68,7 +68,7 @@ else
         <div class="form-group row mb-3">
             <label class="col-md-2 col-form-label nowrap" for="description">Description:</label>
             <div class="col-md-10">
-                <InputTextArea @bind-Value="NewGrade.Description" id="description" class="form-control" rows="4" placeholder="Enter a description" style="max-height: 272px" />
+                <InputTextArea @bind-Value="NewGrade.Description" id="description" class="form-control gm-active-resizing-textarea" rows="4" placeholder="Enter a description" style="max-height: 278px; min-height: 110px;" />
                 <ValidationMessage For="@(() => NewGrade.Description)"/>
             </div>
         </div>

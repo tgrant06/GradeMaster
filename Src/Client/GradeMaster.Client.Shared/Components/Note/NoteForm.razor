@@ -85,7 +85,7 @@ else
                 <Tabs>
                     <Tab Title="Write" Active="true" Id="writeTab">
                         <Content>
-                            <div class="border border-top-0" style="border-radius: 0 0 12px 12px;">
+                            <div class="border border-top-0 bg-body-tertiary" style="border-radius: 0 0 12px 12px;">
                                 <div class="p-2">
                                     <InputTextArea @bind-Value="NewNote.Content" id="content" class="form-control gm-active-resizing-textarea" rows="4" placeholder="Enter the note content" style="max-height: 750px; min-height: 206px; /* resize: none; */"/>
                                     <ValidationMessage For="@(() => NewNote.Content)"/>
@@ -95,7 +95,7 @@ else
                     </Tab>
                     <Tab Title="Preview" Id="previewTab">
                         <Content>
-                            <div class="border border-top-0" style="border-radius: 0 0 12px 12px;">
+                            <div class="border border-top-0 bg-body-tertiary" style="border-radius: 0 0 12px 12px;">
                                 <div Class="p-2">
                                     <Card Style="--bs-card-border-color: var(--bs-border-color);">
                                         <CardBody Style="padding: 0 12px !important; padding-right: 0 !important;">
@@ -132,6 +132,12 @@ else
 
     textarea.valid.modified {
         outline: none !important;
+    }
+
+    .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+        --bs-bg-opacity: 1;
+        background-color: rgba(var(--bs-tertiary-bg-rgb), var(--bs-bg-opacity)) !important;
+        border-bottom-color: rgba(var(--bs-tertiary-bg-rgb), var(--bs-bg-opacity)) !important;
     }
 </style>
 
