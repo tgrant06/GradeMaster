@@ -91,6 +91,12 @@ public partial class Notes : IAsyncDisposable
         return new ItemsProviderResult<Note>(fetchedNotes, _totalItemCount);
     }
 
+    private async Task RefreshNoteDataFromCard()
+    {
+        await RefreshNoteData();
+        _allArchivedNotesCount = await _noteRepository.GetTotalArchivedNotesCountAsync();
+    }
+
     private async Task RefreshNoteData()
     {
         var uri = new Uri(Navigation.Uri);

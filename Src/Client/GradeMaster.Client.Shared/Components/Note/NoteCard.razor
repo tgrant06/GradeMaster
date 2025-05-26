@@ -14,7 +14,7 @@
                 @Note.Title
             </CardTitle>
         }
-        <CardSubTitle Class="mb-2 text-muted">@Note.Color.Name @Note.Color.Symbol</CardSubTitle>
+        <CardSubTitle Class="mb-2 text-muted">@(Note.Color.Name + Note.Color.Symbol)</CardSubTitle>
         @if (Note.IsArchived)
         {
             <CardSubTitle Class="mb-2 text-muted" Style="text-align: end; margin-top: -27px; margin-right: 4px;">
@@ -38,18 +38,23 @@
         </CardText>
     </CardBody>
     <CardFooter Style="text-align: end">
+        <div style="text-align: start; display: inline-block; width: calc(100% - 123px);">
+            <Button Size="ButtonSize.Small" Color="ButtonColor.Warning" TooltipTitle="@(Note.IsArchived ? "Unarchive Note" : "Archive Note")" @onclick="ArchiveNoteAsync">
+                <Icon Name="@(Note.IsArchived ? IconName.ArchiveFill : IconName.Archive)" Size="IconSize.x6"/>
+            </Button>
+        </div>
         <Button Size="ButtonSize.Small" Color="ButtonColor.Primary" @onclick="NoteDetail">
-            Detail <Icon Name="IconName.ArrowRight" Size="IconSize.x6" />
+            Detail <Icon Name="IconName.ArrowRight" Size="IconSize.x6"/>
         </Button>
         <Button Size="ButtonSize.Small" Color="ButtonColor.Danger" Style="margin-left: 6px" TooltipTitle="Delete Note" @onclick="DeleteNoteAsync">
-            <Icon Name="IconName.Trash" Size="IconSize.x6" />
+            <Icon Name="IconName.Trash" Size="IconSize.x6"/>
         </Button>
     </CardFooter>
 </Card>
 
 @code {
     [Parameter] public Note Note { get; set; }
-    [Parameter] public EventCallback OnNoteDeleted { get; set; } // was EventCallback<int> OnGradeDeleted { get; set; }
+    [Parameter] public EventCallback OnNoteUpdated { get; set; } // was EventCallback<int> OnGradeDeleted { get; set; }
     [Parameter] public ConfirmDialog Dialog { get; set; } = default!;
 
     [Inject] private INoteRepository _noteRepository { get; set; }
@@ -80,13 +85,33 @@
             try
             {
                 await _noteRepository.DeleteByIdAsync(Note.Id);
-                await OnNoteDeleted.InvokeAsync();
+                await OnNoteUpdated.InvokeAsync();
                 ToastService.Notify(new ToastMessage(ToastType.Success, $"Note deleted successfully.")); // maybe add Name of deleted object
             }
             catch (Exception e)
             {
                 ToastService.Notify(new ToastMessage(ToastType.Danger, $"Error deleting note: {e.Message}"));
             }
+        }
+    }
+
+    #endregion
+
+    #region Archive Note
+
+    private async Task ArchiveNoteAsync()
+    {
+        Note.IsArchived = !Note.IsArchived;
+
+        try
+        {
+            await _noteRepository.UpdateAsync(Note.Id, Note);
+            await OnNoteUpdated.InvokeAsync();
+            ToastService.Notify(new ToastMessage(ToastType.Success, $"Note {(Note.IsArchived ? "archived" : "unarchived")} successfully.")); // maybe add Name of archived object
+        }
+        catch (Exception e)
+        {
+            ToastService.Notify(new ToastMessage(ToastType.Danger, $"Error {(Note.IsArchived ? "archived" : "unarchived")} note: {e.Message}"));
         }
     }
 

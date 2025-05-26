@@ -1,7 +1,7 @@
 ﻿<div class="border-top generic-devider-line" style="margin-top: -1px"></div>
 @if (FormType == FormType.Edit)
 {
-    <h4 style="margin-bottom: 25px; margin-top: 10px; max-width: 1100px;">@FormTitle: @Note?.Title | Color: @Note?.Color.Name @Note?.Color.Symbol</h4>
+    <h4 style="margin-bottom: 25px; margin-top: 10px; max-width: 1100px;">@FormTitle: @Note?.Title | Color: @(Note?.Color.Name + Note?.Color.Symbol)</h4>
 }
 else
 {
@@ -39,7 +39,7 @@ else
 
         <!-- IsPinned Field -->
         <div class="form-group row mb-3">
-            <label class="col-md-2 col-form-label nowrap"><strong>Pinned: <span class="text-danger">*</span></strong></label>
+            <label class="col-md-2 col-form-label nowrap" for="isPinned"><strong>Pinned: <span class="text-danger">*</span></strong></label>
             <div class="col-md-10 ps-3 pt-2">
                 @* <label class="col-form-label nowrap" for="isPinned">
                     <strong>Is Pinned 📌: <span class="text-danger">*</span></strong>
@@ -47,7 +47,7 @@ else
                 <div class="form-check">
                     <InputCheckbox @bind-Value="NewNote.IsPinned" id="isPinned" class="form-check-input" />
                     <label class="form-check-label" for="isPinned">
-                        @(NewNote.IsPinned ? "Pinned 📌" : "Unpinned")
+                        @(NewNote.IsPinned ? "Pinned📌" : "Unpinned")
                     </label>
                 </div>
                 <ValidationMessage For="@(() => NewNote.IsPinned)" />
@@ -56,7 +56,7 @@ else
         
         <!-- IsArchived Field -->
         <div class="form-group row mb-4">
-            <label class="col-md-2 col-form-label nowrap"><strong>Archived: <span class="text-danger">*</span></strong></label>
+            <label class="col-md-2 col-form-label nowrap" for="isArchived"><strong>Archived: <span class="text-danger">*</span></strong></label>
             <div class="col-md-10 ps-3 pt-2">
                 @* <label class="col-form-label nowrap" for="isArchived">
                     <strong>Is Archived <i class="bi bi-archive"></i>: <span class="text-danger">*</span></strong>

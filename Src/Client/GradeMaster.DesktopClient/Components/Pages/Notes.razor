@@ -21,7 +21,7 @@
             <EditForm Model="_searchValue" OnValidSubmit="RefreshNoteData">
                 <InputText id="searchFieldNote" class="form-control" placeholder="Search for Note" @bind-Value="_searchValue" />
             </EditForm>
-            <span class="text-secondary gm-sm-infotext">Results: @_totalItemCount | Archived: @_allArchivedNotesCount</span>
+            <span class="text-secondary gm-sm-infotext">Results: @_totalItemCount | Total Archived: @_allArchivedNotesCount</span>
         </div>
         <!--Add edit and detail button later-->
         <div class="col-1 col-md-1 mb-3 mt-4" style="width: 38px; margin-right: 6px; padding-left: 9px;">
@@ -45,7 +45,7 @@
         <div class="component-card-grid pb-4 pt-3">
             <Virtualize TItem="Note" ItemsProvider="GetNotesProvider" Context="note" OverscanCount="12" @ref="_virtualizeComponent">
                 <ItemContent>
-                    <NoteCard @key="note.Id" Note="@note" OnNoteDeleted="RefreshNoteData" Dialog="_dialog" />
+                    <NoteCard @key="note.Id" Note="@note" OnNoteUpdated="RefreshNoteDataFromCard" Dialog="_dialog" />
                 </ItemContent>
                 <EmptyContent>
                     <div></div>

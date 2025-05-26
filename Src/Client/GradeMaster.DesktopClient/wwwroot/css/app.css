@@ -136,6 +136,10 @@ h1:focus {
     background-color: light-dark(rgba(0, 0, 0, 0.03), rgba(255, 255, 255, 0.03)) !important;
 }
 
+    .btn-translucient-v3:focus-visible {
+        box-shadow: 0 0 0 .25rem light-dark(rgba(0, 0, 0, .12), rgba(255, 255, 255, .16)) !important;
+    }
+
     .btn-translucient-v3:hover, .btn-translucient-v3:focus-visible {
         background-color: light-dark(rgba(0, 0, 0, 0.125), rgba(255, 255, 255, 0.125)) !important;
     }
@@ -147,6 +151,10 @@ h1:focus {
 .btn-translucient-v4 {
     background-color: light-dark(rgba(0, 0, 0, 0.03), rgba(255, 255, 255, 0.03)) !important;
 }
+
+    .btn-translucient-v4:focus-visible {
+        box-shadow: 0 0 0 .25rem light-dark(rgba(0, 0, 0, .12), rgba(255, 255, 255, .14)) !important;
+    }
 
     .btn-translucient-v4:hover, .btn-translucient-v4:focus-visible {
         background-color: light-dark(rgba(0, 0, 0, 0.1), rgba(255, 255, 255, 0.09)) !important;
