@@ -145,15 +145,15 @@ h1:focus {
     }
 
 .btn-translucient-v4 {
-    background-color: light-dark(rgba(0, 0, 0, 0.02), rgba(255, 255, 255, 0.03)) !important;
+    background-color: light-dark(rgba(0, 0, 0, 0.03), rgba(255, 255, 255, 0.03)) !important;
 }
 
     .btn-translucient-v4:hover, .btn-translucient-v4:focus-visible {
-        background-color: light-dark(rgba(0, 0, 0, 0.1), rgba(255, 255, 255, 0.125)) !important;
+        background-color: light-dark(rgba(0, 0, 0, 0.1), rgba(255, 255, 255, 0.09)) !important;
     }
 
     .btn-translucient-v4:hover:active, .btn-translucient-v4:first-child:active, .btn-translucient-v4:active {
-        background-color: light-dark(rgba(0, 0, 0, 0.15), rgba(255, 255, 255, 0.20)) !important;
+        background-color: light-dark(rgba(0, 0, 0, 0.15), rgba(255, 255, 255, 0.12)) !important;
     }
 /* maybe later for different color: light 245, 245, 245, ... | dark: 38, 42, 46, ... background-color: #e72a2a40;*/
 

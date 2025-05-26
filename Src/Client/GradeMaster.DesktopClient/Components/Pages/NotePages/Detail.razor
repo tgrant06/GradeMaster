@@ -31,16 +31,33 @@
         </div>
         @*Todo: ||
                 \/*@
-        <div class="py-2">
+        @* <div class="py-2">
             <div style="max-width: 1050px; text-align: center;">
                 <Button @onclick="ShowNoteContent" Class="btn-translucient-v4 btn-show-content border-dark-subtle">Show Content <Icon Name="IconName.ArrowDownCircle" /></Button>
             </div>
         </div>
-        <div class="pb-3 pt-2" style="margin-bottom: 50px">
-            <Card Style="max-width: 1050px">
-                <CardBody>
-                    <div class="row row-cols-1 row-cols-sm-1 row-cols-md-1 row-cols-lg-2">
-                        @* <div class="col mb-3">
+ *@
+        <div class="pb-3 pt-1" style="margin-bottom: 50px; max-width: 1050px;">
+            <div class="row row-cols-1 row-cols-sm-1 row-cols-md-1 row-cols-lg-2">
+                <div class="col mt-3" style="min-height: 175px;">
+                    <div class="mb-3">
+                        <Button @onclick="ShowNoteContent" Class="btn-translucient-v4 btn-show-content border-secondary-subtle" Style="width: 100%; font-size: 18px;" Disabled="@(string.IsNullOrWhiteSpace(Note.Content))">Show Content <Icon Name="IconName.ArrowDownCircle" /></Button>
+                    </div>
+                    <Card Style="height: calc(100% - 57px);">
+                        <CardBody>
+                            <div class="mb-3">
+                                <CardText Class="enabled-text-selection" Style="padding-bottom: 20px; margin-bottom: 6px;">
+                                    <b class="enabled-text-selection">Tags:</b> <br class="enabled-text-selection" />tag1, tag2, tag3, ...
+                                </CardText>
+                            </div>
+                        </CardBody>
+                    </Card>
+                </div>
+                <div class="col mt-3" style="min-height: 175px;">
+                    <Card Style="height: 100%;">
+                        <CardBody>
+                            @* <div class="row row-cols-1 row-cols-sm-1 row-cols-md-1 row-cols-lg-2"> *@
+                                @* <div class="col mb-3">
                             <CardText Class="border-bottom enabled-text-selection" Style="padding-bottom: 17px; margin-bottom: 6px;">
                                 <b class="enabled-text-selection">Education:</b>
                                 <span style="white-space: nowrap;">
@@ -49,12 +66,12 @@
                                 </span>
                             </CardText>
                         </div> *@
-                        <div class="col mb-3">
-                            <CardText Class="border-bottom enabled-text-selection" Style="padding-bottom: 20px; margin-bottom: 6px;">
-                                <b class="enabled-text-selection">Updated at:</b> @Note.UpdatedAt.ToString("f")
-                            </CardText>
-                        </div>
-                        @* <div class="col mb-3">
+                                <div class="mb-3">
+                                    <CardText Class="border-bottom enabled-text-selection" Style="padding-bottom: 20px; margin-bottom: 6px;">
+                                        <b class="enabled-text-selection">Updated at:</b> @Note.UpdatedAt.ToString("f")
+                                    </CardText>
+                                </div>
+                                @* <div class="col mb-3">
                             <CardText Class="border-bottom enabled-text-selection" Style="padding-bottom: 17px; margin-bottom: 6px;">
                                 <b class="enabled-text-selection">Subject:</b>
                                 <span style="white-space: nowrap;">
@@ -63,14 +80,16 @@
                                 </span>
                             </CardText>
                         </div> *@
-                        <div class="col mb-3">
-                            <CardText Class="border-bottom enabled-text-selection" Style="padding-bottom: 20px; margin-bottom: 6px;">
-                                <b class="enabled-text-selection">Created at:</b> @Note.CreatedAt.ToString("f")
-                            </CardText>
-                        </div>
-                    </div>
-                </CardBody>
-            </Card>
+                                <div class="mb-3">
+                                    <CardText Class="enabled-text-selection" Style="padding-bottom: 20px; margin-bottom: 6px;">
+                                        <b class="enabled-text-selection">Created at:</b> @Note.CreatedAt.ToString("f")
+                                    </CardText>
+                                </div>
+                            @* </div> *@
+                        </CardBody>
+                    </Card>
+                </div>
+            </div>
         </div>
 
         <div class="border-top generic-devider-line" style="margin-top: 15px; opacity: 0.5;"></div>
@@ -91,29 +110,26 @@
 
         <div class="border-top generic-devider-line" style="opacity: 0.5;"></div>
         
-        <div class="py-1" style="margin-bottom: 50px">
-            <Card Style="max-width: 1050px">
-                <CardBody>
-                    @if (string.IsNullOrWhiteSpace(Note.Content))
-                    {
-                        <CardText Style="text-align: center;">The content of this note is empty.</CardText>
-                    }
-                    else
-                    {
+        <div class="pt-3" style="margin-bottom: 50px; margin-top: 10px; max-width: 1050px;">
+            <h3 id="noteContentHeader" style="text-align: center; margin-bottom: 20px; scroll-margin-top: 75px;">Content</h3>
+            @if (string.IsNullOrWhiteSpace(Note.Content))
+            {
+                <p style="text-align: center;">The content of this note is empty.</p>
+            }
+            else
+            {
+                <Card Style="max-width: 1050px">
+                    <CardBody>
                         <Markdown TableCssClass="table table-striped table-hover table-bordered">@Note.Content</Markdown>
-                    }
-                </CardBody>
-            </Card>
+                    </CardBody>
+                </Card>
+            }
         </div>
     </div>
 </section>
 
 <style>
     .tooltip {
-        display: none !important;
-    }
-
-    #scrollToTopButton {
         display: none !important;
     }
 </style>
