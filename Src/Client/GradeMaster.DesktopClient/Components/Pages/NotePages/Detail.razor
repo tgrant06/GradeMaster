@@ -29,17 +29,10 @@
                 }
             </CardSubTitle>
         </div>
-        @*Todo: ||
-                \/*@
-        @* <div class="py-2">
-            <div style="max-width: 1050px; text-align: center;">
-                <Button @onclick="ShowNoteContent" Class="btn-translucient-v4 btn-show-content border-dark-subtle">Show Content <Icon Name="IconName.ArrowDownCircle" /></Button>
-            </div>
-        </div>
- *@
+
         <div class="pb-3 pt-1" style="margin-bottom: 50px; max-width: 1050px; padding: 0 4px;">
             <div class="row row-cols-1 row-cols-sm-1 row-cols-md-1 row-cols-lg-2">
-                <div class="col mt-3" style="min-height: 175px; padding: 0 8px;">
+                <div class="col mt-3" style="min-height: 169px; padding: 0 8px;">
                     <Card Style="height: 100%">
                         <CardBody>
                             <div class="mb-3">
@@ -50,42 +43,22 @@
                         </CardBody>
                     </Card>
                 </div>
-                <div class="col mt-3" style="min-height: 175px; padding: 0 8px;">
+                <div class="col mt-3" style="min-height: 169px; padding: 0 8px;">
                     <div class="mb-3">
                         <Button @onclick="ShowNoteContent" Class="btn-translucient-v4 btn-show-content border-secondary-subtle" Style="width: 100%; font-size: 18px;" Disabled="@(string.IsNullOrWhiteSpace(Note.Content))">Show Content <Icon Name="IconName.ArrowDownCircle" /></Button>
                     </div>
                     <Card Style="height: calc(100% - 57px);">
                         <CardBody>
-                            @* <div class="row row-cols-1 row-cols-sm-1 row-cols-md-1 row-cols-lg-2"> *@
-                            @* <div class="col mb-3">
-                            <CardText Class="border-bottom enabled-text-selection" Style="padding-bottom: 17px; margin-bottom: 6px;">
-                                <b class="enabled-text-selection">Education:</b>
-                                <span style="white-space: nowrap;">
-                                    <Button @onclick="GoToEducation" Class="btn-translucient-v2 border-0 enabled-text-selection btn-entity-link" Style="padding: 3px; padding-left: 6px; padding-right: 6px; font-size: initial; margin-top: -4px; margin-left: -5px; white-space: normal;">@Note.Subject.Education.Name <Icon Name="IconName.ArrowUpRightCircle" /></Button>
-                                    <CompletionStateBadge Completed="Note.Subject.Education.Completed" MarginBottom="2" />
-                                </span>
-                            </CardText>
-                        </div> *@
                             <div class="mb-3">
                                 <CardText Class="border-bottom enabled-text-selection" Style="padding-bottom: 20px; margin-bottom: 6px;">
                                     <b class="enabled-text-selection">Updated at:</b> <br class="enabled-text-selection" />@Note.UpdatedAt.ToString("f")
                                 </CardText>
                             </div>
-                            @* <div class="col mb-3">
-                            <CardText Class="border-bottom enabled-text-selection" Style="padding-bottom: 17px; margin-bottom: 6px;">
-                                <b class="enabled-text-selection">Subject:</b>
-                                <span style="white-space: nowrap;">
-                                    <Button @onclick="GoToSubject" class="btn-translucient-v2 border-0 enabled-text-selection btn-entity-link" style="padding: 3px; padding-left: 6px; padding-right: 6px; font-size: initial; margin-top: -4px; margin-left: -5px; white-space: normal;"> @Note.Subject.Name - @Note.Subject.Semester <Icon Name="IconName.ArrowUpRightCircle" /></Button>
-                                    <CompletionStateBadge Completed="Note.Subject.Completed" MarginBottom="2" />
-                                </span>
-                            </CardText>
-                        </div> *@
                             <div>
                                 <CardText Class="enabled-text-selection" Style="padding-bottom: 2px;">
                                     <b class="enabled-text-selection">Created at:</b> <br class="enabled-text-selection" />@Note.CreatedAt.ToString("f")
                                 </CardText>
                             </div>
-                            @* </div> *@
                         </CardBody>
                     </Card>
                 </div>
@@ -123,7 +96,7 @@
 
         @* <div class="border-top generic-devider-line" style="opacity: 0.5;"></div> *@
         
-        <div class="pt-3" style="margin-bottom: 50px; margin-top: 10px; max-width: 1050px;">
+        <div class="pt-3" style="margin-bottom: 60px; margin-top: 10px; max-width: 1050px;">
             <h3 id="noteContentHeader" class="enabled-text-selection" style="text-align: center; margin-bottom: 20px; scroll-margin-top: 121px;">Content:</h3>
             @if (string.IsNullOrWhiteSpace(Note.Content))
             {
@@ -146,6 +119,15 @@
         display: none !important;
     }
 </style>
+
+@if (string.IsNullOrWhiteSpace(Note.Content))
+{
+    <style>
+        #scrollToTopButton {
+            display: none !important;
+        }
+    </style>
+}
 
 <script>
     window.scrollTo({ top: 0, behavior: 'auto' });
