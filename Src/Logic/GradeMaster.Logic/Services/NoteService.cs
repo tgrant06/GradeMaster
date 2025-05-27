@@ -13,6 +13,7 @@ public class NoteService : INoteService
 
         toNote.Title = actionSubmit ? fromNote.Title.Trim( ) : fromNote.Title;
         toNote.Content  = actionSubmit ? fromNote.Content?.Trim() : fromNote.Content;
+        toNote.Tags = actionSubmit ? fromNote.Tags?.Trim() : fromNote.Tags;
         toNote.CreatedAt = fromNote.CreatedAt;
         toNote.UpdatedAt = fromNote.UpdatedAt;
         toNote.IsPinned = fromNote.IsPinned;

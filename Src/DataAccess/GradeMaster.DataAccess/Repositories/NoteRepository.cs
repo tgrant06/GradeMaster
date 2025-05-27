@@ -200,7 +200,7 @@ public class NoteRepository : INoteRepository
                     searchForOnlyIsPinned ||
                     EF.Functions.Like(note.Title, newSearchValue) ||
                     (note.Content != null && EF.Functions.Like(note.Content, newSearchValue)) ||
-                    //(note.Tags != null && EF.Functions.Like(note.Tags, newSearchValue)) ||
+                    (note.Tags != null && EF.Functions.Like(note.Tags, newSearchValue)) ||
                     EF.Functions.Like(note.UpdatedAt.ToString(), normalizedDateSearchValue) ||
                     EF.Functions.Like(note.CreatedAt.ToString(), normalizedDateSearchValue) ||
                     (newColorSearch == null &&
@@ -338,7 +338,7 @@ public class NoteRepository : INoteRepository
                     searchForOnlyIsPinned ||
                     EF.Functions.Like(note.Title, newSearchValue) ||
                     (note.Content != null && EF.Functions.Like(note.Content, newSearchValue)) ||
-                    //(note.Tags != null && EF.Functions.Like(note.Tags, newSearchValue)) ||
+                    (note.Tags != null && EF.Functions.Like(note.Tags, newSearchValue)) ||
                     EF.Functions.Like(note.UpdatedAt.ToString(), normalizedDateSearchValue) ||
                     EF.Functions.Like(note.CreatedAt.ToString(), normalizedDateSearchValue) ||
                     (newColorSearch == null &&

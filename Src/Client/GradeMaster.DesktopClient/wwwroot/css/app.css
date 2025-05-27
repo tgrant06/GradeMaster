@@ -4,7 +4,7 @@
     -webkit-user-select: none; /* Safari and WebKit browsers */
     user-select: none; /* Prevents text selection */
     /*pointer-events: auto;*/ /* Ensures normal interactions */
-    scrollbar-color: light-dark(#8B8B8B,#9F9F9F) light-dark(#00000012, #00000015); /*was: transparent*/
+    scrollbar-color: light-dark(#8B8B8B,#9F9F9F) light-dark(#00000012, #ffffff08); /*was: transparent*/
     scrollbar-width: thin;
 }
 
@@ -214,7 +214,7 @@ h1:focus {
         overflow-x: visible;
     }
     .content {
-        scroll-margin-top: 385px;
+        scroll-margin-top: 435px;
     }
 }
 
@@ -310,4 +310,11 @@ h1:focus {
 
 .gm-active-resizing-textarea {
     field-sizing: content;
+}
+
+.gm-note-tag-item {
+    background-color: light-dark(rgba(0, 0, 0, 0.12), rgba(255, 255, 255, 0.1)) !important;
+    color: light-dark(#000000, #ffffff) !important;
+    margin-right: 6px;
+    margin-top: 6px;
 }

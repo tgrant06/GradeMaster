@@ -1,4 +1,5 @@
-﻿using BlazorBootstrap;
+﻿using System.Diagnostics.Metrics;
+using BlazorBootstrap;
 using GradeMaster.Common.Entities;
 using GradeMaster.DataAccess.Interfaces.IRepositories;
 using Microsoft.AspNetCore.Components;
@@ -116,6 +117,20 @@ public partial class Detail : IAsyncDisposable
                 ToastService.Notify(new ToastMessage(ToastType.Danger, $"Error deleting note: {e.Message}"));
             }
         }
+    }
+
+    #endregion
+
+    #region Clipboard
+
+    // Todo
+    private async Task CopyToClipboard()
+    {
+        var textToCopy = $"notes/{Note.Id}";
+        //await JSRuntime.InvokeVoidAsync("navigator.clipboard.writeText", textToCopy);
+        await Clipboard.SetTextAsync(textToCopy);
+
+        ToastService.Notify(new ToastMessage(ToastType.Success, "Copied to Clipboard"));
     }
 
     #endregion

@@ -22,12 +22,36 @@
             </CardSubTitle>
         }
     </CardHeader>
-    @* <CardBody>
-        <CardText>
-            <b>Description:</b> <br /> @UIUtils.TruncateStringWithFallback(Note.Description, "-", 125)
-        </CardText>
-    </CardBody> *@
     <CardBody>
+        <CardText>
+            <b>Tags:</b> <br /> 
+            @if (Note.Tags is null || Note.Tags.Length == 0)
+            {
+                <span>-</span>
+            }
+            else
+            {
+                @* foreach (var tag in NoteUtils.ToTagArray(Note.Tags))
+                {
+                    <NoteTagItem Text="@UIUtils.TruncateString(tag, 50)" />
+                } *@
+
+                var tags = NoteUtils.ToTagArray(Note.Tags);
+
+                for (var i = 0; i < int.Min(15, tags.Length); i++)
+                {
+                    <NoteTagItem Text="@UIUtils.TruncateString(tags[i], 50)" />
+                }
+
+                if (tags.Length > 15)
+                {
+                    <span>...</span>
+                }
+            }
+            @*@NoteUtils.ToTagArray(Note.Tags) @UIUtils.TruncateStringWithFallback(Note.Tags, "-", 125) *@
+        </CardText>
+    </CardBody>
+    <CardBody Class="border-top">
         <CardText Class="border-bottom" Style="padding-bottom: 11px; margin-bottom: 11px;">
             <b>Updated at: </b> <br /> @Note.UpdatedAt.ToString("ddd, dd. MMMM yyyy HH:mm")
             @* <CompletionStateBadge Completed="Note.Subject.Education.Completed" MarginBottom="1" /> *@

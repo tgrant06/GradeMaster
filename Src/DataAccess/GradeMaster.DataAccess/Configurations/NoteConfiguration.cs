@@ -15,6 +15,7 @@ public class NoteConfiguration : IEntityTypeConfiguration<Note>
 
         builder.Property(n => n.Title).HasColumnName("Title").IsUnicode().HasMaxLength(255).IsRequired().UseCollation("NOCASE");
         builder.Property(n => n.Content).HasColumnName("Content").IsUnicode().HasMaxLength(10_000).IsRequired(false).UseCollation("NOCASE");
+        builder.Property(n => n.Tags).HasColumnName("Tags").IsUnicode().HasMaxLength(510).IsRequired(false).UseCollation("NOCASE");
 
         builder.Property(n => n.CreatedAt).HasColumnName("CreatedAt").IsRequired();
         builder.Property(n => n.UpdatedAt).HasColumnName("UpdatedAt").IsRequired();

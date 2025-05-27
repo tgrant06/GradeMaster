@@ -36,8 +36,31 @@
                     <Card Style="height: 100%">
                         <CardBody>
                             <div class="mb-3">
-                                <CardText Class="enabled-text-selection" Style="padding-bottom: 20px; margin-bottom: 6px;">
-                                    <b class="enabled-text-selection">Tags:</b> <br class="enabled-text-selection" />tag1, tag2, tag3, ...
+                                <CardText Class="enabled-text-selection enabled-text-selection-and-children">
+                                    <b class="enabled-text-selection">Tags:</b> <br class="enabled-text-selection" />
+                                    @if (Note.Tags is null || Note.Tags.Length == 0)
+                                    {
+                                        <span>-</span>
+                                    }
+                                    else
+                                    {
+                                        foreach (var tag in NoteUtils.ToTagArray(Note.Tags))
+                                        {
+                                            <NoteTagItem Text="@UIUtils.TruncateString(tag, 50)" />
+                                        }
+
+                                        @*var tags = NoteUtils.ToTagArray(Note.Tags);
+
+                                        for (var i = 0; i < int.Min(15, tags.Length); i++)
+                                        {
+                                            <NoteTagItem Text="@UIUtils.TruncateString(tags[i], 50)" />
+                                        }
+
+                                        if (tags.Length > 15)
+                                        {
+                                            <span> ...</span>
+                                        } *@
+                                    }
                                 </CardText>
                             </div>
                         </CardBody>
