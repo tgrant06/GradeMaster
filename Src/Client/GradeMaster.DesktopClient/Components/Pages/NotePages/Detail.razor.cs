@@ -20,23 +20,34 @@ public partial class Detail : IAsyncDisposable
 
     public Note Note { get; set; } = new();
 
-    private bool IsExpanded { get; set; } = false;
-
-    private bool IsTruncated { get; set; } = false;
-
-    private string ButtonText => IsExpanded ? "less" : "...more";
-
-    private string DescriptionAreaDynamicHeight => IsExpanded ? $"max-height: {_descriptionAreaExpandedHeight}px;" : "max-height: 175px;";
-
     private int _descriptionAreaExpandedHeight;
 
     private ConfirmDialog _dialog = default!;
+
+    private BlazorBootstrap.Button _copyButton = default!;
 
     private DotNetObjectReference<Detail>? _objRef;
 
     #endregion
 
     #region Dependency Injection
+    [Inject]
+    private IEducationRepository _educationRepository
+    {
+        get; set;
+    }
+
+    [Inject]
+    private ISubjectRepository _subjectRepository
+    {
+        get; set;
+    }
+
+    [Inject]
+    private IGradeRepository _gradeRepository
+    {
+        get; set;
+    }
 
     [Inject]
     private INoteRepository _noteRepository
@@ -78,6 +89,14 @@ public partial class Detail : IAsyncDisposable
         await JSRuntime.InvokeVoidAsync("addPageKeybinds", "NoteDetailPage", _objRef);
 
         Note = await _noteRepository.GetByIdDetailAsync(Id);
+    }
+
+    protected async override Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JSRuntime.InvokeVoidAsync("attachLinkInterceptor", _objRef);
+        }
     }
 
     #region Content
@@ -123,14 +142,19 @@ public partial class Detail : IAsyncDisposable
 
     #region Clipboard
 
-    // Todo
     private async Task CopyToClipboard()
     {
-        var textToCopy = $"notes/{Note.Id}";
+        _copyButton.ShowLoading();
+
+        var textToCopy = $"/notes/{Note.Id}";
         //await JSRuntime.InvokeVoidAsync("navigator.clipboard.writeText", textToCopy);
         await Clipboard.SetTextAsync(textToCopy);
 
-        ToastService.Notify(new ToastMessage(ToastType.Success, "Copied to Clipboard"));
+        ToastService.Notify(new ToastMessage(ToastType.Success, "Copied note id to Clipboard"));
+
+        await Task.Delay(1500);
+
+        _copyButton.HideLoading();
     }
 
     #endregion
@@ -151,11 +175,87 @@ public partial class Detail : IAsyncDisposable
     [JSInvokable]
     public async Task DeleteObject() => await DeleteNoteAsync();
 
+    [JSInvokable]
+    public async Task NavigateFromJs(string? url)
+    {
+        if (url is null)
+        {
+            ToastInvalidUrl("URL is null!");
+            return;
+        }
+
+        var stringId = url.Split('/', StringSplitOptions.RemoveEmptyEntries).Last();
+        if (!int.TryParse(stringId, out var id))
+        {
+            ToastInvalidUrl("'" + url + "'");
+            return;
+        }
+
+        if (url.StartsWith("/notes", StringComparison.OrdinalIgnoreCase))
+        {
+            if (!await _noteRepository.ExistsAsync(id))
+            {
+                ToastService.Notify(new ToastMessage(ToastType.Info, $"Note with Id: '{id}' doesn't exist."));
+                return;
+            }
+            Navigation.NavigateTo(url, true);
+            return;
+        } 
+
+        if (url.StartsWith("/educations", StringComparison.OrdinalIgnoreCase))
+        {
+            if (!await _educationRepository.ExistsAsync(id))
+            {
+                ToastService.Notify(new ToastMessage(ToastType.Info, $"Education with Id: '{id}' doesn't exist."));
+                return;
+            }
+            Navigation.NavigateTo(url);
+            return;
+        }
+
+        if (url.StartsWith("/subjects", StringComparison.OrdinalIgnoreCase))
+        {
+            if (!await _subjectRepository.ExistsAsync(id))
+            {
+                ToastService.Notify(new ToastMessage(ToastType.Info, $"Subject with Id: '{id}' doesn't exist."));
+                return;
+            }
+            Navigation.NavigateTo(url);
+            return;
+        }
+
+        if (url.StartsWith("/grades", StringComparison.OrdinalIgnoreCase))
+        {
+            if (!await _gradeRepository.ExistsAsync(id))
+            {
+                ToastService.Notify(new ToastMessage(ToastType.Info, $"Grade with Id: '{id}' doesn't exist."));
+                return;
+            }
+            Navigation.NavigateTo(url);
+            return;
+        }
+
+        ToastInvalidUrl(url);
+    }
+
+    [JSInvokable]
+    public async Task CopyPageUrl() => await CopyToClipboard();
+
+    #endregion
+
+    #region Utility
+
+    private void ToastInvalidUrl(string url)
+    {
+        ToastService.Notify(new ToastMessage(ToastType.Warning, $"Invalid URL. URL: {url}."));
+    }
+
     #endregion
 
     public async ValueTask DisposeAsync()
     {
         await JSRuntime.InvokeVoidAsync("removePageKeybinds", "NoteDetailPage");
+        await JSRuntime.InvokeVoidAsync("detachLinkInterceptor");
         _objRef?.Dispose();
     }
 }

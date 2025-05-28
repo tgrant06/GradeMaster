@@ -36,6 +36,8 @@ public partial class Detail : IAsyncDisposable
 
     private ConfirmDialog _dialog = default!;
 
+    private BlazorBootstrap.Button _copyButton = default!;
+
     private DotNetObjectReference<Detail>? _objRef;
 
     #endregion
@@ -146,6 +148,25 @@ public partial class Detail : IAsyncDisposable
 
     #endregion
 
+    #region Clipboard
+
+    private async Task CopyToClipboard()
+    {
+        _copyButton.ShowLoading();
+
+        var textToCopy = $"/educations/{Education.Id}";
+        //await JSRuntime.InvokeVoidAsync("navigator.clipboard.writeText", textToCopy);
+        await Clipboard.SetTextAsync(textToCopy);
+
+        ToastService.Notify(new ToastMessage(ToastType.Success, "Copied education id to Clipboard"));
+
+        await Task.Delay(1500);
+
+        _copyButton.HideLoading();
+    }
+
+    #endregion
+
     #region Delete Education
 
     private async Task DeleteEducationAsync()
@@ -230,6 +251,9 @@ public partial class Detail : IAsyncDisposable
             StateHasChanged();
         }
     }
+
+    [JSInvokable]
+    public async Task CopyPageUrl() => await CopyToClipboard();
 
     #endregion
 

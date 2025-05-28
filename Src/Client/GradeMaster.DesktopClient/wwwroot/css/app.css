@@ -318,3 +318,9 @@ h1:focus {
     margin-right: 6px;
     margin-top: 6px;
 }
+
+.gm-copy-btn {
+    position: absolute;
+    top: 0;
+    right: 0;
+}

@@ -77,15 +77,25 @@
         <div class="border-top generic-devider-line" style="margin-top: 15px; opacity: 0.5;"></div>
 
         <div class="d-flex justify-content-between my-3" style="max-width: 1050px">
-            <Button Color="ButtonColor.Primary" @onclick="GoBack" Size="ButtonSize.Medium">
-                <Icon Name="IconName.ArrowLeft"/> Back
-            </Button>
+            <div>
+                <Button Color="ButtonColor.Primary" @onclick="GoBack" Size="ButtonSize.Medium">
+                    <Icon Name="IconName.ArrowLeft"/> Back
+                </Button>
+                <Button @ref="_copyButton" @onclick="CopyToClipboard" Class="btn-translucient-v4 border-secondary-subtle" Size="ButtonSize.Medium" Style="margin-left: 8px; padding-left: 10px; padding-right: 10px;">
+                    <LoadingTemplate>
+                        <Icon Name="IconName.CheckLg" Color="IconColor.Success" />
+                    </LoadingTemplate>
+                    <ChildContent>
+                        <Icon Name="IconName.Copy" />
+                    </ChildContent>
+                </Button>
+            </div>
             <div>
                 <Button Color="ButtonColor.Success" @onclick="EditEducation" Size="ButtonSize.Medium">
                     Edit <Icon Name="IconName.PencilSquare"/>
                 </Button>
                 <Button Color="ButtonColor.Danger" @onclick="DeleteEducationAsync" Size="ButtonSize.Medium" TooltipTitle="Delete" Style="margin-left: 8px; padding-left: 10px; padding-right: 10px;">
-                    <Icon Name="IconName.Trash" />
+                    <Icon Name="IconName.Trash"/>
                 </Button>
             </div>
         </div>

@@ -285,6 +285,11 @@ function handleEducationDetailPageKeys(event, dotNetHelper) {
             event.preventDefault();
             dotNetHelper.invokeMethodAsync("DeleteObject");
             break;
+
+        case "Ctrl+Shift+c":
+            event.preventDefault();
+            dotNetHelper.invokeMethodAsync("CopyPageUrl");
+            break;
     }
 }
 
@@ -323,6 +328,11 @@ function handleSubjectDetailPageKeys(event, dotNetHelper) {
         case "Ctrl+Shift+a":
             event.preventDefault();
             dotNetHelper.invokeMethodAsync("NavigateToEducation");
+            break;
+
+        case "Ctrl+Shift+c":
+            event.preventDefault();
+            dotNetHelper.invokeMethodAsync("CopyPageUrl");
             break;
     }
 }
@@ -363,6 +373,11 @@ function handleGradeDetailPageKeys(event, dotNetHelper) {
             event.preventDefault();
             dotNetHelper.invokeMethodAsync("NavigateToEducation");
             break;
+
+        case "Ctrl+Shift+c":
+            event.preventDefault();
+            dotNetHelper.invokeMethodAsync("CopyPageUrl");
+            break;
     }
 
     // maybe add keybind to add new grade with the same Subject
@@ -391,6 +406,11 @@ function handleNoteDetailPage(event, dotNetHelper) {
         case "Ctrl+Shift+d":
             event.preventDefault();
             dotNetHelper.invokeMethodAsync("DeleteObject");
+            break;
+
+        case "Ctrl+Shift+c":
+            event.preventDefault();
+            dotNetHelper.invokeMethodAsync("CopyPageUrl");
             break;
     }
 }
