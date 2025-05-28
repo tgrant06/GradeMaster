@@ -313,6 +313,8 @@ h1:focus {
 }
 
 .gm-note-tag-item {
+    --bs-badge-font-size: 0.82em;
+    --bs-badge-font-weight: 400;
     background-color: light-dark(rgba(0, 0, 0, 0.12), rgba(255, 255, 255, 0.1)) !important;
     color: light-dark(#000000, #ffffff) !important;
     margin-right: 6px;
