@@ -161,7 +161,7 @@ public partial class Detail : IAsyncDisposable
         //await JSRuntime.InvokeVoidAsync("navigator.clipboard.writeText", textToCopy);
         await Clipboard.SetTextAsync(textToCopy);
 
-        ToastService.Notify(new ToastMessage(ToastType.Success, "Copied subject id to Clipboard"));
+        ToastService.Notify(new ToastMessage(ToastType.Success, "Copied page URL to clipboard"));
 
         await Task.Delay(1500);
 
