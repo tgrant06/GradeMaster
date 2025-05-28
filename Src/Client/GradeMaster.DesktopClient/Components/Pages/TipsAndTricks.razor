@@ -109,22 +109,42 @@
                         <p>It is recommended that you sometimes back up your data. You can do this by copying the file '<code>GradeMaster.db</code>' and save it somewhere at a dedicated location. The file is located at: '<code>C:\Users\YourUser\AppData\Local\GradeMaster\Data</code>'.</p>
                     </li>
                     <li class="list-item-bottom-spacer">
+                        <strong>Notes:</strong>
+                        <p>Notes in GradeMaster are made for making notes about your education or stuff relevant to your education. The content of notes can and should be written in the Markdown format. <br/>
+                            You can add Tags to your notes by using the following convention: "tag1, tag2, tag3". (separated by the comma) <br />
+                            You can also add links to different websites or pages of the app by using the Markdown link format: "[Link Text](https://example.com)". <br />
+                            For this functionality, the app offers the copy button on all entities, to copy the individual page URL to include in the Note content. <br />
+                        </p>
+                    </li>
+                    <li class="list-item-bottom-spacer">
                         <strong>Search:</strong>
                         <p>When searching you can use following advanced patterns on following pages.</p>
                         <ul>
-                            <li><strong>Educations:</strong> Patterns: "#1 some text | #2 some text" this will search for everything matching (#1) and institution matching (2#). Example: "Something specific | Institute1". <br />
-                                It is also possible to search for only "completed" or "in progress" entries. (Currently search for completion state can't be used with other search) <br />
-                                Searching for the completion state is also possible now. In order to search for the completion state just add (complete) or (c) / (in progress) or (ip) at the end of your search. <br />
-                                You can also just search for completion state when you add an asterisk in front of the completion state you want to search for. Example: "*(complete)" or "*(c)" or "*(in progress)" or "*(ip)".
-                                </li>
-                            <li><strong>Subjects:</strong> Patterns: Supports the pattern of Educations Page, but also allows you to search for subject with a combination of the subject name and subject semester. Example: "Some name 3" or "Some name - 3". <br />
-                                It is also possible to combine this with the search of institution. Example: "Some name 3 | Institute1". <br />
-                                It is also possible to search for only "completed" or "in progress" entries. (Currently search for completion state can't be used with other search) <br />
-                                Searching for the completion state is also possible now. In order to search for the completion state just add (complete) or (c) / (in progress) or (ip) at the end of your search. <br />
+                            <li class="list-item-bottom-spacer-sm">
+                                <strong>Educations:</strong> Patterns: "#1 some text | #2 some text" this will search for everything matching (#1) and institution matching (2#). Example: "Something specific | Institute1". <br />
+                                It is also possible to search for only "completed" or "in progress" entries. <br />
+                                In order to search for the completion state just add (complete) or (c) / (in progress) or (ip) at the end of your search. <br />
                                 You can also just search for completion state when you add an asterisk in front of the completion state you want to search for. Example: "*(complete)" or "*(c)" or "*(in progress)" or "*(ip)".
                             </li>
-                            <li><strong>Grades:</strong> Patterns: Supports the same patterns as the Subject page search. <br /> Search with completion state is not possible on this page.</li>
-                            <li><strong>Notes:</strong> Patterns: </li>
+                            <li class="list-item-bottom-spacer-sm">
+                                <strong>Subjects:</strong> Patterns: Supports the pattern of Educations Page, but also allows you to search for subject with a combination of the subject name and subject semester. Example: "Some name 3" or "Some name - 3". <br/>
+                                It is also possible to combine this with the search of institution. Example: "Some name 3 | Institute1". <br/>
+                                It is also possible to search for only "completed" or "in progress" entries. <br/>
+                                In order to search for the completion state just add (complete) or (c) / (in progress) or (ip) at the end of your search. <br/>
+                                You can also just search for completion state when you add an asterisk in front of the completion state you want to search for. Example: "*(complete)" or "*(c)" or "*(in progress)" or "*(ip)".
+                            </li>
+                            <li class="list-item-bottom-spacer-sm">
+                                <strong>Grades:</strong> Patterns: Supports the same patterns as the Subject page search. <br/> Search with completion state is not possible on this page.
+                            </li>
+                            <li>
+                                <strong>Notes:</strong> Patterns: "#1 some text | #2 some text" this will search for everything matching (#1) and color matching (#2). Example: "Something specific | red" or "Something specific | 🔴" or even "Something specific | red🔴". <br/>
+                                It is also possible to search for only "archived" entries. <br/>
+                                Similarly to searching for archived notes, you can also search for "pinned" notes. <br/>
+                                In order to search for the archived notes just add (archived) or (a) at the end of your search. <br/>
+                                In order to search for pinned notes just add (pinned) or (p) at the end of your search. <br/>
+                                Here are some examples: "Some text (archived)", "Some text (a)", "Some text | red (a)", "Some text (pinned)", "Some text (p)", "Some text | red (p)". <br/>
+                                You can also just search for archived or pinned notes when you add an asterisk in front of the archived or pinned state you want to search for. Example: "*(archived)" or "*(a)" or "*(pinned)" or "*(p)".
+                            </li>
                         </ul>
                     </li>
                 </ul>

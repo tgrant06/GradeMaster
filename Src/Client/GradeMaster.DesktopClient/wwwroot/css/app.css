@@ -181,6 +181,10 @@ h1:focus {
     margin-bottom: 30px;
 }
 
+.list-item-bottom-spacer-sm {
+    margin-bottom: 15px;
+}
+
 .enabled-text-selection {
     user-select: text;
 }

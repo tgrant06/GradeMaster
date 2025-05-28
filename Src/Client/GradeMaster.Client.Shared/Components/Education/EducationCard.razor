@@ -38,6 +38,16 @@
         </CardText>
     </CardBody>
     <CardFooter Style="text-align: end">
+        <div style="text-align: start; display: inline-block; width: calc(100% - 123px);">
+            <Button @ref="_copyButton" @onclick="CopyToClipboard" Class="btn-translucient-v4 border-secondary-subtle" Size="ButtonSize.Small" TooltipTitle="Copy detail page URL">
+                <LoadingTemplate>
+                    <Icon Name="IconName.CheckLg" Color="IconColor.Success" Size="IconSize.x6" />
+                </LoadingTemplate>
+                <ChildContent>
+                    <Icon Name="IconName.Copy" Size="IconSize.x6" />
+                </ChildContent>
+            </Button>
+        </div>
         <Button Size="ButtonSize.Small" Color="ButtonColor.Primary" @onclick="EducationDetail">
             Detail <Icon Name="IconName.ArrowRight" Size="IconSize.x6"/>
         </Button>
@@ -54,8 +64,11 @@
 
     [Inject] private IEducationRepository _educationRepository { get; set; }
     [Inject] private NavigationManager Navigation { get; set; }
+    [Inject] private IJSRuntime JSRuntime { get; set; } = default!;
 
     [Inject] protected ToastService ToastService { get; set; } = default!;
+
+    private Button _copyButton = default!;
 
     private decimal _educationAverage;
 
@@ -66,6 +79,27 @@
     }
 
     private void EducationDetail() => Navigation.NavigateTo($"/educations/{Education.Id}");
+
+    #region Copy Detail Page URL
+
+    private async Task CopyToClipboard()
+    {
+        _copyButton.ShowLoading();
+        //_copyButton.TooltipTitle = "Copied!";
+
+        var textToCopy = $"/educations/{Education.Id}";
+        await JSRuntime.InvokeVoidAsync("navigator.clipboard.writeText", textToCopy);
+        //await Clipboard.SetTextAsync(textToCopy);
+
+        //ToastService.Notify(new ToastMessage(ToastType.Success, "Copied education detail page URL to clipboard"));
+
+        await Task.Delay(1500);
+
+        _copyButton.HideLoading();
+        //_copyButton.TooltipTitle = "Copy detail page URL";
+    }
+
+    #endregion
 
     #region Delete Education
 

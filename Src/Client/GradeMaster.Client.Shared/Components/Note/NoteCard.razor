@@ -66,6 +66,14 @@
             <Button Size="ButtonSize.Small" Color="ButtonColor.Warning" TooltipTitle="@(Note.IsArchived ? "Unarchive Note" : "Archive Note")" @onclick="ArchiveNoteAsync">
                 <Icon Name="@(Note.IsArchived ? IconName.ArchiveFill : IconName.Archive)" Size="IconSize.x6"/>
             </Button>
+            <Button @ref="_copyButton" @onclick="CopyToClipboard" Class="btn-translucient-v4 border-secondary-subtle" Size="ButtonSize.Small" TooltipTitle="Copy detail page URL" Style="margin-left: 6px;">
+                <LoadingTemplate>
+                    <Icon Name="IconName.CheckLg" Color="IconColor.Success" Size="IconSize.x6" />
+                </LoadingTemplate>
+                <ChildContent>
+                    <Icon Name="IconName.Copy" Size="IconSize.x6" />
+                </ChildContent>
+            </Button>
         </div>
         <Button Size="ButtonSize.Small" Color="ButtonColor.Primary" @onclick="NoteDetail">
             Detail <Icon Name="IconName.ArrowRight" Size="IconSize.x6"/>
@@ -83,11 +91,35 @@
 
     [Inject] private INoteRepository _noteRepository { get; set; }
     [Inject] private NavigationManager Navigation { get; set; }
+    [Inject] private IJSRuntime JSRuntime { get; set; } = default!;
 
     [Inject] protected ToastService ToastService { get; set; } = default!;
 
+    private Button _copyButton = default!;
+
 
     private void NoteDetail() => Navigation.NavigateTo($"/notes/{Note.Id}");
+
+    #region Copy Detail Page URL
+
+    private async Task CopyToClipboard()
+    {
+        _copyButton.ShowLoading();
+        //_copyButton.TooltipTitle = "Copied!";
+
+        var textToCopy = $"/notes/{Note.Id}";
+        await JSRuntime.InvokeVoidAsync("navigator.clipboard.writeText", textToCopy);
+        //await Clipboard.SetTextAsync(textToCopy);
+
+        //ToastService.Notify(new ToastMessage(ToastType.Success, "Copied note detail page URL to clipboard"));
+
+        await Task.Delay(1500);
+
+        _copyButton.HideLoading();
+        //_copyButton.TooltipTitle = "Copy detail page URL";
+    }
+
+    #endregion
 
     #region Delete Note
 

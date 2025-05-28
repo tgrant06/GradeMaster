@@ -184,7 +184,17 @@ public partial class Detail : IAsyncDisposable
             return;
         }
 
-        var stringId = url.Split('/', StringSplitOptions.RemoveEmptyEntries).Last();
+        // handle when linking home page ("/?...") or other non-entity URLs
+
+        var urlArray = url.Split('/', StringSplitOptions.RemoveEmptyEntries);
+
+        if (urlArray.Length == 0)
+        {
+            ToastInvalidUrl("'" + url + "'");
+            return;
+        }
+
+        var stringId = urlArray.Last();
         if (!int.TryParse(stringId, out var id))
         {
             ToastInvalidUrl("'" + url + "'");

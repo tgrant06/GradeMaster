@@ -34,11 +34,21 @@
         </CardText>
     </CardBody>
     <CardFooter Style="text-align: end">
+        <div style="text-align: start; display: inline-block; width: calc(100% - 123px);">
+            <Button @ref="_copyButton" @onclick="CopyToClipboard" Class="btn-translucient-v4 border-secondary-subtle" Size="ButtonSize.Small" TooltipTitle="Copy detail page URL">
+                <LoadingTemplate>
+                    <Icon Name="IconName.CheckLg" Color="IconColor.Success" Size="IconSize.x6" />
+                </LoadingTemplate>
+                <ChildContent>
+                    <Icon Name="IconName.Copy" Size="IconSize.x6" />
+                </ChildContent>
+            </Button>
+        </div>
         <Button Size="ButtonSize.Small" Color="ButtonColor.Primary" @onclick="GradeDetail">
-            Detail <Icon Name="IconName.ArrowRight" Size="IconSize.x6" />
+            Detail <Icon Name="IconName.ArrowRight" Size="IconSize.x6"/>
         </Button>
         <Button Size="ButtonSize.Small" Color="ButtonColor.Danger" Style="margin-left: 6px" TooltipTitle="Delete Grade" @onclick="DeleteGradeAsync">
-            <Icon Name="IconName.Trash" Size="IconSize.x6" />
+            <Icon Name="IconName.Trash" Size="IconSize.x6"/>
         </Button>
     </CardFooter>
 </Card>
@@ -50,11 +60,35 @@
 
     [Inject] private IGradeRepository _gradeRepository { get; set; }
     [Inject] private NavigationManager Navigation { get; set; }
+    [Inject] private IJSRuntime JSRuntime { get; set; } = default!;
 
     [Inject] protected ToastService ToastService { get; set; } = default!;
 
+    private Button _copyButton = default!;
+
 
     private void GradeDetail() => Navigation.NavigateTo($"/grades/{Grade.Id}");
+
+    #region Copy Detail Page URL
+
+    private async Task CopyToClipboard()
+    {
+        _copyButton.ShowLoading();
+        //_copyButton.TooltipTitle = "Copied!";
+
+        var textToCopy = $"/grades/{Grade.Id}";
+        await JSRuntime.InvokeVoidAsync("navigator.clipboard.writeText", textToCopy);
+        //await Clipboard.SetTextAsync(textToCopy);
+
+        //ToastService.Notify(new ToastMessage(ToastType.Success, "Copied grade detail page URL to clipboard"));
+
+        await Task.Delay(1500);
+
+        _copyButton.HideLoading();
+        //_copyButton.TooltipTitle = "Copy detail page URL";
+    }
+
+    #endregion
 
     #region Delete Grade
 

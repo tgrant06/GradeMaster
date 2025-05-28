@@ -106,7 +106,7 @@ else
                                 <div Class="p-2">
                                     <Card Style="--bs-card-border-color: var(--bs-border-color);">
                                         <CardBody Style="padding: 0 12px !important; padding-right: 0 !important;">
-                                            <Markdown TableCssClass="table table-striped table-hover table-bordered" Class="enabled-text-selection enabled-text-selection-and-children" Style="overflow: auto; max-height: 748px; min-height: 204px; padding-top: 6px; padding-bottom: 6px; padding-right: 12px;">@NewNote.Content</Markdown>
+                                            <Markdown Id="markdownContent" TableCssClass="table table-striped table-hover table-bordered" Class="enabled-text-selection enabled-text-selection-and-children transform-stack-container" Style="overflow: auto; max-height: 748px; min-height: 204px; padding-top: 6px; padding-bottom: 6px; padding-right: 12px;">@NewNote.Content</Markdown>
                                         </CardBody>
                                     </Card>
                                     <ValidationMessage For="@(() => NewNote.Content)" />
@@ -145,6 +145,11 @@ else
         --bs-bg-opacity: 1;
         background-color: rgba(var(--bs-tertiary-bg-rgb), var(--bs-bg-opacity)) !important;
         border-bottom-color: rgba(var(--bs-tertiary-bg-rgb), var(--bs-bg-opacity)) !important;
+    }
+
+    #markdownContent a, #markdownContent button {
+        pointer-events: none;
+        cursor: default;
     }
 </style>
 

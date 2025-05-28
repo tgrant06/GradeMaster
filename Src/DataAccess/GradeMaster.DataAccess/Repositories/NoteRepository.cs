@@ -17,7 +17,7 @@ public class NoteRepository : INoteRepository
         _context = context;
     }
 
-    // TODO: update for DateTime format
+    // maybe update for DateTime format (not really necessary, but could be useful)
     private static string NormalizeDateSearchValue(string searchValue)
     {
         if (string.IsNullOrWhiteSpace(searchValue))
@@ -227,6 +227,7 @@ public class NoteRepository : INoteRepository
             .ToListAsync();
 
         // later todo:
+        // //.Include(n => n.Color)
         // //.Select(n => new Note
         // //{
         // //    Id = n.Id,
@@ -236,9 +237,10 @@ public class NoteRepository : INoteRepository
         // //    UpdatedAt = n.UpdatedAt,
         // //    IsPinned = n.IsPinned,
         // //    IsArchived = n.IsArchived,
+        // //    Color = n.Color,
         // //    ColorId = n.ColorId
         // //})
-        // //.asn
+        // //.AsNoTrackingWithIdentityResolution()
     }
 
     public async Task<int> GetTotalCountAsync(string searchValue)
