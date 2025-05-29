@@ -41,7 +41,7 @@
     </CardBody>
     <CardFooter Style="text-align: end">
         <div style="text-align: start; display: inline-block; width: calc(100% - 123px);">
-            <Button @ref="_copyButton" @onclick="CopyToClipboard" Class="btn-translucient-v4 border-secondary-subtle" Size="ButtonSize.Small" TooltipTitle="Copy detail page URL">
+            <Button @ref="_copyButton" @onclick="CopyToClipboard" Class="btn-translucient-v4 border-secondary-subtle" Size="ButtonSize.Small">
                 <LoadingTemplate>
                     <Icon Name="IconName.CheckLg" Color="IconColor.Success" Size="IconSize.x6" />
                 </LoadingTemplate>
@@ -86,19 +86,21 @@
 
     private async Task CopyToClipboard()
     {
-        _copyButton.ShowLoading();
-        // _copyButton.TooltipTitle = "Copied!";
+        //_copyButton.ShowLoading();
+        _copyButton.Loading = true;
+        //_copyButton.TooltipTitle = "Copied!";
 
-        var textToCopy = $"/subjects/{Subject.Id}";
+        var textToCopy = $"[Subject with Id: {Subject.Id}](/subjects/{Subject.Id})";
         await JSRuntime.InvokeVoidAsync("navigator.clipboard.writeText", textToCopy);
         //await Clipboard.SetTextAsync(textToCopy);
 
         //ToastService.Notify(new ToastMessage(ToastType.Success, "Copied subject detail page URL to clipboard"));
 
-        await Task.Delay(1500);
+        await Task.Delay(3000);
 
-        _copyButton.HideLoading();
-        //_copyButton.TooltipTitle = "Copy detail page URL";
+        //_copyButton.HideLoading();
+        _copyButton.Loading = false;
+        //_copyButton.TooltipTitle = "Copy link";
     }
 
     #endregion

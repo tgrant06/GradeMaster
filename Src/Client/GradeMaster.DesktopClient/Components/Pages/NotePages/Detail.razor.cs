@@ -1,5 +1,4 @@
-﻿using System.Diagnostics.Metrics;
-using BlazorBootstrap;
+﻿using BlazorBootstrap;
 using GradeMaster.Common.Entities;
 using GradeMaster.DataAccess.Interfaces.IRepositories;
 using Microsoft.AspNetCore.Components;
@@ -144,17 +143,20 @@ public partial class Detail : IAsyncDisposable
 
     private async Task CopyToClipboard()
     {
-        _copyButton.ShowLoading();
+        //_copyButton.ShowLoading();
+        _copyButton.Loading = true;
+        //_copyButton.TooltipTitle = "Copied!";
 
-        var textToCopy = $"/notes/{Note.Id}";
-        //await JSRuntime.InvokeVoidAsync("navigator.clipboard.writeText", textToCopy);
+        var textToCopy = $"[Note with Id: {Note.Id}](/notes/{Note.Id})";
         await Clipboard.SetTextAsync(textToCopy);
 
-        ToastService.Notify(new ToastMessage(ToastType.Success, "Copied page URL to clipboard"));
+        ToastService.Notify(new ToastMessage(ToastType.Success, "Copied page link to clipboard"));
 
-        await Task.Delay(1500);
+        await Task.Delay(3000);
 
-        _copyButton.HideLoading();
+        //_copyButton.HideLoading();
+        _copyButton.Loading = false;
+        //_copyButton.TooltipTitle = "Copy Link";
     }
 
     #endregion
@@ -191,6 +193,26 @@ public partial class Detail : IAsyncDisposable
         if (urlArray.Length == 0)
         {
             ToastInvalidUrl("'" + url + "'");
+            return;
+        }
+
+        if (url.StartsWith("/?educationId", StringComparison.OrdinalIgnoreCase))
+        {
+            var uri = Navigation.ToAbsoluteUri(url);
+            var query = System.Web.HttpUtility.ParseQueryString(uri.Query);
+            if (!int.TryParse(query["educationId"], out var educationId))
+            {
+                ToastInvalidUrl(url);
+                return;
+            }
+
+            if (!await _educationRepository.ExistsAsync(educationId))
+            {
+                ToastService.Notify(new ToastMessage(ToastType.Info, $"Education with Id: '{educationId}' doesn't exist."));
+                return;
+            }
+
+            Navigation.NavigateTo(url);
             return;
         }
 

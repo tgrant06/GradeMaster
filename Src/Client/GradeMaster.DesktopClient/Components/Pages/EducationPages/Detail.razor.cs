@@ -152,17 +152,18 @@ public partial class Detail : IAsyncDisposable
 
     private async Task CopyToClipboard()
     {
-        _copyButton.ShowLoading();
+        //_copyButton.ShowLoading();
+        _copyButton.Loading = true;
 
-        var textToCopy = $"/educations/{Education.Id}";
-        //await JSRuntime.InvokeVoidAsync("navigator.clipboard.writeText", textToCopy);
+        var textToCopy = $"[Education with Id: {Education.Id}](/educations/{Education.Id})";
         await Clipboard.SetTextAsync(textToCopy);
 
-        ToastService.Notify(new ToastMessage(ToastType.Success, "Copied page URL to clipboard"));
+        ToastService.Notify(new ToastMessage(ToastType.Success, "Copied page link to clipboard"));
 
-        await Task.Delay(1500);
+        await Task.Delay(3000);
 
-        _copyButton.HideLoading();
+        //_copyButton.HideLoading();
+        _copyButton.Loading = false;
     }
 
     #endregion

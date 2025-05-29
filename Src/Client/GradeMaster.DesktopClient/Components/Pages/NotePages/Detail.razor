@@ -95,7 +95,7 @@
                 <Button Color="ButtonColor.Primary" @onclick="GoBack" Size="ButtonSize.Medium">
                     <Icon Name="IconName.ArrowLeft" /> Back
                 </Button>
-                <Button @ref="_copyButton" @onclick="CopyToClipboard" Class="btn-translucient-v4 border-secondary-subtle" Size="ButtonSize.Medium" Style="margin-left: 8px; padding-left: 10px; padding-right: 10px;">
+                <Button @ref="_copyButton" @onclick="CopyToClipboard" Class="btn-translucient-v4 border-secondary-subtle" Size="ButtonSize.Medium" Style="margin-left: 8px; padding-left: 10px; padding-right: 10px;" TooltipTitle="Copy Link">
                     <LoadingTemplate>
                         <Icon Name="IconName.CheckLg" Color="IconColor.Success"/>
                     </LoadingTemplate>
@@ -159,7 +159,6 @@
 
     #markdownContent a {
         color: rgba(var(--bs-link-color-rgb), var(--bs-link-opacity, 1));
-        text-decoration: underline;
         text-decoration-color: rgba(var(--bs-link-color-rgb), var(--bs-link-opacity, 0.8));
         text-underline-offset: 0.1rem;
         transition: filter .1s ease-in-out, color .1s ease-in-out, background-color .1s ease-in-out, border-color .1s ease-in-out, box-shadow .1s ease-in-out;

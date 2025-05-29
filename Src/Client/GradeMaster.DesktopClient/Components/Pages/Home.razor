@@ -45,13 +45,15 @@
             </Dropdown>
         </div>
         <div class="col-1 col-md-1 mb-3 mt-4" style="width: 38px">
-            <Dropdown Color="DropdownColor.Secondary" Style="height: 38px; padding: 0;" >
+            <Dropdown Color="DropdownColor.Secondary" Style="height: 38px; padding: 0;">
                 <DropdownToggleButton Id="menuDropdown" Class="px-1 menuDropdown" Style="width: 38px; padding-top: 3px;"><Icon Name="IconName.List" Size="IconSize.x5" /></DropdownToggleButton>
-                <DropdownMenu Position="DropdownMenuPosition.End" Style="width: 100px">
+                <DropdownMenu Position="DropdownMenuPosition.End">
                     <DropdownItem @onclick="GoToNewEducation">New Education <Icon Name="IconName.PlusCircle" /></DropdownItem>
                     <DropdownDivider></DropdownDivider>
                     <DropdownItem @onclick="ReloadData" Type="DropdownItemType.Button">Reload <Icon Name="IconName.ArrowRepeat"/></DropdownItem>
+                    @* <DropdownDivider></DropdownDivider> *@
                     <DropdownItem @onclick="() => GoToEducation(_selectedEducationId!.Value)" Disabled="@(!_selectedEducationId.HasValue)" Type="DropdownItemType.Button">Detail <Icon Name="IconName.Journal"/></DropdownItem>
+                    <DropdownItem @onclick="CopyToClipboard" Type="DropdownItemType.Button" Disabled="@(!_selectedEducationId.HasValue)">Copy Page URL <Icon Name="IconName.Copy" /></DropdownItem>
                 </DropdownMenu>
             </Dropdown>
         </div>

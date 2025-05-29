@@ -286,7 +286,7 @@ function handleEducationDetailPageKeys(event, dotNetHelper) {
             dotNetHelper.invokeMethodAsync("DeleteObject");
             break;
 
-        case "Ctrl+Shift+c":
+        case "Ctrl+Shift+y":
             event.preventDefault();
             dotNetHelper.invokeMethodAsync("CopyPageUrl");
             break;
@@ -330,7 +330,7 @@ function handleSubjectDetailPageKeys(event, dotNetHelper) {
             dotNetHelper.invokeMethodAsync("NavigateToEducation");
             break;
 
-        case "Ctrl+Shift+c":
+        case "Ctrl+Shift+y":
             event.preventDefault();
             dotNetHelper.invokeMethodAsync("CopyPageUrl");
             break;
@@ -374,7 +374,7 @@ function handleGradeDetailPageKeys(event, dotNetHelper) {
             dotNetHelper.invokeMethodAsync("NavigateToEducation");
             break;
 
-        case "Ctrl+Shift+c":
+        case "Ctrl+Shift+y":
             event.preventDefault();
             dotNetHelper.invokeMethodAsync("CopyPageUrl");
             break;
@@ -407,8 +407,7 @@ function handleNoteDetailPage(event, dotNetHelper) {
             event.preventDefault();
             dotNetHelper.invokeMethodAsync("DeleteObject");
             break;
-
-        case "Ctrl+Shift+c":
+        case "Ctrl+Shift+y":
             event.preventDefault();
             dotNetHelper.invokeMethodAsync("CopyPageUrl");
             break;
@@ -488,6 +487,10 @@ function handleHomePageKeys(event, dotNetHelper) {
         case "Ctrl+Shift+f":
             event.preventDefault();
             focusAndSelectFilterMenu();
+            break;
+        case "Ctrl+Shift+y":
+            event.preventDefault();
+            dotNetHelper.invokeMethodAsync("CopyPageUrl");
             break;
         case "Ctrl+d":
             event.preventDefault();
