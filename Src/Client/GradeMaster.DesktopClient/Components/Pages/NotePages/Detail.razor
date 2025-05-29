@@ -35,7 +35,7 @@
                 <div class="col mt-3" style="min-height: 169px; padding: 0 8px;">
                     <Card Style="height: 100%">
                         <CardBody>
-                            <div class="mb-3">
+                            <div>
                                 <CardText Class="enabled-text-selection enabled-text-selection-and-children">
                                     <b class="enabled-text-selection">Tags:</b> <br class="enabled-text-selection" />
                                     @if (Note.Tags is null || Note.Tags.Length == 0)
@@ -59,16 +59,18 @@
                         <Button @onclick="ShowNoteContent" Class="btn-translucient-v4 btn-show-content border-secondary-subtle" Style="width: 100%; font-size: 18px;" Disabled="@(string.IsNullOrWhiteSpace(Note.Content))">Show Content <Icon Name="IconName.ArrowDownCircle" /></Button>
                     </div>
                     <Card Style="height: calc(100% - 57px);">
-                        <CardBody>
-                            <div class="mb-3">
-                                <CardText Class="border-bottom enabled-text-selection" Style="padding-bottom: 20px; margin-bottom: 6px;">
-                                    <b class="enabled-text-selection">Updated at:</b> <br class="enabled-text-selection" />@Note.UpdatedAt.ToString("f")
-                                </CardText>
-                            </div>
-                            <div>
-                                <CardText Class="enabled-text-selection" Style="padding-bottom: 2px;">
-                                    <b class="enabled-text-selection">Created at:</b> <br class="enabled-text-selection" />@Note.CreatedAt.ToString("f")
-                                </CardText>
+                        <CardBody Style="display: inline-grid;">
+                            <div style="align-self: center;">
+                                <div class="mb-3">
+                                    <CardText Class="border-bottom enabled-text-selection" Style="padding-bottom: 20px; margin-bottom: 6px;">
+                                        <b class="enabled-text-selection">Updated at:</b> <br class="enabled-text-selection"/>@Note.UpdatedAt.ToString("f")
+                                    </CardText>
+                                </div>
+                                <div>
+                                    <CardText Class="enabled-text-selection" Style="padding-bottom: 2px;">
+                                        <b class="enabled-text-selection">Created at:</b> <br class="enabled-text-selection"/>@Note.CreatedAt.ToString("f")
+                                    </CardText>
+                                </div>
                             </div>
                         </CardBody>
                     </Card>
