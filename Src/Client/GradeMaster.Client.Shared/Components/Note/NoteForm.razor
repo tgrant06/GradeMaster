@@ -159,6 +159,13 @@ else
         transition: filter .1s ease-in-out, color .1s ease-in-out, background-color .1s ease-in-out, border-color .1s ease-in-out, box-shadow .1s ease-in-out;
         will-change: filter, color, background-color, border-color, box-shadow;
     }
+
+    pre:has(code) {
+        padding: 12px;
+        border-radius: 5px;
+        background-color: var(--bs-secondary-bg-subtle);
+        border: 1px solid var(--bs-secondary-border-subtle);
+    }
 </style>
 
 @code {

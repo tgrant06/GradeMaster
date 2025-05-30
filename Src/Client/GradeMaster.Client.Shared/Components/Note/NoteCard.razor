@@ -54,9 +54,17 @@
     </CardBody>
     <CardFooter Style="text-align: end">
         <div style="text-align: start; display: inline-block; width: calc(100% - 123px);">
-            <Button Size="ButtonSize.Small" Color="ButtonColor.Warning" TooltipTitle="@(Note.IsArchived ? "Unarchive Note" : "Archive Note")" @onclick="ArchiveNoteAsync">
+            @* <Button Size="ButtonSize.Small" Color="ButtonColor.Warning" TooltipTitle="@(Note.IsArchived ? "Unarchive Note" : "Archive Note")" @onclick="ArchiveNoteAsync">
                 <Icon Name="@(Note.IsArchived ? IconName.ArchiveFill : IconName.Archive)" Size="IconSize.x6"/>
-            </Button>
+            </Button> *@
+            <Dropdown Color="DropdownColor.Secondary" Size="DropdownSize.Small" Direction="DropdownDirection.Dropup">
+                <DropdownToggleButton Id="menuDropdown" Class="px-1 menuDropdown menuDropdownDisableAfter" Style="width: 34px; height: 34px; padding-top: 1px; padding-left: 5px !important;"><Icon Name="IconName.List" Size="IconSize.x5" /></DropdownToggleButton>
+                <DropdownMenu Position="DropdownMenuPosition.Start">
+                    <DropdownItem Type="DropdownItemType.Button" @onclick="ArchiveNoteAsync">@(Note.IsArchived ? "Unarchive Note" : "Archive Note") <Icon Name="@(Note.IsArchived? IconName.ArchiveFill: IconName.Archive)" /></DropdownItem>
+                    <DropdownDivider></DropdownDivider>
+                    <DropdownItem Type="DropdownItemType.Button" @onclick="PinNoteAsync">@(Note.IsPinned ? "Unpin Note" : "Pin Note") <Icon Name="@(Note.IsPinned? IconName.PinAngleFill: IconName.PinAngle)" /></DropdownItem>
+                </DropdownMenu>
+            </Dropdown>
             <Button @ref="_copyButton" @onclick="CopyToClipboard" Class="btn-translucient-v4 border-secondary-subtle" Size="ButtonSize.Small" Style="margin-left: 6px;">
                 <LoadingTemplate>
                     <Icon Name="IconName.CheckLg" Color="IconColor.Success" Size="IconSize.x6" />
@@ -146,7 +154,7 @@
 
     #endregion
 
-    #region Archive Note
+    #region Archive / Pin Note
 
     private async Task ArchiveNoteAsync()
     {
@@ -161,6 +169,22 @@
         catch (Exception e)
         {
             ToastService.Notify(new ToastMessage(ToastType.Danger, $"Error {(Note.IsArchived ? "archived" : "unarchived")} note: {e.Message}"));
+        }
+    }
+
+    private async Task PinNoteAsync()
+    {
+        Note.IsPinned = !Note.IsPinned;
+
+        try
+        {
+            await _noteRepository.UpdateAsync(Note.Id, Note);
+            await OnNoteUpdated.InvokeAsync();
+            ToastService.Notify(new ToastMessage(ToastType.Success, $"Note {(Note.IsPinned ? "pinned" : "unpinned")} successfully."));
+        }
+        catch (Exception e)
+        {
+            ToastService.Notify(new ToastMessage(ToastType.Danger, $"Error {(Note.IsPinned ? "pinned" : "unpinned")} note: {e.Message}"));
         }
     }
 
