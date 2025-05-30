@@ -54,9 +54,6 @@
     </CardBody>
     <CardFooter Style="text-align: end">
         <div style="text-align: start; display: inline-block; width: calc(100% - 123px);">
-            @* <Button Size="ButtonSize.Small" Color="ButtonColor.Warning" TooltipTitle="@(Note.IsArchived ? "Unarchive Note" : "Archive Note")" @onclick="ArchiveNoteAsync">
-                <Icon Name="@(Note.IsArchived ? IconName.ArchiveFill : IconName.Archive)" Size="IconSize.x6"/>
-            </Button> *@
             <Dropdown Color="DropdownColor.Secondary" Size="DropdownSize.Small" Direction="DropdownDirection.Dropup">
                 <DropdownToggleButton Id="menuDropdown" Class="px-1 menuDropdown menuDropdownDisableAfter" Style="width: 34px; height: 34px; padding-top: 1px; padding-left: 5px !important;"><Icon Name="IconName.List" Size="IconSize.x5" /></DropdownToggleButton>
                 <DropdownMenu Position="DropdownMenuPosition.Start">
@@ -165,7 +162,7 @@
         }
         catch (Exception e)
         {
-            ToastService.Notify(new ToastMessage(ToastType.Danger, $"Error {(Note.IsArchived ? "archived" : "unarchived")} note: {e.Message}"));
+            ToastService.Notify(new ToastMessage(ToastType.Danger, $"Error {(Note.IsArchived ? "archiving" : "unarchiving")} note: {e.Message}"));
         }
     }
 
@@ -181,7 +178,7 @@
         }
         catch (Exception e)
         {
-            ToastService.Notify(new ToastMessage(ToastType.Danger, $"Error {(Note.IsPinned ? "pinned" : "unpinned")} note: {e.Message}"));
+            ToastService.Notify(new ToastMessage(ToastType.Danger, $"Error {(Note.IsPinned ? "pinning" : "unpinning")} note: {e.Message}"));
         }
     }
 
