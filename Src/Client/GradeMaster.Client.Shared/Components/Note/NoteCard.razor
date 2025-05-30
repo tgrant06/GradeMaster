@@ -109,9 +109,6 @@
 
         var textToCopy = $"[Note with Id: {Note.Id}](/notes/{Note.Id})";
         await JSRuntime.InvokeVoidAsync("navigator.clipboard.writeText", textToCopy);
-        //await Clipboard.SetTextAsync(textToCopy);
-
-        //ToastService.Notify(new ToastMessage(ToastType.Success, "Copied note detail page URL to clipboard"));
 
         await Task.Delay(3000);
 

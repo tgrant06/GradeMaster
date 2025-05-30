@@ -15,7 +15,7 @@
                 }
             </select>
             <span class="text-secondary gm-sm-infotext">Subjects: @_subjects.Count | Grades: @GetTotalGradeCountOfEducation() @(_isFiltered ? "|" : "")</span><span class="text-primary-emphasis gm-sm-infotext">@(_isFiltered ? "Filter is active" : "")</span>
-            @* these two rectangles are: green circle and yellow circle emojis respectfully *@
+            @* these two rectangles / circles are: green circle and yellow circle emojis respectfully *@
         </div>
         <div class="col-1 col-md-1 mb-3 mt-4" style="width: 38px; margin-right: 6px; padding-left: 9px;">
             <Dropdown Color="DropdownColor.Primary" Style="height: 38px; padding: 0;" Disabled="@(!_selectedEducationId.HasValue)">
@@ -57,13 +57,12 @@
                 </DropdownMenu>
             </Dropdown>
         </div>
-        <div class="col-12 col-lg-5 text-end ms-auto mb-3 mt-4" style="max-width: 300px; padding: 0; z-index: -10;"> @* maybe add later: margin-bottom: 0 !important; again *@
+        <div class="col-12 col-lg-5 text-end ms-auto mb-3 mt-4" style="max-width: 300px; padding: 0; z-index: -10;">
             <h3 class="nowrap">@_averageDisplayText @(_educationAverage == 0 ? "N/A" : _educationAverage.ToString("0.##"))</h3>
         </div>
     </div>
 
-    @* Enable paging for large data *@
-    @* Had animation style="animation: fadeInBlur 0.2s ease-in;" *@
+    @* Maybe enable paging for large data *@
     <div class="row" style="padding-top: 0; padding-bottom: 46px; animation: fadeInBlur .18s ease; will-change: opacity, filter;">
         @if (_currentEducationId != 0)
         {
@@ -118,21 +117,16 @@
                                 </Tooltip>
                             }
                         }
-
-                        @* @string.Join(" | ", context.Grades.Select(grade =>
-                        $"{grade.Value} ({grade.Weight.Name}) ")) *@
                     }
                     else
                     {
-                        @* <span>No Grades </span> *@
-
                         <div style="display: inline-block; padding: 2px; font-size: initial; margin-top: 0; margin-bottom: 0; margin-right: 3px;">No Grades</div>
                     }
                     @if (!context.Completed)
                     {
-                        <Tooltip Title="New Grade" Style="padding-top: 1px;">@* was height: 29px; and width: 29px; padding-left: 4pt; *@
+                        <Tooltip Title="New Grade" Style="padding-top: 1px;">
                             <Button @onclick="() => GoToNewGrade(context.Id)" class="btn-secondary" style="height: 30px; width: 30px; padding-top: 2px; padding-left: 4.55pt; margin-top: 1px; margin-bottom: 1px;">
-                                <Icon Name="IconName.PlusCircle" Size="IconSize.x6"/>@* maybe change font-size to fixed amount for example to 16px *@
+                                <Icon Name="IconName.PlusCircle" Size="IconSize.x6"/>
                             </Button>
                         </Tooltip>
                     }
@@ -153,8 +147,6 @@
         </Grid>
     </div>
 </section>
-
-@* <ScrollTopButton /> *@
 
 <style>
     .name-column { width: 260px; }
