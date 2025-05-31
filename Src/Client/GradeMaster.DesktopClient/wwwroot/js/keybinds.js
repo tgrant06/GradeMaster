@@ -16,6 +16,9 @@ window.addPageKeybinds = (pageName, dotNetHelper) => {
                 case "GradesPage":
                     handleGradesPageKeys(event, dotNetHelper);
                     break;
+                case "NotesPage":
+                    handleNotesPageKeys(event, dotNetHelper);
+                    break;
                 case "MainLayoutPage":
                     handleMainLayoutPageKeys(event, dotNetHelper);
                     break;
@@ -28,8 +31,14 @@ window.addPageKeybinds = (pageName, dotNetHelper) => {
                 case "GradeDetailPage":
                     handleGradeDetailPageKeys(event, dotNetHelper);
                     break;
+                case "NoteDetailPage":
+                    handleNoteDetailPage(event, dotNetHelper);
+                    break;
                 case "FormComponent":
                     handleFormComponentKeys(event, dotNetHelper);
+                    break;
+                case "NoteFormComponent":
+                    handleNoteFormComponentKeys(event, dotNetHelper);
                     break;
             }
         }
@@ -69,6 +78,21 @@ function focusAndSelectFilterMenu() {
     }
 }
 
+// used for if still focused on a field the field data is not saved when pressing Ctrl+S (should solve this)
+function focusOnSubmitButton() {
+    const formSubmitBtn = document.getElementById("formSubmitBtn");
+    if (formSubmitBtn) {
+        formSubmitBtn.focus();
+    }
+}
+
+function clickOnTab(tabName) {
+    const tabBtn = document.getElementById(`${tabName}Tab`);
+    if (tabBtn) {
+        tabBtn.click();
+    }
+}
+
 // does not currently work
 function handleEscapeV1(event) {
     if (event.key === "Escape") {
@@ -94,6 +118,8 @@ function handleEscape(event) {
 function handleEducationsPageKeys(event, dotNetHelper) {
     if (!event.ctrlKey) return;
 
+    if (event.altKey) return;
+
     switch (event.key.toLowerCase()) {
         case "f":
             event.preventDefault();
@@ -112,6 +138,8 @@ function handleEducationsPageKeys(event, dotNetHelper) {
 
 function handleSubjectsPageKeys(event, dotNetHelper) {
     if (!event.ctrlKey) return;
+
+    if (event.altKey) return;
 
     switch (event.key.toLowerCase()) {
         case "f":
@@ -132,10 +160,33 @@ function handleSubjectsPageKeys(event, dotNetHelper) {
 function handleGradesPageKeys(event, dotNetHelper) {
     if (!event.ctrlKey) return;
 
+    if (event.altKey) return;
+
     switch (event.key.toLowerCase()) {
         case "f":
             event.preventDefault();
             focusSearchField("Grade");
+            break;
+        case "n":
+            event.preventDefault();
+            dotNetHelper.invokeMethodAsync("NavigateToCreate");
+            break;
+        case "x":
+            event.preventDefault();
+            dotNetHelper.invokeMethodAsync("ClearSearch");
+            break;
+    }
+}
+
+function handleNotesPageKeys(event, dotNetHelper) {
+    if (!event.ctrlKey) return;
+
+    if (event.altKey) return;
+
+    switch (event.key.toLowerCase()) {
+        case "f":
+            event.preventDefault();
+            focusSearchField("Note");
             break;
         case "n":
             event.preventDefault();
@@ -192,6 +243,11 @@ function handleMainLayoutPageKeys(event, dotNetHelper) {
             dotNetHelper.invokeMethodAsync("GoToGradesPage");
             break;
 
+        case "Ctrl+Alt+n":
+            event.preventDefault();
+            dotNetHelper.invokeMethodAsync("GoToNotesPage");
+            break;
+
         case "Ctrl+Alt+q":
             event.preventDefault();
             dotNetHelper.invokeMethodAsync("GoToSettingsPage");
@@ -228,6 +284,11 @@ function handleEducationDetailPageKeys(event, dotNetHelper) {
         case "Ctrl+Shift+d":
             event.preventDefault();
             dotNetHelper.invokeMethodAsync("DeleteObject");
+            break;
+
+        case "Ctrl+Shift+y":
+            event.preventDefault();
+            dotNetHelper.invokeMethodAsync("CopyPageUrl");
             break;
     }
 }
@@ -268,6 +329,11 @@ function handleSubjectDetailPageKeys(event, dotNetHelper) {
             event.preventDefault();
             dotNetHelper.invokeMethodAsync("NavigateToEducation");
             break;
+
+        case "Ctrl+Shift+y":
+            event.preventDefault();
+            dotNetHelper.invokeMethodAsync("CopyPageUrl");
+            break;
     }
 }
 
@@ -307,9 +373,45 @@ function handleGradeDetailPageKeys(event, dotNetHelper) {
             event.preventDefault();
             dotNetHelper.invokeMethodAsync("NavigateToEducation");
             break;
+
+        case "Ctrl+Shift+y":
+            event.preventDefault();
+            dotNetHelper.invokeMethodAsync("CopyPageUrl");
+            break;
     }
 
     // maybe add keybind to add new grade with the same Subject
+}
+
+function handleNoteDetailPage(event, dotNetHelper) {
+    if (!event.ctrlKey && !event.altKey) return; // allow Ctrl or Alt combos
+
+    let shortcut = "";
+
+    if (event.ctrlKey) shortcut += "Ctrl+";
+    if (event.altKey) shortcut += "Alt+";
+    if (event.shiftKey) shortcut += "Shift+";
+
+    shortcut += event.key.toLowerCase();
+
+    switch (shortcut) {
+        case "Ctrl+e":
+            event.preventDefault();
+            dotNetHelper.invokeMethodAsync("NavigateToEdit");
+            break;
+        case "Ctrl+d":
+            event.preventDefault();
+            window.scrollToContentSection();
+            break;
+        case "Ctrl+Shift+d":
+            event.preventDefault();
+            dotNetHelper.invokeMethodAsync("DeleteObject");
+            break;
+        case "Ctrl+Shift+y":
+            event.preventDefault();
+            dotNetHelper.invokeMethodAsync("CopyPageUrl");
+            break;
+    }
 }
 
 function handleFormComponentKeys(event, dotNetHelper) {
@@ -321,7 +423,34 @@ function handleFormComponentKeys(event, dotNetHelper) {
     switch (shortcut) {
         case "Ctrl+s":
             event.preventDefault();
+            focusOnSubmitButton();
             dotNetHelper.invokeMethodAsync("SubmitForm");
+            break;
+    }
+}
+
+function handleNoteFormComponentKeys(event, dotNetHelper) {
+    if (!event.ctrlKey) return; // allow Ctrl or Alt combos
+
+    let shortcut = "";
+
+    if (event.ctrlKey) shortcut += "Ctrl+";
+    if (event.shiftKey) shortcut += "Shift+";
+
+    shortcut += event.key.toLowerCase();
+    switch (shortcut) {
+        case "Ctrl+s":
+            event.preventDefault();
+            focusOnSubmitButton();
+            dotNetHelper.invokeMethodAsync("SubmitForm");
+            break;
+        case "Ctrl+Shift+w":
+            event.preventDefault();
+            clickOnTab("write");
+            break;
+        case "Ctrl+Shift+v":
+            event.preventDefault();
+            clickOnTab("preview");
             break;
     }
 }
@@ -359,6 +488,10 @@ function handleHomePageKeys(event, dotNetHelper) {
             event.preventDefault();
             focusAndSelectFilterMenu();
             break;
+        case "Ctrl+Shift+y":
+            event.preventDefault();
+            dotNetHelper.invokeMethodAsync("CopyPageUrl");
+            break;
         case "Ctrl+d":
             event.preventDefault();
             dotNetHelper.invokeMethodAsync("NavigateToEducationDetail");
@@ -367,6 +500,5 @@ function handleHomePageKeys(event, dotNetHelper) {
             event.preventDefault();
             dotNetHelper.invokeMethodAsync("ReloadPageData");
             break;
-        default:
     }
 }

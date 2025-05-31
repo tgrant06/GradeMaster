@@ -1,0 +1,47 @@
+﻿@page "/notes/{Id:int}/edit"
+
+<TopPageHeader>Edit Note</TopPageHeader>
+<section class="transform-stack-container">
+    <div class="border-top animated-top-line" style="width: 100%; max-width: 50%; margin-top: 15px"></div>
+
+    <div class="container animated-page-content">
+        <NoteForm Note="_note" OnSave="HandleSave" FormType="FormType.Edit" />
+    </div>
+</section>
+
+<script>
+    window.scrollTo({ top: 0, behavior: 'auto' });
+</script>
+
+@code {
+    [Parameter] public int Id { get; set; }
+
+    [Inject] private INoteRepository _noteRepository { get; set; }
+
+    [Inject] protected ToastService ToastService { get; set; } = default!;
+
+    // [Inject] private NavigationManager Navigation { get; set; }
+
+    [Inject] private IJSRuntime JSRuntime { get; set; }
+
+    private Note _note = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        _note = await _noteRepository.GetByIdAsync(Id);
+    }
+
+    private async Task HandleSave(Note note)
+    {
+        try
+        {
+            await _noteRepository.UpdateAsync(note.Id, note);
+            ToastService.Notify(new ToastMessage(ToastType.Success, "Note updated and saved successfully."));
+            await JSRuntime.InvokeVoidAsync("window.history.back");
+        }
+        catch (Exception e)
+        {
+            ToastService.Notify(new ToastMessage(ToastType.Danger, "Note could not be saved."));
+        }
+    }
+}

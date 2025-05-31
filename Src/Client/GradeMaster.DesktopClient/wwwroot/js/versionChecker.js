@@ -19,7 +19,7 @@ async function checkForUpdates() {
             // Update latest version UI
             //latestVersionElement.innerText = latestVersion;
 
-            latestVersionElement.innerHTML = `<span style="text-decoration: underline; padding-bottom: 1px;">${latestVersion}</span> <i class="bi bi-box-arrow-up-right" style="text-decoration: none;"></i>`;
+            latestVersionElement.innerHTML = `<span style="text-decoration: underline; text-underline-offset: 1px; padding-bottom: 1px;">${latestVersion}</span> <i class="bi bi-box-arrow-up-right" style="text-decoration: none;"></i>`;
 
             // Compare versions
             if (installedVersion === latestVersion) {

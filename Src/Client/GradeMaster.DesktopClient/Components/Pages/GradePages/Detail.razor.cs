@@ -32,6 +32,8 @@ public partial class Detail : IAsyncDisposable
 
     private ConfirmDialog _dialog = default!;
 
+    private BlazorBootstrap.Button _copyButton = default!;
+
     private DotNetObjectReference<Detail>? _objRef;
 
     //private decimal _subjectAverage;
@@ -68,9 +70,9 @@ public partial class Detail : IAsyncDisposable
         Grade.Subject = new Subject { Education = new Education() };
         Grade.Weight = new Weight();
 
-        var educationExists = await _gradeRepository.ExistsAsync(Id);
+        var gradeExists = await _gradeRepository.ExistsAsync(Id);
 
-        if (!educationExists)
+        if (!gradeExists)
         {
             ToastService.Notify(new ToastMessage(ToastType.Info, $"This grade does no longer exist."));
             await GoBack();
@@ -125,6 +127,28 @@ public partial class Detail : IAsyncDisposable
         {
             await JSRuntime.InvokeVoidAsync("removeDescriptionAreaEventListener");
         }
+    }
+
+    #endregion
+
+    #region Clipboard
+
+    private async Task CopyToClipboard()
+    {
+        //_copyButton.ShowLoading();
+        _copyButton.Loading = true;
+        //_copyButton.TooltipTitle = "Copied!";
+
+        var textToCopy = $"[Grade with Id: {Grade.Id}](/grades/{Grade.Id})";
+        await Clipboard.SetTextAsync(textToCopy);
+
+        ToastService.Notify(new ToastMessage(ToastType.Success, "Copied page link to clipboard"));
+
+        await Task.Delay(3000);
+
+        //_copyButton.HideLoading();
+        _copyButton.Loading = false;
+        //_copyButton.TooltipTitle = "Copy Link";
     }
 
     #endregion
@@ -196,6 +220,9 @@ public partial class Detail : IAsyncDisposable
             StateHasChanged();
         }
     }
+
+    [JSInvokable]
+    public async Task CopyPageUrl() => await CopyToClipboard();
 
     #endregion
 

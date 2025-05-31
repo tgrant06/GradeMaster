@@ -89,7 +89,7 @@ else
         <div class="form-group row mb-3">
             <label class="col-md-2 col-form-label nowrap" for="description">Description:</label>
             <div class="col-md-10">
-                <InputTextArea @bind-Value="NewEducation.Description" id="description" class="form-control" rows="4" placeholder="Enter a description" style="max-height: 272px" />
+                <InputTextArea @bind-Value="NewEducation.Description" id="description" class="form-control gm-active-resizing-textarea" rows="4" placeholder="Enter a description" style="max-height: 278px; min-height: 110px;" />
                 <ValidationMessage For="@(() => NewEducation.Description)"/>
             </div>
         </div>
@@ -99,13 +99,17 @@ else
         <!-- Buttons -->
         <div class="d-flex justify-content-between my-3">
             <Button Type="ButtonType.Button" Color="ButtonColor.Primary" @onclick="Cancel"><Icon Name="IconName.ArrowLeft"/> Cancel</Button>
-            <Button Type="ButtonType.Submit" Color="ButtonColor.Success">Save <Icon Name="IconName.Floppy"/></Button>
+            <Button Type="ButtonType.Submit" Color="ButtonColor.Success" Id="formSubmitBtn">Save <Icon Name="IconName.Floppy" /></Button>
         </div>
     </Card>
 </EditForm>
 
 <style>
     .nowrap { white-space: nowrap; }
+
+    #scrollToTopButton {
+        display: none !important;
+    }
 </style>
 
 @code {

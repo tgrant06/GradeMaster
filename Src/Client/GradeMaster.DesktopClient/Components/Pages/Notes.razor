@@ -1,0 +1,69 @@
+﻿@page "/notes"
+
+<HeadContent>
+    <style>
+        html, body {
+            overflow-y: scroll
+        }
+    </style>
+</HeadContent>
+
+<TopPageHeader>Notes</TopPageHeader>
+
+<ConfirmDialog @ref="_dialog" />
+
+<section class="transform-stack-container">
+    <div class="row py-3 mx-0" style="animation: BlurIn .15s ease-in; will-change: opacity, filter;">
+        @*TODO: Change animation later*@
+        <!--had classes: bd-navbar sticky-top-->
+        <div class="col-8 col-md-8 px-0 mb-2" style="max-width: 420px">
+            <b>Search:</b>
+            <EditForm Model="_searchValue" OnValidSubmit="RefreshNoteData">
+                <InputText id="searchFieldNote" class="form-control" placeholder="Search for Note" @bind-Value="_searchValue" />
+            </EditForm>
+            <span class="text-secondary gm-sm-infotext">Results: @_totalItemCount | Total Archived: @_allArchivedNotesCount</span>
+        </div>
+        <!--Add edit and detail button later-->
+        <div class="col-1 col-md-1 mb-3 mt-4" style="width: 38px; margin-right: 6px; padding-left: 9px;">
+            <Button Color="ButtonColor.Primary" class="px-2" style="height: 38px; padding-top: 3px;" @onclick="RefreshNoteData">
+                <Icon Name="IconName.Search" Size="IconSize.x5" />
+            </Button>
+        </div>
+        <div class="col-1 col-md-1 mb-3 mt-4" style="width: 38px">
+            <Button Color="ButtonColor.Secondary" class="px-2" style="height: 38px; padding-top: 3px;" @onclick="LoadAllNotes">
+                <Icon Name="IconName.ArrowRepeat" Size="IconSize.x5" />
+            </Button>
+        </div>
+        <div class="col-4 col-md-4 text-end ms-auto mt-4" style="width: 130px; padding: 0;">
+            <Button Color="ButtonColor.Success" @onclick="CreateNote" Size="ButtonSize.Medium" Style="height: 38px;">
+                New <Icon Name="IconName.Sticky"/>
+            </Button>
+        </div>
+    </div>
+
+    <div class="container align-content-center" style="margin-bottom: 25px;">
+        <div class="component-card-grid pb-4 pt-3">
+            <Virtualize TItem="Note" ItemsProvider="GetNotesProvider" Context="note" OverscanCount="12" @ref="_virtualizeComponent">
+                <ItemContent>
+                    <NoteCard @key="note.Id" Note="@note" OnNoteUpdated="RefreshNoteDataFromCard" Dialog="_dialog" />
+                </ItemContent>
+                <EmptyContent>
+                    <div></div>
+                    <div class="text-center py-4" style="grid-column: 1/-1; animation: fadeInXBlur 0.175s ease; will-change: opacity, transform, filter;">
+                        <p>No notes found. Try adjusting your search or add a new note.</p>
+                    </div>
+                    <div></div>
+                </EmptyContent>
+                @* <Placeholder>
+                    <div class="text-center">
+                        <Spinner Type="SpinnerType.Dots" Class="me-3" Color="SpinnerColor.Secondary" />
+                    </div>
+                </Placeholder> *@
+            </Virtualize>
+        </div>
+    </div>
+</section>
+
+@code {
+
+}

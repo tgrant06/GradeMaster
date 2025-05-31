@@ -15,7 +15,96 @@ namespace GradeMaster.DataAccess.Migrations
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "9.0.1");
+            modelBuilder.HasAnnotation("ProductVersion", "9.0.5");
+
+            modelBuilder.Entity("GradeMaster.Common.Entities.Color", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("Id");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(125)
+                        .IsUnicode(true)
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Name")
+                        .UseCollation("NOCASE");
+
+                    b.Property<string>("Symbol")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .IsUnicode(true)
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Symbol")
+                        .UseCollation("NOCASE");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Colors", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Gray",
+                            Symbol = "🔘"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Red",
+                            Symbol = "🔴"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Orange",
+                            Symbol = "🟠"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "Yellow",
+                            Symbol = "🟡"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Name = "Green",
+                            Symbol = "🟢"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Name = "Blue",
+                            Symbol = "🔵"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Name = "Purple",
+                            Symbol = "🟣"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Name = "Brown",
+                            Symbol = "🟤"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Name = "Black",
+                            Symbol = "⚫"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Name = "White",
+                            Symbol = "⚪"
+                        });
+                });
 
             modelBuilder.Entity("GradeMaster.Common.Entities.Education", b =>
                 {
@@ -102,6 +191,61 @@ namespace GradeMaster.DataAccess.Migrations
                     b.HasIndex("WeightId");
 
                     b.ToTable("Grades", (string)null);
+                });
+
+            modelBuilder.Entity("GradeMaster.Common.Entities.Note", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("Id");
+
+                    b.Property<int>("ColorId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Content")
+                        .HasMaxLength(10000)
+                        .IsUnicode(true)
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Content")
+                        .UseCollation("NOCASE");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("CreatedAt");
+
+                    b.Property<bool>("IsArchived")
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("IsArchived");
+
+                    b.Property<bool>("IsPinned")
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("IsPinned");
+
+                    b.Property<string>("Tags")
+                        .HasMaxLength(510)
+                        .IsUnicode(true)
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Tags")
+                        .UseCollation("NOCASE");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .IsUnicode(true)
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Title")
+                        .UseCollation("NOCASE");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("UpdatedAt");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ColorId");
+
+                    b.ToTable("Notes", (string)null);
                 });
 
             modelBuilder.Entity("GradeMaster.Common.Entities.Subject", b =>
@@ -295,6 +439,17 @@ namespace GradeMaster.DataAccess.Migrations
                     b.Navigation("Weight");
                 });
 
+            modelBuilder.Entity("GradeMaster.Common.Entities.Note", b =>
+                {
+                    b.HasOne("GradeMaster.Common.Entities.Color", "Color")
+                        .WithMany("Notes")
+                        .HasForeignKey("ColorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Color");
+                });
+
             modelBuilder.Entity("GradeMaster.Common.Entities.Subject", b =>
                 {
                     b.HasOne("GradeMaster.Common.Entities.Education", "Education")
@@ -304,6 +459,11 @@ namespace GradeMaster.DataAccess.Migrations
                         .IsRequired();
 
                     b.Navigation("Education");
+                });
+
+            modelBuilder.Entity("GradeMaster.Common.Entities.Color", b =>
+                {
+                    b.Navigation("Notes");
                 });
 
             modelBuilder.Entity("GradeMaster.Common.Entities.Education", b =>

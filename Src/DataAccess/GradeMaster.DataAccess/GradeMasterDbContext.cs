@@ -1,9 +1,6 @@
-﻿using System.Reflection.Metadata;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.EntityFrameworkCore;
 using GradeMaster.DataAccess.Configurations;
 using GradeMaster.Common.Entities;
-using Microsoft.VisualBasic.FileIO;
 
 namespace GradeMaster.DataAccess;
 
@@ -36,6 +33,16 @@ public class GradeMasterDbContext : DbContext
         get; set;
     }
 
+    public DbSet<Note> Notes
+    {
+        get; set;
+    }
+
+    public DbSet<Color> Colors
+    {
+        get; set;
+    }
+
     #endregion
 
     public GradeMasterDbContext(DbContextOptions<GradeMasterDbContext> options)
@@ -52,6 +59,8 @@ public class GradeMasterDbContext : DbContext
         modelBuilder.ApplyConfiguration(new GradeConfiguration());
         modelBuilder.ApplyConfiguration(new SubjectConfiguration());
         modelBuilder.ApplyConfiguration(new WeightConfiguration());
+        modelBuilder.ApplyConfiguration(new NoteConfiguration());
+        modelBuilder.ApplyConfiguration(new ColorConfiguration());
     }
 
     #region OnConfiguring

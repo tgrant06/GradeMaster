@@ -4,7 +4,7 @@
     -webkit-user-select: none; /* Safari and WebKit browsers */
     user-select: none; /* Prevents text selection */
     /*pointer-events: auto;*/ /* Ensures normal interactions */
-    scrollbar-color: light-dark(#8B8B8B,#9F9F9F) light-dark(#00000012, #00000015); /*was: transparent*/
+    scrollbar-color: light-dark(#8B8B8B,#9F9F9F) light-dark(#00000012, #ffffff08); /*was: transparent*/
     scrollbar-width: thin;
 }
 
@@ -19,7 +19,12 @@ html, body {
 }
 
 a, .btn-link {
-    color: #006bb7;
+    /*color: #006bb7;*/
+    color: rgba(var(--bs-link-color-rgb), var(--bs-link-opacity, 1));
+    text-decoration-color: rgba(var(--bs-link-color-rgb), var(--bs-link-opacity, 0.8));
+    text-underline-offset: 0.1rem;
+    transition: filter .1s ease-in-out, color .1s ease-in-out, background-color .1s ease-in-out, border-color .1s ease-in-out, box-shadow .1s ease-in-out;
+    will-change: filter, color, background-color, border-color, box-shadow;
 }
 
 .btn-primary {
@@ -136,6 +141,10 @@ h1:focus {
     background-color: light-dark(rgba(0, 0, 0, 0.03), rgba(255, 255, 255, 0.03)) !important;
 }
 
+    .btn-translucient-v3:focus-visible {
+        box-shadow: 0 0 0 .25rem light-dark(rgba(0, 0, 0, .12), rgba(255, 255, 255, .16)) !important;
+    }
+
     .btn-translucient-v3:hover, .btn-translucient-v3:focus-visible {
         background-color: light-dark(rgba(0, 0, 0, 0.125), rgba(255, 255, 255, 0.125)) !important;
     }
@@ -144,6 +153,21 @@ h1:focus {
         background-color: light-dark(rgba(0, 0, 0, 0.20), rgba(255, 255, 255, 0.20)) !important;
     }
 
+.btn-translucient-v4 {
+    background-color: light-dark(rgba(0, 0, 0, 0.03), rgba(255, 255, 255, 0.03)) !important;
+}
+
+    .btn-translucient-v4:focus-visible {
+        box-shadow: 0 0 0 .25rem light-dark(rgba(0, 0, 0, .12), rgba(255, 255, 255, .14)) !important;
+    }
+
+    .btn-translucient-v4:hover, .btn-translucient-v4:focus-visible {
+        background-color: light-dark(rgba(0, 0, 0, 0.1), rgba(255, 255, 255, 0.09)) !important;
+    }
+
+    .btn-translucient-v4:hover:active, .btn-translucient-v4:first-child:active, .btn-translucient-v4:active {
+        background-color: light-dark(rgba(0, 0, 0, 0.15), rgba(255, 255, 255, 0.12)) !important;
+    }
 /* maybe later for different color: light 245, 245, 245, ... | dark: 38, 42, 46, ... background-color: #e72a2a40;*/
 
 .btn-translucient-red {
@@ -162,8 +186,16 @@ h1:focus {
     margin-bottom: 30px;
 }
 
+.list-item-bottom-spacer-sm {
+    margin-bottom: 15px;
+}
+
 .enabled-text-selection {
     user-select: text;
+}
+
+.enabled-text-selection-and-children * {
+    user-select: text !important;
 }
 
 .content {
@@ -191,7 +223,7 @@ h1:focus {
         overflow-x: visible;
     }
     .content {
-        scroll-margin-top: 385px;
+        scroll-margin-top: 435px;
     }
 }
 
@@ -244,6 +276,11 @@ h1:focus {
     display: none;
 }
 
+.menuDropdownDisableAfter::after {
+    content: "" !important;
+    display: none !important;
+}
+
 .dropdown-menu {
     /*--bs-dropdown-min-width: 150px;*/
     background-color: light-dark(#f5f5f5b0, #262A2ECC);
@@ -276,7 +313,30 @@ h1:focus {
     max-width: calc(100% - 10px);
 }
 
+.contain-note-title-text {
+    max-width: calc(100% - 25px);
+}
+
 .gm-sm-infotext {
     margin-left: 5px;
     font-size: 12px;
+}
+
+.gm-active-resizing-textarea {
+    field-sizing: content;
+}
+
+.gm-note-tag-item {
+    --bs-badge-font-size: 0.82em;
+    --bs-badge-font-weight: 400;
+    background-color: light-dark(rgba(0, 0, 0, 0.12), rgba(255, 255, 255, 0.1)) !important;
+    color: light-dark(#000000, #ffffff) !important;
+    margin-right: 6px;
+    margin-top: 6px;
+}
+
+.gm-copy-btn {
+    position: absolute;
+    top: 0;
+    right: 0;
 }

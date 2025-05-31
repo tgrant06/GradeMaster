@@ -242,6 +242,19 @@ public partial class Home : IAsyncDisposable
 
     #endregion
 
+    #region Clipboard
+
+    private async Task CopyToClipboard()
+    {
+        var textToCopy = Navigation.ToBaseRelativePath(Navigation.Uri);
+        
+        await Clipboard.SetTextAsync($"[Home | Education with Id: {_currentEducationId}{(_isFiltered ? ", Selected filter Semester: " + _selectedSemester : "")}](/{textToCopy})");
+
+        ToastService.Notify(new ToastMessage(ToastType.Success, "Copied page link to clipboard"));
+    }
+
+    #endregion
+
     #region Navigation
 
     private void GoToSubject(int subjectId) => Navigation.NavigateTo($"/subjects/{subjectId}");
@@ -366,6 +379,15 @@ public partial class Home : IAsyncDisposable
         StateHasChanged();
     }
 
+    [JSInvokable]
+    public async Task CopyPageUrl()
+    {
+        if (_selectedEducationId.HasValue)
+        {
+            await CopyToClipboard();
+        }
+    }
+
     #endregion
 
     #region Averages
@@ -419,6 +441,7 @@ public partial class Home : IAsyncDisposable
 
             // Remove dangling "?" if it's the last character
             absoluteUri = absoluteUri.TrimEnd('?');
+            absoluteUri = absoluteUri.TrimEnd('&');
 
             Navigation.NavigateTo(absoluteUri, forceLoad: false);
             return;
@@ -432,7 +455,7 @@ public partial class Home : IAsyncDisposable
         else
         {
             // Add the parameter (with correct ? or & handling)
-            var separator = absoluteUri.Contains("?") ? "&" : "?";
+            var separator = absoluteUri.Contains('?') ? "&" : "?";
             absoluteUri += $"{separator}semesterFilterNumber={value}";
         }
 

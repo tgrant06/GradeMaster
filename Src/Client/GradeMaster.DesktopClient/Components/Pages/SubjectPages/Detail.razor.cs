@@ -37,6 +37,8 @@ public partial class Detail : IAsyncDisposable
 
     private ConfirmDialog _dialog = default!;
 
+    private BlazorBootstrap.Button _copyButton = default!;
+
     private DotNetObjectReference<Detail>? _objRef;
 
     #endregion
@@ -81,9 +83,9 @@ public partial class Detail : IAsyncDisposable
     {
         Subject.Education = new Education(); // Initialize the Education property to avoid null reference exceptions
 
-        var educationExists = await _subjectRepository.ExistsAsync(Id);
+        var subjectExists = await _subjectRepository.ExistsAsync(Id);
 
-        if (!educationExists)
+        if (!subjectExists)
         {
             ToastService.Notify(new ToastMessage(ToastType.Info, $"This subject does no longer exist."));
             await GoBack();
@@ -145,6 +147,26 @@ public partial class Detail : IAsyncDisposable
         {
             await JSRuntime.InvokeVoidAsync("removeDescriptionAreaEventListener");
         }
+    }
+
+    #endregion
+
+    #region Clipboard
+
+    private async Task CopyToClipboard()
+    {
+        //_copyButton.ShowLoading();
+        _copyButton.Loading = true;
+
+        var textToCopy = $"[Subject with Id: {Subject.Id}](/subjects/{Subject.Id})";
+        await Clipboard.SetTextAsync(textToCopy);
+
+        ToastService.Notify(new ToastMessage(ToastType.Success, "Copied page link to clipboard"));
+
+        await Task.Delay(3000);
+
+        //_copyButton.HideLoading();
+        _copyButton.Loading = false;
     }
 
     #endregion
@@ -225,6 +247,9 @@ public partial class Detail : IAsyncDisposable
             StateHasChanged();
         }
     }
+
+    [JSInvokable]
+    public async Task CopyPageUrl() => await CopyToClipboard();
 
     #endregion
 

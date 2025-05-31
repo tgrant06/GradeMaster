@@ -4,12 +4,11 @@
     <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-	<FileVersion>2.4.2.1</FileVersion>
-	<InformationalVersion>2.4.2</InformationalVersion>
+	<FileVersion>3.0.0.0</FileVersion>
+	<InformationalVersion>3.0.0</InformationalVersion>
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="IServices\" />
     <Folder Include="GenericInterfaces\" />
   </ItemGroup>
 

@@ -28,10 +28,10 @@
         <ApplicationId>com.github.devt06.grademaster.desktopclient</ApplicationId>
 
         <!-- Versions -->
-        <ApplicationDisplayVersion>2.4.2</ApplicationDisplayVersion>
-        <ApplicationVersion>2</ApplicationVersion>
-        <FileVersion>2.4.2.1</FileVersion>
-        <InformationalVersion>2.4.2</InformationalVersion>
+        <ApplicationDisplayVersion>3.0.0</ApplicationDisplayVersion>
+        <ApplicationVersion>3</ApplicationVersion>
+        <FileVersion>3.0.0.0</FileVersion>
+        <InformationalVersion>3.0.0</InformationalVersion>
 
         <!-- To develop, package, and publish an app to the Microsoft Store, see: https://aka.ms/MauiTemplateUnpackaged -->
         <WindowsPackageType>None</WindowsPackageType>
