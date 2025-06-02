@@ -333,6 +333,7 @@ h1:focus {
     color: light-dark(#000000, #ffffff) !important;
     margin-right: 6px;
     margin-top: 6px;
+    white-space: normal;
 }
 
 .gm-copy-btn {

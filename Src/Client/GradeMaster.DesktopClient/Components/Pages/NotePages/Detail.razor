@@ -34,7 +34,7 @@
             <div class="row row-cols-1 row-cols-sm-1 row-cols-md-1 row-cols-lg-2">
                 <div class="col mt-3" style="min-height: 169px; padding: 0 8px;">
                     <Card Style="height: 100%">
-                        <CardBody>
+                        <CardBody Style="padding-right: 10px;">
                             <div>
                                 <CardText Class="enabled-text-selection enabled-text-selection-and-children">
                                     <b class="enabled-text-selection">Tags:</b> <br class="enabled-text-selection" />
@@ -46,7 +46,8 @@
                                     {
                                         foreach (var tag in NoteUtils.ToTagArray(Note.Tags))
                                         {
-                                            <NoteTagItem Text="@UIUtils.TruncateString(tag, 50)" />
+                                            @*@UIUtils.TruncateString(tag, 50)*@
+                                            <NoteTagItem Text="@tag" />
                                         }
                                     }
                                 </CardText>
