@@ -2,7 +2,6 @@
 using GradeMaster.Client.Shared.Utility;
 using GradeMaster.Common.Entities;
 using GradeMaster.DataAccess.Interfaces.IRepositories;
-using GradeMaster.DataAccess.Repositories;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
@@ -142,7 +141,7 @@ public partial class Detail : IAsyncDisposable
         var textToCopy = $"[Grade with Id: {Grade.Id}](/grades/{Grade.Id})";
         await Clipboard.SetTextAsync(textToCopy);
 
-        ToastService.Notify(new ToastMessage(ToastType.Success, "Copied page link to clipboard"));
+        //ToastService.Notify(new ToastMessage(ToastType.Success, "Copied page link to clipboard"));
 
         await Task.Delay(3000);
 
@@ -222,7 +221,12 @@ public partial class Detail : IAsyncDisposable
     }
 
     [JSInvokable]
-    public async Task CopyPageUrl() => await CopyToClipboard();
+    public async Task CopyPageUrl()
+    {
+        ToastService.Notify(new ToastMessage(ToastType.Success, "Copied page link to clipboard"));
+
+        await CopyToClipboard();
+    }
 
     #endregion
 

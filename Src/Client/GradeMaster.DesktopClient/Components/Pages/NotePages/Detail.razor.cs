@@ -150,7 +150,7 @@ public partial class Detail : IAsyncDisposable
         var textToCopy = $"[Note with Id: {Note.Id}](/notes/{Note.Id})";
         await Clipboard.SetTextAsync(textToCopy);
 
-        ToastService.Notify(new ToastMessage(ToastType.Success, "Copied page link to clipboard"));
+        //ToastService.Notify(new ToastMessage(ToastType.Success, "Copied page link to clipboard"));
 
         await Task.Delay(3000);
 
@@ -271,7 +271,12 @@ public partial class Detail : IAsyncDisposable
     }
 
     [JSInvokable]
-    public async Task CopyPageUrl() => await CopyToClipboard();
+    public async Task CopyPageUrl()
+    {
+        ToastService.Notify(new ToastMessage(ToastType.Success, "Copied page link to clipboard"));
+
+        await CopyToClipboard();
+    }
 
     #endregion
 
