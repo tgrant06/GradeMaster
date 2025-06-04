@@ -25,7 +25,7 @@
         <ApplicationTitle>GradeMaster</ApplicationTitle>
 
         <!-- App Identifier -->
-        <ApplicationId>com.github.devt06.grademaster.desktopclient</ApplicationId>
+        <ApplicationId>com.github.tgrant06.grademaster.desktopclient</ApplicationId>
 
         <!-- Versions -->
         <ApplicationDisplayVersion>3.0.0</ApplicationDisplayVersion>

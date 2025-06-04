@@ -6,7 +6,7 @@ async function checkForUpdates() {
     const updateStatusElement = document.getElementById("currentInstalledVersion");
 
     try {
-        const response = await fetch("https://img.shields.io/github/v/release/devt06/GradeMaster");
+        const response = await fetch("https://img.shields.io/github/v/release/tgrant06/GradeMaster");
         const svgText = await response.text();
 
         const parser = new DOMParser();
