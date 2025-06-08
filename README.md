@@ -135,8 +135,6 @@ Other platforms might get Support in the future.
 
 The Console Client is only for testing purposes.
 
-<br>
-
 ## License
 
 This project is licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) License. For commercial use or more information, please create an Issue.
