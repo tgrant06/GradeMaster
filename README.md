@@ -64,7 +64,6 @@ or `C:\Program Files\GradeMaster\bin\win-arm64\GradeMaster.DesktopClient.exe` fo
 
 [![Release Version Badge](https://img.shields.io/github/v/release/tgrant06/GradeMaster)](https://github.com/tgrant06/GradeMaster/releases)
 [![Downloads@latest](https://img.shields.io/github/downloads/tgrant06/GradeMaster/latest/total)](https://github.com/tgrant06/GradeMaster/releases/latest)
-<!-- [![Downloads@v1.0.0](https://img.shields.io/github/downloads/DevT06/GradeMaster/v1.0.0/total)](https://github.com/DevT06/GradeMaster/releases/latest) -->
 
 ### Total Downloads
 
