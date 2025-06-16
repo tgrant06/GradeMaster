@@ -28,10 +28,10 @@
         <ApplicationId>com.github.tgrant06.grademaster.desktopclient</ApplicationId>
 
         <!-- Versions -->
-        <ApplicationDisplayVersion>3.0.1</ApplicationDisplayVersion>
+        <ApplicationDisplayVersion>3.0.2</ApplicationDisplayVersion>
         <ApplicationVersion>3</ApplicationVersion>
-        <FileVersion>3.0.1.0</FileVersion>
-        <InformationalVersion>3.0.1</InformationalVersion>
+        <FileVersion>3.0.2.0</FileVersion>
+        <InformationalVersion>3.0.2</InformationalVersion>
 
         <!-- To develop, package, and publish an app to the Microsoft Store, see: https://aka.ms/MauiTemplateUnpackaged -->
         <WindowsPackageType>None</WindowsPackageType>
@@ -74,14 +74,14 @@
 
     <ItemGroup>
         <PackageReference Include="Blazor.Bootstrap" Version="3.3.1" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.5">
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.6">
           <PrivateAssets>all</PrivateAssets>
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Microsoft.Maui.Controls" Version="9.0.70" />
-        <PackageReference Include="Microsoft.AspNetCore.Components.WebView.Maui" Version="9.0.70" />
-        <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.5" />
-        <PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="9.0.5" />
+        <PackageReference Include="Microsoft.Maui.Controls" Version="9.0.80" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.WebView.Maui" Version="9.0.80" />
+        <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.6" />
+        <PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="9.0.6" />
 	</ItemGroup>
 
     <ItemGroup>
