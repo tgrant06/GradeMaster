@@ -218,12 +218,21 @@ h1:focus {
     will-change: transform;
 }
 
+.noteContentHead {
+    scroll-margin-top: 121px;
+}
+
 @media (max-width: 640.98px) {
     main {
         overflow-x: visible;
     }
+
     .content {
         scroll-margin-top: 435px;
+    }
+
+    .noteContentHead {
+        scroll-margin-top: 65px;
     }
 }
 

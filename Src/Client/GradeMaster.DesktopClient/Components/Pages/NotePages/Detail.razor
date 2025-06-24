@@ -123,12 +123,12 @@
         <div class="pt-3" style="margin-bottom: 60px; margin-top: 10px; max-width: 1050px;">
             @if (string.IsNullOrWhiteSpace(Note.Content))
             {
-                <h3 class="enabled-text-selection" style="text-align: center; margin-bottom: 20px; scroll-margin-top: 121px;">Content:</h3>
+                <h3 class="enabled-text-selection noteContentHead" style="text-align: center; margin-bottom: 20px; /* scroll-margin-top: 121px; */">Content:</h3>
                 <p style="text-align: center;">The content of this note is empty.</p>
             }
             else
             {
-                <h3 id="noteContentHeader" class="enabled-text-selection" style="text-align: center; margin-bottom: 20px; scroll-margin-top: 121px;">Content:</h3>
+                <h3 id="noteContentHeader" class="enabled-text-selection noteContentHead" style="text-align: center; margin-bottom: 20px; /* scroll-margin-top: 121px; */">Content:</h3>
                 <Card Style="max-width: 1050px">
                     <CardBody>
                         <Markdown Id="markdownContent" TableCssClass="table table-striped table-hover table-bordered" Class="enabled-text-selection enabled-text-selection-and-children">@Note.Content</Markdown>
