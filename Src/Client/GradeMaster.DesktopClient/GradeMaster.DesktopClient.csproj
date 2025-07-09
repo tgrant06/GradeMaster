@@ -73,7 +73,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Blazor.Bootstrap" Version="3.3.1" />
+        <PackageReference Include="Blazor.Bootstrap" Version="3.4.0" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.7">
           <PrivateAssets>all</PrivateAssets>
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
