@@ -74,14 +74,14 @@
 
     <ItemGroup>
         <PackageReference Include="Blazor.Bootstrap" Version="3.3.1" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.6">
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.7">
           <PrivateAssets>all</PrivateAssets>
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Microsoft.Maui.Controls" Version="9.0.80" />
-        <PackageReference Include="Microsoft.AspNetCore.Components.WebView.Maui" Version="9.0.80" />
-        <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.6" />
-        <PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="9.0.6" />
+        <PackageReference Include="Microsoft.Maui.Controls" Version="9.0.81" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.WebView.Maui" Version="9.0.81" />
+        <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.7" />
+        <PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="9.0.7" />
 	</ItemGroup>
 
     <ItemGroup>
