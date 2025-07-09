@@ -28,10 +28,10 @@
         <ApplicationId>com.github.tgrant06.grademaster.desktopclient</ApplicationId>
 
         <!-- Versions -->
-        <ApplicationDisplayVersion>3.0.3</ApplicationDisplayVersion>
+        <ApplicationDisplayVersion>3.0.4</ApplicationDisplayVersion>
         <ApplicationVersion>3</ApplicationVersion>
-        <FileVersion>3.0.3.0</FileVersion>
-        <InformationalVersion>3.0.3</InformationalVersion>
+        <FileVersion>3.0.4.0</FileVersion>
+        <InformationalVersion>3.0.4</InformationalVersion>
 
         <!-- To develop, package, and publish an app to the Microsoft Store, see: https://aka.ms/MauiTemplateUnpackaged -->
         <WindowsPackageType>None</WindowsPackageType>
