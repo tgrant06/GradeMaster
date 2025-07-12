@@ -93,7 +93,7 @@ New releases are generally released on a monthly basis. <br>
 
 As of now GradeMaster is in active maintenance, currently on major version 3 (3.x.x). <br>
 Major version 3 (3.x.x) will presumably the last major version this application will receive. After Major version 3 there will only be necessary feature updates, for missing features. After that GradeMaster will be considered as feature complete and as a result only maintenance updates are provided. <br>
-What does maintenance mean? For GradeMaster maintenance means patch updates (for example: 3.0.1 => 3.0.2) containing bug fixes, updates to packages (dependencies) and other miscellaneous stuff. <br>
+What does maintenance mean? For GradeMaster maintenance means patch updates, for example: 3.0.1 to 3.0.2 containing bug fixes, updates to packages (dependencies) and other miscellaneous stuff. <br>
 There might be more major versions of GradeMaster, for example updating the .NET version from 9 (currently) to .NET 10 in November this year.
 
 ### Supported Platforms
