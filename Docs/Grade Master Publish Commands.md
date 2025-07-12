@@ -30,6 +30,10 @@ dotnet publish -c Release -f net9.0-windows10.0.19041.0 -r win-arm64 --self-cont
 
 ## GradeMaster Publish commands with Ready2Run and with trimming
 
+> [!CAUTION]
+> Do not use Trimming currently, until incompatibilites are resolved!
+> Compiling the app with trimming will not work and produce faulty binaries!
+
 **win-x64:**
 
 ```console
