@@ -28,6 +28,20 @@ dotnet publish -c Release -f net9.0-windows10.0.19041.0 -r win-x64 --self-contai
 dotnet publish -c Release -f net9.0-windows10.0.19041.0 -r win-arm64 --self-contained -o bin/Publish/win-arm64/GradeMaster/bin/win-arm64
 ```
 
+## GradeMaster Publish commands with Ready2Run
+
+**win-x64:**
+
+```console
+dotnet publish -c Release -f net9.0-windows10.0.19041.0 -r win-x64 --self-contained -p:PublishReadyToRun=true -o bin/Publish/win-x64/GradeMaster/bin/win-x64
+```
+
+**win-arm64:**
+
+```console
+dotnet publish -c Release -f net9.0-windows10.0.19041.0 -r win-arm64 --self-contained -p:PublishReadyToRun=true -o bin/Publish/win-arm64/GradeMaster/bin/win-arm64
+```
+
 ## GradeMaster Publish commands with Ready2Run and with trimming
 
 > [!CAUTION]
