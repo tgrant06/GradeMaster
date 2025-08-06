@@ -130,9 +130,9 @@ Other platforms might get Support in the future.
 
 - Swiss
 
-### Console Client
+<!--### Console Client
 
-The Console Client is only for testing purposes.
+The Console Client is only for testing purposes.-->
 
 ## License
 
