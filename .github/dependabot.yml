@@ -10,7 +10,7 @@ updates:
     schedule:
       interval: "weekly"
       day: "wednesday"
-      time: "12:00"
+      time: "08:00"
     open-pull-requests-limit: 10
     commit-message:
       prefix: "chore"
