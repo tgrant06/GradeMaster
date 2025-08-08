@@ -24,6 +24,6 @@ The database of GradeMaster version v1.x.x is incompatible with the database of 
 
 ## Miscellaneous
 
-Incase something went wrong you can still get the original database back by restoring the file from the Trashbin.
+Incase something went wrong you can still get the original database back by restoring the file from the trash bin.
 
 If for some other reason or you don't want to update you can still use an older version of GradeMaster. In this case use the newest available version that remains compatible. In this case tis would be v1.0.1. Please not, that v1.x.x will no longer be maintained or updated.
