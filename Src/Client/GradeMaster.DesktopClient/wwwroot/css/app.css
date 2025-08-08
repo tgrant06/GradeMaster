@@ -350,3 +350,8 @@ h1:focus {
     top: 0;
     right: 0;
 }
+
+.gm-md-table-container-responsive {
+    overflow-x: auto;
+    margin-bottom: 1rem;
+}

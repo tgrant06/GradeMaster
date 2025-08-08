@@ -4,6 +4,7 @@ window.attachLinkInterceptor = (dotNetHelper) => {
     const anchors = document.querySelectorAll("#markdownContent a");
 
     removeScriptTags();
+    wrapTableElementInDivContainer();
 
     anchors.forEach(anchor => {
         const href = anchor.getAttribute("href");
@@ -31,6 +32,17 @@ function removeScriptTags() {
             script.parentNode.removeChild(script);
         });
     }
+}
+
+function wrapTableElementInDivContainer() {
+    const tables = document.querySelectorAll("#markdownContent table");
+    tables.forEach(table => {
+        const wrapper = document.createElement("div");
+        wrapper.className = "gm-md-table-container-responsive";
+        table.style = "margin-bottom: 0;";
+        table.parentNode.insertBefore(wrapper, table);
+        wrapper.appendChild(table);
+    });
 }
 
 window.detachLinkInterceptor = () => {

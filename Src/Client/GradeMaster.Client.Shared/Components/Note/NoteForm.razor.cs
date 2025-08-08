@@ -130,6 +130,14 @@ public partial class NoteForm : IAsyncDisposable
         await JSRuntime.InvokeVoidAsync("addPageKeybinds", "NoteFormComponent", _objRef);
     }
 
+    protected async override Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JSRuntime.InvokeVoidAsync("attachLinkInterceptor", _objRef);
+        }
+    }
+
     #region HandleSubmit
 
     private async Task HandleValidSubmit()
@@ -184,6 +192,7 @@ public partial class NoteForm : IAsyncDisposable
     public async ValueTask DisposeAsync()
     {
         await JSRuntime.InvokeVoidAsync("removePageKeybinds", "NoteFormComponent");
+        await JSRuntime.InvokeVoidAsync("detachLinkInterceptor");
         _objRef?.Dispose();
     }
 }
