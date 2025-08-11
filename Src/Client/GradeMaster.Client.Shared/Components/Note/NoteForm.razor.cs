@@ -147,6 +147,12 @@ public partial class NoteForm : IAsyncDisposable
             NewNote.CreatedAt = DateTime.Now;
         }
 
+        if (!string.IsNullOrWhiteSpace(NewNote.Tags))
+        {
+            var tags = NewNote.Tags.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+            NewNote.Tags = string.Join(", ", tags);
+        }
+
         NewNote.UpdatedAt = DateTime.Now;
 
         if (OnSave.HasDelegate)
