@@ -28,11 +28,11 @@
                 <RadioInput Name="EnableNotifications" Label="Use OneDrive Database location" @bind-Value="_isDbStoredOneDrive" Disabled="_disabled" />
 
                 <p style="margin-top: 5px;">Currently Using: @(_appPreferences.SaveDbFileToOneDriveLocation ? "OneDrive Database location" : "Local Database location")</p>
-                    <Button Color="ButtonColor.Primary" Style="margin-right: 6px;" Class="btn-show-content" 
-                            @onclick="SaveAppPreferences" 
-                            Disabled="Disabled">
-                        <Icon Name="IconName.Floppy"/> Save
-                    </Button>
+                <Button Color="ButtonColor.Primary" Style="margin-right: 6px;" Class="btn-show-content" 
+                        @onclick="SaveAppPreferences" 
+                        Disabled="Disabled">
+                    <Icon Name="IconName.Floppy"/> Save
+                </Button>
                 <Tooltip Title="After saving the app will be relaunched." Placement="TooltipPlacement.Right">
                     <Badge Style="padding: 4px !important; transform: translate(0, 2px);" Color="BadgeColor.Secondary"><Icon Size="IconSize.x6" Name="IconName.InfoLg" /></Badge>
                 </Tooltip>
@@ -98,6 +98,13 @@
         @* <div class="border-top" style="width: 100%;"></div> *@
     </div>
 </section>
+
+<style>
+    .btn-link.nav-link:focus {
+        box-shadow: 0 0 0 0.1rem light-dark(#ffffff, #212529), 0 0 0 0.25rem #258cfb;
+    }
+</style>
+
 
 <script>
     //window.scrollTo({ top: 0, behavior: 'auto' });
