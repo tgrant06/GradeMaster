@@ -23,10 +23,26 @@
         <h5 style="margin-left: 10px;">Data</h5>
         <div style="margin-left: 15px;">
             <label>Database Location: </label>
-            <RadioInput Name="EnableNotifications" Label="Use local Database location" @bind-Value="_isDatabaseStoredLocal" Disabled="_disabled" />
-            <RadioInput Name="EnableNotifications" Label="Use OneDrive Database location" @bind-Value="_isDbStoredOneDrive" Disabled="_disabled" />
-            
-            <Button Color="ButtonColor.Primary" @onclick="SaveAppPreferences" Disabled="_disabled">Save</Button> <span> After saving the app will be relaunched.</span>
+            <div style="margin-left: 5px;">
+                <RadioInput Name="EnableNotifications" Label="Use local Database location" @bind-Value="_isDatabaseStoredLocal" Disabled="_disabled" />
+                <RadioInput Name="EnableNotifications" Label="Use OneDrive Database location" @bind-Value="_isDbStoredOneDrive" Disabled="_disabled" />
+
+                <p style="margin-top: 5px;">Currently Using: @(_appPreferences.SaveDbFileToOneDriveLocation ? "OneDrive Database location" : "Local Database location")</p>
+                    <Button Color="ButtonColor.Primary" Style="margin-right: 6px;" Class="btn-show-content" 
+                            @onclick="SaveAppPreferences" 
+                            Disabled="Disabled">
+                        <Icon Name="IconName.Floppy"/> Save
+                    </Button>
+                <Tooltip Title="After saving the app will be relaunched." Placement="TooltipPlacement.Right">
+                    <Badge Style="padding: 4px !important; transform: translate(0, 2px);" Color="BadgeColor.Secondary"><Icon Size="IconSize.x6" Name="IconName.InfoLg" /></Badge>
+                </Tooltip>
+                @*<span>After saving the app will be relaunched.</span>
+                <br/>
+                <Button Color="ButtonColor.Primary" @onclick="DisconnectDb">Disconnect Database</Button>
+                <Button Color="ButtonColor.Primary" @onclick="ConnectToDb">Connect to Database</Button>
+                <br />
+                <Button Color="ButtonColor.Primary" @onclick="DisposeDbContext">Dispose Context</Button> *@
+            </div>
         </div>
 
         <br/>
@@ -91,6 +107,10 @@
 
 
 @code {
+
+    // [Inject]
+    // private IDbContextUtilities DbContextUtilities { get; set; } = default!;
+
     #if DEBUG
         private const string AppName = "GradeMasterDev";
     #elif RELEASE
@@ -103,12 +123,14 @@
 
     private bool _disabled;
 
+    public bool Disabled => _disabled ? _disabled /*true*/ : _appPreferences.SaveDbFileToOneDriveLocation == _isDbStoredOneDrive;
+
     private AppPreferencesObject _appPreferences = new();
 
     private readonly string _appDataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), AppName, "Data");
 
-    private readonly string _oneDriveDataPath = 
-        Path.Combine(Environment.GetEnvironmentVariable("OneDrive") ?? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "OneDrive"), "Apps", AppName);
+    private readonly string _oneDriveDataPath = Path.Combine(Environment.GetEnvironmentVariable("OneDrive") ?? 
+                                                             Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "OneDrive"), "Apps", AppName, "Data");
 
     private readonly string _appSettingsFile = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), AppName, "Data", "appPreferences.json");
 
@@ -132,12 +154,12 @@
 
         _disabled = true;
 
-        string tempFile = _appSettingsFile + ".tmp";
-
         const string dbName = "GradeMaster.db";
 
         var localDb = Path.Combine(_appDataPath, dbName);
         var oneDriveDb = Path.Combine(_oneDriveDataPath, dbName);
+
+        if (!Directory.Exists(_oneDriveDataPath)) Directory.CreateDirectory(_oneDriveDataPath);
 
         // copy existing db file if not existing
         if (_appPreferences.SaveDbFileToOneDriveLocation) // copy from local data directory
@@ -148,6 +170,8 @@
         {
             if (!File.Exists(localDb)) File.Copy(oneDriveDb, localDb);
         }
+
+        string tempFile = _appSettingsFile + ".tmp";
 
         // write to temp file
         await using (var fileStream = File.Create(tempFile))
@@ -176,4 +200,19 @@
         // Quit the current app
         Application.Current?.Quit();
     }
+
+    // async Task DisconnectDb()
+    // {
+    //     await DbContextUtilities.DisconnectFromDbAsync();
+    // }
+
+    // async Task ConnectToDb()
+    // {
+    //     await DbContextUtilities.ConnectToDbAsync();
+    // }
+
+    // async Task DisposeDbContext()
+    // {
+    //     await DbContextUtilities.DisposeDbContextAsync();
+    // }
 }

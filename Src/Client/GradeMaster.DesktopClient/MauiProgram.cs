@@ -54,9 +54,17 @@ public static class MauiProgram
 
             var appPreferencesFile = Path.Combine(appDataPath, "appPreferences.json");
 
+            var oneDrivePath = Environment.GetEnvironmentVariable("OneDrive") ??
+                               Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "OneDrive");
+
             if (!File.Exists(appPreferencesFile))
             {
-                var appPreferences = new AppPreferencesObject();
+                var fullOneDriveBackupPath = Path.Combine(oneDrivePath, "Apps", appName, "Backup");
+
+                var appPreferences = new AppPreferencesObject
+                {
+                    BackupCustomDirectoryLocation = Path.Combine(fullOneDriveBackupPath)
+                };
 
                 using var fileStream = File.Create(appPreferencesFile);
                 JsonSerializer.Serialize(fileStream, appPreferences, AppJsonContext.Default.AppPreferencesObject);
@@ -75,16 +83,24 @@ public static class MauiProgram
 
             string fullConnectionString;
 
-            var oneDrivePath = Environment.GetEnvironmentVariable("OneDrive");
-
-            if (currentAppPreferences is null || !currentAppPreferences.SaveDbFileToOneDriveLocation || !currentAppPreferences.SaveDbFileToOneDriveLocation || string.IsNullOrWhiteSpace(oneDrivePath))
+            if (currentAppPreferences is null 
+                || !currentAppPreferences.SaveDbFileToOneDriveLocation 
+                || !currentAppPreferences.SaveDbFileToOneDriveLocation 
+                /*|| string.IsNullOrWhiteSpace(oneDrivePath)*/)
             {
                 fullConnectionString = Path.Combine(appDataPath, connectionString);
             }
             else
             {
+                var fullOneDrivePath = Path.Combine(oneDrivePath, "Apps", appName, "Data");
+
+                if (!Directory.Exists(fullOneDrivePath))
+                {
+                    Directory.CreateDirectory(fullOneDrivePath);
+                }
+
                 // maybe copy local db if already exists and copy to onedrive
-                fullConnectionString = Path.Combine(oneDrivePath, "Apps", appName ,connectionString);
+                fullConnectionString = Path.Combine(fullOneDrivePath, connectionString);
             }
 
             options.UseSqlite($"Data Source={fullConnectionString}")
@@ -107,6 +123,7 @@ public static class MauiProgram
         builder.Services.AddScoped<IWeightRepository, WeightRepository>();
         builder.Services.AddScoped<INoteRepository, NoteRepository>();
         builder.Services.AddScoped<IColorRepository, ColorRepository>();
+        //builder.Services.AddTransient<IDbContextUtilities, DbContextUtilities>();
 
         #endregion
 
