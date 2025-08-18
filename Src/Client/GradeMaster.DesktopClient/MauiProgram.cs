@@ -1,6 +1,8 @@
-﻿using GradeMaster.DataAccess;
-using GradeMaster.DataAccess.Repositories;
+﻿using System.Text.Json;
+using GradeMaster.DataAccess;
 using GradeMaster.DataAccess.Interfaces.IRepositories;
+using GradeMaster.DataAccess.Repositories;
+using GradeMaster.DesktopClient.Json;
 using GradeMaster.Logic.Interfaces.IServices;
 using GradeMaster.Logic.Services;
 using Microsoft.EntityFrameworkCore;
@@ -50,6 +52,16 @@ public static class MauiProgram
                 Directory.CreateDirectory(appDataPath);
             }
 
+            var appPreferencesFile = Path.Combine(appDataPath, "appPreferences.json");
+
+            if (!File.Exists(appPreferencesFile))
+            {
+                var appPreferences = new AppPreferencesObject();
+
+                using var fileStream = File.Create(appPreferencesFile);
+                JsonSerializer.Serialize(fileStream, appPreferences, AppJsonContext.Default.AppPreferencesObject);
+            }
+
             // Retrieve the connection string from configuration
             var connectionString = builder.Configuration.GetConnectionString("Default");
             if (string.IsNullOrEmpty(connectionString))
@@ -57,7 +69,23 @@ public static class MauiProgram
                 throw new Exception("Connection string 'Default' is not found in appsettings.json.");
             }
 
-            var fullConnectionString = Path.Combine(appDataPath, connectionString);
+            var appPreferencesJsonString = File.ReadAllText(appPreferencesFile);
+
+            var currentAppPreferences = JsonSerializer.Deserialize(appPreferencesJsonString, AppJsonContext.Default.AppPreferencesObject);
+
+            string fullConnectionString;
+
+            var oneDrivePath = Environment.GetEnvironmentVariable("OneDrive");
+
+            if (currentAppPreferences is null || !currentAppPreferences.SaveDbFileToOneDriveLocation || !currentAppPreferences.SaveDbFileToOneDriveLocation || string.IsNullOrWhiteSpace(oneDrivePath))
+            {
+                fullConnectionString = Path.Combine(appDataPath, connectionString);
+            }
+            else
+            {
+                // maybe copy local db if already exists and copy to onedrive
+                fullConnectionString = Path.Combine(oneDrivePath, "Apps", appName ,connectionString);
+            }
 
             options.UseSqlite($"Data Source={fullConnectionString}")
                 .EnableDetailedErrors();
