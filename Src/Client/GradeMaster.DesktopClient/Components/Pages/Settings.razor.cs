@@ -1,6 +1,9 @@
 ﻿using System.Diagnostics;
 using System.Text.Json;
+using BlazorBootstrap;
 using GradeMaster.DesktopClient.Json;
+using Microsoft.AspNetCore.Components;
+using Microsoft.Maui.Media;
 
 namespace GradeMaster.DesktopClient.Components.Pages;
 
@@ -8,6 +11,10 @@ public partial class Settings
 {
     // [Inject]
     // private IDbContextUtilities DbContextUtilities { get; set; } = default!;
+
+    private ConfirmDialog _dialog = default!;
+
+    [Inject] protected ToastService ToastService { get; set; } = default!;
 
     #if DEBUG
         private const string AppName = "GradeMasterDev";
@@ -84,7 +91,7 @@ public partial class Settings
         File.Copy(tempFile, _appSettingsFile, overwrite: true);
         File.Delete(tempFile);
 
-        await Task.Delay(100);
+        await Task.Delay(50);
 
         RestartWindows();
     }
@@ -96,6 +103,59 @@ public partial class Settings
 
         // Quit the current app
         Application.Current?.Quit();
+    }
+
+    private async Task OverrideDbAsync()
+    {
+        var options = new ConfirmDialogOptions
+        {
+            YesButtonColor = ButtonColor.Danger,
+        };
+        
+        var confirmation = await _dialog.ShowAsync(
+            title: "Are you sure you want to override a database?", 
+            message1: "Data might be permanently lost. (Deleted data might still be in the trash bin)",
+            confirmDialogOptions: options);
+
+        if (confirmation)
+        {
+            try
+            {
+                OverrideSpecificDbAsync();
+                ToastService.Notify(new ToastMessage(ToastType.Success, $"Override successful."));
+            }
+            catch (Exception e)
+            {
+                ToastService.Notify(new ToastMessage(ToastType.Danger, "Override failed."));
+            }
+        }
+        else
+        {
+            ToastService.Notify(new ToastMessage(ToastType.Secondary, $"Override action canceled."));
+        }
+    }
+
+    private void OverrideSpecificDbAsync()
+    {
+        _disabled = true;
+
+        const string dbName = "GradeMaster.db";
+
+        var localDb = Path.Combine(_appDataPath, dbName);
+        var oneDriveDb = Path.Combine(_oneDriveDataPath, dbName);
+
+        if (!Directory.Exists(_oneDriveDataPath)) Directory.CreateDirectory(_oneDriveDataPath);
+
+        if (_appPreferences.SaveDbFileToOneDriveLocation) // copy from local data directory
+        {
+            File.Copy(oneDriveDb, localDb, overwrite: true);
+        }
+        else
+        {
+            File.Copy(localDb, oneDriveDb, overwrite: true);
+        }
+
+        _disabled = false;
     }
 
     // async Task DisconnectDb()
