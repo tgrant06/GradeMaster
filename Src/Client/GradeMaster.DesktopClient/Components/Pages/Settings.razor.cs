@@ -172,17 +172,17 @@ public partial class Settings
 
         if (!Directory.Exists(backupOneDriveDir)) Directory.CreateDirectory(backupOneDriveDir);
 
-        if (!File.Exists(localDb))
+        if (File.Exists(localDb))
         {
             File.Copy(localDb, Path.Combine(backupLocalDir, dbName), overwrite: true);
         }
 
-        if (!File.Exists(oneDriveDb))
+        if (File.Exists(oneDriveDb))
         {
             File.Copy(oneDriveDb, Path.Combine(backupOneDriveDir, dbName), overwrite: true);
         }
 
-        ToastService.Notify(new ToastMessage(ToastType.Success, "Backup successful."));
+        ToastService.Notify(new ToastMessage(ToastType.Success, "Backups created successfully."));
 
         _disabled = false;
     }
