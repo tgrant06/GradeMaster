@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
 namespace GradeMaster.DesktopClient;
+
 public static class MauiProgram
 {
     public static MauiApp CreateMauiApp()
