@@ -60,6 +60,14 @@
     /*Then also increase the max-width and make shure the options button is still clickable ((increase) z-index)*/
     /*    animation: fadeIn 0.1s ease;
     will-change: transform, opacity;*/
+
+    /*cursor: pointer;*/
+
+    font-size: 1.875rem;
+    top: 8px;
+    position: sticky;
+    z-index: 1200;
+    max-width: 250px;
 }
 
 .topPageSubHeader {
@@ -69,7 +77,8 @@
     box-shadow: light-dark(#dbdbdbde, #0000004f) 0 10px 11px -10px; /*maybe change light to: #dbdbdbde | was: #dfdfdfde*/
     text-align: center;
     position: sticky;
-    top: 0;
+    /*top: 0;*/
+    top: 55px;
     z-index: 1090;
     transform: translateZ(0);
     will-change: transform;
@@ -83,14 +92,14 @@
     .topPageHeader {
         font-size: 2.25rem;
         top: 5px;
-        position: sticky;
+        /*position: sticky;
         z-index: 1200;
-        max-width: 250px;
+        max-width: 250px;*/
     }
 
-    .topPageSubHeader {
+    /*.topPageSubHeader {
         top: 55px;
-    }
+    }*/
 
     .topPageSubHeaderSideBlock {
         display: initial;

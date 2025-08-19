@@ -1,4 +1,7 @@
 ﻿@page "/settings"
+@using System.Diagnostics
+@using System.Text.Json
+@using GradeMaster.DesktopClient.Json
 
 <TopPageHeader>Settings</TopPageHeader>
 @* <br/> *@
@@ -10,9 +13,80 @@
         <div class="py-2"></div>
         <h3>Settings</h3>
         <h5 style="margin-left: 10px;">Personalization</h5>
-        <div style="margin-left: 15px;">
-            <label>Theme: </label>
-            <ThemeSwitcher/>
+        <div style="margin-left: 20px;">
+            <strong><label>Theme: </label></strong>
+            <div style="margin-left: 10px;">
+                <ThemeSwitcher/>
+            </div>
+        </div>
+
+        <br/>
+        
+        <h5 style="margin-left: 10px;">Data</h5>
+        <div style="margin-left: 20px;">
+            <strong><label>Database Location: </label></strong>
+            <div style="margin-left: 10px;">
+                <RadioInput Name="ChangeUsedDatabaseLocation" Label="Use Local Database location" @bind-Value="_isDatabaseStoredLocal" Disabled="_disabled" />
+                <RadioInput Name="ChangeUsedDatabaseLocation" Label="Use OneDrive Database location" @bind-Value="_isDbStoredOneDrive" Disabled="_disabled" />
+
+                <p style="margin-top: 5px;">Currently using: @(_appPreferences.SaveDbFileToOneDriveLocation ? "OneDrive database location" : "Local database location")</p>
+                <Button Color="ButtonColor.Primary" Style="margin-right: 6px;" Class="btn-show-content" 
+                        @onclick="SaveAppPreferences" 
+                        Disabled="Disabled">
+                    <Icon Name="IconName.Toggles"/> Switch
+                </Button>
+                <Tooltip Title="After switching the app will be relaunched." Placement="TooltipPlacement.Right">
+                    <Badge Style="padding: 4px !important; transform: translate(0, 2px);" Color="BadgeColor.Secondary"><Icon Size="IconSize.x6" Name="IconName.InfoLg" /></Badge>
+                </Tooltip>
+                <br/>
+                <span class="text-secondary gm-sm-infotext">Note: Stuff saved during this app instance will not be saved in the to be changed location.</span>
+            </div>
+        </div>
+        
+        <br/>
+        
+        <div style="margin-left: 20px;">
+            <strong><label>Database Sync: </label></strong>
+            <div style="margin-left: 10px;">
+                <p style="margin-top: 5px;">Since if the database of the changing database location already exists, the data will then not be saved to the to be switched database. <br/>
+                    Because of this you can override the database not currently in use, though changes in this app instance will not be saved to the other database.
+                </p>
+                <p style="margin-top: 5px;">Currently using: @(_appPreferences.SaveDbFileToOneDriveLocation ? "OneDrive Database location (overrides local database)" : "Local Database location (overrides OneDrive database)")</p>
+                <Button Color="ButtonColor.Danger" Style="margin-right: 6px;" Class="btn-show-content"
+                        @onclick="OverrideDbAsync"
+                        Disabled="_disabled">
+                    <Icon Name="IconName.Hdd"/> Override @(_appPreferences.SaveDbFileToOneDriveLocation ? "Local" : "OneDrive")
+                </Button>
+                <Tooltip Title="@(_appPreferences.SaveDbFileToOneDriveLocation ? "Override local database with OneDrive copy." : "Override OneDrive database with local copy.")" Placement="TooltipPlacement.Right">
+                    <Badge Style="padding: 4px !important; transform: translate(0, 2px);" Color="BadgeColor.Secondary"><Icon Size="IconSize.x6" Name="IconName.InfoLg"/></Badge>
+                </Tooltip>
+                <br/>
+                <span class="text-secondary gm-sm-infotext">Note: Stuff saved during this app instance will not be saved to the to be overriden database. (Backup before is recommended!)</span>@*Maybe add auto backup in (special) folder*@
+            </div>
+        </div>
+        
+        <br/>
+        
+        <div style="margin-left: 20px;">
+            <strong><label>Database Backup: </label></strong>
+            <div style="margin-left: 10px;">
+                <p style="margin-top: 5px;">
+                    - Local Backup location: '<code>C:\Users\[YourUser]\AppData\Local\GradeMaster\Backup</code>' <br />
+                    - OneDrive Backup location: '<code>C:\Users\[YourUser]\OneDrive\Apps\GradeMaster\Backup</code>'
+                </p>
+                <p style="margin-top: 5px;">Create backups of both local and OneDrive databases, in their respective backup locations.</p>
+
+                <Button Color="ButtonColor.Success" Style="margin-right: 6px;" Class="btn-show-content"
+                        @onclick="CreateBackup"
+                        Disabled="_disabled">
+                    <Icon Name="IconName.Copy"/> Create Backup
+                </Button>
+                <Tooltip Title="Creates a backup for both the local and the OneDrive databases." Placement="TooltipPlacement.Right">
+                    <Badge Style="padding: 4px !important; transform: translate(0, 2px);" Color="BadgeColor.Secondary"><Icon Size="IconSize.x6" Name="IconName.InfoLg"/></Badge>
+                </Tooltip>
+                <br/>
+                <span class="text-secondary gm-sm-infotext">Note: Stuff saved during this app instance will not be saved in the backup databases.</span>
+            </div>
         </div>
 
         <br/>
@@ -26,7 +100,7 @@
             <strong>Version Information:</strong>
         </p>
         <p style="margin-bottom: 0.5rem;">
-            - <strong>Installed Version:</strong> <span id="installedVersion">3.0.7</span>
+            - <strong>Installed Version:</strong> <span id="installedVersion">3.1.0</span>
             <span id="currentInstalledVersion" class="alert alert-secondary" style="padding: 2px 5px; white-space: nowrap;">
                 Checking...
             </span>
@@ -69,12 +143,19 @@
     </div>
 </section>
 
+<ConfirmDialog @ref="_dialog" />
+
+<style>
+    .btn-link.nav-link:focus {
+        box-shadow: 0 0 0 0.1rem light-dark(#ffffff, #212529), 0 0 0 0.25rem #258cfb;
+    }
+</style>
+
 <script>
     //window.scrollTo({ top: 0, behavior: 'auto' });
     document.querySelector(".content").scrollIntoView({ block: 'start', behavior: 'instant' });
     window.checkForUpdates();
 </script>
-
 
 @code {
 

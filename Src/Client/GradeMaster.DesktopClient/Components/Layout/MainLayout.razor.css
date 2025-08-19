@@ -30,6 +30,11 @@ main {
     align-items: center;
     transition: background-color .3s ease, border-bottom-color .3s ease;
     will-change: background-color, border-bottom-color;
+
+    /*Below was in @media (min-width: 641px) { } block*/
+    position: sticky;
+    top: 0;
+    z-index: 1;
 }
 
 /*@media (prefers-color-scheme: light) {
@@ -84,11 +89,11 @@ main {
             top: 0;
         }
 
-        .top-row {
+        /*.top-row {
             position: sticky;
             top: 0;
             z-index: 1;
-        }
+        }*/
 
             .top-row.auth ::deep a:first-child {
                 flex: 1;

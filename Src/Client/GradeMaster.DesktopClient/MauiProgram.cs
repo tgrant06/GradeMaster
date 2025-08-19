@@ -1,6 +1,8 @@
-﻿using GradeMaster.DataAccess;
-using GradeMaster.DataAccess.Repositories;
+﻿using System.Text.Json;
+using GradeMaster.DataAccess;
 using GradeMaster.DataAccess.Interfaces.IRepositories;
+using GradeMaster.DataAccess.Repositories;
+using GradeMaster.DesktopClient.Json;
 using GradeMaster.Logic.Interfaces.IServices;
 using GradeMaster.Logic.Services;
 using Microsoft.EntityFrameworkCore;
@@ -8,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
 namespace GradeMaster.DesktopClient;
+
 public static class MauiProgram
 {
     public static MauiApp CreateMauiApp()
@@ -50,14 +53,55 @@ public static class MauiProgram
                 Directory.CreateDirectory(appDataPath);
             }
 
-            // Retrieve the connection string from configuration
-            var connectionString = builder.Configuration.GetConnectionString("Default");
+            var appPreferencesFile = Path.Combine(appDataPath, "appPreferences.json");
+
+            var oneDrivePath = Environment.GetEnvironmentVariable("OneDrive") ??
+                               Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "OneDrive");
+
+            if (!File.Exists(appPreferencesFile))
+            {
+                var appPreferences = new AppPreferencesObject
+                {
+                    BackupOneDriveDirectoryLocation = Path.Combine(oneDrivePath, "Apps", appName, "Backup"),
+                    BackupLocalDirectoryLocation = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), appName, "Backup")
+                };
+
+                using var fileStream = File.Create(appPreferencesFile);
+                JsonSerializer.Serialize(fileStream, appPreferences, AppJsonContext.Default.AppPreferencesObject);
+            }
+
+                // Retrieve the connection string from configuration
+                var connectionString = builder.Configuration.GetConnectionString("Default");
             if (string.IsNullOrEmpty(connectionString))
             {
                 throw new Exception("Connection string 'Default' is not found in appsettings.json.");
             }
 
-            var fullConnectionString = Path.Combine(appDataPath, connectionString);
+            var appPreferencesJsonString = File.ReadAllText(appPreferencesFile);
+
+            var currentAppPreferences = JsonSerializer.Deserialize(appPreferencesJsonString, AppJsonContext.Default.AppPreferencesObject);
+
+            string fullConnectionString;
+
+            if (currentAppPreferences is null 
+                || !currentAppPreferences.SaveDbFileToOneDriveLocation 
+                || !currentAppPreferences.SaveDbFileToOneDriveLocation 
+                /*|| string.IsNullOrWhiteSpace(oneDrivePath)*/)
+            {
+                fullConnectionString = Path.Combine(appDataPath, connectionString);
+            }
+            else
+            {
+                var fullOneDrivePath = Path.Combine(oneDrivePath, "Apps", appName, "Data");
+
+                if (!Directory.Exists(fullOneDrivePath))
+                {
+                    Directory.CreateDirectory(fullOneDrivePath);
+                }
+
+                // maybe copy local db if already exists and copy to onedrive
+                fullConnectionString = Path.Combine(fullOneDrivePath, connectionString);
+            }
 
             options.UseSqlite($"Data Source={fullConnectionString}")
                 .EnableDetailedErrors();
@@ -79,6 +123,7 @@ public static class MauiProgram
         builder.Services.AddScoped<IWeightRepository, WeightRepository>();
         builder.Services.AddScoped<INoteRepository, NoteRepository>();
         builder.Services.AddScoped<IColorRepository, ColorRepository>();
+        //builder.Services.AddTransient<IDbContextUtilities, DbContextUtilities>();
 
         #endregion
 
