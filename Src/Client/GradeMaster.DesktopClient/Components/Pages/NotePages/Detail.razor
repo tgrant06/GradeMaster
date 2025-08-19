@@ -1,6 +1,6 @@
 ﻿@page "/notes/{Id:int}"
 
-<TopPageHeader Style="font-size: 28px; top: 10px">Detail Note</TopPageHeader>
+<TopPageHeader Style="font-size: 28px; top: 10px;">Detail Note</TopPageHeader>
 
 <ConfirmDialog @ref="_dialog" />
 
@@ -108,8 +108,8 @@
         @if (!string.IsNullOrWhiteSpace(Note.Content))
         {
             <div class="border-top generic-devider-line" style="opacity: 0.5;"></div>
-            <div class="topPageSubHeader border-bottom" style="max-width: 1074px; margin-right: -12px; margin-left: -12px;">
-                <h5>@Note.Title | @(Note.Color.Name + Note.Color.Symbol)</h5>
+            <div id="topPageSubHeaderSticky" class="topPageSubHeader border-bottom" style="max-width: 1074px; margin-right: -12px; margin-left: -12px;">
+                <h5 onclick="window.scrollToContentSection()">@Note.Title | @(Note.Color.Name + Note.Color.Symbol)</h5>
                 <div class="topPageSubHeaderSideBlock"></div>
             </div>
         }
@@ -140,6 +140,10 @@
 </section>
 
 <style>
+    #topPageSubHeaderSticky {
+        scroll-margin-top: 55px;
+    }
+
     .tooltip {
         display: none !important;
     }

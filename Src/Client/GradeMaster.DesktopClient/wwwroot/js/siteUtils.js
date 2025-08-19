@@ -54,7 +54,7 @@ window.scrollToTop = function () {
 };
 
 window.scrollToContentSection = function () {
-    const contentElement = document.querySelector("#noteContentHeader"); // Select the scrollable container
+    const contentElement = document.querySelector("#topPageSubHeaderSticky"); // Select the scrollable container was #noteContentHeader
     if (contentElement) {
         contentElement.scrollIntoView({ block: "start", behavior: "smooth" });
     }
