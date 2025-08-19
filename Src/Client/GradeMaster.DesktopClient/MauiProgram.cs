@@ -62,6 +62,7 @@ public static class MauiProgram
             {
                 var appPreferences = new AppPreferencesObject
                 {
+                    //Todo: Add Machine Name to the Backup paths
                     BackupOneDriveDirectoryLocation = Path.Combine(oneDrivePath, "Apps", appName, "Backup"),
                     BackupLocalDirectoryLocation = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), appName, "Backup")
                 };

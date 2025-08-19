@@ -30,7 +30,7 @@
         <!-- Versions -->
         <ApplicationDisplayVersion>3.1.0</ApplicationDisplayVersion>
         <ApplicationVersion>3</ApplicationVersion>
-        <FileVersion>3.1.0.0</FileVersion>
+        <FileVersion>3.1.0.1</FileVersion>
         <InformationalVersion>3.1.0</InformationalVersion>
 
         <!-- To develop, package, and publish an app to the Microsoft Store, see: https://aka.ms/MauiTemplateUnpackaged -->

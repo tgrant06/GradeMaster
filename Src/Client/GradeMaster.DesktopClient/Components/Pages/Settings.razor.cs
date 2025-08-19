@@ -160,13 +160,16 @@ public partial class Settings
             backupOneDriveDir = Path.Combine(_oneDriveAppPath, "Backup");
         }
 
-        var updatedAppPreferences = _appPreferences with
+        if (string.IsNullOrWhiteSpace(backupLocalDir) || string.IsNullOrWhiteSpace(backupOneDriveDir))
         {
-            BackupLocalDirectoryLocation = backupLocalDir, 
-            BackupOneDriveDirectoryLocation = backupOneDriveDir
-        };
+            var updatedAppPreferences = _appPreferences with
+            {
+                BackupLocalDirectoryLocation = backupLocalDir,
+                BackupOneDriveDirectoryLocation = backupOneDriveDir
+            };
 
-        await UpdateAppPreferences(updatedAppPreferences);
+            await UpdateAppPreferences(updatedAppPreferences);
+        }
 
         if (!Directory.Exists(backupLocalDir)) Directory.CreateDirectory(backupLocalDir);
 
