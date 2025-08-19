@@ -26,7 +26,7 @@ public partial class App : Application
         var window = new Window(new MainPage())
         {
             Title = "GradeMaster",
-            MinimumHeight = 700,
+            MinimumHeight = 690,
             MinimumWidth = 500
         };
 
