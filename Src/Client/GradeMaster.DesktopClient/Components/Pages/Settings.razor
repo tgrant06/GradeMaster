@@ -13,17 +13,19 @@
         <div class="py-2"></div>
         <h3>Settings</h3>
         <h5 style="margin-left: 10px;">Personalization</h5>
-        <div style="margin-left: 15px;">
+        <div style="margin-left: 20px;">
             <strong><label>Theme: </label></strong>
-            <ThemeSwitcher/>
+            <div style="margin-left: 10px;">
+                <ThemeSwitcher/>
+            </div>
         </div>
 
         <br/>
         
         <h5 style="margin-left: 10px;">Data</h5>
-        <div style="margin-left: 15px;">
+        <div style="margin-left: 20px;">
             <strong><label>Database Location: </label></strong>
-            <div style="margin-left: 5px;">
+            <div style="margin-left: 10px;">
                 <RadioInput Name="ChangeUsedDatabaseLocation" Label="Use Local Database location" @bind-Value="_isDatabaseStoredLocal" Disabled="_disabled" />
                 <RadioInput Name="ChangeUsedDatabaseLocation" Label="Use OneDrive Database location" @bind-Value="_isDbStoredOneDrive" Disabled="_disabled" />
 
@@ -38,20 +40,14 @@
                 </Tooltip>
                 <br/>
                 <span class="text-secondary gm-sm-infotext">Note: Stuff saved during this app instance will not be saved in the to be changed location.</span>
-                @*<span>After saving the app will be relaunched.</span>
-                <br/>
-                <Button Color="ButtonColor.Primary" @onclick="DisconnectDb">Disconnect Database</Button>
-                <Button Color="ButtonColor.Primary" @onclick="ConnectToDb">Connect to Database</Button>
-                <br />
-                <Button Color="ButtonColor.Primary" @onclick="DisposeDbContext">Dispose Context</Button> *@
             </div>
         </div>
         
         <br/>
         
-        <div style="margin-left: 15px;">
+        <div style="margin-left: 20px;">
             <strong><label>Database Sync: </label></strong>
-            <div style="margin-left: 5px;">
+            <div style="margin-left: 10px;">
                 <p style="margin-top: 5px;">Since if the database of the changing database location already exists, the data will then not be saved to the to be switched database. <br/>
                     Because of this you can override the database not currently in use, though changes in this app instance will not be saved to the other database.
                 </p>
@@ -71,9 +67,9 @@
         
         <br/>
         
-        <div style="margin-left: 15px;">
+        <div style="margin-left: 20px;">
             <strong><label>Database Backup: </label></strong>
-            <div style="margin-left: 5px;">
+            <div style="margin-left: 10px;">
                 <p style="margin-top: 5px;">
                     - Local Backup location: '<code>C:\Users\[YourUser]\AppData\Local\GradeMaster\Backup</code>' <br />
                     - OneDrive Backup location: '<code>C:\Users\[YourUser]\OneDrive\Apps\GradeMaster\Backup</code>'
