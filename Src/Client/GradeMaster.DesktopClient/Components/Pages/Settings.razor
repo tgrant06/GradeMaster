@@ -24,7 +24,7 @@
         <div style="margin-left: 15px;">
             <strong><label>Database Location: </label></strong>
             <div style="margin-left: 5px;">
-                <RadioInput Name="ChangeUsedDatabaseLocation" Label="Use local Database location" @bind-Value="_isDatabaseStoredLocal" Disabled="_disabled" />
+                <RadioInput Name="ChangeUsedDatabaseLocation" Label="Use Local Database location" @bind-Value="_isDatabaseStoredLocal" Disabled="_disabled" />
                 <RadioInput Name="ChangeUsedDatabaseLocation" Label="Use OneDrive Database location" @bind-Value="_isDbStoredOneDrive" Disabled="_disabled" />
 
                 <p style="margin-top: 5px;">Currently using: @(_appPreferences.SaveDbFileToOneDriveLocation ? "OneDrive database location" : "Local database location")</p>
@@ -74,21 +74,22 @@
         <div style="margin-left: 15px;">
             <strong><label>Database Backup: </label></strong>
             <div style="margin-left: 5px;">
-                <p style="margin-top: 5px;">Since if the database of the changing database location already exists, the data will then not be saved to the to be switched database. <br/>
-                    Because of this you can override the database not currently in use, though changes in this app instance will not be saved to the other database.
+                <p style="margin-top: 5px;">
+                    - Local Backup location: '<code>C:\Users\[YourUser]\AppData\Local\GradeMaster\Backup</code>' <br />
+                    - OneDrive Backup location: '<code>C:\Users\[YourUser]\OneDrive\Apps\GradeMaster\Backup</code>'
                 </p>
                 <p style="margin-top: 5px;">Create backups of both local and OneDrive databases, in their respective backup locations.</p>
 
-                <Button Color="ButtonColor.Danger" Style="margin-right: 6px;" Class="btn-show-content"
-                        @onclick="() => { }"
+                <Button Color="ButtonColor.Success" Style="margin-right: 6px;" Class="btn-show-content"
+                        @onclick="CreateBackup"
                         Disabled="_disabled">
-                    <Icon Name="IconName.Hdd"/> Create Backup
+                    <Icon Name="IconName.Copy"/> Create Backup
                 </Button>
-                <Tooltip Title="@(_appPreferences.SaveDbFileToOneDriveLocation ? "Override local database with OneDrive copy." : "Override OneDrive database with local copy.")" Placement="TooltipPlacement.Right">
+                <Tooltip Title="Creates a backup for both the local and the OneDrive databases." Placement="TooltipPlacement.Right">
                     <Badge Style="padding: 4px !important; transform: translate(0, 2px);" Color="BadgeColor.Secondary"><Icon Size="IconSize.x6" Name="IconName.InfoLg"/></Badge>
                 </Tooltip>
                 <br/>
-                <span class="text-secondary gm-sm-infotext">Note: Stuff saved during this app instance will not be be lost.</span>
+                <span class="text-secondary gm-sm-infotext">Note: Stuff saved during this app instance will not be saved in the backup databases.</span>
             </div>
         </div>
 

@@ -59,19 +59,18 @@ public static class MauiProgram
 
             if (!File.Exists(appPreferencesFile))
             {
-                var fullOneDriveBackupPath = Path.Combine(oneDrivePath, "Apps", appName, "Backup");
-
                 var appPreferences = new AppPreferencesObject
                 {
-                    BackupCustomDirectoryLocation = Path.Combine(fullOneDriveBackupPath)
+                    BackupOneDriveDirectoryLocation = Path.Combine(oneDrivePath, "Apps", appName, "Backup"),
+                    BackupLocalDirectoryLocation = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), appName, "Backup")
                 };
 
                 using var fileStream = File.Create(appPreferencesFile);
                 JsonSerializer.Serialize(fileStream, appPreferences, AppJsonContext.Default.AppPreferencesObject);
             }
 
-            // Retrieve the connection string from configuration
-            var connectionString = builder.Configuration.GetConnectionString("Default");
+                // Retrieve the connection string from configuration
+                var connectionString = builder.Configuration.GetConnectionString("Default");
             if (string.IsNullOrEmpty(connectionString))
             {
                 throw new Exception("Connection string 'Default' is not found in appsettings.json.");

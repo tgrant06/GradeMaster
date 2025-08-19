@@ -34,16 +34,19 @@ public partial class Settings
 
     private readonly string _appDataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), AppName, "Data");
 
+    private readonly string _oneDriveAppPath = Path.Combine(Environment.GetEnvironmentVariable("OneDrive") ??
+                                                             Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "OneDrive"), "Apps", AppName);
+
     private readonly string _oneDriveDataPath = Path.Combine(Environment.GetEnvironmentVariable("OneDrive") ??
                                                              Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "OneDrive"), "Apps", AppName, "Data");
 
-    private readonly string _appSettingsFile = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), AppName, "Data", "appPreferences.json");
+    private readonly string _appPreferencesFile = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), AppName, "Data", "appPreferences.json");
 
     protected async override Task OnInitializedAsync()
     {
-        if (File.Exists(_appSettingsFile))
+        if (File.Exists(_appPreferencesFile))
         {
-            var appPreferencesJsonString = await File.ReadAllTextAsync(_appSettingsFile);
+            var appPreferencesJsonString = await File.ReadAllTextAsync(_appPreferencesFile);
             var currentAppPreferences = JsonSerializer.Deserialize(appPreferencesJsonString, AppJsonContext.Default.AppPreferencesObject);
             _appPreferences = currentAppPreferences ?? new AppPreferencesObject();
 
@@ -75,34 +78,11 @@ public partial class Settings
             if (!File.Exists(localDb)) File.Copy(oneDriveDb, localDb);
         }
 
-        string tempFile = _appSettingsFile + ".tmp";
-
-        // write to temp file
-        await using (var fileStream = File.Create(tempFile))
-        {
-            await JsonSerializer.SerializeAsync(
-                fileStream,
-                _appPreferences,
-                AppJsonContext.Default.AppPreferencesObject
-            );
-        }
-
-        // replace original atomically
-        File.Copy(tempFile, _appSettingsFile, overwrite: true);
-        File.Delete(tempFile);
+        await UpdateAppPreferences(_appPreferences);
 
         await Task.Delay(50);
 
         RestartWindows();
-    }
-
-    private static void RestartWindows()
-    {
-        // Start a new instance
-        Process.Start(Environment.ProcessPath!);
-
-        // Quit the current app
-        Application.Current?.Quit();
     }
 
     private async Task OverrideDbAsync()
@@ -121,7 +101,7 @@ public partial class Settings
         {
             try
             {
-                OverrideSpecificDbAsync();
+                OverrideSpecificDb();
                 ToastService.Notify(new ToastMessage(ToastType.Success, $"Override successful."));
             }
             catch (Exception e)
@@ -135,7 +115,7 @@ public partial class Settings
         }
     }
 
-    private void OverrideSpecificDbAsync()
+    private void OverrideSpecificDb()
     {
         _disabled = true;
 
@@ -158,6 +138,81 @@ public partial class Settings
         _disabled = false;
     }
 
+    private async Task CreateBackup()
+    {
+        _disabled = true;
+
+        const string dbName = "GradeMaster.db";
+
+        var localDb = Path.Combine(_appDataPath, dbName);
+        var oneDriveDb = Path.Combine(_oneDriveDataPath, dbName);
+
+        var backupLocalDir = _appPreferences.BackupLocalDirectoryLocation;
+        var backupOneDriveDir = _appPreferences.BackupOneDriveDirectoryLocation;
+
+        if (string.IsNullOrWhiteSpace(backupLocalDir))
+        {
+            backupLocalDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), AppName, "Backup");
+        }
+
+        if (string.IsNullOrWhiteSpace(backupOneDriveDir))
+        {
+            backupOneDriveDir = Path.Combine(_oneDriveAppPath, "Backup");
+        }
+
+        var updatedAppPreferences = _appPreferences with
+        {
+            BackupLocalDirectoryLocation = backupLocalDir, 
+            BackupOneDriveDirectoryLocation = backupOneDriveDir
+        };
+
+        await UpdateAppPreferences(updatedAppPreferences);
+
+        if (!Directory.Exists(backupLocalDir)) Directory.CreateDirectory(backupLocalDir);
+
+        if (!Directory.Exists(backupOneDriveDir)) Directory.CreateDirectory(backupOneDriveDir);
+
+
+        File.Copy(localDb, Path.Combine(backupLocalDir, dbName), overwrite: true);
+
+        File.Copy(oneDriveDb, Path.Combine(backupOneDriveDir, dbName), overwrite: true);
+
+
+        ToastService.Notify(new ToastMessage(ToastType.Success, "Backup successful."));
+
+        _disabled = false;
+    }
+
+    private static void RestartWindows()
+    {
+        // Start a new instance
+        Process.Start(Environment.ProcessPath!);
+
+        // Quit the current app
+        Application.Current?.Quit();
+    }
+
+    private async Task UpdateAppPreferences(AppPreferencesObject appPreferences)
+    {
+        string tempFile = _appPreferencesFile + ".tmp";
+
+        // write to temp file
+        await using (var fileStream = File.Create(tempFile))
+        {
+            await JsonSerializer.SerializeAsync(
+                fileStream,
+                appPreferences,
+                AppJsonContext.Default.AppPreferencesObject
+            );
+        }
+
+        // replace original atomically
+        File.Copy(tempFile, _appPreferencesFile, overwrite: true);
+        File.Delete(tempFile);
+    }
+
+    #region Not used
+
     // async Task DisconnectDb()
     // {
     //     await DbContextUtilities.DisconnectFromDbAsync();
@@ -172,4 +227,6 @@ public partial class Settings
     // {
     //     await DbContextUtilities.DisposeDbContextAsync();
     // }
+
+    #endregion
 }
