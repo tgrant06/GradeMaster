@@ -87,7 +87,9 @@ New releases are generally released on a monthly basis. <br>
 - Planned Features:
   - Hot-Keys ✅
   - Notes ✅
-  - [Maybe in the Future (uncertain)] Backup of Database
+  - Backup of Database ✅
+  - Database tools ✅
+  - OneDrive integration ✅
 
 #### Future Releases
 
