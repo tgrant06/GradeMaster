@@ -71,11 +71,10 @@
             <strong><label>Database Backup: </label></strong>
             <div style="margin-left: 10px;">
                 <p style="margin-top: 5px;">
-                    - Local Backup location: '<code>C:\Users\[YourUser]\AppData\Local\GradeMaster\Backup</code>' <br />
-                    - OneDrive Backup location: '<code>C:\Users\[YourUser]\OneDrive\Apps\GradeMaster\Backup</code>'
-                </p>
-                <p style="margin-top: 5px;">Create backups of both local and OneDrive databases, in their respective backup locations.</p>
-
+                    - Local Backup location: '<code>C:\Users\[YourUser]\AppData\Local\GradeMaster\Backup\[MachineName]</code>' <br />
+                    - OneDrive Backup location: '<code>C:\Users\[YourUser]\OneDrive\Apps\GradeMaster\Backup\[MachineName]</code>'</p>
+                <p style="margin-top: 5px;">Create backups of both local and OneDrive databases, in their respective backup locations. <br/>
+                    MachineName refers to the name of the computer like 'Johns Laptop'</p>
                 <Button Color="ButtonColor.Success" Style="margin-right: 6px;" Class="btn-show-content"
                         @onclick="CreateBackup"
                         Disabled="_disabled">

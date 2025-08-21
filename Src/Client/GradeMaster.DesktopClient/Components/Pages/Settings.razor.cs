@@ -22,6 +22,8 @@ public partial class Settings
         private const string AppName = "GradeMaster";
     #endif
 
+    private const string DbName = "GradeMaster.db";
+
     private bool _isDatabaseStoredLocal = true;
 
     private bool _isDbStoredOneDrive;
@@ -61,10 +63,8 @@ public partial class Settings
 
         _disabled = true;
 
-        const string dbName = "GradeMaster.db";
-
-        var localDb = Path.Combine(_appDataPath, dbName);
-        var oneDriveDb = Path.Combine(_oneDriveDataPath, dbName);
+        var localDb = Path.Combine(_appDataPath, DbName);
+        var oneDriveDb = Path.Combine(_oneDriveDataPath, DbName);
 
         if (!Directory.Exists(_oneDriveDataPath)) Directory.CreateDirectory(_oneDriveDataPath);
 
@@ -119,10 +119,8 @@ public partial class Settings
     {
         _disabled = true;
 
-        const string dbName = "GradeMaster.db";
-
-        var localDb = Path.Combine(_appDataPath, dbName);
-        var oneDriveDb = Path.Combine(_oneDriveDataPath, dbName);
+        var localDb = Path.Combine(_appDataPath, DbName);
+        var oneDriveDb = Path.Combine(_oneDriveDataPath, DbName);
 
         if (!Directory.Exists(_oneDriveDataPath)) Directory.CreateDirectory(_oneDriveDataPath);
 
@@ -142,13 +140,13 @@ public partial class Settings
     {
         _disabled = true;
 
-        const string dbName = "GradeMaster.db";
-
-        var localDb = Path.Combine(_appDataPath, dbName);
-        var oneDriveDb = Path.Combine(_oneDriveDataPath, dbName);
+        var localDb = Path.Combine(_appDataPath, DbName);
+        var oneDriveDb = Path.Combine(_oneDriveDataPath, DbName);
 
         var backupLocalDir = _appPreferences.BackupLocalDirectoryLocation;
         var backupOneDriveDir = _appPreferences.BackupOneDriveDirectoryLocation;
+
+        var machineName = Environment.MachineName;
 
         if (string.IsNullOrWhiteSpace(backupLocalDir))
         {
@@ -160,7 +158,7 @@ public partial class Settings
             backupOneDriveDir = Path.Combine(_oneDriveAppPath, "Backup");
         }
 
-        if (string.IsNullOrWhiteSpace(backupLocalDir) || string.IsNullOrWhiteSpace(backupOneDriveDir))
+        if (backupLocalDir != _appPreferences.BackupLocalDirectoryLocation || backupOneDriveDir != _appPreferences.BackupOneDriveDirectoryLocation)
         {
             var updatedAppPreferences = _appPreferences with
             {
@@ -171,21 +169,24 @@ public partial class Settings
             await UpdateAppPreferences(updatedAppPreferences);
         }
 
+        backupLocalDir = Path.Combine(backupLocalDir, machineName);
+        backupOneDriveDir = Path.Combine(backupOneDriveDir, machineName);
+
         if (!Directory.Exists(backupLocalDir)) Directory.CreateDirectory(backupLocalDir);
 
         if (!Directory.Exists(backupOneDriveDir)) Directory.CreateDirectory(backupOneDriveDir);
 
         if (File.Exists(localDb))
         {
-            File.Copy(localDb, Path.Combine(backupLocalDir, dbName), overwrite: true);
+            File.Copy(localDb, Path.Combine(backupLocalDir, DbName), overwrite: true);
         }
 
         if (File.Exists(oneDriveDb))
         {
-            File.Copy(oneDriveDb, Path.Combine(backupOneDriveDir, dbName), overwrite: true);
+            File.Copy(oneDriveDb, Path.Combine(backupOneDriveDir, DbName), overwrite: true);
         }
 
-        ToastService.Notify(new ToastMessage(ToastType.Success, "Backups created successfully."));
+        ToastService.Notify(new ToastMessage(ToastType.Success, "Backup(s) created successfully."));
 
         _disabled = false;
     }
