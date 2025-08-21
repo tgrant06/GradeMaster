@@ -82,7 +82,7 @@ GradeMaster is free to use, as of this moment.
 GradeMaster is actively maintained. <br>
 New releases are generally released on a monthly basis. <br>
 
-### Future Plans and Roadmap
+### Future Plans and Roadmap [all complete ✅]
 
 - Planned Features:
   - Hot-Keys ✅
