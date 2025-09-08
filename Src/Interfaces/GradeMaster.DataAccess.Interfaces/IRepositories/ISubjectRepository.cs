@@ -30,4 +30,8 @@ public interface ISubjectRepository : IGenericEntityRepository<Subject>
     Task<bool> ExistsAnyIsCompletedAsync(bool completed);
 
     Task<bool> ExistsAnyIsCompletedWithEducationIdAsync(int educationId, bool completed);
+
+    Task<bool> ExistsAnyWithSpecifiedEducationIdNameSemester(int educationId, string subjectName, int subjectSemester);
+
+    Task<int> ExistsAnyWithSpecifiedEducationIdNameSemesterAsSubjectId(int educationId, string subjectName, int subjectSemester);
 }

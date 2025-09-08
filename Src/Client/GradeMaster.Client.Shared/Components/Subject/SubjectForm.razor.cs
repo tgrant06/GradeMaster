@@ -90,6 +90,12 @@ public partial class SubjectForm : IAsyncDisposable
     }
 
     [Inject]
+    private ISubjectRepository _subjectRepository
+    {
+        get; set;
+    }
+
+    [Inject]
     private IEducationRepository _educationRepository
     {
         get; set;
@@ -186,6 +192,20 @@ public partial class SubjectForm : IAsyncDisposable
             NewSubject.Semester = NewSubject.Education.Semesters;
             ToastService.Notify(new ToastMessage(ToastType.Warning, $"Please select a valid semester between 1 and {NewSubject.Education.Semesters}."));
             return;
+        }
+
+        var subjectId = await _subjectRepository.ExistsAnyWithSpecifiedEducationIdNameSemesterAsSubjectId(
+            NewSubject.Education.Id, NewSubject.Name,
+            NewSubject.Semester);
+
+        if (subjectId != 0)
+        {
+            if (Subject?.Id != subjectId)
+            {
+                ToastService.Notify(new ToastMessage(ToastType.Warning,
+                    $"A subject with this name already exists within this semester."));
+                return;
+            }
         }
 
         if (OnSave.HasDelegate)

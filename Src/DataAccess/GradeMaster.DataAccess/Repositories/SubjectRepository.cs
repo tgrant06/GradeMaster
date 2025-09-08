@@ -374,4 +374,29 @@ public class SubjectRepository : ISubjectRepository
     {
         return await _context.Subjects.AnyAsync(s => s.Id == id);
     }
+
+    public async Task<bool> ExistsAnyWithSpecifiedEducationIdNameSemester(int educationId, string subjectName,
+        int subjectSemester)
+    {
+        return await _context.Subjects.AnyAsync(s => s.Education.Id == educationId && 
+                                                     s.Name == subjectName.Trim() && 
+                                                     s.Semester == subjectSemester);
+
+        //return await from subject in _context.Subjects
+        //             where subject.Education.Id == educationId &&
+        //                   subject.Name == subjectName &&
+        //                   subject.Semester == subjectSemester
+        //                   select subject;
+    }
+
+    public async Task<int> ExistsAnyWithSpecifiedEducationIdNameSemesterAsSubjectId(int educationId, string subjectName,
+        int subjectSemester)
+    {
+        return await _context.Subjects
+            .Where(s => s.Education.Id == educationId &&
+                        s.Name == subjectName.Trim() && 
+                        s.Semester == subjectSemester)
+            .Select(s => s.Id)
+            .FirstOrDefaultAsync();
+    }
 }
