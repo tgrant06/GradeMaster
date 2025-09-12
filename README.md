@@ -25,9 +25,18 @@ GradeMaster is a Desktop based grade management tool. It allows you to manage yo
 
 ## Installation Guide (Installer)
 
-Install GradeMaster like any other program, with the dedicated installer found in the Releases section, of this repository.
+Install, uninstall and update GradeMaster like any other program, with the dedicated installer found in the Releases section, of this repository.
 
 This is also the recommended approach of installing GradeMaster.
+
+**Note**: If you currently run GradeMaster installed form the official .zip files, make sure to have uninstalled the previous version of GradeMaster manually. This includes removing the GradeMaster directory in the `C:\Program Files` directory, desktop shortcuts, taskbar pin and the start menu shortcut.
+
+Also important GradeMaster creates specific files and directories, that are not deleted when you delete the app.
+
+**Prominent file/directory locations:**
+
+- `C:\Users\[YourUser]\AppData\Local\GradeMaster`
+- `C:\Users\[YourUser]\OneDrive\Apps\GradeMaster`
 
 ## Installation (ZIP file) and Setup Guide
 
