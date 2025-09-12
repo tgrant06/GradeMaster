@@ -13,7 +13,8 @@ GradeMaster is a Desktop based grade management tool. It allows you to manage yo
 - [.NET MAUI](https://dotnet.microsoft.com/en-us/apps/maui)
 - [Blazor](https://dotnet.microsoft.com/en-us/apps/aspnet/web-apps/blazor)
 - [Blazor Bootstrap](https://demos.blazorbootstrap.com/)
-- [Bootstrap](https://getbootstrap.com/) <br>
+- [Bootstrap](https://getbootstrap.com/)
+- [Inno Setup](https://jrsoftware.org/isinfo.php) (for creating the installer)<br>
 
 ### Backend & Database
 
@@ -22,7 +23,13 @@ GradeMaster is a Desktop based grade management tool. It allows you to manage yo
 
 ### .NET Version: 9.0
 
-## Installation and Setup Guide
+## Installation Guide (Installer)
+
+Install GradeMaster like any other program, with the dedicated installer found in the Releases section, of this repository.
+
+This is also the recommended approach of installing GradeMaster.
+
+## Installation (ZIP file) and Setup Guide
 
 ### For personal usage (Windows)
 
