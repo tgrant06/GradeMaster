@@ -78,8 +78,8 @@
           <PrivateAssets>all</PrivateAssets>
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Microsoft.Maui.Controls" Version="9.0.111" />
-        <PackageReference Include="Microsoft.AspNetCore.Components.WebView.Maui" Version="9.0.111" />
+        <PackageReference Include="Microsoft.Maui.Controls" Version="9.0.120" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.WebView.Maui" Version="9.0.120" />
         <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.10" />
         <PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="9.0.10" />
 	</ItemGroup>
