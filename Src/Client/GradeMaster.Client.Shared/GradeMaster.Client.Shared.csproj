@@ -4,13 +4,13 @@
     <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-	<FileVersion>3.2.1.0</FileVersion>
-	<InformationalVersion>3.2.1</InformationalVersion>
+	<FileVersion>3.2.2.0</FileVersion>
+	<InformationalVersion>3.2.2</InformationalVersion>
   </PropertyGroup>
 
   <ItemGroup>
-	  <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="9.0.10" />
-	  <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="9.0.10" />
+	  <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="9.0.11" />
+	  <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="9.0.11" />
 	  <PackageReference Include="Blazor.Bootstrap" Version="3.4.0" />
   </ItemGroup>
 
