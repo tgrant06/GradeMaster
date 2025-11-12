@@ -74,6 +74,8 @@ or `C:\Program Files\GradeMaster\bin\win-arm64\GradeMaster.DesktopClient.exe` fo
 6. Next you can build the solution.
 7. After you can start the application from the start button in Visual Studio. Make sure you have the Developer-Mode activated on your device.
 
+**Note**: Visual Studio 2026 is required for GradeMaster targeting .NET 10.
+
 ## Info
 
 ### Current Release Version
