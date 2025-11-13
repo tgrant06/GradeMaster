@@ -55,7 +55,8 @@
 </section>
 
 <script>
-    window.scrollTo({ top: 0, behavior: 'auto' });
+    //window.scrollTo({ top: 0, behavior: 'auto' });
+    document.querySelector(".content").scrollIntoView({ block: 'start', behavior: 'instant' });
     window.checkForUpdates();
 </script>
 
