@@ -28,4 +28,26 @@
     </Project>
   </Folder>
   <Folder Name="/6_Tests/" />
+  <Folder Name="/_SolutionItems/">
+    <File Path=".gitignore" />
+    <File Path="LICENSE.txt" />
+    <File Path="README.md" />
+  </Folder>
+  <Folder Name="/_SolutionItems/Database/">
+    <File Path="Database/testing_database_here.txt" />
+  </Folder>
+  <Folder Name="/_SolutionItems/Docs/">
+    <File Path="Docs/Grade Master Publish Commands.md" />
+    <File Path="Docs/Update_from_version_v1.x.x_to_v2.x.x.md" />
+  </Folder>
+  <Folder Name="/_SolutionItems/Docs/InnoSetupScripts/">
+    <File Path="Docs/InnoSetupScripts/GradeMaster_win-arm64_setup.iss" />
+    <File Path="Docs/InnoSetupScripts/GradeMaster_win-arm64_setup_Lean.iss" />
+    <File Path="Docs/InnoSetupScripts/GradeMaster_win-x64_setup.iss" />
+    <File Path="Docs/InnoSetupScripts/GradeMaster_win-x64_setup_Lean.iss" />
+  </Folder>
+  <Folder Name="/_SolutionItems/Images/">
+    <File Path="Images/appicon.ico" />
+    <File Path="Images/logo.png" />
+  </Folder>
 </Solution>
