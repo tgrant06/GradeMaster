@@ -30,6 +30,7 @@
   <Folder Name="/6_Tests/" />
   <Folder Name="/_SolutionItems/">
     <File Path=".gitignore" />
+    <File Path="global.json" />
     <File Path="LICENSE.txt" />
     <File Path="README.md" />
   </Folder>

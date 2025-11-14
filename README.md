@@ -38,7 +38,7 @@ Also important GradeMaster creates specific files and directories, that are not 
 - `C:\Users\[YourUser]\AppData\Local\GradeMaster`
 - `C:\Users\[YourUser]\OneDrive\Apps\GradeMaster`
 
-## Installation (ZIP file and Manual installation) and Setup Guide
+## Installation (ZIP file and Manual installation / Source build) and Setup Guide
 
 ### For personal usage (Windows)
 
@@ -64,9 +64,11 @@ or `C:\Program Files\GradeMaster\bin\win-arm64\GradeMaster.DesktopClient.exe` fo
 2. You can also delete the application data directory if you want to delete your data (not recommended). To do this delete the directory `C:\Users\YourUser\AppData\Local\GradeMaster`.
 3. You can also delete all of the shortcuts. Delete them, where you copied them.
 
-### Manual installation with local build (Advanced)
+### Manual installation with local build (Build from Source) (Advanced)
 
-1. Clone the repository.
+**Note:** .NET 10 must be installed on the machine
+
+1. Clone the repository or download an archive file from the releases and unpack it (Source Code archive file).
 2. Navigate to the `[Your Path]\GradeMaster\Src\Client\GradeMaster.DektopClient` directory.
 3. Open the terminal in this directory.
 4. Paste one of the available .NET 10 publish commands, that suit your needs in [GradeMaster Publish Commands.md](Docs/Grade%20Master%20Publish%20Commands.md).
