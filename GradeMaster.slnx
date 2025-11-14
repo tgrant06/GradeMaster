@@ -1,0 +1,31 @@
+<Solution>
+  <Configurations>
+    <Platform Name="Any CPU" />
+    <Platform Name="arm64" />
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Folder Name="/0_Interfaces/">
+    <Project Path="Src/Interfaces/GradeMaster.DataAccess.Interfaces/GradeMaster.DataAccess.Interfaces.csproj" />
+    <Project Path="Src/Interfaces/GradeMaster.Logic.Interfaces/GradeMaster.Logic.Interfaces.csproj" />
+  </Folder>
+  <Folder Name="/1_DataAccess/">
+    <Project Path="Src/DataAccess/GradeMaster.DataAccess/GradeMaster.DataAccess.csproj" />
+  </Folder>
+  <Folder Name="/2_Common/">
+    <Project Path="Src/Common/GradeMaster.Common/GradeMaster.Common.csproj" />
+  </Folder>
+  <Folder Name="/3_Logic/">
+    <Project Path="Src/Logic/GradeMaster.Logic/GradeMaster.Logic.csproj" />
+  </Folder>
+  <Folder Name="/4_ApplicationDesktopClient/">
+    <Project Path="Src/Client/GradeMaster.Client.Shared/GradeMaster.Client.Shared.csproj" />
+    <Project Path="Src/Client/GradeMaster.DesktopClient/GradeMaster.DesktopClient.csproj" />
+  </Folder>
+  <Folder Name="/5_ApplicationConsoleClient/">
+    <Project Path="Src/ConsoleClient/GradeMaster.ConsoleClient/GradeMaster.ConsoleClient.csproj">
+      <Build Solution="Debug|Any CPU" Project="false" />
+    </Project>
+  </Folder>
+  <Folder Name="/6_Tests/" />
+</Solution>

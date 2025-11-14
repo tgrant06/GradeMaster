@@ -64,11 +64,28 @@ or `C:\Program Files\GradeMaster\bin\win-arm64\GradeMaster.DesktopClient.exe` fo
 2. You can also delete the application data directory if you want to delete your data (not recommended). To do this delete the directory `C:\Users\YourUser\AppData\Local\GradeMaster`.
 3. You can also delete all of the shortcuts. Delete them, where you copied them.
 
+### Manual installation with local build (Advanced)
+
+1. Clone the repository.
+2. Navigate to the `[Your Path]\GradeMaster\Src\Client\GradeMaster.DektopClient` directory.
+3. Open the terminal in this directory.
+4. Paste one of the available .NET 10 publish commands, that suit your needs in [GradeMaster Publish Commands.md](Docs/Grade%20Master%20Publish%20Commands.md).
+5. Execute the command and wait till completion.
+6. After that you have the option to copy the binary output to the application directory and installing the app on your machine (similar to the .zip file installation of GradeMaster)
+
+#### If you want you can choose the Inno Setup route (requires Inno Setup to be installed)
+
+1. Follow the previous 5 steps.
+2. Navigate to the `[Your Path]\GradeMaster\Docs\InnoSetupScripts` directory.
+3. There you will find various .iss files. Choose the one that suits you (architecture). Within architecture you can choose to create a full installer or a lean installer. The full installer will include all the binaries, alternatively the lean installer will copy most binary files from the output directory directly, without including them in the installer itself (optimal for personal installs and usage).
+4. Execute the one of the .iss files with Inno Setup.
+5. After that you have the installer file for GradeMaster ready for usage.
+
 ### For Development
 
 1. Clone this repository to your PC.
 2. Make sure you have the necessary stuff installed in Visual Studio for .NET MAUI Blazor Hybrid applications.
-3. Open the Solution located in: `..YourPath\GradeMaster\Src\GradeMaster.sln` in Visual Studio.
+3. Open the Solution located in: `..YourPath\GradeMaster\GradeMaster.slnx` in Visual Studio.
 4. Let Visual Studio start up.
 5. Then make sure all the packages and dependencies are loaded.
 6. Next you can build the solution.

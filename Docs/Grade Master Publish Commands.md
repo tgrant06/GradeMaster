@@ -1,31 +1,33 @@
 # GradeMaster Publish commands
 
-## GradeMaster Publish commands for MSIX
-
-**win-x64:**
-
-```console
-dotnet publish -c Release -f net9.0-windows10.0.19041.0 -r win-x64 --self-contained --output ./publish_win-x64 -p:PublishProfile=msix-publish
-```
-
-**win-arm64:**
-
-```console
-dotnet publish -c Release -f net9.0-windows10.0.19041.0 -r win-x64 --self-contained --output ./publish_win-x64 -p:PublishProfile=msix-publish
-```
-
 ## GradeMaster Publish commands standard .NET 10
 
+### Self-Contained (.NET runtime included in binaries)
+
 **win-x64:**
 
 ```console
-dotnet publish -c Release -f net10.0-windows10.0.19041.0 -r win-x64 --self-contained -o bin/Publish/win-x64/GradeMaster/bin/win-x64
+dotnet publish -c Release -f net10.0-windows10.0.19041.0 -r win-x64 --self-contained true -o bin/Publish/win-x64/GradeMaster/bin/win-x64
 ```
 
 **win-arm64:**
 
 ```console
-dotnet publish -c Release -f net10.0-windows10.0.19041.0 -r win-arm64 --self-contained -o bin/Publish/win-arm64/GradeMaster/bin/win-arm64
+dotnet publish -c Release -f net10.0-windows10.0.19041.0 -r win-arm64 --self-contained true -o bin/Publish/win-arm64/GradeMaster/bin/win-arm64
+```
+
+### Framework-Dependant(.NET runtime not included in binaries)
+
+**win-x64:**
+
+```console
+dotnet publish -c Release -f net10.0-windows10.0.19041.0 -r win-x64 --self-contained false -o bin/Publish/win-x64/GradeMaster/bin/win-x64
+```
+
+**win-arm64:**
+
+```console
+dotnet publish -c Release -f net10.0-windows10.0.19041.0 -r win-arm64 --self-contained false -o bin/Publish/win-arm64/GradeMaster/bin/win-arm64
 ```
 
 ## GradeMaster Publish commands standard .NET 9
@@ -40,6 +42,20 @@ dotnet publish -c Release -f net9.0-windows10.0.19041.0 -r win-x64 --self-contai
 
 ```console
 dotnet publish -c Release -f net9.0-windows10.0.19041.0 -r win-arm64 --self-contained -o bin/Publish/win-arm64/GradeMaster/bin/win-arm64
+```
+
+## GradeMaster Publish commands for MSIX
+
+**win-x64:**
+
+```console
+dotnet publish -c Release -f net9.0-windows10.0.19041.0 -r win-x64 --self-contained --output ./publish_win-x64 -p:PublishProfile=msix-publish
+```
+
+**win-arm64:**
+
+```console
+dotnet publish -c Release -f net9.0-windows10.0.19041.0 -r win-x64 --self-contained --output ./publish_win-x64 -p:PublishProfile=msix-publish
 ```
 
 ## GradeMaster Publish commands with Ready2Run
