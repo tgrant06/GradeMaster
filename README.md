@@ -38,7 +38,7 @@ Also important GradeMaster creates specific files and directories, that are not 
 - `C:\Users\[YourUser]\AppData\Local\GradeMaster`
 - `C:\Users\[YourUser]\OneDrive\Apps\GradeMaster`
 
-## Installation (ZIP file) and Setup Guide
+## Installation (ZIP file and Manual installation) and Setup Guide
 
 ### For personal usage (Windows)
 
