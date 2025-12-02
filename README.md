@@ -128,7 +128,7 @@ New releases are generally released on a regular basis. <br>
 
 ### Future Plans and Roadmap [all complete ✅]
 
-**Note:** GradeMaster is Feature complete.
+GradeMaster is Feature complete.
 
 #### Future Releases
 
