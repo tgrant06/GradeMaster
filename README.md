@@ -1,10 +1,15 @@
 # GradeMaster
+[![Release Version Badge](https://img.shields.io/github/v/release/tgrant06/GradeMaster)](https://github.com/tgrant06/GradeMaster/releases)
+[![Downloads@latest](https://img.shields.io/github/downloads/tgrant06/GradeMaster/latest/total)](https://github.com/tgrant06/GradeMaster/releases/latest)
+[![Total Downloads](https://img.shields.io/github/downloads/tgrant06/GradeMaster/total)](https://github.com/tgrant06/GradeMaster/releases)
 
 ![GradeMaster Logo](Images/logo.png)
 
 ## About
 
 GradeMaster is a Desktop based grade management tool. It allows you to manage your educations, subjects and grades.
+
+<!--Add Screenshots of the app here.-->
 
 ## Technologies Used
 
@@ -38,9 +43,9 @@ Also important GradeMaster creates specific files and directories, that are not 
 - `C:\Users\[YourUser]\AppData\Local\GradeMaster`
 - `C:\Users\[YourUser]\OneDrive\Apps\GradeMaster`
 
-## Installation (ZIP file and Manual installation / Source build) and Setup Guide
+## Installation and Setup Guide (ZIP file)
 
-### For personal usage (Windows)
+### Installation for usage (Windows)
 
 1. Install the Zip-File GradeMaster_[win-x64/win-arm64].zip (depending on your System architecture) from the Release Section. Make sure you install the newest available version.
 2. Unpack the Zip-File in the `C:\Program Files\` directory.
@@ -56,15 +61,17 @@ or `C:\Program Files\GradeMaster\bin\win-arm64\GradeMaster.DesktopClient.exe` fo
 1. Make sure you delete the `C:\Program Files\GradeMaster` directory. (It is recommended you make a backup of your Data by copying your GradeMaster.db file located in `C:\Users\YourUser\AppData\Local\GradeMaster\Data`. The database should remain compatible with the newer versions of the app and no data should be lost)
 2. Then follow the same steps from the Installation Guide for personal use. (You do not have to copy the shortcut again. You can skip this step. Only do this step if the shortcut doesn't work anymore.)
 
-#### Disclaimer: [Updating from Version v1.x.x to v2.x.x or higher](Docs/Update_from_version_v1.x.x_to_v2.x.x.md)
+**Disclaimer: [Updating from Version v1.x.x to v2.x.x or higher](Docs/Update_from_version_v1.x.x_to_v2.x.x.md)**
 
 ### Uninstalling the App for Users (Windows)
 
 1. Delete the directory `C:\Program Files\GradeMaster`.
-2. You can also delete the application data directory if you want to delete your data (not recommended). To do this delete the directory `C:\Users\YourUser\AppData\Local\GradeMaster`.
+2. You can also delete the application data directory if you want to delete your data (not recommended). <br>
+To do this delete the directories: `C:\Users\YourUser\AppData\Local\GradeMaster` and <br>
+`C:\Users\[YourUser]\OneDrive\Apps\GradeMaster`.
 3. You can also delete all of the shortcuts. Delete them, where you copied them.
 
-### Manual installation with local build (Build from Source) (Advanced)
+## Manual installation with local build (Build from Source) (Advanced)
 
 **Note:** .NET 10 SDK must be installed a Windows based machine.
 
@@ -75,7 +82,7 @@ or `C:\Program Files\GradeMaster\bin\win-arm64\GradeMaster.DesktopClient.exe` fo
 5. Execute the command and wait till completion.
 6. After that you have the option to copy the binary output to the application directory and installing the app on your machine (similar to the .zip file installation of GradeMaster)
 
-#### If you want you can choose the Inno Setup route (requires Inno Setup to be installed)
+### If you want you can choose the Inno Setup route (requires Inno Setup to be installed)
 
 1. Follow the previous 5 steps.
 2. Navigate to the `[Your Path]\GradeMaster\Docs\InnoSetupScripts` directory.
@@ -83,7 +90,7 @@ or `C:\Program Files\GradeMaster\bin\win-arm64\GradeMaster.DesktopClient.exe` fo
 4. Execute the one of the .iss files with Inno Setup.
 5. After that you have the installer file for GradeMaster ready for usage.
 
-### For Development
+## Installation and setup for development
 
 1. Clone this repository to your PC.
 2. Make sure you have the necessary stuff installed in Visual Studio for .NET MAUI Blazor Hybrid applications.
@@ -117,23 +124,20 @@ GradeMaster is free to use, as of this moment.
 ### Development State
 
 GradeMaster is actively maintained. <br>
-New releases are generally released on a monthly basis. <br>
+New releases are generally released on a regular basis. <br>
 
 ### Future Plans and Roadmap [all complete ✅]
 
-- Planned Features:
-  - Hot-Keys ✅
-  - Notes ✅
-  - Backup of Database ✅
-  - Database tools ✅
-  - OneDrive integration ✅
+**Note:** GradeMaster is Feature complete.
 
 #### Future Releases
 
-As of now GradeMaster is in active maintenance, currently on major version 3 (3.x.x). <br>
-Major version 3 (3.x.x) will presumably the last major version this application will receive. After Major version 3 there will only be necessary feature updates, for missing features. After that GradeMaster will be considered as feature complete and as a result only maintenance updates are provided. <br>
-What does maintenance mean? For GradeMaster maintenance means patch updates, for example: 3.0.1 to 3.0.2 containing bug fixes, updates to packages (dependencies) and other miscellaneous stuff. <br>
-There might be more major and minor versions of GradeMaster, for example updating the .NET version from 10 (currently) to .NET 11 in November 2026. There might be another major version in the future, when Windows 10 will inevitably be dropped from GradeMaster support in the future, to signify incompatibility.
+GradeMaster is currently in **active maintenance** on major version **3.x.x**.
+
+- **Version 3.x.x** is expected to be the **final major version** with new features.
+- After necessary feature updates are complete, the application will be considered **feature complete**.
+- Future updates will be primarily **maintenance/patch updates** (e.g., bug fixes, dependency updates: 3.0.1 to 3.0.2).
+- Potential future major/minor versions could be released for **major platform changes** (e.g., updating the .NET version, dropping Windows 10 support).
 
 ### Supported Platforms
 
