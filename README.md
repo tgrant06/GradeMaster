@@ -66,7 +66,7 @@ or `C:\Program Files\GradeMaster\bin\win-arm64\GradeMaster.DesktopClient.exe` fo
 
 ### Manual installation with local build (Build from Source) (Advanced)
 
-**Note:** .NET 10 must be installed on the machine
+**Note:** .NET 10 SDK must be installed a Windows based machine.
 
 1. Clone the repository or download an archive file from the releases and unpack it (Source Code archive file).
 2. Navigate to the `[Your Path]\GradeMaster\Src\Client\GradeMaster.DektopClient` directory.
