@@ -29,13 +29,13 @@ ArchitecturesAllowed=arm64
 ; the 64-bit view of the registry.
 ArchitecturesInstallIn64BitMode=arm64
 DisableProgramGroupPage=yes
-LicenseFile={#SourcePath}..\LICENSE.txt
+LicenseFile={#SourcePath}..\..\LICENSE.txt
 ; Uncomment the following line to run in non administrative install mode (install for current user only).
 ;PrivilegesRequired=lowest
 PrivilegesRequiredOverridesAllowed=dialog
-OutputDir={#SourcePath}..\Src\Client\GradeMaster.DesktopClient\bin\Publish\win-arm64
+OutputDir={#SourcePath}..\..\Src\Client\GradeMaster.DesktopClient\bin\Publish\win-arm64
 OutputBaseFilename=GradeMasterSetup_v{#MyAppVersion}_win-arm64
-SetupIconFile={#SourcePath}..\Images\appicon.ico
+SetupIconFile={#SourcePath}..\..\Images\appicon.ico
 SolidCompression=yes
 WizardStyle=modern
 MinVersion=10.0.19045
@@ -48,8 +48,8 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "{#SourcePath}..\Src\Client\GradeMaster.DesktopClient\bin\Publish\win-arm64\GradeMaster\bin\win-arm64\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#SourcePath}..\Src\Client\GradeMaster.DesktopClient\bin\Publish\win-arm64\GradeMaster\bin\win-arm64\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "{#SourcePath}..\..\Src\Client\GradeMaster.DesktopClient\bin\Publish\win-arm64\GradeMaster\bin\win-arm64\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#SourcePath}..\..\Src\Client\GradeMaster.DesktopClient\bin\Publish\win-arm64\GradeMaster\bin\win-arm64\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files | "external" flag can be added for a local installation
 
 [Icons]
