@@ -82,7 +82,7 @@ To do this delete the directories: `C:\Users\YourUser\AppData\Local\GradeMaster`
 3. Open the terminal in this directory.
 4. Paste the `.\CompleteBuildScript.ps1` PowerShell script command in the terminal.
 5. For all the options execute it with the `-h` argument.
-6. Now you can build GradeMaster how you like it.
+6. Now you can build GradeMaster however you like.
 7. The output is at the `[Your Path]\GradeMaster\Src\Client\GradeMaster.DektopClient\bin\Publish` directory.
 
 ### Manual build and setup of the Desktop Client
