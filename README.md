@@ -138,7 +138,7 @@ GradeMaster is free to use, as of this moment.
 GradeMaster is actively maintained. <br>
 New releases are generally released on a regular basis. <br>
 GradeMaster version 3.3.2 will presumably be the last .NET 10 based release, featuring prebuilt binaries. <br>
-Version 3.3.3 of the app will be framework dependant and not require monthly update. If the newest version is still desired, [building from source](#manual-installation-with-local-build-build-from-source-easyadvanced) is recommended.
+Version 3.3.2 of the app will be framework dependant and not require monthly update. If the newest version is still desired, [building from source](#manual-installation-with-local-build-build-from-source-easyadvanced) is recommended.
 
 ### Future Plans and Roadmap [all complete ✅]
 
