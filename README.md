@@ -73,7 +73,7 @@ To do this delete the directories: `C:\Users\YourUser\AppData\Local\GradeMaster`
 
 ## Manual installation with local build (Build from Source) (Advanced)
 
-**Note:** .NET 10 SDK must be installed a Windows based machine.
+**Note:** .NET 10 SDK must be installed on a Windows based machine.
 
 ### Easy build and setup with included build scripts
 
