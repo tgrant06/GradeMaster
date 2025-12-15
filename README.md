@@ -75,6 +75,18 @@ To do this delete the directories: `C:\Users\YourUser\AppData\Local\GradeMaster`
 
 **Note:** .NET 10 SDK must be installed a Windows based machine.
 
+### Easy build and setup with included build scripts
+
+1. Clone the repository or download an archive file from the releases and unpack it (Source Code archive file).
+2. Navigate to the `[Your Path]\GradeMaster\Scripts\Setup` directory.
+3. Open the terminal in this directory.
+4. Paste the `.\CompleteBuildScript.ps1` PowerShell script command in the terminal.
+5. For all the options execute it with the `-h` argument.
+6. Now you can build GradeMaster how you like it.
+7. The output is at the `[Your Path]\GradeMaster\Src\Client\GradeMaster.DektopClient\bin\Publish` directory.
+
+### Manual build and setup of the Desktop Client
+
 1. Clone the repository or download an archive file from the releases and unpack it (Source Code archive file).
 2. Navigate to the `[Your Path]\GradeMaster\Src\Client\GradeMaster.DektopClient` directory.
 3. Open the terminal in this directory.
@@ -82,7 +94,7 @@ To do this delete the directories: `C:\Users\YourUser\AppData\Local\GradeMaster`
 5. Execute the command and wait till completion.
 6. After that you have the option to copy the binary output to the application directory and installing the app on your machine (similar to the .zip file installation of GradeMaster)
 
-### If you want you can choose the Inno Setup route (requires Inno Setup to be installed)
+#### If you want you can choose the Inno Setup route (requires Inno Setup to be installed)
 
 1. Follow the previous 5 steps.
 2. Navigate to the `[Your Path]\GradeMaster\Docs\InnoSetupScripts` directory.
