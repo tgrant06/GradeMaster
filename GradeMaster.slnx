@@ -41,14 +41,18 @@
     <File Path="Docs/Grade Master Publish Commands.md" />
     <File Path="Docs/Update_from_version_v1.x.x_to_v2.x.x.md" />
   </Folder>
-  <Folder Name="/_SolutionItems/Docs/InnoSetupScripts/">
-    <File Path="Docs/InnoSetupScripts/GradeMaster_win-arm64_setup.iss" />
-    <File Path="Docs/InnoSetupScripts/GradeMaster_win-arm64_setup_Lean.iss" />
-    <File Path="Docs/InnoSetupScripts/GradeMaster_win-x64_setup.iss" />
-    <File Path="Docs/InnoSetupScripts/GradeMaster_win-x64_setup_Lean.iss" />
-  </Folder>
   <Folder Name="/_SolutionItems/Images/">
     <File Path="Images/appicon.ico" />
     <File Path="Images/logo.png" />
+  </Folder>
+  <Folder Name="/_SolutionItems/Scripts/" />
+  <Folder Name="/_SolutionItems/Scripts/InnoSetup/">
+    <File Path="Scripts/InnoSetup/GradeMaster_win-arm64_setup.iss" />
+    <File Path="Scripts/InnoSetup/GradeMaster_win-arm64_setup_Lean.iss" />
+    <File Path="Scripts/InnoSetup/GradeMaster_win-x64_setup.iss" />
+    <File Path="Scripts/InnoSetup/GradeMaster_win-x64_setup_Lean.iss" />
+  </Folder>
+  <Folder Name="/_SolutionItems/Scripts/Setup/">
+    <File Path="Scripts/Setup/CompleteBuildScript.ps1" />
   </Folder>
 </Solution>
