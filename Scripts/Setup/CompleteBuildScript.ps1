@@ -82,15 +82,21 @@ function Invoke-Packager {
         [Parameter(Mandatory=$true)][string]$SourceDirectory,
         [Parameter(Mandatory=$true)][string]$Architecture,
         [Parameter(Mandatory=$true)][string]$Containment,
-        [string[]]$Args # $Args here contains the sanitized/CleanArgs
+        [string[]]$Args
     )
 
-    # 1. ZIP PACKAGING
+    if ($Containment -eq "framework_dependant") {
+        $ContainmentSuffix = "_fd" # For framework-dependant
+    } else {
+        $ContainmentSuffix = "_sc" # For self-contained
+    }
+    
+        # 1. ZIP PACKAGING
     if ("zip" -in $Args) {
         Write-Host "--- Creating ZIP Package ---" -ForegroundColor Cyan
         
         # Construct the final ZIP path and name
-        $ZipFileName = "GradeMaster_$($AppVersion)_$($Architecture)_$($Containment).zip"
+        $ZipFileName = "GradeMaster_$($AppVersion)_$($Architecture)$($ContainmentSuffix).zip"
         $DestinationZipPath = Join-Path -Path $OutputDir -ChildPath $Architecture
         $DestinationZip = Join-Path -Path $DestinationZipPath -ChildPath $ZipFileName
         
@@ -102,100 +108,55 @@ function Invoke-Packager {
              Write-Error "❌ Error creating ZIP file: $($_.Exception.Message)"
         }
     }
-    
+
     # 2. INNOSETUP PACKAGING
     if ("isi" -in $Args -or (-not ("zip" -in $Args) -and -not ("isi" -in $Args))) {
         Write-Host "--- Building InnoSetup Installer ---" -ForegroundColor Cyan
 
         $ISS_File = $null
-        
-        # Determine the Base ISS file based on Architecture
-        if ($Architecture -eq $win_x64) {
-            #$ISS_File = $ISS_x64
+        $InstallerSuffix = ""
+        $InstallerNamePrefix = "GradeMasterSetup" # Base name
 
+        # 1. Determine ISS file (Lean/Standard)
+        $InstallerType = "standard"
+        if ($Architecture -eq $win_x64) {
             if ("slim" -in $Args) {
                 $ISS_File = $ISS_x64_Lean
+                $InstallerType = "slim"
             } else {
                 $ISS_File = $ISS_x64
             }
-
         } else { # arm64
-            #$ISS_File = $ISS_arm64
-            
             if ("slim" -in $Args) {
                 $ISS_File = $ISS_arm64_Lean
+                $InstallerType = "slim"
             } else {
                 $ISS_File = $ISS_arm64
             }
         }
         
+        # 2. Calculate and write the final output filename to the console
+        #$FinalInstallerName = "${InstallerNamePrefix}_${InstallerType}_${AppVersion}_${Architecture}_${InstallerSuffix}.exe"
+        #Write-Host "  👉 Expected Installer Filename: $FinalInstallerName" -ForegroundColor Cyan
+        
+        # 3. Define the Inno Setup Compiler Arguments
+        # /D defines a custom variable for the Inno Setup script to use.
+        $InnoSetupArguments = @(
+            $ISS_File
+            "/DInstallerSuffix=$ContainmentSuffix"  # Pass the suffix variable to Inno Setup
+        )
+
         try {
             Write-Host "Compiling Inno Setup Script: $ISS_File" -ForegroundColor DarkGray
-            & $InnoSetupPath $ISS_File
+            
+            # Execute InnoSetup Compiler using the new arguments array
+            & $InnoSetupPath @InnoSetupArguments
+            
             Write-Host "✅ InnoSetup Installer build successful." -ForegroundColor Green
         }
         catch {
              Write-Error "❌ Error building InnoSetup installer: $($_.Exception.Message)"
         }
-    }
-}
-
-# ==============================================================================
-# ⚙️ Pre-Processing and Argument Parsing
-# ==============================================================================
-
-# Sanitize arguments: remove leading hyphens for simpler matching
-$CleanArgs = @()
-for ($i = 0; $i -lt $args.length; $i++)
-{
-    $CleanArgs += $args[$i].Replace('-', '')
-}
-
-# Help check
-if ("h" -in $CleanArgs -or "help" -in $CleanArgs)
-{
-    Write-Host ""
-    Write-Host "CompleteBuildScript Help: "
-    Write-Host "---"
-    Write-Host "Valid Parameters:"
-    Write-Host "    - Architecture:                           --win-x64 (default) --win-arm64"
-    Write-Host "    - .NET runtime containment:               --self_contained (default) --framework_dependant"
-    Write-Host "    - Final output type:                      --isi (default (InnoSetup installer)) --zip"
-    Write-Host "    - (If InnoSetup selected) Installer type: --slim (default) [for a slim-installer (recommended only for local usage)]"
-    return
-}
-
-# Determine Architecture (Default is x64)
-if ($win_arm64 -in $CleanArgs -or "winarm64" -in $CleanArgs) {
-    $ArchitectureParam = $win_arm64
-}
-
-# Determine Containment (Default is self-contained)
-if ("framework_dependant" -in $CleanArgs) {
-    $ContainmentParam = "framework_dependant"
-}
-
-
-# --- Main Configuration Selection ---
-
-$SourceFolder = $null
-$DotnetArgs = $null
-
-if ($ArchitectureParam -eq $win_x64) {
-    # UPDATED $SourceFolderX64 is used here
-    $SourceFolder = $SourceFolderX64
-    if ($ContainmentParam -eq "self_contained") {
-        $DotnetArgs = $DotnetArgs_x64_sc
-    } else {
-        $DotnetArgs = $DotnetArgs_x64_fd
-    }
-} else { # win-arm64
-    # UPDATED $SourceFolderArm64 is used here
-    $SourceFolder = $SourceFolderArm64
-    if ($ContainmentParam -eq "self_contained") {
-        $DotnetArgs = $DotnetArgs_arm64_sc
-    } else {
-        $DotnetArgs = $DotnetArgs_arm64_fd
     }
 }
 
@@ -227,6 +188,64 @@ function Test-InnoSetupDependency {
     }
 }
 
+# ==============================================================================
+# ⚙️ Pre-Processing and Argument Parsing
+# ==============================================================================
+
+# Sanitize arguments: remove leading hyphens for simpler matching
+$CleanArgs = @()
+for ($i = 0; $i -lt $args.length; $i++)
+{
+    $CleanArgs += $args[$i].Replace('-', '')
+}
+
+# Help check
+if ("h" -in $CleanArgs -or "help" -in $CleanArgs)
+{
+    Write-Host ""
+    Write-Host "CompleteBuildScript Help: "
+    Write-Host "---"
+    Write-Host "Valid Parameters:"
+    Write-Host "    - Architecture:                           --win-x64 (default) --win-arm64"
+    Write-Host "    - .NET runtime containment:               --sc or --self_contained (default) --fd or --framework_dependant"
+    Write-Host "    - Final output type:                      --isi (default (InnoSetup installer)) --zip"
+    Write-Host "    - (If InnoSetup selected) Installer type: --slim (default) [for a slim-installer (recommended only for local usage)]"
+    return
+}
+
+# Determine Architecture (Default is x64)
+if ($win_arm64 -in $CleanArgs -or "winarm64" -in $CleanArgs) {
+    $ArchitectureParam = $win_arm64
+}
+
+# Determine Containment (Default is self-contained)
+if ("framework_dependant" -in $CleanArgs -or "fd" -in $CleanArgs) {
+    $ContainmentParam = "framework_dependant"
+}
+
+
+# --- Main Configuration Selection ---
+
+$SourceFolder = $null
+$DotnetArgs = $null
+
+if ($ArchitectureParam -eq $win_x64) {
+    # UPDATED $SourceFolderX64 is used here
+    $SourceFolder = $SourceFolderX64
+    if ($ContainmentParam -eq "self_contained" -or $ContainmentParam -eq "sc") {
+        $DotnetArgs = $DotnetArgs_x64_sc
+    } else {
+        $DotnetArgs = $DotnetArgs_x64_fd
+    }
+} else { # win-arm64
+    # UPDATED $SourceFolderArm64 is used here
+    $SourceFolder = $SourceFolderArm64
+    if ($ContainmentParam -eq "self_contained" -or $ContainmentParam -eq "sc") {
+        $DotnetArgs = $DotnetArgs_arm64_sc
+    } else {
+        $DotnetArgs = $DotnetArgs_arm64_fd
+    }
+}
 
 # ==============================================================================
 # 🎯 MAIN EXECUTION FLOW
