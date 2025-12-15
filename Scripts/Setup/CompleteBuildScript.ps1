@@ -47,7 +47,7 @@ $DotnetArgs_arm64_fd = @("publish", "-c", "Release", "-f", "net10.0-windows10.0.
 
 
 # ==============================================================================
-# 🛠️ Helper Functions (Remain the same)
+# 🛠️ Helper Functions
 # ==============================================================================
 
 function Invoke-DotnetPublish {
@@ -141,7 +141,7 @@ function Invoke-Packager {
 }
 
 # ==============================================================================
-# ⚙️ Pre-Processing and Argument Parsing (Remain the same)
+# ⚙️ Pre-Processing and Argument Parsing
 # ==============================================================================
 
 # Sanitize arguments: remove leading hyphens for simpler matching
@@ -166,7 +166,7 @@ if ("h" -in $CleanArgs -or "help" -in $CleanArgs)
 }
 
 # Determine Architecture (Default is x64)
-if ($win_arm64 -in $CleanArgs) {
+if ($win_arm64 -in $CleanArgs -or "winarm64" -in $CleanArgs) {
     $ArchitectureParam = $win_arm64
 }
 
@@ -199,15 +199,48 @@ if ($ArchitectureParam -eq $win_x64) {
     }
 }
 
+function Test-InnoSetupDependency {
+    param(
+        [Parameter(Mandatory=$true)][string]$MachinePath,
+        [Parameter(Mandatory=$true)][string]$UserPath
+    )
+    
+    # Check if the path to the Inno Setup compiler was successfully determined (i.e., it exists)
+    if (-not ([System.IO.File]::Exists($MachinePath)) -and -not ([System.IO.File]::Exists($UserPath))) {
+        Write-Host "==================================================" -ForegroundColor Red
+        Write-Host "           ❌ CRITICAL DEPENDENCY MISSING! ❌" -ForegroundColor Red
+        Write-Host "==================================================" -ForegroundColor Red
+        Write-Host "The Inno Setup Compiler (ISCC.exe) was not found in either location:" -ForegroundColor Red
+        Write-Host "Machine Path: '$MachinePath'" -ForegroundColor Red
+        Write-Host "User Path:    '$UserPath'" -ForegroundColor Red
+        Write-Host "`nPlease install Inno Setup 6 to continue building installers." -ForegroundColor Red
+        exit 1 # Exit the script with a non-zero exit code to signal failure
+    }
+    
+    # If found, determine which path to use (this logic replaces the old path setting)
+    if ([System.IO.File]::Exists($MachinePath)) {
+        Write-Host "✅ Inno Setup found (Machine scope)." -ForegroundColor DarkGreen
+        return $MachinePath
+    } else {
+        Write-Host "✅ Inno Setup found (User scope)." -ForegroundColor DarkGreen
+        return $UserPath
+    }
+}
+
 
 # ==============================================================================
-# 🎯 MAIN EXECUTION FLOW (Remain the same)
+# 🎯 MAIN EXECUTION FLOW
 # ==============================================================================
 
 Write-Host "`n=================================================="
 Write-Host "  Starting Build Script for $($ArchitectureParam) ($($ContainmentParam))"
 Write-Host "==================================================`n"
 
+# 0. DEPENDENCY CHECK
+if ("isi" -in $CleanArgs -or (-not ("zip" -in $CleanArgs) -and -not ("isi" -in $CleanArgs))) {
+    Write-Host "--- Checking Dependencies ---" -ForegroundColor Yellow
+    $InnoSetupPath = Test-InnoSetupDependency -MachinePath $InnoSetupMachine -UserPath $InnoSetupUser
+}
 # 1. CLEAN
 Write-Host "--- Cleaning Output Directory ---" -ForegroundColor Yellow
 if ([System.IO.Directory]::Exists($SourceFolder)) {
