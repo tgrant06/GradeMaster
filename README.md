@@ -71,11 +71,11 @@ To do this delete the directories: `C:\Users\YourUser\AppData\Local\GradeMaster`
 `C:\Users\[YourUser]\OneDrive\Apps\GradeMaster`.
 3. You can also delete all of the shortcuts. Delete them, where you copied them.
 
-## Manual installation with local build (Build from Source) (Advanced)
+## Manual installation with local build (Build from Source) (Easy/Advanced)
 
 **Note:** .NET 10 SDK must be installed on a Windows based machine.
 
-### Easy build and setup with included build scripts
+### Easy build and setup with included build scripts (Recommended)
 
 1. Clone the repository or download an archive file from the releases and unpack it (Source Code archive file).
 2. Navigate to the `[Your Path]\GradeMaster\Scripts\Setup` directory.
@@ -85,7 +85,7 @@ To do this delete the directories: `C:\Users\YourUser\AppData\Local\GradeMaster`
 6. Now you can build GradeMaster however you like.
 7. The output is at the `[Your Path]\GradeMaster\Src\Client\GradeMaster.DektopClient\bin\Publish` directory.
 
-### Manual build and setup of the Desktop Client
+### Advanced manual build and setup of the Desktop Client
 
 1. Clone the repository or download an archive file from the releases and unpack it (Source Code archive file).
 2. Navigate to the `[Your Path]\GradeMaster\Src\Client\GradeMaster.DektopClient` directory.
@@ -137,6 +137,8 @@ GradeMaster is free to use, as of this moment.
 
 GradeMaster is actively maintained. <br>
 New releases are generally released on a regular basis. <br>
+GradeMaster version 3.3.2 will presumably be the last .NET 10 based release, featuring prebuilt binaries. <br>
+Version 3.3.3 of the app will be framework dependant and not require monthly update. If the newest version is still desired, [building from source](#manual-installation-with-local-build-build-from-source-easyadvanced) is recommended.
 
 ### Future Plans and Roadmap [all complete ✅]
 
