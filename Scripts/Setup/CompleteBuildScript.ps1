@@ -6,7 +6,7 @@
 
 $win_x64 = "win-x64"
 $win_arm64 = "win-arm64"
-$AppVersion = "v3.3.1"
+$AppVersion = "v3.3.2"
 $ArchitectureParam = $win_x64 # Default architecture
 $ContainmentParam = "self_contained" # Default containment
 $OutputSubDir = "bin" # New subdirectory introduced by the output path change

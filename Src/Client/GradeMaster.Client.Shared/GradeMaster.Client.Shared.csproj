@@ -4,8 +4,8 @@
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-	<FileVersion>3.3.1.0</FileVersion>
-	<InformationalVersion>3.3.1</InformationalVersion>
+	<FileVersion>3.3.2.0</FileVersion>
+	<InformationalVersion>3.3.2</InformationalVersion>
   </PropertyGroup>
 
   <ItemGroup>
