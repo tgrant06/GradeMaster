@@ -10,6 +10,27 @@
 GradeMaster is a Desktop based grade management tool. It allows you to manage your educations, subjects and grades.
 
 <!--Add Screenshots of the app here.-->
+## Screenshots
+
+**Home**
+<img style="max-width: 100%" alt="Home" src="./Images/screenshots/home.png">
+<img style="max-width: 100%" alt="Home Filter" src="./Images/screenshots/home_filter.png">
+
+<details>
+
+<summary><strong>View More</strong></summary>
+
+**Subjects**
+<img style="max-width: 100%" alt="Subjects" src="./Images/screenshots/subjects.png">
+
+**Grades**
+<img style="max-width: 100%" alt="Grades" src="./Images/screenshots/grades.png">
+
+**Notes**
+<img style="max-width: 100%" alt="Notes" src="./Images/screenshots/notes.png">
+<img style="max-width: 100%" alt="Notes" src="./Images/screenshots/note_detail.png">
+
+</details>
 
 ## Technologies Used
 
