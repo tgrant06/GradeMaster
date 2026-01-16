@@ -84,6 +84,23 @@ or `C:\Program Files\GradeMaster\bin\win-arm64\GradeMaster.DesktopClient.exe` fo
 
 **Disclaimer: [Updating from Version v1.x.x to v2.x.x or higher](Docs/Update_from_version_v1.x.x_to_v2.x.x.md)**
 
+### .NET Runtime Updates (Recommended)
+
+GradeMaster relies on the installed .NET runtime.  
+Keeping the .NET runtime up to date is **recommended**, but **not strictly required** for normal use.
+
+Since GradeMaster is a fully local application and does not handle sensitive or network-based user data, it is generally tolerant of older .NET runtime versions. However, newer runtimes may include performance improvements, bug fixes, and general platform stability updates.
+
+On Windows, the easiest way to keep the .NET runtime up to date is to enable updates for Microsoft products via Windows Update:
+
+1. Open **Windows Update**
+2. Go to **Advanced options**
+3. Enable **Receive updates for other Microsoft products**
+
+This will allow .NET runtime updates to be installed automatically when available.
+
+> **Note:** Updating the .NET runtime is optional. If GradeMaster is working correctly on your system, no action is required.
+
 ### Uninstalling the App for Users (Windows)
 
 1. Delete the directory `C:\Program Files\GradeMaster`.
@@ -156,25 +173,31 @@ GradeMaster is free to use, as of this moment.
 
 ### Development State
 
-GradeMaster is actively maintained. <br>
-New releases are generally released on a regular basis. <br>
+GradeMaster is feature complete and not under active development.  
+The project receives limited, as-needed maintenance focused on stability, critical fixes, and essential dependency updates.  
+New releases are published only when necessary.
+
+**Note:** GradeMaster releases are not tied to .NET runtime updates.
 
 > [!IMPORTANT]
-> GradeMaster version 3.3.2 will presumably be the last .NET 10 based release, until a new .NET version like 11 comes out, featuring prebuilt and signed binaries.
-> Version 3.3.2 of the app will be framework dependant and not require monthly update. If the newest version is still desired, [building from source](#manual-installation-with-local-build-build-from-source-easyadvanced) is recommended.
+> GradeMaster version 3.3.2 is presumably be the last .NET 10 based release, until a new .NET version like 11 comes out, featuring prebuilt and signed binaries.
+> Version 3.3.2 of the app is framework dependent and will not require regular updates.
+ If the newest version is still desired, [building from source](#manual-installation-with-local-build-build-from-source-easyadvanced) is recommended.
 
-### Future Plans and Roadmap [all complete ✅]
+### Project Status and Future Plans
 
-GradeMaster is Feature complete.
+GradeMaster is feature complete. No new features are planned.
 
-#### Future Releases
+The application is maintained on a limited, as-needed basis. Future updates, if any, will focus on:
 
-GradeMaster is currently in **active maintenance** on major version **3.x.x**.
+- Critical bug fixes
+- Essential dependency or security updates
+- Major platform or framework changes (e.g., a new .NET version)
 
-- **Version 3.x.x** is expected to be the **final major version** with new features.
-- After necessary feature updates are complete, the application will be considered **feature complete**.
-- Future updates will be primarily **maintenance/patch updates** (e.g., bug fixes, dependency updates: 3.0.1 to 3.0.2).
-- Potential future major/minor versions could be released for **major platform changes** (e.g., updating the .NET version, dropping Windows 10 support).
+There is no fixed release schedule.
+
+> **Note for users:**  
+> GradeMaster is considered stable in its current form. If it meets your needs today, it is expected to continue working as-is.
 
 ### Supported Platforms
 
