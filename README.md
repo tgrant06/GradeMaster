@@ -82,6 +82,9 @@ or `C:\Program Files\GradeMaster\bin\win-arm64\GradeMaster.DesktopClient.exe` fo
 1. Make sure you delete the `C:\Program Files\GradeMaster` directory. (It is recommended you make a backup of your Data by copying your GradeMaster.db file located in `C:\Users\YourUser\AppData\Local\GradeMaster\Data`. The database should remain compatible with the newer versions of the app and no data should be lost)
 2. Then follow the same steps from the Installation Guide for personal use. (You do not have to copy the shortcut again. You can skip this step. Only do this step if the shortcut doesn't work anymore.)
 
+> [!IMPORTANT]
+> **When installing version 3.3.2 or any version that has a different deployment model (self contained / framework dependant) compared to the last you had installed, make sure you have explicitly deleted the previous version of GradeMaster to not encounter issues.**
+
 **Disclaimer: [Updating from Version v1.x.x to v2.x.x or higher](Docs/Update_from_version_v1.x.x_to_v2.x.x.md)**
 
 ### .NET Runtime Updates (Recommended)
