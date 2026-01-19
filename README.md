@@ -183,7 +183,7 @@ New releases are published only when necessary.
 **Note:** GradeMaster releases are not tied to .NET runtime updates.
 
 > [!IMPORTANT]
-> GradeMaster version 3.3.2 is presumably be the last .NET 10 based release, until a new .NET version like 11 comes out, featuring prebuilt and signed binaries.
+> GradeMaster version 3.3.2 is presumably the last .NET 10 based release, until a new .NET version like 11 comes out, featuring prebuilt and signed binaries.
 > Version 3.3.2 of the app is framework dependent and will not require regular updates.
  If the newest version is still desired, [building from source](#manual-installation-with-local-build-build-from-source-easyadvanced) is recommended.
 
