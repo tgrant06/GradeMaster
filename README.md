@@ -1,7 +1,11 @@
 # GradeMaster
-[![Release Version Badge](https://img.shields.io/github/v/release/tgrant06/GradeMaster)](https://github.com/tgrant06/GradeMaster/releases)
+[![Release Version Badge](https://img.shields.io/github/v/release/tgrant06/GradeMaster)](https://github.com/tgrant06/GradeMaster/releases "Latest Release")
+[![Downloads@v3.3.2](https://img.shields.io/github/downloads/tgrant06/GradeMaster/v3.3.2/total)](https://github.com/tgrant06/GradeMaster/releases/tag/v3.3.2 "Release v3.3.2")
+[![Total Downloads](https://img.shields.io/github/downloads/tgrant06/GradeMaster/total)](https://github.com/tgrant06/GradeMaster/releases "Total Downloads")
+
+<!--[![Release Version Badge](https://img.shields.io/github/v/release/tgrant06/GradeMaster)](https://github.com/tgrant06/GradeMaster/releases)
 [![Downloads@latest](https://img.shields.io/github/downloads/tgrant06/GradeMaster/latest/total)](https://github.com/tgrant06/GradeMaster/releases/latest)
-[![Total Downloads](https://img.shields.io/github/downloads/tgrant06/GradeMaster/total)](https://github.com/tgrant06/GradeMaster/releases)
+[![Total Downloads](https://img.shields.io/github/downloads/tgrant06/GradeMaster/total)](https://github.com/tgrant06/GradeMaster/releases)-->
 
 ![GradeMaster Logo](Images/logo.png)
 
@@ -9,7 +13,6 @@
 
 GradeMaster is a Desktop based grade management tool. It allows you to manage your educations, subjects and grades.
 
-<!--Add Screenshots of the app here.-->
 ## Screenshots
 
 **Home**
@@ -159,12 +162,12 @@ To do this delete the directories: `C:\Users\YourUser\AppData\Local\GradeMaster`
 
 ### Current Release Version
 
-[![Release Version Badge](https://img.shields.io/github/v/release/tgrant06/GradeMaster)](https://github.com/tgrant06/GradeMaster/releases)
-[![Downloads@latest](https://img.shields.io/github/downloads/tgrant06/GradeMaster/latest/total)](https://github.com/tgrant06/GradeMaster/releases/latest)
+[![Release Version Badge](https://img.shields.io/github/v/release/tgrant06/GradeMaster)](https://github.com/tgrant06/GradeMaster/releases "Latest Release")
+[![Downloads@v3.3.2](https://img.shields.io/github/downloads/tgrant06/GradeMaster/v3.3.2/total)](https://github.com/tgrant06/GradeMaster/releases/tag/v3.3.2 "Release v3.3.2")
 
 ### Total Downloads
 
-[![Total Downloads](https://img.shields.io/github/downloads/tgrant06/GradeMaster/total)](https://github.com/tgrant06/GradeMaster/releases)
+[![Total Downloads](https://img.shields.io/github/downloads/tgrant06/GradeMaster/total)](https://github.com/tgrant06/GradeMaster/releases "Total Downloads")
 
 ### Price
 
