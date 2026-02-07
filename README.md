@@ -1,5 +1,5 @@
 # GradeMaster
-[![Release Version Badge](https://img.shields.io/github/v/release/tgrant06/GradeMaster)](https://github.com/tgrant06/GradeMaster/releases "Latest Release")
+[![Latest Release Version Badge](https://img.shields.io/github/v/release/tgrant06/GradeMaster)](https://github.com/tgrant06/GradeMaster/releases/latest "Latest Release")
 [![Downloads@v3.3.2](https://img.shields.io/github/downloads/tgrant06/GradeMaster/v3.3.2/total)](https://github.com/tgrant06/GradeMaster/releases/tag/v3.3.2 "Release v3.3.2")
 [![Total Downloads](https://img.shields.io/github/downloads/tgrant06/GradeMaster/total)](https://github.com/tgrant06/GradeMaster/releases "Total Downloads")
 
@@ -162,7 +162,7 @@ To do this delete the directories: `C:\Users\YourUser\AppData\Local\GradeMaster`
 
 ### Current Release Version
 
-[![Release Version Badge](https://img.shields.io/github/v/release/tgrant06/GradeMaster)](https://github.com/tgrant06/GradeMaster/releases "Latest Release")
+[![Latest Release Version Badge](https://img.shields.io/github/v/release/tgrant06/GradeMaster)](https://github.com/tgrant06/GradeMaster/releases/latest "Latest Release")
 [![Downloads@v3.3.2](https://img.shields.io/github/downloads/tgrant06/GradeMaster/v3.3.2/total)](https://github.com/tgrant06/GradeMaster/releases/tag/v3.3.2 "Release v3.3.2")
 
 ### Total Downloads
