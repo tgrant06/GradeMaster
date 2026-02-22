@@ -2,9 +2,9 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "GradeMaster"
-#define MyAppVersion "3.3.3"
-#define MyAppPublisher "tgrant06"
-#define MyAppURL "https://github.com/tgrant06"
+#define MyAppVersion "3.3.4"
+#define MyAppPublisher "tgmaurer"
+#define MyAppURL "https://github.com/tgmaurer"
 #define MyAppExeName "GradeMaster.DesktopClient.exe"
 
 #ifndef InstallerSuffix

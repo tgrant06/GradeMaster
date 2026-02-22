@@ -1,7 +1,7 @@
 # GradeMaster
-[![Latest Release Version Badge](https://img.shields.io/github/v/release/tgrant06/GradeMaster)](https://github.com/tgrant06/GradeMaster/releases/latest "Latest Release")
-[![Downloads@v3.3.2](https://img.shields.io/github/downloads/tgrant06/GradeMaster/v3.3.2/total)](https://github.com/tgrant06/GradeMaster/releases/tag/v3.3.2 "Release v3.3.2")
-[![Total Downloads](https://img.shields.io/github/downloads/tgrant06/GradeMaster/total)](https://github.com/tgrant06/GradeMaster/releases "Total Downloads")
+[![Latest Release Version Badge](https://img.shields.io/github/v/release/tgmaurer/GradeMaster)](https://github.com/tgmaurer/GradeMaster/releases/latest "Latest Release")
+[![Downloads@v3.3.2](https://img.shields.io/github/downloads/tgmaurer/GradeMaster/v3.3.2/total)](https://github.com/tgmaurer/GradeMaster/releases/tag/v3.3.2 "Release v3.3.2")
+[![Total Downloads](https://img.shields.io/github/downloads/tgmaurer/GradeMaster/total)](https://github.com/tgmaurer/GradeMaster/releases "Total Downloads")
 
 <!--[![Release Version Badge](https://img.shields.io/github/v/release/tgrant06/GradeMaster)](https://github.com/tgrant06/GradeMaster/releases)
 [![Downloads@latest](https://img.shields.io/github/downloads/tgrant06/GradeMaster/latest/total)](https://github.com/tgrant06/GradeMaster/releases/latest)
@@ -162,12 +162,12 @@ To do this delete the directories: `C:\Users\YourUser\AppData\Local\GradeMaster`
 
 ### Current Release Version
 
-[![Latest Release Version Badge](https://img.shields.io/github/v/release/tgrant06/GradeMaster)](https://github.com/tgrant06/GradeMaster/releases/latest "Latest Release")
-[![Downloads@v3.3.2](https://img.shields.io/github/downloads/tgrant06/GradeMaster/v3.3.2/total)](https://github.com/tgrant06/GradeMaster/releases/tag/v3.3.2 "Release v3.3.2")
+[![Latest Release Version Badge](https://img.shields.io/github/v/release/tgmaurer/GradeMaster)](https://github.com/tgmaurer/GradeMaster/releases/latest "Latest Release")
+[![Downloads@v3.3.2](https://img.shields.io/github/downloads/tgmaurer/GradeMaster/v3.3.2/total)](https://github.com/tgmaurer/GradeMaster/releases/tag/v3.3.2 "Release v3.3.2")
 
 ### Total Downloads
 
-[![Total Downloads](https://img.shields.io/github/downloads/tgrant06/GradeMaster/total)](https://github.com/tgrant06/GradeMaster/releases "Total Downloads")
+[![Total Downloads](https://img.shields.io/github/downloads/tgmaurer/GradeMaster/total)](https://github.com/tgmaurer/GradeMaster/releases "Total Downloads")
 
 ### Price
 
