@@ -1,6 +1,6 @@
 # GradeMaster
 [![Latest Release Version Badge](https://img.shields.io/github/v/release/tgmaurer/GradeMaster)](https://github.com/tgmaurer/GradeMaster/releases/latest "Latest Release")
-[![Downloads@v3.3.2](https://img.shields.io/github/downloads/tgmaurer/GradeMaster/v3.3.2/total)](https://github.com/tgmaurer/GradeMaster/releases/tag/v3.3.2 "Release v3.3.2")
+[![Downloads@v3.3.4](https://img.shields.io/github/downloads/tgmaurer/GradeMaster/v3.3.4/total)](https://github.com/tgmaurer/GradeMaster/releases/tag/v3.3.4 "Release v3.3.4")
 [![Total Downloads](https://img.shields.io/github/downloads/tgmaurer/GradeMaster/total)](https://github.com/tgmaurer/GradeMaster/releases "Total Downloads")
 
 <!--[![Release Version Badge](https://img.shields.io/github/v/release/tgrant06/GradeMaster)](https://github.com/tgrant06/GradeMaster/releases)
