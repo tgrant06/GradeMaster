@@ -3,8 +3,8 @@
 
 #define MyAppName "GradeMaster"
 #define MyAppVersion "3.3.3"
-#define MyAppPublisher "tgrant06"
-#define MyAppURL "https://github.com/tgrant06"
+#define MyAppPublisher "tgmaurer"
+#define MyAppURL "https://github.com/tgmaurer"
 #define MyAppExeName "GradeMaster.DesktopClient.exe"
 
 #ifndef InstallerSuffix
