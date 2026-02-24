@@ -206,10 +206,10 @@ if ("h" -in $CleanArgs -or "help" -in $CleanArgs)
     Write-Host "CompleteBuildScript Help: "
     Write-Host "---"
     Write-Host "Valid Parameters:"
-    Write-Host "    - Architecture:                           --win-x64 (default) --win-arm64"
-    Write-Host "    - .NET runtime containment:               --sc or --self_contained (default) --fd or --framework_dependant"
-    Write-Host "    - Final output type:                      --isi (default (InnoSetup installer)) --zip"
-    Write-Host "    - (If InnoSetup selected) Installer type: --slim (default) [for a slim-installer (recommended only for local usage)]"
+    Write-Host "    - Architecture:                           --win-x64 (default) | --win-arm64"
+    Write-Host "    - .NET runtime containment:               --sc or --self_contained (default) | --fd or --framework_dependant"
+    Write-Host "    - Final output type:                      --isi (default) InnoSetup installer | --zip [ZIP File]"
+    Write-Host "    - (If InnoSetup selected) Installer type: --slim (optional) installer w/o bundled binary files (recommended only for local usage only)"
     return
 }
 
