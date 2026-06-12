@@ -2,6 +2,7 @@
 [![Latest Release Version Badge](https://img.shields.io/github/v/release/tgmaurer/GradeMaster)](https://github.com/tgmaurer/GradeMaster/releases/latest "Latest Release")
 [![Downloads@v3.3.4](https://img.shields.io/github/downloads/tgmaurer/GradeMaster/v3.3.4/total)](https://github.com/tgmaurer/GradeMaster/releases/tag/v3.3.4 "Release v3.3.4")
 [![Total Downloads](https://img.shields.io/github/downloads/tgmaurer/GradeMaster/total)](https://github.com/tgmaurer/GradeMaster/releases "Total Downloads")
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 <!--[![Release Version Badge](https://img.shields.io/github/v/release/tgrant06/GradeMaster)](https://github.com/tgrant06/GradeMaster/releases)
 [![Downloads@latest](https://img.shields.io/github/downloads/tgrant06/GradeMaster/latest/total)](https://github.com/tgrant06/GradeMaster/releases/latest)
@@ -11,7 +12,7 @@
 
 ## About
 
-GradeMaster is a Desktop based grade management tool. It allows you to manage your educations, subjects and grades.
+GradeMaster is an open-source desktop grade management tool. It allows you to manage your educations, subjects and grades.
 
 ## Screenshots
 
@@ -169,6 +170,10 @@ To do this delete the directories: `C:\Users\YourUser\AppData\Local\GradeMaster`
 
 [![Total Downloads](https://img.shields.io/github/downloads/tgmaurer/GradeMaster/total)](https://github.com/tgmaurer/GradeMaster/releases "Total Downloads")
 
+### License
+
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+
 ### Price
 
 GradeMaster is free to use, as of this moment.
@@ -245,9 +250,9 @@ The Console Client is only for testing purposes.-->
 
 ## License
 
-This project is licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) License. For commercial use or more information, please create an Issue.
+This project is licensed under the GNU General Public License v3.0 (GPLv3). See the [LICENSE](LICENSE.txt) file for the full license text.
 
-[License: CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 ## Disclaimer
 
