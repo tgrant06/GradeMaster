@@ -14,6 +14,26 @@
 
 GradeMaster is an open-source desktop grade management tool. It allows you to manage your educations, subjects and grades.
 
+It exists because I wanted a grade tracker that worked the way I wanted one to: weights that match how a course is actually graded, and the data in a file on my own machine rather than in somebody's account. So I built one.
+
+There is now a second answer to that same want, for a platform this one does not target — see [Apple platforms](#apple-platforms) below.
+
+## Apple platforms
+
+The desktop client is Windows only, and this repository is not where that changes.
+
+[**Scade**](https://github.com/tgmaurer/Scade) is GradeMaster for the Mac: the same domain — educations hold subjects, subjects hold grades, weighted all the way up — rebuilt natively in Swift and SwiftUI. It is a rewrite rather than a port, and shares no code with this repository.
+
+| | GradeMaster | Scade |
+|---|---|---|
+| Platform | Windows 10 / 11 | macOS 26.5+ |
+| UI | .NET MAUI + Blazor, Bootstrap in WebView2 | Swift 6 + SwiftUI, native |
+| Data | SQLite via Entity Framework Core | SQLite via GRDB |
+| Install | Installer from the Releases section | Build it yourself from source |
+| Licence | GPL-3.0 | GPL-3.0 |
+
+The two do not share data. Their databases have different schemas and neither imports the other's, so moving between them means entering the grades again.
+
 ## Screenshots
 
 **Home**
@@ -231,6 +251,8 @@ There is no fixed release schedule.
 - Windows versions that are supported and work (tested): Windows 11, 10
 
 Other platforms might get Support in the future.
+
+For macOS there is [Scade](https://github.com/tgmaurer/Scade), a separate native app rather than a build of this one — see [Apple platforms](#apple-platforms).
 
 #### Disk Space Requirement
 
